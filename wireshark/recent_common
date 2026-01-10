@@ -1,0 +1,152 @@
+# Common recent settings file for Wireshark 4.6.1.
+#
+# This file is regenerated each time Wireshark is quit
+# and when changing configuration profile.
+# So be careful, if you want to make manual changes here.
+
+######## Recent capture files (latest last), cannot be altered through command line ########
+
+recent.capture_file: /home/nasr/Downloads/basics (1).pcapng
+recent.capture_file: /home/nasr/Downloads/basics.pcapng
+
+######## Recent capture filters (latest first), cannot be altered through command line ########
+
+
+######## Recent display filters (latest last), cannot be altered through command line ########
+
+
+# Main window geometry.
+# Decimal numbers.
+gui.geometry_main_x: 20
+gui.geometry_main_y: 65
+gui.geometry_main_width: 1384
+gui.geometry_main_height: 1511
+
+# Main window maximized.
+# true or false (case-insensitive).
+gui.geometry_main_maximized: false
+
+# Main window geometry state.
+# Hex byte string.
+gui.geometry_main: 01d9d0cb0003000000000014000000410000057f0000062b00000016000000430000057d0000062900000000000000000a0000000016000000430000057d00000629
+
+# Leftalign Action Buttons.
+# true or false (case-insensitive).
+gui.geometry_leftalign_actions: false
+
+# Last used Configuration Profile.
+gui.last_used_profile: CTF-Basics
+
+# Number of packets or events to check for automatic profile switching.
+# Decimal number. Zero disables switching.
+#gui.profile_switch_check_count: 1000
+
+# Warn if running with elevated permissions (e.g. as root).
+# true or false (case-insensitive).
+privs.warn_if_elevated: true
+
+# Warn if Wireshark is unable to capture.
+# true or false (case-insensitive).
+sys.warn_if_no_capture: false
+
+# Find packet search in.
+# One of: PACKET_LIST, PACKET_DETAILS, PACKET_BYTES
+gui.search_in: PACKET_LIST
+
+# Find packet character set.
+# One of: NARROW_AND_WIDE, NARROW, WIDE
+gui.search_char_set: NARROW_AND_WIDE
+
+# Find packet case sensitive search.
+# true or false (case-insensitive).
+gui.search_case_sensitive: false
+
+# Find packet search reverse direction.
+# true or false (case-insensitive).
+gui.search_reverse_dir: false
+
+# Find packet search multiple occurrences.
+# true or false (case-insensitive).
+gui.search_multiple_occurs: false
+
+# Find packet search type.
+# One of: DISPLAY_FILTER, HEX_VALUE, STRING, REGEX
+gui.search_type: DISPLAY_FILTER
+
+# Geometry and maximized state of ip_hosts window.
+# Decimal integers.
+gui.geom.ip_hosts.x: 0
+gui.geom.ip_hosts.y: 29
+gui.geom.ip_hosts.width: 1914
+gui.geom.ip_hosts.height: 1045
+# true or false (case-insensitive).
+gui.geom.ip_hosts.maximized: false
+# Qt Geometry State (hex byte string).
+gui.geom.ip_hosts.qt_geometry: 01d9d0cb00030000000000000000001d0000077f0000043700000003000000200000077c000004340000000000000000078000000003000000200000077c00000434
+
+# Geometry and maximized state of PacketDialog window.
+# Decimal integers.
+gui.geom.PacketDialog.x: 20
+gui.geom.PacketDialog.y: 49
+gui.geom.PacketDialog.width: 1510
+gui.geom.PacketDialog.height: 1005
+# true or false (case-insensitive).
+gui.geom.PacketDialog.maximized: false
+# Qt Geometry State (hex byte string).
+gui.geom.PacketDialog.qt_geometry: 01d9d0cb000300000000001400000031000005ff000004230000001700000034000005fc00000420000000000000000007800000001700000034000005fc00000420
+
+# Geometry and maximized state of ExpertInfoDialog window.
+# Decimal integers.
+gui.geom.ExpertInfoDialog.x: 20
+gui.geom.ExpertInfoDialog.y: 49
+gui.geom.ExpertInfoDialog.width: 934
+gui.geom.ExpertInfoDialog.height: 1005
+# true or false (case-insensitive).
+gui.geom.ExpertInfoDialog.maximized: false
+# Qt Geometry State (hex byte string).
+gui.geom.ExpertInfoDialog.qt_geometry: 01d9d0cb000300000000001400000031000003bf000004230000001700000034000003bc00000420000000000000000007800000001700000034000003bc00000420
+
+# Geometry and maximized state of ProfileDialog window.
+# Decimal integers.
+gui.geom.ProfileDialog.x: 20
+gui.geom.ProfileDialog.y: 49
+gui.geom.ProfileDialog.width: 1510
+gui.geom.ProfileDialog.height: 1005
+# true or false (case-insensitive).
+gui.geom.ProfileDialog.maximized: false
+# Qt Geometry State (hex byte string).
+gui.geom.ProfileDialog.qt_geometry: 01d9d0cb000300000000001400000031000005ff000004230000001700000034000005fc00000420000000000000000007800000001700000034000005fc00000420
+
+# Geometry and maximized state of PreferencesDialog window.
+# Decimal integers.
+gui.geom.PreferencesDialog.x: 20
+gui.geom.PreferencesDialog.y: 49
+gui.geom.PreferencesDialog.width: 1510
+gui.geom.PreferencesDialog.height: 1005
+# true or false (case-insensitive).
+gui.geom.PreferencesDialog.maximized: false
+# Qt Geometry State (hex byte string).
+gui.geom.PreferencesDialog.qt_geometry: 01d9d0cb000300000000001400000031000005ff000004230000001700000034000005fc00000420000000000000000007800000001700000034000005fc00000420
+
+# Geometry and maximized state of CaptureFilePropertiesDialog window.
+# Decimal integers.
+gui.geom.CaptureFilePropertiesDialog.x: 20
+gui.geom.CaptureFilePropertiesDialog.y: 49
+gui.geom.CaptureFilePropertiesDialog.width: 934
+gui.geom.CaptureFilePropertiesDialog.height: 1005
+# true or false (case-insensitive).
+gui.geom.CaptureFilePropertiesDialog.maximized: false
+# Qt Geometry State (hex byte string).
+gui.geom.CaptureFilePropertiesDialog.qt_geometry: 01d9d0cb000300000000001400000031000003bf000004230000001700000034000003bc00000420000000000000000007800000001700000034000003bc00000420
+
+# Custom colors.
+# List of custom colors selected in Qt color picker.
+gui.custom_colors: 
+	"ffffffff", "ffffffff",
+	"ffffffff", "ffffffff",
+	"ffffffff", "ffffffff",
+	"ffffffff", "ffffffff",
+	"ffffffff", "ffffffff",
+	"ffffffff", "ffffffff",
+	"ffffffff", "ffffffff",
+	"ffffffff", "ffffffff"

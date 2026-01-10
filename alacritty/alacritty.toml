@@ -1,0 +1,82 @@
+[window]
+opacity = 1
+dynamic_padding = true
+option_as_alt = "OnlyRight"
+blur = false
+
+[window.padding]
+x = 15
+y = 15
+
+[terminal]
+shell = "/usr/bin/zsh"
+
+[font]
+size = 9 
+
+[font.normal]
+family = "Jetbrains Mono Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "Jetbrains Mono Nerd Font"
+style = "Bold"
+
+[font.italic]
+style = "Italic"
+
+[font.bold_italic]
+family = "Jetbrains Mono Nerd Font"
+style = "Bold Italic"
+
+[font.offset]
+x = 0
+y = 1
+
+[cursor]
+style = { shape = "Block", blinking = "Never" }
+thickness = 0.4
+unfocused_hollow = true
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.primary]
+background = '#000000'
+foreground = '#ffffff'
+
+[colors.cursor]
+text = '#000000'
+cursor = '#7fda89'
+
+[colors.selection]
+text = '#e0e0e0'
+background = '#1a1a1a'
+
+[colors.normal]
+black = '#000000'
+red = '#6b6b6b'
+green = '#7fda89'
+yellow = '#8a8a8a'
+blue = '#5a5a5a'
+magenta = '#707070'
+cyan = '#9be3a1'
+white = '#dddddd'
+
+[colors.bright]
+black = '#404040'
+red = '#888888'
+green = '#98e6a3'
+yellow = '#a0a0a0'
+blue = '#757575'
+magenta = '#909090'
+cyan = '#b5f0bd'
+white = '#dddddd'
+
+
+[scrolling]
+history = 20000
+multiplier = 3
+
+[mouse]
+hide_when_typing = true

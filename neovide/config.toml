@@ -1,0 +1,70 @@
+
+# ================================
+# Neovide Configuration
+# ================================
+
+# -------- Window --------
+fork = true
+frame = "full"
+idle = true
+maximized = true
+title-hidden = false
+
+neovim-bin = "/usr/bin/nvim"
+
+# -------- Display --------
+vsync = true
+no-multigrid = false 
+tabs = true
+wsl = false
+theme = "light"
+
+# -------- Font --------
+[font]
+normal = ["Liberation Mono"]
+size = 9.0
+hinting = "slight"
+edging = "antialias"
+
+
+# -------- Cursor --------
+cursor-animation-length = 0.00
+cursor-trail-size = 0.0
+cursor-antialiasing = true
+cursor-vfx-mode = "All"
+
+# -------- Input --------
+input-latency = 0
+mouse-cursor-icon = "arrow"
+hide-mouse-when-typing = true
+
+# -------- Box Drawing --------
+[box-drawing]
+mode = "native"
+
+[box-drawing.sizes]
+default = [1, 2]
+
+# -------- Padding --------
+[padding]
+top = 6
+bottom = 6
+left = 18
+right = 18
+
+# -------- Performance --------
+[performance]
+refresh-rate = 0
+buffer-frames = 1
+
+# -------- Transparency --------
+[transparency]
+background = 0.1
+unfocused = 1 
+
+# -------- Scroll --------
+[scroll]
+sensitivity = 2.0
+animation-length = 0.0
+
+
