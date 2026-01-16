@@ -1,0 +1,3 @@
+vim.opt.fillchars = {
+  eob = " ",
+}
