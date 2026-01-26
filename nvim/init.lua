@@ -1,10 +1,3 @@
-vim.cmd([[
-
-colorscheme retrobox
-filetype plugin indent on
-
-]])
-
 -- Plugin manager
 require("core.lazy")
 
@@ -17,15 +10,16 @@ require("ui.colors")
 require("ui.fillchars")
 require("ui.neovide")
 
+require("ui.statusline")
+
+
+
 -- Plugins
 require("plugins.oil")
 require("plugins.cmp")
 require("plugins.fzf")
-
--- LSP
-require("lsp.clangd")
-
 require("core.autocmds")
+require("tools.build")
+require("tools.build_without_quickfix").setup()
 
--- Tools / custom utilities
-require("tools.build").setup()
+

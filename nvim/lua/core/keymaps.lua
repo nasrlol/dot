@@ -12,6 +12,8 @@ map("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
 map("n", "<leader>Q", "<cmd>q!<cr>", { desc = "Force quit" })
 map("n", "<leader>ex", "<cmd>Oil<cr>", { desc = "Oil file explorer" })
 
+vim.keymap.set({"n"}, "<leader>mm",  "<cmd>%!clang-format<cr>", { desc = "format" })
+
 -- Disable arrow keys
 for _, mode in ipairs({ "n", "i", "v"}) do
   map(mode, "<Up>", "<Nop>")
@@ -69,7 +71,6 @@ map("n", "<leader>ht", "<cmd>split<cr>", { desc = "Horizontal split" })
 map("n", "<leader>nh", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 
 -- Terminal
-map("n", "<leader>tt", "<cmd>terminal<cr>", { desc = "Open terminal" })
 map("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- LSP global commands
@@ -79,16 +80,70 @@ map("n", "<leader>ll", "<cmd>LspLog<cr>", { desc = "LSP log" })
 
 -- Config
 map("n", "<leader>con", "<cmd>vsplit $MYVIMRC<cr>", { desc = "Edit init.lua" })
-local function reload_config()
-  for name, _ in pairs(package.loaded) do
-    if name:match("^user") or name:match("^config") then
-      package.loaded[name] = nil
-    end
-  end
-  dofile(vim.env.MYVIMRC)
-end
 
-map("n", "<leader>so", reload_config, { desc = "Reload all Lua config" })
+map("n", "<leader>so", "<cmd>so ~/.config/nvim/init.lua<cr>", { desc = "Reload all Lua config" })
 
 -- Clipboard
 map("n", "<leader>yb", "<cmd>%y+<cr>", { desc = "Yank whole buffer" })
+
+-- Clipboard
+map("n", "<leader>tt", "<cmd>vertical terminal<cr>", { desc = "Yank whole buffer" })
+
+
+-- Go to definition
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP: Go to definition" })
+
+
+-- View info
+vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP: Hover documentation" })
+
+-- Go to declaration (often different from definition in C/C++)
+vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "LSP: Go to declaration" })
+
+-- Go to type definition
+vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { desc = "LSP: Go to type definition" })
+
+
+-- Go to implementation
+vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "LSP: Go to implementation" })
+
+vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "LSP: References" })
+
+
+-- Rename symbol
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP: Rename symbol" })
+
+-- Code actions
+vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: Code action" })
+
+
+
+local function oil_open_project_here()
+  local oil = require("oil")
+  local entry = oil.get_cursor_entry()
+  if not entry then return end
+
+  local dir
+  if entry.type == "directory" then
+    dir = oil.get_current_dir() .. entry.name
+  else
+    dir = oil.get_current_dir()
+  end
+
+  vim.fn.chdir(dir)
+  oil.open(dir)
+end
+
+vim.keymap.set("n", "<leader>==", oil_open_project_here, { buffer = true })
+
+vim.keymap.set("n", "<leader>lr", function()
+  for _, client in ipairs(vim.lsp.get_active_clients()) do
+    if client.name == "clangd" then
+      vim.lsp.stop_client(client.id)
+    end
+  end
+
+  vim.defer_fn(function()
+    vim.cmd("LspStart clangd")
+  end, 100)
+end, { desc = "Restart clangd" })

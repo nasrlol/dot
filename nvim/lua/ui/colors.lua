@@ -1,112 +1,112 @@
--- ============================================================================
--- Highlight helper
--- ============================================================================
+vim.cmd([[
+colorscheme retrobox
+set termguicolors
+syntax on
+filetype plugin indent on
+]])
 
+-- Highlight helper
 local function hl(name, opts)
   vim.api.nvim_set_hl(0, name, opts)
 end
 
--- ============================================================================
 -- Color palette
--- ============================================================================
-
 local colors = {
-  fg           = "#ffffff",
-  gutter       = "#3b4261",
-
-  cyan         = "#4fd6be",
-  blue         = "#7aa2f7",
-  purple       = "#bb9af7",
-  pink         = "#f7768e",
-
-  green        = "#9ece6a",
-  light_green  = "#73daca",
-
-  yellow       = "#e0af68",
+  bg           = "#0f1115",
+  fg           = "#d4d4d4",
+  comment      = "#505050",
+  cursor       = "#00ff00",
+  visual       = "#1c4b06",
+  cyan         = "#00a8a8",
+  blue         = "#0088ff",
+  purple       = "#c040c0",
+  pink         = "#f92672",
+  green        = "#50ff30",
+  yellow       = "#f0c674",
   orange       = "#ff9e64",
-  red          = "#f7768e",
+  red          = "#ff2040",
+  white        = "#ffffff",
 }
 
--- ============================================================================
--- Treesitter / LSP semantic highlights
--- ============================================================================
+-- Editor UI
+hl("Normal", { fg = colors.fg, bg = colors.bg })
+hl("CursorLine", { bg = "#141414" })
+hl("CursorLineNr", { fg = colors.cursor, bold = true })
+hl("LineNr", { fg = colors.comment })
+hl("Visual", { fg = colors.bg, bg = colors.orange, bold = true })
+hl("VisualNOS", { fg = colors.fg, bg = colors.visual })
+hl("@function", { fg = colors.blue, bold = false})
+hl("@function.call", { fg = colors.blue, bold = false})
 
-local groups = {
-  -- Functions / methods
-  ["@function"]           = { fg = colors.cyan },
-  ["@function.call"]      = { fg = colors.cyan },
-  ["@function.builtin"]   = { fg = colors.blue },
-  ["@method"]             = { fg = colors.cyan },
-  ["@method.call"]        = { fg = colors.cyan },
+-- Cursor highlights for different modes
+hl("Cursor", {
+  fg = "#000000",
+  bg = "#0a6a03",
+})
 
-  -- Variables
-  ["@variable"]           = { fg = colors.fg },
-  ["@variable.builtin"]   = { fg = colors.purple },
-  ["@parameter"]          = { fg = colors.orange },
-  ["@field"]              = { fg = colors.light_green },
-  ["@property"]           = { fg = colors.light_green },
+hl("iCursor", {
+  fg = "#000000",
+  bg = "#f00f5f",
+})
 
-  -- Types
-  ["@type"]               = { fg = colors.yellow },
-  ["@type.builtin"]       = { fg = colors.yellow },
-  ["@type.definition"]    = { fg = colors.yellow },
-  ["@constructor"]        = { fg = colors.yellow },
+hl("rCursor", {
+  fg = "#000000",
+  bg = "#ff5f5f",
+})
 
-  -- Keywords
-  ["@keyword"]            = { fg = colors.pink },
-  ["@keyword.function"]   = { fg = colors.pink },
-  ["@keyword.return"]     = { fg = colors.pink },
-  ["@keyword.operator"]   = { fg = colors.pink },
-  ["@keyword.type"]       = { fg = colors.pink },
-
-  -- Constants / enums
-  ["@constant"]           = { fg = colors.orange },
-  ["@constant.builtin"]   = { fg = colors.orange },
-  ["@enum"]               = { fg = colors.yellow },
-  ["@enumMember"]         = { fg = colors.orange },
-
-  -- Literals
-  ["@string"]             = { fg = colors.green },
-  ["@string.escape"]      = { fg = colors.cyan },
-  ["@character"]          = { fg = colors.green },
-  ["@number"]             = { fg = colors.orange },
-  ["@float"]              = { fg = colors.orange },
-  ["@boolean"]            = { fg = colors.orange },
-
-  -- Operators / punctuation
-  ["@operator"]                   = { fg = colors.pink },
-  ["@punctuation.delimiter"]      = { fg = colors.fg },
-  ["@punctuation.bracket"]        = { fg = colors.fg },
-  ["@punctuation.special"]        = { fg = colors.pink },
-
-  -- Preprocessor (C/C++)
-  ["@preproc"]            = { fg = colors.purple },
-  ["@include"]            = { fg = colors.purple },
-  ["@define"]             = { fg = colors.purple },
-  ["@macro"]              = { fg = colors.purple },
-
-  -- Comments
-  ["@comment"]            = { fg = colors.gutter, italic = true },
-  ["@comment.todo"]       = { fg = colors.yellow, bold = true },
-  ["@comment.warning"]    = { fg = colors.orange, bold = true },
-  ["@comment.error"]      = { fg = colors.red, bold = true },
-
-  -- Namespaces / modules
-  ["@namespace"]          = { fg = colors.blue },
-  ["@module"]             = { fg = colors.blue },
-
-  -- Labels
-  ["@label"]              = { fg = colors.cyan },
-
-  -- Attributes (clang)
-  ["@attribute"]          = { fg = colors.purple },
-  ["@attribute.builtin"]  = { fg = colors.purple },
+-- Cursor shape configuration
+vim.opt.guicursor = {
+  "n-v-c:block-Cursor",
+  "i:block-iCursor",
+  "r:block-rCursor",
 }
 
--- ============================================================================
--- Apply highlights
--- ============================================================================
+-- Autocmd to restore cursor highlights after colorscheme changes
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    vim.api.nvim_set_hl(0, "Cursor", {
+      fg = "#000000",
+      bg = "#44ff44",
 
-for group, opts in pairs(groups) do
-  hl(group, opts)
-end
+    })
+    vim.api.nvim_set_hl(0, "iCursor", {
+      fg = "#ffffff",
+      bg = "#f00f5f",
+    })
+    vim.api.nvim_set_hl(0, "rCursor", {
+      fg = "#000000",
+      bg = "#ff5f5f",
+    })
+  end,
+})
+
+-- Highlight yanked text
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank({ timeout = 200 })
+  end,
+})
+
+-- Remove trailing whitespace on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    vim.cmd([[%s/\s\+$//e]])
+  end,
+})
+
+-- Equalize splits on resize
+vim.api.nvim_create_autocmd("VimResized", {
+  callback = function()
+    vim.cmd("wincmd =")
+  end,
+})
+
+-- Restore cursor position
+vim.api.nvim_create_autocmd("BufReadPost", {
+  callback = function()
+    if vim.fn.line("'\"") > 1 then
+      vim.cmd("normal! g`\"")
+    end
+  end,
+})

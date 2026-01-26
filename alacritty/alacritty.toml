@@ -12,7 +12,7 @@ y = 15
 shell = "/usr/bin/zsh"
 
 [font]
-size = 9 
+size = 9
 
 [font.normal]
 family = "Jetbrains Mono Nerd Font"
@@ -34,9 +34,10 @@ x = 0
 y = 1
 
 [cursor]
-style = { shape = "Block", blinking = "Never" }
-thickness = 0.4
+style = { shape = "Underline", blinking = "Never" }
+thickness = 0.2
 unfocused_hollow = true
+vi_mode_style = { shape = "Block", blinking = "Never" }
 
 [colors]
 draw_bold_text_with_bright_colors = true
@@ -80,3 +81,6 @@ multiplier = 3
 
 [mouse]
 hide_when_typing = true
+
+[debug]
+render_timer = false

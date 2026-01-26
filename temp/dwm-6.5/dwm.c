@@ -1506,6 +1506,7 @@ void fullscreen(const Arg *arg) {
     setlayout(&((Arg){.v = last_layout}));
   }
   togglebar(arg);
+  drawbars();
 }
 
 void setlayout(const Arg *arg) {
@@ -1592,6 +1593,7 @@ void setup(void) {
   updatebars();
   updatestatus();
   updatebarpos(selmon);
+  drawbar(selmon);
   /* supporting window for NetWMCheck */
   wmcheckwin = XCreateSimpleWindow(dpy, root, 0, 0, 1, 1, 0, 0, 0);
   XChangeProperty(dpy, wmcheckwin, netatom[NetWMCheck], XA_WINDOW, 32,
@@ -1613,6 +1615,7 @@ void setup(void) {
   XSelectInput(dpy, root, wa.event_mask);
   grabkeys();
   focus(NULL);
+
 }
 
 void seturgent(Client *c, int urg) {
