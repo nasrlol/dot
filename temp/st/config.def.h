@@ -94,15 +94,15 @@ static const char *colorname[] = {
 
     /* default colors */
     "#c8ccd4", /* foreground */
-    "#0f1115", /* background */
+    "#000000", /* background */
 };
 
 /* Default colors (indices into colorname[]) */
-unsigned int defaultfg  = 256;
-unsigned int defaultbg  = 257;
+unsigned int defaultfg = 256;
+unsigned int defaultbg = 257;
 
 /* green cursor */
-unsigned int defaultcs  = 2;
+unsigned int defaultcs = 2;
 static unsigned int defaultrcs = 257;
 
 /* cursor shape (2 = block) */
@@ -127,11 +127,11 @@ static uint forcemousemod = ShiftMask;
  * Mouse shortcuts
  * ========================= */
 static MouseShortcut mshortcuts[] = {
-    { XK_ANY_MOD, Button2, selpaste, {.i = 0}, 1 },
-    { ShiftMask,  Button4, ttysend,  {.s = "\033[5;2~"} },
-    { XK_ANY_MOD, Button4, ttysend,  {.s = "\031"} },
-    { ShiftMask,  Button5, ttysend,  {.s = "\033[6;2~"} },
-    { XK_ANY_MOD, Button5, ttysend,  {.s = "\005"} },
+    {XK_ANY_MOD, Button2, selpaste, {.i = 0}, 1},
+    {ShiftMask, Button4, ttysend, {.s = "\033[5;2~"}},
+    {XK_ANY_MOD, Button4, ttysend, {.s = "\031"}},
+    {ShiftMask, Button5, ttysend, {.s = "\033[6;2~"}},
+    {XK_ANY_MOD, Button5, ttysend, {.s = "\005"}},
 };
 
 /* =========================
@@ -141,22 +141,22 @@ static MouseShortcut mshortcuts[] = {
 #define TERMMOD (ControlMask | ShiftMask)
 
 static Shortcut shortcuts[] = {
-    { XK_ANY_MOD, XK_Break,    sendbreak,     {.i = 0} },
-    { ControlMask, XK_Print,  toggleprinter, {.i = 0} },
-    { ShiftMask,   XK_Print,  printscreen,   {.i = 0} },
-    { XK_ANY_MOD,  XK_Print,  printsel,      {.i = 0} },
-    { TERMMOD, XK_Prior, zoom,      {.f = +1} },
-    { TERMMOD, XK_Next,  zoom,      {.f = -1} },
-    { TERMMOD, XK_Home,  zoomreset, {.f =  0} },
-    { TERMMOD, XK_C,     clipcopy,  {.i = 0} },
-    { TERMMOD, XK_V,     clippaste, {.i = 0} },
-    { TERMMOD, XK_Y,     selpaste,  {.i = 0} },
-    { ShiftMask, XK_Insert, selpaste, {.i = 0} },
-    { TERMMOD, XK_Num_Lock, numlock, {.i = 0} },
+    {XK_ANY_MOD, XK_Break, sendbreak, {.i = 0}},
+    {ControlMask, XK_Print, toggleprinter, {.i = 0}},
+    {ShiftMask, XK_Print, printscreen, {.i = 0}},
+    {XK_ANY_MOD, XK_Print, printsel, {.i = 0}},
+    {TERMMOD, XK_Prior, zoom, {.f = +1}},
+    {TERMMOD, XK_Next, zoom, {.f = -1}},
+    {TERMMOD, XK_Home, zoomreset, {.f = 0}},
+    {TERMMOD, XK_C, clipcopy, {.i = 0}},
+    {TERMMOD, XK_V, clippaste, {.i = 0}},
+    {TERMMOD, XK_Y, selpaste, {.i = 0}},
+    {ShiftMask, XK_Insert, selpaste, {.i = 0}},
+    {TERMMOD, XK_Num_Lock, numlock, {.i = 0}},
 };
 
 /* mapped keys (none) */
-static KeySym mappedkeys[] = { -1 };
+static KeySym mappedkeys[] = {-1};
 
 /* ignored modifiers */
 static uint ignoremod = Mod2Mask | XK_SWITCH_MOD;
@@ -167,7 +167,12 @@ static uint ignoremod = Mod2Mask | XK_SWITCH_MOD;
  * Arrow keys are handled by the tty + shell, not here.
  */
 static Key key[] = {
-    /* unchanged */
+    {ShiftMask, XK_Page_Up, kscrollup, {.i = 1}},
+    {ShiftMask, XK_Page_Down, kscrolldown, {.i = 1}},
+    {XK_ANY_MOD, XK_Up, ttysend, {.s = "\033[A"}},
+    {XK_ANY_MOD, XK_Down, ttysend, {.s = "\033[B"}},
+    {XK_ANY_MOD, XK_Right, ttysend, {.s = "\033[C"}},
+    {XK_ANY_MOD, XK_Left, ttysend, {.s = "\033[D"}},
 };
 
 /* selection masks */
@@ -176,8 +181,6 @@ static uint selmasks[] = {
 };
 
 /* printable ASCII */
-static char ascii_printable[] =
-    " !\"#$%&'()*+,-./0123456789:;<=>?"
-    "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
-    "`abcdefghijklmnopqrstuvwxyz{|}~";
-
+static char ascii_printable[] = " !\"#$%&'()*+,-./0123456789:;<=>?"
+                                "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
+                                "`abcdefghijklmnopqrstuvwxyz{|}~";

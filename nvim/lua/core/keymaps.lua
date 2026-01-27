@@ -10,17 +10,53 @@ map("n", "<C-l>", "<C-w>l")
 map("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
 map("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
 map("n", "<leader>Q", "<cmd>q!<cr>", { desc = "Force quit" })
+
+map("n", "<leader>nt", "vim.")
+
+-- Oil
 map("n", "<leader>ex", "<cmd>Oil<cr>", { desc = "Oil file explorer" })
 
-vim.keymap.set({"n"}, "<leader>mm",  "<cmd>%!clang-format<cr>", { desc = "format" })
+-- TODO(nasr): remove this ugly thing
+map({"n"}, "<leader>mm",  "<cmd>%!clang-format<cr>", { desc = "format" })
 
--- Disable arrow keys
-for _, mode in ipairs({ "n", "i", "v"}) do
-  map(mode, "<Up>", "<Nop>")
-  map(mode, "<Down>", "<Nop>")
-  map(mode, "<Left>", "<Nop>")
-  map(mode, "<Right>", "<Nop>")
-end
+-- Diagnostics
+map("n", "nr", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+map("n", "pr", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
+
+map("n", "<leader>or", vim.diagnostic.open_float,
+{ desc = "Diagnostic float" })
+
+map("n", "<leader>qr", vim.diagnostic.setloclist,
+{ desc = "Diagnostics → loclist" })
+
+-- Buffers
+map("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Next buffer" })
+map("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
+
+-- Splits
+map("n", "<leader>vt", "<cmd>vsplit<cr>", { desc = "Vertical split" })
+map("n", "<leader>ht", "<cmd>split<cr>", { desc = "Horizontal split" })
+
+
+-- Config
+map("n", "<leader>con", "<cmd>vsplit $MYVIMRC<cr>", { desc = "Edit init.lua" })
+
+-- Clipboard
+map("n", "<leader>yb", "<cmd>%y+<cr>", { desc = "Yank whole buffer" })
+
+-- Terminal
+map("n", "<leader>tt", "<cmd>vertical terminal<cr>", { desc = "Yank whole buffer" })
+
+map("n", "gd", vim.lsp.buf.definition, { desc = "LSP: Go to definition" })
+map("n", "K", vim.lsp.buf.hover, { desc = "LSP: Hover documentation" })
+map("n", "gD", vim.lsp.buf.declaration, { desc = "LSP: Go to declaration" })
+map("n", "gt", vim.lsp.buf.type_definition, { desc = "LSP: Go to type definition" })
+map("n", "gi", vim.lsp.buf.implementation, { desc = "LSP: Go to implementation" })
+map("n", "gr", vim.lsp.buf.references, { desc = "LSP: References" })
+map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP: Rename symbol" })
+map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: Code action" })
+
 
 -- Neovide (guarded)
 if vim.g.neovide then
@@ -41,14 +77,9 @@ if vim.g.neovide then
   end, { silent = true })
 end
 
--- Diagnostics
-map("n", "nr", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
-map("n", "pr", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
-
-map("n", "<leader>or", vim.diagnostic.open_float, { desc = "Diagnostic float" })
-map("n", "<leader>qr", vim.diagnostic.setloclist, { desc = "Diagnostics → loclist" })
 
 local diagnostics_active = true
+
 map("n", "<leader>td", function()
   diagnostics_active = not diagnostics_active
   if diagnostics_active then
@@ -58,92 +89,15 @@ map("n", "<leader>td", function()
   end
 end, { desc = "Toggle diagnostics" })
 
--- Buffers
-map("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Next buffer" })
-map("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
-map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
-
--- Splits
-map("n", "<leader>vt", "<cmd>vsplit<cr>", { desc = "Vertical split" })
-map("n", "<leader>ht", "<cmd>split<cr>", { desc = "Horizontal split" })
-
--- Search
-map("n", "<leader>nh", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
-
--- Terminal
-map("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-
--- LSP global commands
-map("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "LSP info" })
-map("n", "<leader>lr", "<cmd>LspRestart<cr>", { desc = "Restart LSP" })
-map("n", "<leader>ll", "<cmd>LspLog<cr>", { desc = "LSP log" })
-
--- Config
-map("n", "<leader>con", "<cmd>vsplit $MYVIMRC<cr>", { desc = "Edit init.lua" })
-
-map("n", "<leader>so", "<cmd>so ~/.config/nvim/init.lua<cr>", { desc = "Reload all Lua config" })
-
--- Clipboard
-map("n", "<leader>yb", "<cmd>%y+<cr>", { desc = "Yank whole buffer" })
-
--- Clipboard
-map("n", "<leader>tt", "<cmd>vertical terminal<cr>", { desc = "Yank whole buffer" })
 
 
--- Go to definition
-vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP: Go to definition" })
-
-
--- View info
-vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP: Hover documentation" })
-
--- Go to declaration (often different from definition in C/C++)
-vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "LSP: Go to declaration" })
-
--- Go to type definition
-vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { desc = "LSP: Go to type definition" })
-
-
--- Go to implementation
-vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "LSP: Go to implementation" })
-
-vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "LSP: References" })
-
-
--- Rename symbol
-vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP: Rename symbol" })
-
--- Code actions
-vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: Code action" })
-
-
-
-local function oil_open_project_here()
-  local oil = require("oil")
-  local entry = oil.get_cursor_entry()
-  if not entry then return end
-
-  local dir
-  if entry.type == "directory" then
-    dir = oil.get_current_dir() .. entry.name
-  else
-    dir = oil.get_current_dir()
-  end
-
-  vim.fn.chdir(dir)
-  oil.open(dir)
-end
-
-vim.keymap.set("n", "<leader>==", oil_open_project_here, { buffer = true })
-
-vim.keymap.set("n", "<leader>lr", function()
-  for _, client in ipairs(vim.lsp.get_active_clients()) do
-    if client.name == "clangd" then
-      vim.lsp.stop_client(client.id)
+-- Reload nvim
+map("n", "<leader>so", function()
+  for name, _ in pairs(package.loaded) do
+    if name:match("^core") or name:match("^ui") or name:match("^plugins") or name:match("^tools") then
+      package.loaded[name] = nil
     end
   end
-
-  vim.defer_fn(function()
-    vim.cmd("LspStart clangd")
-  end, 100)
-end, { desc = "Restart clangd" })
+  dofile(vim.env.MYVIMRC)  -- Use dofile instead of source
+  vim.notify("Config reloaded", vim.log.levels.INFO)
+end, { desc = "Reload all Lua config" })

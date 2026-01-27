@@ -1,8 +1,9 @@
 -- Plugin manager
+require("core.options")
+
 require("core.lazy")
 
 -- Core editor behavior
-require("core.options")
 require("core.keymaps")
 
 -- UI
@@ -12,14 +13,9 @@ require("ui.neovide")
 
 require("ui.statusline")
 
-
-
--- Plugins
-require("plugins.oil")
-require("plugins.cmp")
-require("plugins.fzf")
 require("core.autocmds")
+require("core.lsp")
 require("tools.build")
-require("tools.build_without_quickfix").setup()
+require("tools.build_wq").setup()
 
 
