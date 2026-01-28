@@ -35,8 +35,8 @@ vim.opt.breakindent = true  -- Wrapped lines maintain indent
 -- Search
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.hlsearch = true  -- Highlight search results
-vim.opt.incsearch = true  -- Show matches as you type
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
 
 -- Wrapping
 vim.opt.wrap = false

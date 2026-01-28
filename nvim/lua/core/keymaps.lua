@@ -6,6 +6,18 @@ map("n", "<C-j>", "<C-w>j")
 map("n", "<C-k>", "<C-w>k")
 map("n", "<C-l>", "<C-w>l")
 
+map("v", "J", ":m '>+1<CR>gv=gv")
+map("v", "K", ":m '<-2<CR>gv=gv")
+
+map("n", "<C-d>", "<C-d>z")
+map("n", "<C-u>", "<C-u>zz")
+
+map("n", "<leader>p", "\"_dP")
+map("n", "<leader>p", "\"_dP")
+
+map("n", "Q", "<nop>")
+map("n", "q", "<nop>")
+
 -- General
 map("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
 map("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
@@ -55,28 +67,22 @@ map("n", "gt", vim.lsp.buf.type_definition, { desc = "LSP: Go to type definition
 map("n", "gi", vim.lsp.buf.implementation, { desc = "LSP: Go to implementation" })
 map("n", "gr", vim.lsp.buf.references, { desc = "LSP: References" })
 map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP: Rename symbol" })
+
 map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: Code action" })
 
 
--- Neovide (guarded)
-if vim.g.neovide then
-  map("n", "<C-+>", function()
-    vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * 1.1
-  end, { silent = true })
+map("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files" })
+map("n", "<leader>fa", "<cmd>FzfLua live_grep<cr>", { desc = "Live grep" })
+map("n", "<leader>fb", "<cmd>FzfLua buffers<cr>", { desc = "Find buffers" })
+map("n", "<leader>fh", "<cmd>FzfLua help_tags<cr>", { desc = "Help tags" })
+map("n", "<leader>fr", "<cmd>FzfLua oldfiles<cr>", { desc = "Recent files" })
 
-  map("n", "<C-->", function()
-    vim.g.neovide_scale_factor = vim.g.neovide_scale_factor / 1.1
-  end, { silent = true })
+map("n", "<leader>ra", "<cmd>FzfLua diagnostics_workspace<cr>", { desc = "Workspace diagnostics" })
+map("n", "<leader>rf", "<cmd>FzfLua diagnostics_document<cr>", { desc = "Document diagnostics" })
 
-  map("n", "<C-0>", function()
-    vim.g.neovide_scale_factor = 1.0
-  end, { silent = true })
-
-  map("n", "<F11>", function()
-    vim.g.neovide_fullscreen = not vim.g.neovide_fullscreen
-  end, { silent = true })
-end
-
+map("n", "<leader>un", "<cmd>FzfLua command_history<cr>", { desc = "Command history" })
+map("n", "<leader>cs", "<cmd>FzfLua colorschemes<cr>", { desc = "Colorschemes" })
+map("n", "<leader>man", "<cmd>FzfLua manpages<cr>", { desc = "Man pages" })
 
 local diagnostics_active = true
 

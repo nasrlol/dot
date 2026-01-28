@@ -1,14 +1,14 @@
 if vim.g.neovide then
 
   -- Font settings
-  vim.o.guifont = "JetbrainsMono Nerd Font:h10"
-  vim.g.neovide_scale_factor = 0.8
+
+  vim.g.neovide_scale_factor = 1.0
+  vim.o.guifont = "JetBrainsMono Nerd Font:h9"
 
   -- Cursor settings
-
   vim.g.neovide_cursor_short_animation_length = 1
 
-  vim.g.neovide_cursor_animation_length = 0.1
+  vim.g.neovide_cursor_animation_length = 0.4
   vim.g.neovide_cursor_antialiasing = true
 
   vim.g.neovide_cursor_trail_size = 0.5
@@ -39,7 +39,6 @@ if vim.g.neovide then
   vim.g.neovide_input_use_logo = true
   vim.g.neovide_touch_deadzone = 6.0
   vim.g.neovide_cursor_unfocused_outline_width = 0.125
-
 
   -- Key mappings for Neovide
   vim.keymap.set('n', '<C-+>', function()
