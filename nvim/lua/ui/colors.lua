@@ -1,5 +1,5 @@
 vim.cmd([[
-colorscheme retrobox
+colorscheme quiet
 set termguicolors
 syntax on
 filetype plugin indent on
@@ -12,10 +12,11 @@ end
 
 -- Color palette
 local colors = {
+  cursor       = "#f00f5f",
   bg           = "#0f1115",
   fg           = "#d4d4d4",
   comment      = "#505050",
-  cursor       = "#00ff00",
+  cursorLineNr = "#00ff00",
   visual       = "#1c4b06",
   cyan         = "#00a8a8",
   blue         = "#0088ff",
@@ -30,10 +31,10 @@ local colors = {
 
 -- Editor UI
 hl("Normal", { fg = colors.fg, bg = colors.bg })
-hl("CursorLine", { bg = "#141414" })
-hl("CursorLineNr", { fg = colors.cursor, bold = true })
+hl("CursorLine", { bg = colors.comment })
+hl("CursorLineNr", { fg = colors.cursorLineNr, bold = true })
 hl("LineNr", { fg = colors.comment })
-hl("Visual", { fg = colors.bg, bg = colors.orange, bold = true })
+hl("Visual", { fg = colors.bg, bg = colors.cursor, bold = true })
 hl("VisualNOS", { fg = colors.fg, bg = colors.visual })
 hl("@function", { fg = colors.blue, bold = false})
 hl("@function.call", { fg = colors.blue, bold = false})
@@ -41,7 +42,7 @@ hl("@function.call", { fg = colors.blue, bold = false})
 -- Cursor highlights for different modes
 hl("Cursor", {
   fg = "#000000",
-  bg = "#0a6a03",
+  bg = "#f00f5f",
 })
 
 hl("iCursor", {

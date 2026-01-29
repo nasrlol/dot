@@ -1,4 +1,9 @@
 local map = vim.keymap.set
+local diagnostics_active = true
+
+-- Command-line mode (Alt/Option instead of :)
+map("n", "<M-o>", ":")
+map("n", ":", "<Nop>")
 
 -- Window navigation
 map("n", "<C-h>", "<C-w>h")
@@ -26,7 +31,7 @@ map("n", "<leader>Q", "<cmd>q!<cr>", { desc = "Force quit" })
 map("n", "<leader>nt", "vim.")
 
 -- Oil
-map("n", "<leader>ex", "<cmd>Oil<cr>", { desc = "Oil file explorer" })
+map("n", "<C-x><C-f>", "<cmd>Oil<cr>", { desc = "Oil file explorer" })
 
 -- TODO(nasr): remove this ugly thing
 map({"n"}, "<leader>mm",  "<cmd>%!clang-format<cr>", { desc = "format" })
@@ -44,22 +49,26 @@ map("n", "<leader>qr", vim.diagnostic.setloclist,
 -- Buffers
 map("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
-map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
+map("n", "<leader>bd", "<cmd>bdelete!<cr>", { desc = "Delete buffer" })
 
 -- Splits
-map("n", "<leader>vt", "<cmd>vsplit<cr>", { desc = "Vertical split" })
-map("n", "<leader>ht", "<cmd>split<cr>", { desc = "Horizontal split" })
+map("n", "<leader>v", "<cmd>vsplit<cr>", { desc = "Vertical split" })
+map("n", "<leader>h", "<cmd>split<cr>", { desc = "Horizontal split" })
 
 
 -- Config
 map("n", "<leader>con", "<cmd>vsplit $MYVIMRC<cr>", { desc = "Edit init.lua" })
 
 -- Clipboard
-map("n", "<leader>yb", "<cmd>%y+<cr>", { desc = "Yank whole buffer" })
+map("n", "<leader>nt", "<cmd>%y+<cr>", { desc = "Yank whole buffer" })
+
+-- tab handling
+map("n", "<leader>yb", "<cmd>tabnew<cr>", { desc = "new tab" })
 
 -- Terminal
 map("n", "<leader>tt", "<cmd>vertical terminal<cr>", { desc = "Yank whole buffer" })
 
+-- lsp
 map("n", "gd", vim.lsp.buf.definition, { desc = "LSP: Go to definition" })
 map("n", "K", vim.lsp.buf.hover, { desc = "LSP: Hover documentation" })
 map("n", "gD", vim.lsp.buf.declaration, { desc = "LSP: Go to declaration" })
@@ -70,8 +79,7 @@ map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP: Rename symbol" })
 
 map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: Code action" })
 
-
-map("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files" })
+map("n", "<leader><leader>", "<cmd>FzfLua files<cr>", { desc = "Find files" })
 map("n", "<leader>fa", "<cmd>FzfLua live_grep<cr>", { desc = "Live grep" })
 map("n", "<leader>fb", "<cmd>FzfLua buffers<cr>", { desc = "Find buffers" })
 map("n", "<leader>fh", "<cmd>FzfLua help_tags<cr>", { desc = "Help tags" })
@@ -84,7 +92,6 @@ map("n", "<leader>un", "<cmd>FzfLua command_history<cr>", { desc = "Command hist
 map("n", "<leader>cs", "<cmd>FzfLua colorschemes<cr>", { desc = "Colorschemes" })
 map("n", "<leader>man", "<cmd>FzfLua manpages<cr>", { desc = "Man pages" })
 
-local diagnostics_active = true
 
 map("n", "<leader>td", function()
   diagnostics_active = not diagnostics_active
@@ -95,9 +102,6 @@ map("n", "<leader>td", function()
   end
 end, { desc = "Toggle diagnostics" })
 
-
-
--- Reload nvim
 map("n", "<leader>so", function()
   for name, _ in pairs(package.loaded) do
     if name:match("^core") or name:match("^ui") or name:match("^plugins") or name:match("^tools") then

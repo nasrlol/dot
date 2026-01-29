@@ -17,5 +17,3 @@ require("core.autocmds")
 require("core.lsp")
 require("tools.build")
 require("tools.build_wq").setup()
-
-

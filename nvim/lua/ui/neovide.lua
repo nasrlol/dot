@@ -6,13 +6,11 @@ if vim.g.neovide then
   vim.o.guifont = "JetBrainsMono Nerd Font:h9"
 
   -- Cursor settings
-  vim.g.neovide_cursor_short_animation_length = 1
-
-  vim.g.neovide_cursor_animation_length = 0.4
+  vim.g.neovide_cursor_animation_length = 0.7
   vim.g.neovide_cursor_antialiasing = true
 
-  vim.g.neovide_cursor_trail_size = 0.5
-  vim.g.neovide_cursor_animate_in_insert_mode = false
+  vim.g.neovide_cursor_trail_size = 1
+  vim.g.neovide_cursor_animate_in_insert_mode = true
 
   vim.g.neovide_cursor_antialiasing = true
   vim.g.neovide_cursor_vfx_mode = "ripplegun"
@@ -28,7 +26,7 @@ if vim.g.neovide then
   vim.g.neovide_hide_mouse_when_typing = true
   vim.g.neovide_refresh_rate = 240
   vim.g.neovide_refresh_rate_idle = 5
-  vim.g.neovide_no_idle = false
+  vim.g.neovide_no_idle = true
 
   -- Transparency
   vim.g.neovide_opacity = 0.7
@@ -37,7 +35,7 @@ if vim.g.neovide then
 
   -- Input settings
   vim.g.neovide_input_use_logo = true
-  vim.g.neovide_touch_deadzone = 6.0
+  vim.g.neovide_touch_deadzone = 0.0
   vim.g.neovide_cursor_unfocused_outline_width = 0.125
 
   -- Key mappings for Neovide
