@@ -2,10 +2,6 @@ local map = vim.keymap.set
 local diagnostics_active = true
 local fzf = require("fzf-lua")
 
--- COMMAND-LINE MODE & BASIC NAVIGATION
-map("n", "<M-o>", ":")
-map("n", ":", "<Nop>")
-
 -- Window navigation
 map("n", "<C-h>", "<C-w>h")
 map("n", "<C-j>", "<C-w>j")

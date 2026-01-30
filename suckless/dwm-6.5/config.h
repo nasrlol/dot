@@ -8,11 +8,11 @@ static const int showbar = 1;
 static const int topbar = 1;
 
 /* no bar padding */
-static const int vertpad = 15;
+static const int vertpad = 0;
 static const int sidepad = 0;
 
 /* fonts */
-static const char *fonts[] = {"JetBrainsMono Nerd Font:size=18"};
+static const char *fonts[] = {"JetBrainsMono Nerd Font:size=12"};
 static const char dmenufont[] = "JetBrainsMono Nerd Font:size=16";
 
 /* colors — white bar, black text */
@@ -132,8 +132,9 @@ static const Key keys[] = {
     {MODKEY | ShiftMask, XK_Return, zoom, {0}},
 
     /* tags */
-    TAGKEYS(XK_exclam, 0) TAGKEYS(XK_at, 1) TAGKEYS(XK_numbersign, 2)
-        TAGKEYS(XK_dollar, 3) TAGKEYS(XK_percent, 4)
+
+    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
+        TAGKEYS(XK_5, 4)
 
     /* quit */
     {MODKEY | ShiftMask, XK_q, quit, {0}},

@@ -1,5 +1,5 @@
 vim.cmd([[
-colorscheme quiet
+colorscheme habamax
 set termguicolors
 syntax on
 filetype plugin indent on

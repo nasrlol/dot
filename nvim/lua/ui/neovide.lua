@@ -3,10 +3,10 @@ if vim.g.neovide then
   -- Font settings
 
   vim.g.neovide_scale_factor = 1.0
-  vim.o.guifont = "JetBrainsMono Nerd Font:h9"
+  vim.o.guifont = "Monaspace Krypton NF SemiWide:style=regular:h9"
 
   -- Cursor settings
-  vim.g.neovide_cursor_animation_length = 0.7
+  vim.g.neovide_cursor_animation_length = 0.2
   vim.g.neovide_cursor_antialiasing = true
 
   vim.g.neovide_cursor_trail_size = 1
