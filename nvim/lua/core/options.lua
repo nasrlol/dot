@@ -11,6 +11,8 @@ vim.opt.termguicolors = true
 vim.opt.showmode = false
 vim.opt.cmdheight = 1
 
+vim.opt.linespace = 2
+
 vim.opt.showtabline = 2
 vim.opt.laststatus = 3
 

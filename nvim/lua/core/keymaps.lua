@@ -1,6 +1,7 @@
 local map = vim.keymap.set
 local diagnostics_active = true
 local fzf = require("fzf-lua")
+local ls = require("luasnip")
 
 -- Window navigation
 map("n", "<C-h>", "<C-w>h")
@@ -164,6 +165,33 @@ map("n", "<leader>lw", function() fzf.lsp_workspace_symbols() end, { desc = "�
 -- Additional FZF
 map("n", "<leader>lo", function() fzf.loclist() end, { desc = "📋 Location list" })
 map("n", "<leader>qq", function() fzf.quickfix() end, { desc = "📋 Quickfix list" })
+
+
+map({ "i", "s" }, "<Tab>", function()
+  if ls.expand_or_jumpable() then
+    ls.expand_or_jump()
+  else
+    vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes("<Tab>", true, false, true),
+      "n",
+      true
+    )
+  end
+end, { silent = true, desc = "LuaSnip expand/jump" })
+
+map({ "i", "s" }, "<S-Tab>", function()
+  if ls.jumpable(-1) then
+    ls.jump(-1)
+  else
+    return "<S-Tab>"
+  end
+end, { expr = true, silent = true, desc = "LuaSnip jump back" })
+
+map({ "i", "s" }, "<C-l>", function()
+  if ls.choice_active() then
+    ls.change_choice(1)
+  end
+end, { silent = true, desc = "LuaSnip next choice" })
 
 -- CONFIG MANAGEMENT
 map("n", "<leader>so", function()

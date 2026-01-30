@@ -12,7 +12,7 @@ static const int vertpad = 0;
 static const int sidepad = 0;
 
 /* fonts */
-static const char *fonts[] = {"JetBrainsMono Nerd Font:size=12"};
+static const char *fonts[] = {"JetBrainsMono Nerd Font:size=16"};
 static const char dmenufont[] = "JetBrainsMono Nerd Font:size=16";
 
 /* colors — white bar, black text */

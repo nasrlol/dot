@@ -1,5 +1,5 @@
 vim.cmd([[
-colorscheme habamax
+colorscheme quiet
 set termguicolors
 syntax on
 filetype plugin indent on
@@ -10,85 +10,139 @@ local function hl(name, opts)
   vim.api.nvim_set_hl(0, name, opts)
 end
 
--- Color palette
+-- Functional color palette - bright where it matters, muted elsewhere
 local colors = {
-  cursor       = "#f00f5f",
-  bg           = "#0f1115",
-  fg           = "#d4d4d4",
-  comment      = "#505050",
-  cursorLineNr = "#00ff00",
-  visual       = "#1c4b06",
-  cyan         = "#00a8a8",
-  blue         = "#0088ff",
-  purple       = "#c040c0",
-  pink         = "#f92672",
-  green        = "#50ff30",
-  yellow       = "#f0c674",
-  orange       = "#ff9e64",
-  red          = "#ff2040",
-  white        = "#ffffff",
+  -- UI Base
+  bg           = "#000000",
+  bgAlt        = "#1a1a1a",
+  fg           = "#c0c0c0",
+  fgDim        = "#606060",
+
+  -- Editor
+  cursor       = "#00ff00",
+  cursorLine   = "#1a1a1a",
+  lineNr       = "#404040",
+  visual       = "#2a3a4a",
+
+  -- Bright functional colors
+  function_def = "#00bbff",      -- Clear function definitions
+  function_call= "#f44550",      -- Calls stand out
+  keyword      = "#ff8800",      -- Keywords are obvious
+  type         = "#00dddd",      -- Types clear
+  string       = "#00ff00",      -- Strings bright green
+  number       = "#ffaa00",      -- Numbers visible
+  error        = "#ff0000",      -- Errors scream
+
+  -- Muted structural
+  comment      = "#505050",      -- Comments fade back
+  punctuation  = "#707070",
+  variable     = "#b0b0b0",      -- Variables neutral
+
+  -- Semantic
+  macro        = "#ff44ff",
+  constant     = "#ff9900",
+  builtin      = "#00aaaa",
 }
 
--- Editor UI
+-- Editor UI - minimal distraction
 hl("Normal", { fg = colors.fg, bg = colors.bg })
-hl("CursorLine", { bg = colors.comment })
-hl("CursorLineNr", { fg = colors.cursorLineNr, bold = true })
-hl("LineNr", { fg = colors.comment })
-hl("Visual", { fg = colors.bg, bg = colors.cursor, bold = true })
-hl("VisualNOS", { fg = colors.fg, bg = colors.visual })
-hl("@function", { fg = colors.blue, bold = false})
-hl("@function.call", { fg = colors.blue, bold = false})
+hl("CursorLine", { bg = colors.cursorLine })
+hl("CursorLineNr", { fg = colors.cursor, bold = true })
+hl("LineNr", { fg = colors.lineNr })
+hl("Visual", { bg = colors.visual })
+hl("MatchParen", { fg = colors.cursor, bold = true })
 
--- Cursor highlights for different modes
-hl("Cursor", {
-  fg = "#000000",
-  bg = "#f00f5f",
-})
+-- Functions - most important, brightest
+hl("@function", { fg = colors.function_def, bold = true })
+hl("@function.call", { fg = colors.function_call, bold = true })
+hl("@function.builtin", { fg = colors.builtin })
+hl("@function.method", { fg = colors.function_def, bold = true })
+hl("@function.method.call", { fg = colors.function_call, bold = true })
 
-hl("iCursor", {
-  fg = "#000000",
-  bg = "#f00f5f",
-})
+-- Parameters - visible but not distracting
+hl("@parameter", { fg = colors.variable })
+hl("@variable.parameter", { fg = colors.variable })
 
-hl("rCursor", {
-  fg = "#000000",
-  bg = "#ff5f5f",
-})
+-- Punctuation - quiet, structural
+hl("@punctuation.bracket", { fg = colors.punctuation })
+hl("@punctuation.delimiter", { fg = colors.punctuation })
+hl("@punctuation.special", { fg = colors.punctuation })
+hl("Delimiter", { fg = colors.punctuation })
 
--- Cursor shape configuration
+-- Variables - neutral
+hl("@variable", { fg = colors.variable })
+hl("@variable.builtin", { fg = colors.builtin })
+hl("@variable.member", { fg = colors.variable })
+hl("@property", { fg = colors.variable })
+hl("@field", { fg = colors.variable })
+
+-- Keywords - bright orange, stand out
+hl("@keyword", { fg = colors.keyword, bold = true })
+hl("@keyword.function", { fg = colors.keyword, bold = true })
+hl("@keyword.return", { fg = colors.keyword, bold = true })
+hl("@keyword.operator", { fg = colors.keyword })
+hl("@operator", { fg = colors.punctuation })
+
+-- Types - cyan, clear
+hl("@type", { fg = colors.type, bold = true })
+hl("@type.builtin", { fg = colors.type, bold = true })
+hl("@constant", { fg = colors.constant, bold = true })
+hl("@constant.builtin", { fg = colors.constant, bold = true })
+hl("@constant.macro", { fg = colors.macro, bold = true })
+
+-- Strings - bright green
+hl("@string", { fg = colors.string })
+hl("@string.escape", { fg = colors.number })
+hl("@character", { fg = colors.string })
+
+-- Numbers - bright orange/yellow
+hl("@number", { fg = colors.number, bold = true })
+hl("@float", { fg = colors.number, bold = true })
+hl("@boolean", { fg = colors.number, bold = true })
+
+-- Comments - fade into background
+hl("@comment", { fg = colors.comment, italic = true })
+hl("@comment.documentation", { fg = colors.comment, italic = true })
+
+-- Attributes
+hl("@attribute", { fg = colors.macro })
+
+-- Constructors and Modules
+hl("@constructor", { fg = colors.type, bold = true })
+hl("@namespace", { fg = colors.type })
+hl("@module", { fg = colors.type })
+
+-- Tags
+hl("@tag", { fg = colors.keyword })
+hl("@tag.attribute", { fg = colors.variable })
+hl("@tag.delimiter", { fg = colors.punctuation })
+
+-- Cursor modes - bright and visible
+hl("Cursor", { fg = colors.bg, bg = colors.cursor })
+hl("iCursor", { fg = colors.bg, bg = colors.cursor })
+hl("rCursor", { fg = colors.bg, bg = colors.error })
+
 vim.opt.guicursor = {
   "n-v-c:block-Cursor",
   "i:block-iCursor",
   "r:block-rCursor",
 }
 
--- Autocmd to restore cursor highlights after colorscheme changes
+-- Autocmds
 vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function()
-    vim.api.nvim_set_hl(0, "Cursor", {
-      fg = "#000000",
-      bg = "#44ff44",
-
-    })
-    vim.api.nvim_set_hl(0, "iCursor", {
-      fg = "#ffffff",
-      bg = "#f00f5f",
-    })
-    vim.api.nvim_set_hl(0, "rCursor", {
-      fg = "#000000",
-      bg = "#ff5f5f",
-    })
+    hl("Cursor", { fg = colors.bg, bg = colors.cursor })
+    hl("iCursor", { fg = colors.bg, bg = colors.cursor })
+    hl("rCursor", { fg = colors.bg, bg = colors.error })
   end,
 })
 
--- Highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     vim.highlight.on_yank({ timeout = 200 })
   end,
 })
 
--- Remove trailing whitespace on save
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function()
@@ -96,14 +150,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
--- Equalize splits on resize
 vim.api.nvim_create_autocmd("VimResized", {
   callback = function()
     vim.cmd("wincmd =")
   end,
 })
 
--- Restore cursor position
 vim.api.nvim_create_autocmd("BufReadPost", {
   callback = function()
     if vim.fn.line("'\"") > 1 then
