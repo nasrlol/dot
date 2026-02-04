@@ -3,41 +3,45 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- UI & Appearance
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.cursorline = true
-vim.opt.signcolumn = "yes"
+vim.opt.number      = true
+vim.opt.relativenumber = false
+vim.opt.cursorline  = false
+vim.opt.signcolumn  = "no"
 vim.opt.termguicolors = true
-vim.opt.showmode = false
-vim.opt.cmdheight = 1
+vim.opt.showmode    = false
+vim.opt.cmdheight   = 0
 
-vim.opt.linespace = 2
+vim.opt.linespace   = 8
 
-vim.opt.showtabline = 2
-vim.opt.laststatus = 3
+-- Reduce redraw frequency
+vim.opt.lazyredraw  = false
+vim.opt.updatetime  = 250
 
-vim.opt.pumheight = 10
+vim.opt.showtabline = 0
+vim.opt.laststatus  = 3
+
+vim.opt.pumheight   = 10
 
 -- Editing Behavior
-vim.opt.mouse = "a"
-vim.opt.clipboard = "unnamedplus"
-vim.opt.undofile = true
-vim.opt.swapfile = false
-vim.opt.backup = false
+vim.opt.mouse       = "a"
+vim.opt.clipboard   = "unnamedplus"
+vim.opt.undofile    = true
+vim.opt.swapfile    = false
+vim.opt.backup      = false
 
 -- Indentation
-vim.opt.expandtab = true
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.expandtab   = true
+vim.opt.tabstop     = 4
+vim.opt.shiftwidth  = 4
 vim.opt.softtabstop = 4
 vim.opt.smartindent = true
 vim.opt.breakindent = true
 
 -- Search
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.hlsearch = false
-vim.opt.incsearch = true
+vim.opt.ignorecase  = true
+vim.opt.smartcase   = true
+vim.opt.hlsearch    = false
+vim.opt.incsearch   = true
 
 -- Wrapping
 vim.opt.wrap = false

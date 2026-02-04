@@ -8,28 +8,36 @@ static const int showbar = 1;
 static const int topbar = 1;
 
 /* no bar padding */
-static const int vertpad = 0;
+static const int vertpad = 20;
 static const int sidepad = 0;
 
 /* fonts */
-static const char *fonts[] = {"JetBrainsMono Nerd Font:size=16"};
+static const char *fonts[] = {"JetBrainsMono Nerd Font:size=18"};
 static const char dmenufont[] = "JetBrainsMono Nerd Font:size=16";
 
-/* colors — white bar, black text */
-static const char col_bg[] = "#ffffff"; /* white */
+/* colors — white bar with black text, black selection with white text */
+static const char col_bg[] = "#ffffff"; /* white background */
 static const char col_bg_alt[] = "#ffffff";
-static const char col_fg[] = "#000000"; /* black */
-static const char col_fg_dim[] = "#000000";
-static const char col_border[] = "#000000";
-static const char col_border_sel[] = "#ffffff";
+static const char col_fg[] = "#000000";         /* black text */
+static const char col_fg_dim[] = "#888888";     /* dimmed text */
+static const char col_border[] = "#cccccc";     /* normal border */
+static const char col_border_sel[] = "#000000"; /* selected border */
 
-/* selection colors (contrast) */
-static const char col_sel_bg[] = "#000000"; /* black */
-static const char col_sel_fg[] = "#ffffff"; /* white */
+/* selection colors (black background, white text) */
+static const char col_sel_bg[] = "#000000"; /* black selection */
+static const char col_sel_fg[] = "#ffffff"; /* white text on selection */
+
+/* status bar colors — black background, white text */
+static const char col_gray1[] = "#000000"; /* background - black */
+static const char col_gray2[] = "#444444"; /* inactive border */
+static const char col_gray3[] = "#bbbbbb"; /* font color */
+static const char col_gray4[] = "#ffffff"; /* current tag/window font - white */
+static const char col_cyan[] = "#000000";  /* top bar border - black */
 
 static const char *colors[2][3] = {
-    [SchemeNorm] = {col_fg, col_bg, col_border},
-    [SchemeSel] = {col_sel_fg, col_sel_bg, col_border_sel},
+    /*               fg         bg         border   */
+    [SchemeNorm] = {col_gray3, col_gray1, col_gray2},
+    [SchemeSel] = {col_gray4, col_cyan, col_cyan},
 };
 
 /* tags */

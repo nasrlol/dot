@@ -16,8 +16,9 @@ map("n", "<M-Left>", "<C-w><", { desc = "Decrease window width" })
 map("n", "<M-Right>", "<C-w>>", { desc = "Increase window width" })
 
 -- Move lines
-map("v", "J", ":m '>+1<CR>gv=gv")
-map("v", "K", ":m '<-2<CR>gv=gv")
+map("v", "J", "<cmd>move '>+1<cr>gv=gv", { silent = true })
+map("v", "K", "<cmd>move '<-2<cr>gv=gv", { silent = true })
+
 
 -- Center screen on jumps
 map("n", "<C-d>", "<C-d>zz")
@@ -121,50 +122,56 @@ map("n", "<leader>sg", function() fzf.grep({ search = vim.fn.input("Grep: ") }) 
 map("n", "<leader>sr", function() fzf.resume() end, { desc = "󰊄 Resume last search" })
 
 -- Buffer management
-map("n", "<leader>fb", function() fzf.buffers() end, { desc = "🗂️  Find buffers" })
-map("n", "<M-b>", function() fzf.buffers() end, { desc = "🗂️  Find buffers (Meta)" })
-map("n", "<leader>bb", function() fzf.buffers() end, { desc = "🗂️  Buffers" })
+map("n", "<leader>fb", function() fzf.buffers() end, { desc = " Find buffers" })
+map("n", "<M-b>", function() fzf.buffers() end, { desc = " Find buffers (Meta)" })
+map("n", "<leader>bb", function() fzf.buffers() end, { desc = " Buffers" })
 
 -- Help documentation
-map("n", "<leader>fh", function() fzf.help_tags() end, { desc = "❓ Help tags" })
-map("n", "<M-h>", function() fzf.help_tags() end, { desc = "❓ Help tags (Meta)" })
-map("n", "<leader>/", function() fzf.help_tags() end, { desc = "❓ Help" })
+map("n", "<leader>fh", function() fzf.help_tags() end, { desc = "Help tags" })
+map("n", "<M-h>", function() fzf.help_tags() end, { desc = "Help tags (Meta)" })
+map("n", "<leader>/", function() fzf.help_tags() end, { desc = "Help" })
 
 -- Recent files / History
-map("n", "<leader>fr", function() fzf.oldfiles() end, { desc = "🕐 Recent files" })
-map("n", "<M-r>", function() fzf.oldfiles() end, { desc = "🕐 Recent files (Meta)" })
+map("n", "<leader>fr", function() fzf.oldfiles() end, { desc = "Recent files" })
+map("n", "<M-r>", function() fzf.oldfiles() end, { desc = "Recent files (Meta)" })
 
 -- Diagnostics
-map("n", "<leader>da", function() fzf.diagnostics_workspace() end, { desc = "⚠️  Workspace diagnostics" })
-map("n", "<M-d>", function() fzf.diagnostics_workspace() end, { desc = "⚠️  Workspace diagnostics (Meta)" })
-map("n", "<leader>dd", function() fzf.diagnostics_document() end, { desc = "⚠️  Document diagnostics" })
+map("n", "<leader>da", function() fzf.diagnostics_workspace() end, { desc = " Workspace diagnostics" })
+map("n", "<M-d>", function() fzf.diagnostics_workspace() end, { desc = "Workspace diagnostics (Meta)" })
+map("n", "<leader>dd", function() fzf.diagnostics_document() end, { desc = " Document diagnostics" })
 
 -- Command history
-map("n", "<leader>ch", function() fzf.command_history() end, { desc = "📝 Command history" })
-map("n", "<M-c>", function() fzf.command_history() end, { desc = "📝 Command history (Meta)" })
+map("n", "<leader>ch", function() fzf.command_history() end, { desc = "Command history" })
+map("n", "<M-c>", function() fzf.command_history() end, { desc = "Command history (Meta)" })
 
 -- Colorschemes
-map("n", "<leader>cs", function() fzf.colorschemes() end, { desc = "🎨 Colorschemes" })
-map("n", "<M-t>", function() fzf.colorschemes() end, { desc = "🎨 Colorschemes (Meta)" })
+map("n", "<leader>cs", function() fzf.colorschemes() end, { desc = "Colorschemes" })
+map("n", "<M-t>", function() fzf.colorschemes() end, { desc = "Colorschemes (Meta)" })
 
 -- Man pages
-map("n", "<leader>hm", function() fzf.manpages() end, { desc = "📖 Manual pages" })
+map("n", "<leader>hm", function() fzf.manpages() end, { desc = "Manual pages" })
 
 -- Git integration
-map("n", "<leader>gc", function() fzf.git_commits() end, { desc = "🔀 Git commits" })
-map("n", "<leader>gb", function() fzf.git_branches() end, { desc = "🌿 Git branches" })
-map("n", "<leader>gs", function() fzf.git_status() end, { desc = "📊 Git status" })
-map("n", "<leader>gf", function() fzf.git_files() end, { desc = "📁 Git files" })
+map("n", "<leader>gc", function() fzf.git_commits() end, { desc = "Git commits" })
+map("n", "<leader>gb", function() fzf.git_branches() end, { desc = "Git branches" })
+map("n", "<leader>gs", function() fzf.git_status() end, { desc = "Git status" })
+map("n", "<leader>gf", function() fzf.git_files() end, { desc = "Git files" })
 
 -- LSP & Symbols
-map("n", "<leader>km", function() fzf.keymaps() end, { desc = "⌨️  Keymaps" })
-map("n", "<M-k>", function() fzf.keymaps() end, { desc = "⌨️  Keymaps (Meta)" })
-map("n", "<leader>ls", function() fzf.lsp_document_symbols() end, { desc = "🔍 Document symbols" })
-map("n", "<leader>lw", function() fzf.lsp_workspace_symbols() end, { desc = "🔍 Workspace symbols" })
+map("n", "<leader>km", function() fzf.keymaps() end, { desc = " Keymaps" })
+map("n", "<M-k>", function() fzf.keymaps() end, { desc = " Keymaps (Meta)" })
+map("n", "<leader>ls", function() fzf.lsp_document_symbols() end, { desc = "Document symbols" })
+map("n", "<leader>lw", function() fzf.lsp_workspace_symbols() end, { desc = "Workspace symbols" })
 
 -- Additional FZF
-map("n", "<leader>lo", function() fzf.loclist() end, { desc = "📋 Location list" })
-map("n", "<leader>qq", function() fzf.quickfix() end, { desc = "📋 Quickfix list" })
+map("n", "<leader>lo", function() fzf.loclist() end, { desc = "Location list" })
+map("n", "<leader>qq", function() fzf.quickfix() end, { desc = "Quickfix list" })
+
+-- Noice UI
+map("n", "<leader>nh", "<cmd>Noice history<cr>", { desc = "Noice: message history" })
+map("n", "<leader>nl", "<cmd>Noice last<cr>",    { desc = "Noice: last message" })
+map("n", "<leader>ne", "<cmd>Noice errors<cr>",  { desc = "Noice: errors" })
+map("n", "<leader>nd", "<cmd>Noice dismiss<cr>", { desc = "Noice: dismiss messages" })
 
 
 map({ "i", "s" }, "<Tab>", function()

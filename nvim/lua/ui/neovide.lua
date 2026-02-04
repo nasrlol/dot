@@ -1,7 +1,7 @@
 if vim.g.neovide then
     -- Font Configuration
-    vim.o.guifont = "Liberation Mono:style=regular:h8"
-    vim.opt.linespace = 2
+    vim.o.guifont = "Liberation Mono:style=regular:h9"
+    vim.opt.linespace = 8
     vim.g.neovide_scale_factor = 1.0
 
     -- Window & Display
@@ -11,10 +11,10 @@ if vim.g.neovide then
     vim.g.neovide_window_undecorated = true
 
     -- Transparency
-    vim.g.neovide_opacity = 0.7
+    vim.g.neovide_opacity = 0.9
     vim.g.neovide_window_floating_opacity = 0.95
-    vim.g.neovide_floating_blur_amount_x = 9.0
-    vim.g.neovide_floating_blur_amount_y = 9.0
+    vim.g.neovide_floating_blur_amount_x = 0
+    vim.g.neovide_floating_blur_amount_y = 0
 
     -- Cursor Appearance
     vim.g.neovide_cursor_antialiasing = true
@@ -22,17 +22,21 @@ if vim.g.neovide then
     vim.g.neovide_cursor_unfocused_outline_width = 0.125
 
     -- Cursor Animation
-    vim.g.neovide_cursor_animation_length = 0.8
-    vim.g.neovide_cursor_short_animation_length = 0.4
-    vim.g.neovide_cursor_trail_size = 0.5
+    vim.g.neovide_cursor_animation_length = 0.2
+    vim.g.neovide_cursor_short_animation_length = 50
+    vim.g.neovide_cursor_trail_size = 2
     vim.g.neovide_cursor_animate_in_insert_mode = true
-    vim.g.neovide_cursor_animate_command_line = false
+    vim.g.neovide_cursor_animate_command_line = true
     vim.g.neovide_cursor_vfx_mode = ""
+
+    vim.g.neovide_scroll_animation_far_lines = 1
+
+    vim.g.neovide_position_animation_length = 0.5
 
     -- Cursor VFX (disabled since vfx_mode is empty)
     vim.g.neovide_cursor_vfx_opacity = 400.0
-    vim.g.neovide_cursor_vfx_particle_lifetime = 1.2
-    vim.g.neovide_cursor_vfx_particle_density = 2.0
+    vim.g.neovide_cursor_vfx_particle_lifetime = 2
+    vim.g.neovide_cursor_vfx_particle_density = 9.0
 
     -- Input & Interaction
     vim.g.neovide_input_use_logo = true
@@ -44,6 +48,11 @@ if vim.g.neovide then
     vim.g.neovide_progress_bar_height = 5.0
     vim.g.neovide_progress_bar_animation_speed = 200.0
     vim.g.neovide_progress_bar_hide_delay = 0.2
+
+    vim.g.neovide_floating_shadow = true
+    vim.g.neovide_floating_z_height = 10
+    vim.g.neovide_light_angle_degrees = 45
+    vim.g.neovide_light_radius = 5
 
     -- Experimental/Fixes
     vim.g.neovide_cursor_hack = true

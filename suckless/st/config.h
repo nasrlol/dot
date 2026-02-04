@@ -6,8 +6,7 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 static char *font =
-    "JetBrainsMono Nerd Font "
-    "Mono:style=Regular:pixelsize=16:antialias=true:autohint=true";
+    "Liberation Mono:style=Regular:pixelsize=24:antialias=true:autohint=true";
 
 static int borderpx = 8;
 
@@ -143,8 +142,8 @@ static KeySym mappedkeys[] = {-1};
 static uint ignoremod = Mod2Mask | XK_SWITCH_MOD;
 
 static Key key[] = {
-    /* keysym mask string appkey appcursor */ {XK_KP_Home, ShiftMask, "\033[2J",
-                                               0, -1},
+    /* keysym mask string appkey appcursor */
+    {XK_KP_Home, ShiftMask, "\033[2J", 0, -1},
     {XK_KP_Home, ShiftMask, "\033[1;2H", 0, +1},
     {XK_KP_Home, XK_ANY_MOD, "\033[H", 0, -1},
     {XK_KP_Home, XK_ANY_MOD, "\033[1~", 0, +1},

@@ -1,8 +1,4 @@
 vim.cmd([[
-colorscheme quiet
-set termguicolors
-syntax on
-filetype plugin indent on
 ]])
 
 -- Highlight helper
@@ -10,117 +6,143 @@ local function hl(name, opts)
   vim.api.nvim_set_hl(0, name, opts)
 end
 
--- Functional color palette - bright where it matters, muted elsewhere
+-- Monochromatic palette
 local colors = {
-  -- UI Base
-  bg           = "#000000",
-  bgAlt        = "#1a1a1a",
-  fg           = "#c0c0c0",
-  fgDim        = "#606060",
+  bg        = "#000000",
+  bgAlt     = "#0a0a0a",
+  fg        = "#ffffff",
+  fgDim     = "#808080",
 
-  -- Editor
-  cursor       = "#00ff00",
-  cursorLine   = "#1a1a1a",
-  lineNr       = "#404040",
-  visual       = "#2a3a4a",
+  cursor    = "#00ff00",
+  cursorLine= "#440000",
+  lineNr    = "#404040",
+  visual    = "#0f4400",
 
-  -- Bright functional colors
-  function_def = "#00bbff",      -- Clear function definitions
-  function_call= "#f44550",      -- Calls stand out
-  keyword      = "#ff8800",      -- Keywords are obvious
-  type         = "#00dddd",      -- Types clear
-  string       = "#00ff00",      -- Strings bright green
-  number       = "#ffaa00",      -- Numbers visible
-  error        = "#ff0000",      -- Errors scream
-
-  -- Muted structural
-  comment      = "#505050",      -- Comments fade back
-  punctuation  = "#707070",
-  variable     = "#b0b0b0",      -- Variables neutral
-
-  -- Semantic
-  macro        = "#ff44ff",
-  constant     = "#ff9900",
-  builtin      = "#00aaaa",
+  brightest = "#ff444f",
+  bright    = "#dfd0d0",
+  medium    = "#a0a0a0",
+  dim       = "#707070",
+  dimmer    = "#505050",
+  comment   = "#444499",
 }
 
--- Editor UI - minimal distraction
-hl("Normal", { fg = colors.fg, bg = colors.bg })
-hl("CursorLine", { bg = colors.cursorLine })
-hl("CursorLineNr", { fg = colors.cursor, bold = true })
-hl("LineNr", { fg = colors.lineNr })
-hl("Visual", { bg = colors.visual })
-hl("MatchParen", { fg = colors.cursor, bold = true })
+-- =====================
+-- Editor UI
+-- =====================
+hl("Normal",        { fg = colors.fg, bg = colors.bg })
+hl("CursorLine",    { bg = colors.cursorLine })
+hl("CursorLineNr",  { fg = colors.brightest })
+hl("LineNr",        { fg = colors.lineNr })
+hl("Visual",        { bg = colors.visual })
+hl("MatchParen",    { fg = colors.brightest, underline = true })
 
--- Functions - most important, brightest
-hl("@function", { fg = colors.function_def, bold = true })
-hl("@function.call", { fg = colors.function_call, bold = true })
-hl("@function.builtin", { fg = colors.builtin })
-hl("@function.method", { fg = colors.function_def, bold = true })
-hl("@function.method.call", { fg = colors.function_call, bold = true })
+hl("StatusLine",    { fg = colors.fg,    bg = "NONE" })
+hl("WinBar",        { bg = "NONE", fg = "#a9b1d6" })
+hl("StatusLineNC",  { fg = colors.fg, bg = "NONE" })
 
--- Parameters - visible but not distracting
-hl("@parameter", { fg = colors.variable })
-hl("@variable.parameter", { fg = colors.variable })
+-- =====================
+-- Functions
+-- =====================
+hl("@function",              { fg = colors.brightest })
+hl("@function.call",         { fg = colors.bright })
+hl("@function.builtin",      { fg = colors.bright })
+hl("@function.method",       { fg = colors.brightest })
+hl("@function.method.call",  { fg = colors.bright })
 
--- Punctuation - quiet, structural
-hl("@punctuation.bracket", { fg = colors.punctuation })
-hl("@punctuation.delimiter", { fg = colors.punctuation })
-hl("@punctuation.special", { fg = colors.punctuation })
-hl("Delimiter", { fg = colors.punctuation })
+-- =====================
+-- Parameters / Variables
+-- =====================
+hl("@parameter",             { fg = colors.medium })
+hl("@variable.parameter",    { fg = colors.medium })
 
--- Variables - neutral
-hl("@variable", { fg = colors.variable })
-hl("@variable.builtin", { fg = colors.builtin })
-hl("@variable.member", { fg = colors.variable })
-hl("@property", { fg = colors.variable })
-hl("@field", { fg = colors.variable })
+hl("@variable",              { fg = colors.medium })
+hl("@variable.builtin",      { fg = colors.bright })
+hl("@variable.member",       { fg = colors.medium })
+hl("@property",              { fg = colors.medium })
+hl("@field",                 { fg = colors.medium })
 
--- Keywords - bright orange, stand out
-hl("@keyword", { fg = colors.keyword, bold = true })
-hl("@keyword.function", { fg = colors.keyword, bold = true })
-hl("@keyword.return", { fg = colors.keyword, bold = true })
-hl("@keyword.operator", { fg = colors.keyword })
-hl("@operator", { fg = colors.punctuation })
+-- =====================
+-- Punctuation / Operators
+-- =====================
+hl("@punctuation.bracket",   { fg = colors.dim })
+hl("@punctuation.delimiter", { fg = colors.dim })
+hl("@punctuation.special",   { fg = colors.medium })
+hl("Delimiter",              { fg = colors.dim })
 
--- Types - cyan, clear
-hl("@type", { fg = colors.type, bold = true })
-hl("@type.builtin", { fg = colors.type, bold = true })
-hl("@constant", { fg = colors.constant, bold = true })
-hl("@constant.builtin", { fg = colors.constant, bold = true })
-hl("@constant.macro", { fg = colors.macro, bold = true })
+hl("@operator",              { fg = colors.dim })
 
--- Strings - bright green
-hl("@string", { fg = colors.string })
-hl("@string.escape", { fg = colors.number })
-hl("@character", { fg = colors.string })
+-- =====================
+-- Keywords / Types
+-- =====================
+hl("@keyword",               { fg = colors.brightest })
+hl("@keyword.function",      { fg = colors.brightest })
+hl("@keyword.return",        { fg = colors.brightest })
+hl("@keyword.operator",      { fg = colors.bright })
 
--- Numbers - bright orange/yellow
-hl("@number", { fg = colors.number, bold = true })
-hl("@float", { fg = colors.number, bold = true })
-hl("@boolean", { fg = colors.number, bold = true })
+hl("@type",                  { fg = colors.bright })
+hl("@type.builtin",          { fg = colors.bright })
 
--- Comments - fade into background
-hl("@comment", { fg = colors.comment, italic = true })
-hl("@comment.documentation", { fg = colors.comment, italic = true })
+hl("@constant",              { fg = colors.brightest })
+hl("@constant.builtin",      { fg = colors.brightest })
+hl("@constant.macro",        { fg = colors.brightest })
 
--- Attributes
-hl("@attribute", { fg = colors.macro })
+-- =====================
+-- Strings (neutral, fixed)
+-- =====================
+hl("@string",                { fg = colors.medium })
+hl("@string.escape",         { fg = colors.bright })
+hl("@character",             { fg = colors.medium })
+hl("@string.special",        { fg = colors.medium })
+hl("@string.special.path",   { fg = colors.medium })
 
--- Constructors and Modules
-hl("@constructor", { fg = colors.type, bold = true })
-hl("@namespace", { fg = colors.type })
-hl("@module", { fg = colors.type })
+-- Legacy + LSP safety
+hl("String",                 { fg = colors.medium })
+hl("Character",              { fg = colors.medium })
+hl("@lsp.type.string",       { link = "@string" })
 
--- Tags
-hl("@tag", { fg = colors.keyword })
-hl("@tag.attribute", { fg = colors.variable })
-hl("@tag.delimiter", { fg = colors.punctuation })
+-- =====================
+-- Preprocessor / Includes
+-- =====================
+hl("PreProc",                { fg = colors.brightest })
+hl("@keyword.directive",     { fg = colors.brightest })
+hl("Include",                { fg = colors.bright })
+hl("@include",               { fg = colors.bright })
 
--- Cursor modes - bright and visible
-hl("Cursor", { fg = colors.bg, bg = colors.cursor })
-hl("iCursor", { fg = colors.bg, bg = colors.cursor })
-hl("rCursor", { fg = colors.bg, bg = colors.error })
+-- =====================
+-- Numbers / Booleans
+-- =====================
+hl("@number",                { fg = colors.bright })
+hl("@float",                 { fg = colors.bright })
+hl("@boolean",               { fg = colors.bright })
+
+-- =====================
+-- Comments
+-- =====================
+hl("@comment",               { fg = colors.comment })
+hl("@comment.documentation", { fg = colors.dimmer })
+
+-- =====================
+-- Misc
+-- =====================
+hl("@attribute",             { fg = colors.bright })
+hl("@constructor",           { fg = colors.bright })
+hl("@namespace",             { fg = colors.bright })
+hl("@module",                { fg = colors.bright })
+
+hl("@tag",                   { fg = colors.bright })
+hl("@tag.attribute",         { fg = colors.medium })
+hl("@tag.delimiter",         { fg = colors.dim })
+
+-- =====================
+-- Cursor
+-- =====================
+hl("Cursor",   { fg = colors.bg, bg = "#489d40" })
+hl("iCursor",  { fg = colors.bg, bg = colors.brightest })
+hl("rCursor",  { fg = colors.bg, bg = colors.medium })
+
+hl("NoiceCmdlinePopupBorder", { fg = "#666666" })
+hl("NoicePopupBorder",       { fg = "#666666" })
+hl("NoiceConfirmBorder",     { fg = "#666666" })
 
 vim.opt.guicursor = {
   "n-v-c:block-Cursor",
@@ -128,12 +150,15 @@ vim.opt.guicursor = {
   "r:block-rCursor",
 }
 
+
+-- =====================
 -- Autocmds
+-- =====================
 vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function()
-    hl("Cursor", { fg = colors.bg, bg = colors.cursor })
-    hl("iCursor", { fg = colors.bg, bg = colors.cursor })
-    hl("rCursor", { fg = colors.bg, bg = colors.error })
+    hl("Cursor",  { fg = colors.bg, bg = colors.brightest })
+    hl("iCursor", { fg = colors.bg, bg = colors.brightest })
+    hl("rCursor", { fg = colors.bg, bg = colors.medium })
   end,
 })
 
@@ -144,7 +169,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
   callback = function()
     vim.cmd([[%s/\s\+$//e]])
   end,
