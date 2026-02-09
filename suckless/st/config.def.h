@@ -6,9 +6,9 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 static char *font =
-    "Liberation Mono:style=Regular:pixelsize=24:antialias=true:autohint=true";
+    "Liberation Mono:style=Regular:pixelsize=26:antialias=true:autohint=true";
 
-static int borderpx = 8;
+static int borderpx = 12;
 
 /*
  * What program is execed by st depends of these precedence rules:

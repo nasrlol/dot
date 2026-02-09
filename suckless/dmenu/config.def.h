@@ -10,7 +10,7 @@ static const char *fonts[] = {"JetBrainsMono Nerd Font:size=18"};
 static const char *prompt =
     NULL; /* -p option; prompt to the left of input field */
 
-static unsigned int lines = 12; /* NUMBER OF VISIBLE LINES (vertical) */
+static unsigned int lines = 18; /* NUMBER OF VISIBLE LINES (vertical) */
 
 static const char *colors[SchemeLast][2] = {
     /*               fg         bg       */

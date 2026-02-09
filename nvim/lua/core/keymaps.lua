@@ -19,7 +19,6 @@ map("n", "<M-Right>", "<C-w>>", { desc = "Increase window width" })
 map("v", "J", "<cmd>move '>+1<cr>gv=gv", { silent = true })
 map("v", "K", "<cmd>move '<-2<cr>gv=gv", { silent = true })
 
-
 -- Center screen on jumps
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")

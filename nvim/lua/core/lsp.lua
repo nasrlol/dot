@@ -1,53 +1,66 @@
--- Set completion options
-vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-
--- Enhanced capabilities
+-- Enhanced client capabilities (completion metadata only, no UI)
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = { 'documentation', 'detail', 'additionalTextEdits' }
+    properties = { "documentation", "detail", "additionalTextEdits" },
 }
 
--- Configure clangd
-vim.lsp.config.clangd = {
-  cmd = {
-    "clangd",
-    "--background-index",
-    "--clang-tidy",
-    "--completion-style=detailed",
-    "--header-insertion=iwyu",
-    "--offset-encoding=utf-16",  -- Important for proper positioning
-  },
-  filetypes = { "c", "cpp", "objc", "objcpp", "cc", "h", "hpp" },
-  root_markers = { "Makefile", { "build.sh", ".git" } },
-  capabilities = capabilities,
+local lsp = vim.lsp
+
+-- clangd configuration
+lsp.config.clangd = {
+    cmd = {
+        "clangd",
+        "--background-index",
+        "--clang-tidy",
+        "--completion-style=detailed",
+        "--header-insertion=iwyu",
+        "--offset-encoding=utf-16",
+    },
+    filetypes = { "c", "cpp", "objc", "objcpp", "cc", "h", "hpp" },
+    root_markers = { "Makefile", { "build.sh", ".git" } },
+    capabilities = capabilities,
 }
 
--- Set up LspAttach for buffer-local configuration
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
-  callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if not client then return end
+lsp.config.bufls = {
+    cmd = { "bufls", "serve" },
+    filetypes = { "proto" },
+    root_markers = { "buf.yaml", ".git" },
+}
 
-    -- Enable auto-completion
-    if client.supports_method('textDocument/completion') then
-      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-    end
+lsp.config.neocmake = {
+    cmd = { "neocmakelsp", "--stdio" },
+    filetypes = { "cmake", "make" },
+    root_markers = { "CMakeLists.txt", "Makefile", ".git" },
+}
 
-    -- Auto-format on save
-    if client.supports_method('textDocument/formatting') then
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        buffer = ev.buf,
-        group = vim.api.nvim_create_augroup('LspFormat', { clear = false }),
-        callback = function()
-          vim.lsp.buf.format({ bufnr = ev.buf, id = client.id, timeout_ms = 1000 })
-        end,
-      })
-    end
-  end,
+lsp.config.rust_analyzer = {
+    cmd = { "rust-analyzer" },
+    filetypes = { "rust" },
+    root_markers = { "Cargo.toml", ".git" },
+}
+
+lsp.config.gopls = {
+    cmd = { "gopls" },
+    filetypes = { "go", "gomod", "gowork" },
+    root_markers = { "go.work", "go.mod", ".git" },
+}
+
+
+-- LSP attach logic
+vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
+    callback = function(ev)
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        if not client then
+            return
+        end
+    end,
 })
 
--- Enable clangd
-vim.lsp.enable('clangd')
-
+-- Enable lsps
+lsp.enable("clangd")
+lsp.enable("bufls")
+lsp.enable("neocmake")
+lsp.enable("rust_analyzer")
+lsp.enable("gopls")

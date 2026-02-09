@@ -20,7 +20,6 @@ local function build_with_quickfix(cmd, desc)
   end
 end
 
--- Then define your keymaps:
 vim.keymap.set("n", "<leader>cq", build_with_quickfix(
   { "make", "clean", "all" },
   "Build and output to quickfix"
@@ -29,4 +28,14 @@ vim.keymap.set("n", "<leader>cq", build_with_quickfix(
 vim.keymap.set("n", "<leader>cr", build_with_quickfix(
   { "make", "clean", "run" },
   "Build and run project"
+))
+
+vim.keymap.set("n", "<leader>cb", build_with_quickfix(
+  { "./source/build.sh" },
+  "Run build.sh"
+))
+
+vim.keymap.set("n", "<leader>cB", build_with_quickfix(
+  { "./source/build.sh", "run" },
+  "Run build.sh run"
 ))

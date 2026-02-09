@@ -1,4 +1,4 @@
-const unsigned int interval = 1000;
+const unsigned int interval = 100;
 
 static const char unknown_str[] = "n/a";
 

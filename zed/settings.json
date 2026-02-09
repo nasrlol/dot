@@ -7,6 +7,16 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "cursor_shape": "block",
+  "cursor_blink": false,
+  "agent": {
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "claude-sonnet-4"
+    },
+    "favorite_models": [],
+    "model_parameters": []
+  },
   "ui_font_family": "JetBrainsMono Nerd Font Mono",
   "telemetry": {
     "diagnostics": false,
@@ -26,7 +36,7 @@
   "buffer_font_size": 12.0,
   "theme": {
     "mode": "dark",
-    "light": "Gruvbox Light",
+    "light": "Ayu Light",
     "dark": "Gruvbox Dark",
   },
 }

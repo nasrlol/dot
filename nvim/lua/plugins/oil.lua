@@ -34,7 +34,7 @@ return {
       number = false,
       relativenumber = false, -- Changed from true - often causes issues in oil buffers
       list = false,
-      conceallevel = 3,
+      conceallevel = 1,
       concealcursor = "nvic",
     },
     skip_confirm_for_simple_edits = true,

@@ -12,8 +12,8 @@ static const int vertpad = 20;
 static const int sidepad = 0;
 
 /* fonts */
-static const char *fonts[] = {"JetBrainsMono Nerd Font:size=18"};
-static const char dmenufont[] = "JetBrainsMono Nerd Font:size=16";
+static const char *fonts[] = {"Liberation Mono:size=18"};
+static const char dmenufont[] = "Liberation Mono:size=16";
 
 /* colors — white bar with black text, black selection with white text */
 static const char col_bg[] = "#ffffff"; /* white background */
