@@ -5,8 +5,8 @@ vim.g.maplocalleader   = " "
 -- UI & Appearance
 vim.opt.number         = true
 vim.opt.relativenumber = false
-vim.opt.cursorline     = false
-vim.opt.signcolumn     = "no"
+vim.opt.cursorline     = true
+vim.opt.signcolumn     = "yes"
 vim.opt.termguicolors  = true
 vim.opt.showmode       = false
 vim.opt.cmdheight      = 0
@@ -17,8 +17,10 @@ vim.opt.linespace      = 8
 vim.opt.lazyredraw     = false
 vim.opt.updatetime     = 250
 
-vim.opt.showtabline    = 0
+vim.opt.showtabline    = 1
 vim.opt.laststatus     = 3
+
+vim.opt.virtualedit    = "all"
 
 vim.opt.pumheight      = 10
 
@@ -58,6 +60,8 @@ vim.opt.updatetime     = 250
 vim.opt.timeoutlen     = 300
 vim.opt.redrawtime     = 1500
 vim.opt.ttimeoutlen    = 10
+
+vim.opt.inccommand = "split"  -- Live preview of :s/find/replace in split windo
 
 -- Completion
 -- vim.opt.completeopt = { "menu", "menuone", "noselect" }

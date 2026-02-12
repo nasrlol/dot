@@ -1,6 +1,6 @@
 if vim.g.neovide then
     -- Font Configuration
-    vim.o.guifont = "Liberation Mono:style=regular:h9"
+    vim.o.guifont = "Monaspace Argon NF:style=regular:h9"
     vim.opt.linespace = 0
 
     -- Scale Factor

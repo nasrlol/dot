@@ -58,10 +58,18 @@ map("n", "<leader>v", "<cmd>vsplit<cr>", { desc = "Vertical split" })
 map("n", "<leader>h", "<cmd>split<cr>", { desc = "Horizontal split" })
 
 -- Tabs
-map("n", "<leader>tn", "<cmd>tabnew<cr>", { desc = "New tab" })
 map("n", "<leader>to", "<cmd>tabnew<cr>", { desc = "New tab" })
 map("n", "<leader>tc", "<cmd>tabclose<cr>", { desc = "Close tab" })
-map("n", "<leader>tm", "<cmd>tabmove<cr>", { desc = "Move tab" })
+map("n", "<C-n>", "<cmd>tabnext<cr>", { desc = "Next tab" })
+map("n", "<leader>tp", "<cmd>tabprevious<cr>", { desc = "Previous tab" })
+map("n", "<leader>tl", "<cmd>tablast<cr>", { desc = "Last tab" })
+map("n", "<leader>tf", "<cmd>tabfirst<cr>", { desc = "First tab" })
+map("n", "<leader>tm", "<cmd>tabmove +1<cr>", { desc = "Move tab right" })
+map("n", "<leader>tM", "<cmd>tabmove -1<cr>", { desc = "Move tab left" })
+
+-- Or use H/L for quick navigation (vim-style)
+map("n", "<leader>th", "<cmd>tabprevious<cr>", { desc = "Previous tab" })
+map("n", "<leader>tl", "<cmd>tabnext<cr>", { desc = "Next tab" })
 
 -- Terminal
 map("n", "<leader>tt", "<cmd>vertical terminal<cr>", { desc = "Vertical terminal" })
