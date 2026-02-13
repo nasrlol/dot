@@ -39,7 +39,7 @@
         ["<C-d>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
-        ["<CR>"] = cmp.mapping.confirm({ select = false }), -- Don't auto-select first item
+        ["<CR>"] = cmp.mapping.confirm({ select = false }), 
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
@@ -60,18 +60,18 @@
         end, { "i", "s" }),
       }),
       sources = cmp.config.sources({
-        { name = "luasnip", priority = 1000 }, -- Snippets first
-        { name = "path",    priority = 750 },  -- Paths second
+        { name = "luasnip", priority = 1000 },
+        { name = "path",    priority = 750 }, 
         { 
           name = "buffer", 
           priority = 500,
           option = {
             get_bufnrs = function()
-              return vim.api.nvim_list_bufs() -- Complete from ALL open buffers, not just current
+              return vim.api.nvim_list_bufs() 
             end
           }
         },
-        { name = "calc",    priority = 250 },  -- Type "1+1=" to get 2
+        { name = "calc",    priority = 250 }, 
       }),
     })
   end,

@@ -7,7 +7,7 @@ return {
   opts = {
     default_file_explorer = true,
     columns = {
-      "permissions", -- Often causes issues, consider removing if problematic
+      "permissions", 
       "size",
       "mtime",
     },
@@ -31,7 +31,7 @@ return {
       cursorcolumn = false,
       foldcolumn = "0",
       number = false,
-      relativenumber = false, -- Changed from true - often causes issues in oil buffers
+      relativenumber = false, 
       list = false,
       conceallevel = 1,
       concealcursor = "nvic",
@@ -42,10 +42,10 @@ return {
     lsp_file_methods = {
       enabled = true,
       timeout_ms = 1000,
-      autosave_changes = false, -- Changed from true - can cause issues with LSP
+      autosave_changes = false,
     },
     delete_to_trash = true,
-    trash_command = "gio trash", -- Use trash_command instead of trash.cmd
+    trash_command = "gio trash",
     use_default_keymaps = true,
     preview = {
       border = "rounded",
@@ -62,20 +62,18 @@ return {
         winblend = 0,
       },
     },
-    -- Git integration - simplified
     git = {
       add = function(path)
-        return true -- Let oil handle it automatically
+        return true 
       end,
       mv = function(src_path, dest_path)
-        return true -- Let oil handle it automatically
+        return true 
       end,
       rm = function(path)
-        return true -- Let oil handle it automatically
+        return true 
       end,
     },
     watch_for_changes = true,
-    -- Add keymaps for common operations
     keymaps = {
       ["g?"] = "actions.show_help",
       ["<CR>"] = "actions.select",
@@ -95,5 +93,4 @@ return {
       ["g\\"] = "actions.toggle_trash",
     },
   },
-  -- Add dependencies
 }

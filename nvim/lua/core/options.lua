@@ -61,7 +61,7 @@ vim.opt.timeoutlen     = 300
 vim.opt.redrawtime     = 1500
 vim.opt.ttimeoutlen    = 10
 
-vim.opt.inccommand = "split"  -- Live preview of :s/find/replace in split windo
+vim.opt.inccommand     = "split"  -- Live preview of :s/find/replace in split windo
 
 -- Completion
 -- vim.opt.completeopt = { "menu", "menuone", "noselect" }

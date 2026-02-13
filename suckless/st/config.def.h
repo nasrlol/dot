@@ -70,30 +70,30 @@ unsigned int tabspaces = 2;
  * ========================= */
 static const char *colorname[] = {
     /* 8 normal colors */
-    "#1a1c20", /* black */
-    "#8f6b6b", /* red */
-    "#6f8f7a", /* green */
-    "#8f8870", /* yellow */
-    "#6b7a8f", /* blue */
-    "#7f6b8f", /* magenta */
-    "#6f8f8c", /* cyan */
-    "#b8bcc4", /* white */
+    "#202226", /* black (less dark) */
+    "#c84f4f", /* red */
+    "#6fa36f", /* green */
+    "#b89e4f", /* yellow */
+    "#5f87af", /* blue */
+    "#9b6fb8", /* magenta */
+    "#5fa3a3", /* cyan */
+    "#d2d6dc", /* white */
 
     /* 8 bright colors */
     "#2a2d33", /* bright black */
-    "#a47a7a", /* bright red */
-    "#86a08f", /* bright green */
-    "#a09a7f", /* bright yellow */
-    "#7f8fa0", /* bright blue */
-    "#9580a0", /* bright magenta */
-    "#86a0a0", /* bright cyan */
-    "#e0e3e8", /* bright white */
+    "#e05f5f", /* bright red */
+    "#82c682", /* bright green */
+    "#d7c06a", /* bright yellow */
+    "#6f9fd8", /* bright blue */
+    "#b487d8", /* bright magenta */
+    "#6fc6c6", /* bright cyan */
+    "#f0f2f5", /* bright white */
 
     [255] = 0,
 
     /* default colors */
-    "#c8ccd4", /* foreground */
-    "#000000", /* background */
+    "#e6e9ef", /* foreground */
+    "#1c1e22", /* background (softer dark) */
 };
 
 /* Default colors (indices into colorname[]) */
@@ -101,7 +101,7 @@ unsigned int defaultfg = 256;
 unsigned int defaultbg = 257;
 
 /* green cursor */
-unsigned int defaultcs = 2;
+unsigned int defaultcs = 1;
 static unsigned int defaultrcs = 257;
 
 /* cursor shape (2 = block) */
@@ -111,25 +111,15 @@ static unsigned int cursorshape = 2;
 static unsigned int cols = 80;
 static unsigned int rows = 24;
 
-/* mouse cursor */
 static unsigned int mouseshape = XC_xterm;
 static unsigned int mousefg = 7;
 static unsigned int mousebg = 0;
 
-/* font fallback attribute color */
 static unsigned int defaultattr = 11;
 
-/* force mouse modifier */
 static uint forcemousemod = ShiftMask;
 
-/* =========================
- * Mouse shortcuts
- * ========================= */
 static MouseShortcut mshortcuts[] = {};
-
-/* =========================
- * Keyboard shortcuts
- * ========================= */
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask | ShiftMask)
 

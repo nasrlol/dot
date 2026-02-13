@@ -7,22 +7,17 @@ end
 local palettes = {}
 
 palettes.dark = {
-  bg        = "#000000",  -- true black
+  bg         = "#000000", -- true black
   bgAlt     = "#000000",
-
-  fg        = "#ffffff",  -- hard white
-  fgDim     = "#bfbfbf",
-
-  cursor    = "#00ff00",  -- neon green block
-  cursorLine= "#0a0a0a",
-  lineNr    = "#404040",
-  visual    = "#1a1a1a",
-
-  accent    = "#ff0000",  -- strong red
-  bright    = "#ffffff",
-  medium    = "#d0d0d0",
-  dim       = "#707070",
-  comment   = "#606060",
+  fg         = "#ffffff", -- hard white
+  fgDim      = "#bfbfbf",
+  cursor     = "#00ff00", -- neon green
+  cursorLine = "#0a0a0a",
+  lineNr     = "#404040",
+  visual     = "#1a1a1a",
+  accent     = "#ff0000", -- strong red
+  comment    = "#606060",
+  dim        = "#707070",
 }
 
 palettes.light = {
@@ -45,30 +40,11 @@ palettes.light = {
 }
 
 
-palettes.light = {
-  -- Bright cyan/green Jonathan Blow style
-  bg        = "#00cfd9",
-  bgAlt     = "#00b7c2",
-  fg        = "#0a0a0a",
-  fgDim     = "#202020",
-
-  cursor    = "#ff3300",
-  cursorLine= "#00e5ef",
-  lineNr    = "#00565c",
-  visual    = "#00a0aa",
-
-  accent    = "#d12f2f",
-  bright    = "#111111",
-  medium    = "#1c1c1c",
-  dim       = "#2a2a2a",
-  comment   = "#006b72",
-}
-
 local function apply_theme(colors)
   vim.o.background = (colors.bg == palettes.light.bg) and "light" or "dark"
 
   -- UI
-  hl("Normal",        { fg = colors.fg, bg = colors.bg })
+  hl("Normal",        { fg = colors.fg, bg = NONE })
   hl("CursorLine",    { bg = colors.cursorLine })
   hl("CursorLineNr",  { fg = colors.accent, bold = true })
   hl("LineNr",        { fg = colors.lineNr })

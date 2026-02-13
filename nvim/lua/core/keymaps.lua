@@ -2,7 +2,6 @@ local map = vim.keymap.set
 local fzf = require("fzf-lua")
 local ls = require("luasnip")
 
-
 -- Move between windows
 map("n", "<C-h>", "<C-w>h")
 map("n", "<C-j>", "<C-w>j")
@@ -55,15 +54,12 @@ map("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "<leader>bd", "<cmd>bdelete!<cr>",  { desc = "Delete buffer" })
 map("n", "<leader>ba", "<cmd>%bd|e#|bd#<cr>", { desc = "Close other buffers" })
 
-
 map("n", "<leader><leader>", fzf.files, { desc = "Find files" })
 map("n", "<leader>fa", fzf.live_grep,    { desc = "Live grep" })
 map("n", "<leader>fb", fzf.buffers,      { desc = "Buffers" })
 map("n", "<leader>fr", fzf.oldfiles,     { desc = "Recent files" })
 map("n", "<leader>gs", fzf.git_status,   { desc = "Git status" })
 map("n", "<leader>sr", fzf.resume,       { desc = "Resume last search" })
-
-
 
 -- Diagnostic Toggles
 local diagnostics_active = true
@@ -81,7 +77,6 @@ end, { silent = true })
 
 map({"i", "s"}, "<S-Tab>", function() if ls.jumpable(-1) then ls.jump(-1) end end, { silent = true })
 
-
 map("n", "<leader>tr", "<cmd>set rnu!<cr>", { desc = "Toggle relative numbers" })
 map("n", "<leader>tw", "<cmd>set wrap!<cr>", { desc = "Toggle wrap" })
 map("n", "<leader>yp", function()
@@ -89,3 +84,14 @@ map("n", "<leader>yp", function()
     vim.fn.setreg("+", path)
     vim.notify("Copied: " .. path)
 end, { desc = "Copy absolute path" })
+
+map("n", "<leader>so", function()
+  for name, _ in pairs(package.loaded) do
+    if name:match("^core") or name:match("^ui") or name:match("^plugins") or name:match("^tools") then
+      package.loaded[name] = nil
+    end
+  end
+  dofile(vim.env.MYVIMRC)
+  vim.notify("Config reloaded", vim.log.levels.INFO)
+end, { desc = "Reload all Lua config" })
+

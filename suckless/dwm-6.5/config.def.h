@@ -20,8 +20,8 @@ static const char col_bg[] = "#ffffff"; /* white background */
 static const char col_bg_alt[] = "#ffffff";
 static const char col_fg[] = "#000000";         /* black text */
 static const char col_fg_dim[] = "#888888";     /* dimmed text */
-static const char col_border[] = "#cccccc";     /* normal border */
-static const char col_border_sel[] = "#000000"; /* selected border */
+static const char col_border[] = "#000000";     /* normal border */
+static const char col_border_sel[] = "#cccccc"; /* selected border */
 
 /* selection colors (black background, white text) */
 static const char col_sel_bg[] = "#000000"; /* black selection */
@@ -29,9 +29,9 @@ static const char col_sel_fg[] = "#ffffff"; /* white text on selection */
 
 /* status bar colors — black background, white text */
 static const char col_gray1[] = "#000000"; /* background - black */
-static const char col_gray2[] = "#444444"; /* inactive border */
+static const char col_gray2[] = "#000000"; /* inactive border */
 static const char col_gray3[] = "#bbbbbb"; /* font color */
-static const char col_gray4[] = "#ffffff"; /* current tag/window font - white */
+static const char col_gray4[] = "#ff3333"; /* current tag/window font - white */
 static const char col_cyan[] = "#000000";  /* top bar border - black */
 
 static const char *colors[2][3] = {

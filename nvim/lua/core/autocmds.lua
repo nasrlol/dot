@@ -1,4 +1,3 @@
--- better cd
 vim.api.nvim_create_user_command("Z", function(opts)
   local query = table.concat(opts.fargs, " ")
   local handle = io.popen("zoxide query " .. vim.fn.shellescape(query))
