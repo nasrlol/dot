@@ -7,10 +7,9 @@ return {
   opts = {
     default_file_explorer = true,
     columns = {
-      "icon",
-      -- "permissions", -- Often causes issues, consider removing if problematic
-      -- "size",
-      -- "mtime",
+      "permissions", -- Often causes issues, consider removing if problematic
+      "size",
+      "mtime",
     },
     view_options = {
       show_hidden = true,
@@ -97,7 +96,4 @@ return {
     },
   },
   -- Add dependencies
-  dependencies = {
-    "nvim-tree/nvim-web-devicons",
-  },
 }
