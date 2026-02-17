@@ -4,9 +4,8 @@
  * appearance
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
- */
-static char *font =
-    "Liberation Mono:style=Regular:pixelsize=26:antialias=true:autohint=true";
+ */ static char *font =
+    "Liberation Mono:style=Regular:pixelsize=28:antialias=true:autohint=true";
 
 static int borderpx = 12;
 
@@ -63,7 +62,7 @@ static int bellvolume = 0;
 char *termname = "st-256color";
 
 /* spaces per tab */
-unsigned int tabspaces = 2;
+unsigned int tabspaces = 4;
 
 /* =========================
  * Terminal colors
@@ -93,7 +92,7 @@ static const char *colorname[] = {
 
     /* default colors */
     "#e6e9ef", /* foreground */
-    "#1c1e22", /* background (softer dark) */
+    "#000000", /* background (softer dark) */
 };
 
 /* Default colors (indices into colorname[]) */

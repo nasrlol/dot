@@ -1,49 +1,64 @@
-# This is the configuration file for Ghostty.
-#
-# This template file has been automatically created at the following
-# path since Ghostty couldn't find any existing config files on your system:
-#
-#   /home/nasr/.config/ghostty/config
-#
-# The template does not set any default options, since Ghostty ships
-# with sensible defaults for all options. Users should only need to set
-# options that they want to change from the default.
-#
-# Run `ghostty +show-config --default --docs` to view a list of
-# all available config options and their default values.
-#
-# Additionally, each config option is also explained in detail
-# on Ghostty's website, at https://ghostty.org/docs/config.
-#
-# Ghostty can reload the configuration while running by using the menu
-# options or the bound key (default: Command + Shift + comma on macOS and
-# Control + Shift + comma on other platforms). Not all config options can be
-# reloaded while running; some only apply to new windows and others may require
-# a full restart to take effect.
+ # ==========================================
+# 1. VISUALS & THEME (High Contrast Mono)
+# ==========================================
+background = #000000
+foreground = #ffffff
+selection-background = #ffffff
+selection-foreground = #000000
+cursor-color = #ffffff
 
-# Config syntax crash course
-# ==========================
-# # The config file consists of simple key-value pairs,
-# # separated by equals signs.
-# font-family = Iosevka
-# window-padding-x = 2
-#
-# # Spacing around the equals sign does not matter.
-# # All of these are identical:
-# key=value
-# key= value
-# key =value
-# key = value
-#
-# # Any line beginning with a # is a comment. It's not possible to put
-# # a comment after a config option, since it would be interpreted as a
-# # part of the value. For example, this will have a value of "#123abc":
-# background = #123abc
-#
-# # Empty values are used to reset config keys to default.
-# key =
-#
-# # Some config options have unique syntaxes for their value,
-# # which is explained in the docs for that config option.
-# # Just for example:
-# resize-overlay-duration = 4s 200ms
+# Translucency for that modern feel
+background-opacity = 0.95
+background-blur-radius = 20
+
+# ==========================================
+# 2. ADVANCED TYPOGRAPHY
+# ==========================================
+font-family = "JetBrains Mono"
+font-size = 18
+# Makes text thicker for higher contrast on dark backgrounds
+font-thicken = true
+# Cell height provides "breathing room" (percentage or absolute)
+adjust-cell-height = 20%
+# Disable specific ligatures for raw performance if desired
+font-feature = -liga, -calt
+
+# [CHANGE] Reset to 0 for standard cursor size (was 15)
+adjust-cursor-height = 1
+
+# ==========================================
+# 3. ANIMATIONS & CURSOR
+# ==========================================
+cursor-style = block
+cursor-style-blink = true
+# Smooth cursor movement across cells
+
+# ==========================================
+# 4. MOUSE & INTERACTION
+# ==========================================
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 2
+# Copy to clipboard immediately upon selecting text
+copy-on-select = clipboard
+# Clear selection when you start typing
+selection-clear-on-typing = true
+
+# ==========================================
+# 5. WINDOW & OS INTEGRATION
+# ==========================================
+window-decoration = false
+# Balances padding equally on all sides
+window-padding-balance = true
+window-padding-x = 12
+window-padding-y = 12
+# For Linux/macOS: save window position/size across restarts
+window-save-state = always
+
+# ==========================================
+# 6. SHELL & COMMANDS
+# ==========================================
+# Enhanced shell features (sudo detection, title control)
+shell-integration = detect
+shell-integration-features = sudo,no-cursor,no-title
+# Show URL previews when hovering with Cmd/Ctrl
+link-previews = true

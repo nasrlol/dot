@@ -22,6 +22,13 @@ map("n", "<leader>tc", "<cmd>tabclose<cr>", { desc = "Close tab" })
 map("n", "<leader>tl", "<cmd>tabnext<cr>", { desc = "Next tab" })
 map("n", "<leader>th", "<cmd>tabprevious<cr>", { desc = "Prev tab" })
 
+
+-- Save file with sudo
+map("c", "w!!", function()
+  vim.cmd("w !sudo tee % > /dev/null")
+  vim.cmd("edit!")
+end, { desc = "Write file with sudo" })
+
 -- Move lines in Visual Mode
 map("v", "J", ":m '>+1<CR>gv=gv", { silent = true })
 map("v", "K", ":m '<-2<CR>gv=gv", { silent = true })

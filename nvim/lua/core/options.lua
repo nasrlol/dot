@@ -11,10 +11,10 @@ vim.opt.termguicolors  = true
 vim.opt.showmode       = false
 vim.opt.cmdheight      = 0
 
-vim.opt.linespace      = 8
+vim.opt.linespace      = 0
 
 -- Reduce redraw frequency
-vim.opt.lazyredraw     = false
+vim.opt.lazyredraw     = true
 vim.opt.updatetime     = 250
 
 vim.opt.showtabline    = 1
@@ -66,6 +66,8 @@ vim.opt.inccommand     = "split"  -- Live preview of :s/find/replace in split wi
 -- Completion
 -- vim.opt.completeopt = { "menu", "menuone", "noselect" }
 -- vim.opt.pumheight = 10
+---- Force a solid block cursor in all modes
+vim.opt.guicursor = "a:block"
 
 -- File Handling
 vim.opt.autoread       = true

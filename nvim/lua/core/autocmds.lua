@@ -15,4 +15,3 @@ end, {
     return vim.fn.systemlist("zoxide query -l")
   end,
 })
-

@@ -1,14 +1,16 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx = 2;
+static const unsigned int borderpx = 0;
 static const unsigned int gappx = 0;
 static const unsigned int snap = 0;
 static const int showbar = 1;
 static const int topbar = 1;
 
+static const char statussep = ';'; /* separator between status bars */
+
 /* no bar padding */
-static const int vertpad = 20;
+static const int vertpad = 0;
 static const int sidepad = 0;
 
 /* fonts */
@@ -20,7 +22,7 @@ static const char col_bg[] = "#ffffff"; /* white background */
 static const char col_bg_alt[] = "#ffffff";
 static const char col_fg[] = "#000000";         /* black text */
 static const char col_fg_dim[] = "#888888";     /* dimmed text */
-static const char col_border[] = "#000000";     /* normal border */
+static const char col_border[] = "#dddddd";     /* normal border */
 static const char col_border_sel[] = "#cccccc"; /* selected border */
 
 /* selection colors (black background, white text) */
@@ -41,8 +43,7 @@ static const char *colors[2][3] = {
 };
 
 /* tags */
-static const char *tags[] = {"editor", "firefox", "terminal", "debugger",
-                             "discord"};
+static const char *tags[] = {"editor", "browser", "terminal", "dev", "application"};
 
 /* rules */
 static const Rule rules[] = {
@@ -94,21 +95,32 @@ static const char *dmenucmd[] = {
     NULL};
 
 static const char *termcmd[] = {"st", NULL};
-
+static const char *ghostty[] = {"ghostty", NULL};
 static const char *neovide[] = {"neovide", NULL};
-
 static const char *emacs[] = {"emacs-gtk+x11", NULL};
-
 static const char *browser[] = {"firefox", NULL};
+static const char *discord[] = {"discord", NULL};
+static const char *lock[] = { "slock", NULL };
+
+/* Screenshots */
+static const char *scrot_full[]      = { "scrot", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
+static const char *scrot_select[]    = { "scrot", "-s", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
+static const char *scrot_window[]    = { "scrot", "-u", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
 
 /* keys */
 static const Key keys[] = {
     /* launch */
     {MODKEY, XK_Return, spawn, {.v = termcmd}},
-    {MODKEY, XK_n, spawn, {.v = neovide}},
-    {MODKEY, XK_e, spawn, {.v = emacs}},
-    {MODKEY, XK_b, spawn, {.v = browser}},
-    {MODKEY, XK_p, spawn, {.v = dmenucmd}},
+    {MODKEY, XK_n,      spawn, {.v = neovide}},
+    {MODKEY, XK_b,      spawn, {.v = browser}},
+    {MODKEY, XK_p,      spawn, {.v = dmenucmd}},
+    {MODKEY, XK_g,      spawn, {.v = ghostty}},
+    {MODKEY, XK_d,      spawn, {.v = discord}},
+    {MODKEY|ShiftMask, XK_l, spawn, {.v = lock }},
+    /* screenshot bindings */
+    { MODKEY,         XK_s,      spawn, {.v = scrot_select } }, /* Mod + s        = Select Area */
+    { MODKEY|ShiftMask, XK_s,    spawn, {.v = scrot_full   } }, /* Mod + Shift + s = Entire Screen */
+    { MODKEY|ControlMask, XK_s,  spawn, {.v = scrot_window } }, /* Mod + Ctrl + s  = Active Window */
 
     /* focus */
     {MODKEY, XK_j, focusstack, {.i = +1}},
