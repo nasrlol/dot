@@ -157,23 +157,6 @@ local function apply_theme(colors)
   hl("@tag.attribute",       { fg = colors.fg, italic = true })
   hl("@tag.delimiter",       { fg = colors.fgDim })
 
-  -----------------------------------------------------------------------------
-  -- Plugin Specifics (Noice, Telescope, etc.)
-  -----------------------------------------------------------------------------
-  
-  -- Noice.nvim
-  hl("NoiceCmdlineIcon",        { fg = colors.accent }) 
-  hl("NoiceCmdlineIconFilter",  { fg = colors.accent }) 
-  hl("NoiceCmdlineIconSearch",  { fg = colors.constant }) 
-  hl("NoiceCmdlinePopupBorder", { fg = colors.fgDim })
-  hl("NoiceCmdlinePopupTitle",  { fg = colors.accent, bold = true })
-
-  -- Telescope
-  hl("TelescopeBorder",         { fg = colors.border })
-  hl("TelescopePromptBorder",   { fg = colors.accent })
-  hl("TelescopeTitle",          { fg = colors.accent, bold = true })
-  hl("TelescopeSelection",      { bg = colors.visual, bold = true })
-
   -- Gitsigns / Diagnostics
   hl("DiagnosticError",         { fg = colors.accent })
   hl("DiagnosticWarn",          { fg = colors.constant })
