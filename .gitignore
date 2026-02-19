@@ -14,3 +14,6 @@ pavucontrol.ini
 /qalculate
 /remmina
 /sublime-text/Packages/User
+/suckless
+/picom
+/nvim/lua/ui
