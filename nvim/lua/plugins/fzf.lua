@@ -3,52 +3,66 @@
   cmd = "FzfLua",
   config = function()
     local fzf = require("fzf-lua")
-    
+
     fzf.setup({
+      nbsp = " ", 
+      multiprocess = false,
+
       winopts = {
-        height = 0.50, 
-        width  = 0.80, 
-        row    = 0.35,
-        col    = 0.50,
-        border = "rounded", 
+        split = "belowright 15new", 
+        width = 1.0,                
+        row = 1.0,                  
+        border = "none",            
+        
+        on_create = function()
+          vim.opt_local.termguicolors = true
+        end,
+
         preview = {
-          hidden       = "hidden",  
-          layout       = "vertical",
-          vertical     = "up:60%",  
-          scrollbar    = "float",
-          keymap = {
-            toggle_preview = "<C-_>",
-          },
-        },
+          hidden = true,
+          layout = "vertical",
+          vertical = "down:50%",
+          scrollbar = "float",
+        },                 
       },
 
       fzf_opts = {
-        ["--ansi"]   = "",
-        ["--info"]   = "inline", 
-        ["--layout"] = "reverse", 
+        ["--ansi"] = "",
+        ["--info"] = "inline",
+        ["--layout"] = "reverse",
+        ["--no-unicode"] = "", 
+      },
+
+      -- Crucial: Ensure the global keymap doesn't conflict
+      keymap = {
+        builtin = {
+          -- If <C-p> still fails, try mapping it here as well:
+          ["<C-p>"]     = "toggle-preview",
+          ["<C-d>"]     = "preview-page-down",
+          ["<C-u>"]     = "preview-page-up",
+        },
+        fzf = {
+          ["ctrl-q"] = "select-all+accept",
+          -- This ensures the fzf binary itself doesn't steal the key
+          ["ctrl-p"] = "toggle-preview",
+        },
       },
 
       files = {
-        formatter = "path.filename_first", 
+        formatter = "path.filename_first",
         git_icons = false,
         file_icons = false,
-      },
-
-      buffers = {
-        show_unloaded = true,
-        show_all_buffers = true,
-        winopts = { height = 0.3, width = 0.6 },
-      },
-
-      keymap = {
-        builtin = {
-          ["<C-d>"] = "preview-page-down",
-          ["<C-u>"] = "preview-page-up",
-        },
-        fzf = {
-          ["ctrl-q"] = "select-all+accept", 
-        },
+        color_icons = false, 
       },
     })
+    
+    fzf.register_ui_select()
   end,
 }
+
+
+
+
+
+
+

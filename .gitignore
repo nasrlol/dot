@@ -17,3 +17,6 @@ pavucontrol.ini
 /suckless
 /picom
 /nvim/lua/ui
+/btop
+/htop
+/vifm

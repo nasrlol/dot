@@ -22,13 +22,6 @@ map("n", "<leader>tc", "<cmd>tabclose<cr>", { desc = "Close tab" })
 map("n", "<leader>tl", "<cmd>tabnext<cr>", { desc = "Next tab" })
 map("n", "<leader>th", "<cmd>tabprevious<cr>", { desc = "Prev tab" })
 
-
--- Save file with sudo
-map("c", "w!!", function()
-  vim.cmd("w !sudo tee % > /dev/null")
-  vim.cmd("edit!")
-end, { desc = "Write file with sudo" })
-
 -- Move lines in Visual Mode
 map("v", "J", ":m '>+1<CR>gv=gv", { silent = true })
 map("v", "K", ":m '<-2<CR>gv=gv", { silent = true })
@@ -61,20 +54,22 @@ map("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "<leader>bd", "<cmd>bdelete!<cr>",  { desc = "Delete buffer" })
 map("n", "<leader>ba", "<cmd>%bd|e#|bd#<cr>", { desc = "Close other buffers" })
 
-map("n", "<leader><leader>", fzf.files, { desc = "Find files" })
-map("n", "<leader>fa", fzf.live_grep,    { desc = "Live grep" })
-map("n", "<leader>fb", fzf.buffers,      { desc = "Buffers" })
-map("n", "<leader>fr", fzf.oldfiles,     { desc = "Recent files" })
-map("n", "<leader>gs", fzf.git_status,   { desc = "Git status" })
-map("n", "<leader>sr", fzf.resume,       { desc = "Resume last search" })
+-- fzf-lua 
+map("n", "<leader><leader>", fzf.files,        { desc = "Find files" })
+map("n", "<leader>fa"      , fzf.live_grep,    { desc = "Live grep" })
+map("n", "<leader>fb"      , fzf.buffers,      { desc = "Buffers" })
+map("n", "<leader>fr"      , fzf.oldfiles,     { desc = "Recent files" })
+map("n", "<leader>gs"      , fzf.git_status,   { desc = "Git status" })
+map("n", "<leader>sr"      , fzf.resume,       { desc = "Resume last search" })
+map("n", "<leader>cd"      , fzf.zoxide,       { desc = "Zoxide folder navigation" })
+map("n", "<leader>tg"      , fzf.tags,         { desc = "View Tags" })
+map("n", "<leader>ma"      , fzf.manpages,          { desc = "Man pages" })
 
--- Diagnostic Toggles
-local diagnostics_active = true
-map("n", "<leader>td", function()
-    diagnostics_active = not diagnostics_active
-    if diagnostics_active then vim.diagnostic.show() else vim.diagnostic.hide() end
-end, { desc = "Toggle diagnostics" })
 
+map("n", "<C-]>", "g<C-]>", { desc = "Jump to tag/definition" })
+map({"i", "s"}, "<S-Tab>", function() if ls.jumpable(-1) then ls.jump(-1) end end, { silent = true })
+map("n", "<leader>tr", "<cmd>set rnu!<cr>",  { desc = "Toggle relative numbers" })
+map("n", "<leader>tw", "<cmd>set wrap!<cr>", { desc = "Toggle wrap" })
 
 map({"i", "s"}, "<Tab>", function()
     if ls.expand_or_jumpable() then ls.expand_or_jump() else
@@ -82,10 +77,7 @@ map({"i", "s"}, "<Tab>", function()
     end
 end, { silent = true })
 
-map({"i", "s"}, "<S-Tab>", function() if ls.jumpable(-1) then ls.jump(-1) end end, { silent = true })
 
-map("n", "<leader>tr", "<cmd>set rnu!<cr>", { desc = "Toggle relative numbers" })
-map("n", "<leader>tw", "<cmd>set wrap!<cr>", { desc = "Toggle wrap" })
 map("n", "<leader>yp", function()
     local path = vim.fn.expand("%:p")
     vim.fn.setreg("+", path)
@@ -102,3 +94,8 @@ map("n", "<leader>so", function()
   vim.notify("Config reloaded", vim.log.levels.INFO)
 end, { desc = "Reload all Lua config" })
 
+-- Save file with sudo
+map("c", "w!!", function()
+  vim.cmd("w !sudo tee % > /dev/null")
+  vim.cmd("edit!")
+end, { desc = "Write file with sudo" })

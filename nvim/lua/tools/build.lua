@@ -1,41 +1,37 @@
-local function build_with_quickfix(cmd, desc)
+ local function build_with_quickfix()
   return function()
     local win = vim.fn.win_getid()
-    vim.fn.setqflist({}, "r")
+    
+    local cmd_str = vim.fn.expandcmd(vim.bo.makeprg)
+    
+    local cmd = vim.split(cmd_str, " ", { trimempty = true })
+
+    if #cmd == 0 or cmd[1] == "" then
+      vim.notify("makeprg is empty!", vim.log.levels.ERROR)
+      return
+    end
+
+    vim.fn.setqflist({}, "r", { title = "Build: " .. cmd_str })
 
     vim.system(cmd, { text = true }, function(res)
       vim.schedule(function()
         local output = (res.stdout or "") .. (res.stderr or "")
-        local lines = vim.split(output, "\n", { trimempty = true })
-
-        if #lines > 0 then
-          vim.fn.setqflist({}, "r", { lines = lines })
+        
+        if #output > 0 then
+          vim.fn.setqflist({}, "r", { 
+            lines = vim.split(output, "\n"),
+            efm = vim.bo.errorformat 
+          })
+          
           vim.cmd("noautocmd vertical copen | vertical resize " .. math.floor(vim.o.columns * 0.5))
           vim.fn.win_gotoid(win)
         else
-          vim.notify("Build completed successfully")
+          vim.notify("Build completed successfully: " .. cmd_str)
         end
       end)
     end)
   end
 end
 
-vim.keymap.set("n", "<leader>cq", build_with_quickfix(
-  { "make", "clean", "all" },
-  "Build and output to quickfix"
-))
 
-vim.keymap.set("n", "<leader>cr", build_with_quickfix(
-  { "make", "clean", "run" },
-  "Build and run project"
-))
-
-vim.keymap.set("n", "<leader>cb", build_with_quickfix(
-  { "./source/build.sh" },
-  "Run build.sh"
-))
-
-vim.keymap.set("n", "<leader>cB", build_with_quickfix(
-  { "./source/build.sh", "run" },
-  "Run build.sh run"
-))
+vim.keymap.set("n", "<F8>", build_with_quickfix(), { desc = "Run makeprg" })

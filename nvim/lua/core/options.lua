@@ -1,82 +1,93 @@
+local opt = vim.opt
+local g = vim.g
+
 -- Leader Keys
-vim.g.mapleader        = " "
-vim.g.maplocalleader   = " "
+g.mapleader = " "
+g.maplocalleader = " "
 
 -- UI & Appearance
-vim.opt.number         = true
-vim.opt.relativenumber = false
-vim.opt.cursorline     = true
-vim.opt.signcolumn     = "yes"
-vim.opt.termguicolors  = true
-vim.opt.showmode       = false
-vim.opt.cmdheight      = 0
+opt.signcolumn     = "no"
+opt.number         = false
+opt.relativenumber = false
+opt.cursorline     = true
+opt.termguicolors  = true
+opt.showmode       = false
+opt.cmdheight      = 0
+opt.linespace      = 0
+opt.showtabline    = 0
+opt.laststatus     = 0
+opt.pumheight      = 0
+opt.guicursor      = "n-v-c:block-blinkwait300-blinkon200-blinkoff150"
+opt.list           = false
+opt.fillchars      = { eob = " " }
+opt.listchars      = { tab = "» ", trail = "·", nbsp = "␣" }
 
-vim.opt.linespace      = 0
+-- Formatting
+opt.cindent = true
+opt.cinoptions = {
+    "l1",    
+    "g0",    
+    "t0",    
+    "(0",    
+    "ws1",   
+    "N-s", 
+    "j1",  
+}
+opt.copyindent = true    
+opt.preserveindent = true
 
--- Reduce redraw frequency
-vim.opt.lazyredraw     = true
-vim.opt.updatetime     = 250
-
-vim.opt.showtabline    = 1
-vim.opt.laststatus     = 3
-
-vim.opt.virtualedit    = "all"
-
-vim.opt.pumheight      = 10
+opt.backspace = "indent,eol,start"
 
 -- Editing Behavior
-vim.opt.mouse          = "a"
-vim.opt.clipboard      = "unnamedplus"
-vim.opt.undofile       = true
-vim.opt.swapfile       = false
-vim.opt.backup         = false
+opt.mouse          = nil 
+opt.clipboard      = "unnamedplus"
+opt.undofile       = true
+opt.swapfile       = false
+opt.backup         = false
+opt.virtualedit    = "all"
+opt.iskeyword:remove("_")
+opt.formatoptions:remove({ "c", "r", "o" })
 
 -- Indentation
-vim.opt.expandtab      = true
-vim.opt.tabstop        = 4
-vim.opt.shiftwidth     = 4
-vim.opt.softtabstop    = 4
-vim.opt.smartindent    = true
-vim.opt.breakindent    = true
+opt.expandtab      = true
+opt.tabstop        = 2
+opt.shiftwidth     = 2
+opt.softtabstop    = 2
+opt.smartindent    = false
+opt.breakindent    = true
 
 -- Search
-vim.opt.ignorecase     = true
-vim.opt.smartcase      = true
-vim.opt.hlsearch       = false
-vim.opt.incsearch      = true
+opt.ignorecase     = true
+opt.smartcase      = true
+opt.hlsearch       = false
+opt.incsearch      = true
+opt.inccommand     = "split"
 
--- Wrapping
-vim.opt.wrap           = false
-vim.opt.linebreak      = true
+-- Wrapping & Navigation
+opt.wrap           = false
+opt.linebreak      = true
+opt.scrolloff      = 8
+opt.sidescrolloff  = 8
+opt.splitright     = true
+opt.splitbelow     = true
 
--- Navigation & Splits
-vim.opt.scrolloff      = 8
-vim.opt.sidescrolloff  = 8
-vim.opt.splitright     = true
-vim.opt.splitbelow     = true
-
--- Performance
-vim.opt.updatetime     = 250
-vim.opt.timeoutlen     = 300
-vim.opt.redrawtime     = 1500
-vim.opt.ttimeoutlen    = 10
-
-vim.opt.inccommand     = "split"  -- Live preview of :s/find/replace in split windo
-
--- Completion
--- vim.opt.completeopt = { "menu", "menuone", "noselect" }
--- vim.opt.pumheight = 10
----- Force a solid block cursor in all modes
-vim.opt.guicursor = "a:block"
+-- Performance & Completion
+opt.lazyredraw     = true
+opt.updatetime     = 250
+opt.timeoutlen     = 300
+opt.ttimeoutlen    = 10
+opt.redrawtime     = 1500
+opt.completeopt    = { "menu", "menuone", "noselect" }
 
 -- File Handling
-vim.opt.autoread       = true
-vim.opt.hidden         = true
+opt.autoread       = true
+opt.autowrite      = true
+opt.hidden         = true
+opt.tags           = { "./tags;", "tags;" }
 
-vim.opt.tags           = { "./tags;", "tags;" }
-vim.opt.iskeyword:remove("_")
-vim.opt.formatoptions:remove({ "c", "r", "o" })
-vim.opt.shortmess:append("c")
-vim.opt.fillchars = { eob = " " }
-vim.opt.list = true
-vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+opt.shortmess:append("c")
+opt.cinwords:append("Assert,PushStruct, internal, arena, Arena")
+
+-- Built-ins & Mappings
+vim.cmd("packadd! matchit")
+vim.keymap.set("n", "<C-]>", "g<C-]>", { desc = "Jump to tag/definition" })
