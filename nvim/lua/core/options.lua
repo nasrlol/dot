@@ -7,8 +7,8 @@ g.maplocalleader = " "
 
 -- UI & Appearance
 opt.signcolumn     = "no"
-opt.number         = false
-opt.relativenumber = false
+opt.number         = true
+opt.relativenumber = true
 opt.cursorline     = true
 opt.termguicolors  = true
 opt.showmode       = false
@@ -17,22 +17,13 @@ opt.linespace      = 0
 opt.showtabline    = 0
 opt.laststatus     = 0
 opt.pumheight      = 0
-opt.guicursor      = "n-v-c:block-blinkwait300-blinkon200-blinkoff150"
 opt.list           = false
 opt.fillchars      = { eob = " " }
 opt.listchars      = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- Formatting
 opt.cindent = true
-opt.cinoptions = {
-    "l1",    
-    "g0",    
-    "t0",    
-    "(0",    
-    "ws1",   
-    "N-s", 
-    "j1",  
-}
+opt.cinoptions = { "l1",    "g0",    "t0",    "(0",    "ws1",   "N-s", "j1",  }
 opt.copyindent = true    
 opt.preserveindent = true
 
@@ -88,6 +79,4 @@ opt.tags           = { "./tags;", "tags;" }
 opt.shortmess:append("c")
 opt.cinwords:append("Assert,PushStruct, internal, arena, Arena")
 
--- Built-ins & Mappings
 vim.cmd("packadd! matchit")
-vim.keymap.set("n", "<C-]>", "g<C-]>", { desc = "Jump to tag/definition" })

@@ -1,185 +1,187 @@
-"*****************************************************************************
-"                        Vim Configuration File by Nasr
-"*****************************************************************************
-
-"-----------------------------------------------------------------------------
-" Check and install vim-plug if not already installed
-"-----------------------------------------------------------------------------
 let vimplug_exists = expand('~/.vim/autoload/plug.vim')
 if has('win32') && !has('win64')
-  " Check for curl executable on 32-bit Windows
   let curl_exists = expand('C:\Windows\Sysnative\curl.exe')
 else
-  " Check for curl executable on Unix-like systems or 64-bit Windows
   let curl_exists = expand('curl')
 endif
 
-" Define languages and editor type for vim-bootstrap
-let g:vim_bootstrap_langs = "c,html,javascript,python"
-let g:vim_bootstrap_editor = "vim"
-
-" Install vim-plug if not found
 if !filereadable(vimplug_exists)
   if !executable(curl_exists)
     echoerr "Curl is required to install vim-plug. Please install curl or vim-plug manually."
-    execute "q!"  " Quit Vim if installation is not possible
+    execute "q!"
   endif
   echo "Installing vim-plug..."
   silent exec "!" . curl_exists . " -fLo " . shellescape(vimplug_exists) . " --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
   let g:not_finish_vimplug = "yes"
-
-  " Automatically install plugins on first run
   autocmd VimEnter * PlugInstall
 endif
 
-"-----------------------------------------------------------------------------
-" Plugin Management
-"-----------------------------------------------------------------------------
-" Begin plugin block
-call plug#begin(expand('~/.vim/plugged'))
-
-" Plugin List
-Plug 'vim-airline/vim-airline'                " Status line enhancement
-Plug 'airblade/vim-gitgutter'                 " Git diff in the sign column
-Plug 'vim-scripts/grep.vim'                   " Grep integration
-Plug 'Yggdroot/indentLine'                    " Display indent guides
-Plug 'editor-bootstrap/vim-bootstrap-updater' " Update vim-bootstrap configs
-Plug 'jelera/vim-javascript-syntax'           " Enhanced JavaScript syntax
-Plug 'davidhalter/jedi-vim'                   " Python auto-completion
-Plug 'morhetz/gruvbox'                        " Gruvbox color scheme
-Plug 'junegunn/fzf.vim'                       " FZF integration
-Plug 'junegunn/fzf'                           " FZF installation
-
-" End plugin block
-call plug#end()
-
-" Enable file type-specific plugins and indenting
 filetype plugin indent on
 
-"-----------------------------------------------------------------------------
-" Basic Settings
-"-----------------------------------------------------------------------------
-" Encoding settings
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
-
-" Backspace behavior
-set backspace=indent,eol,start
-
-" Tab and indentation settings
-set tabstop=4              " Number of spaces per tab
-set softtabstop=0          " Insert spaces when pressing Tab
-set shiftwidth=4           " Number of spaces for indentation
-set expandtab              " Convert tabs to spaces
-set autoindent
-
-" Use system clipboard
-set clipboard=unnamedplus
-
-" Wrap settings
-set wrap 
-set linebreak
-
-" Disable backup files
-set nobackup
-
-" Bash-like command completion
-set wildmode=longest,list
-set wildmenu               " Visual command-line completion menu
-
-" Disable swap files
-set noswapfile
-
-" Set leader key to ',' for custom shortcuts
-let mapleader = ','
-
-" Enable hidden buffers to keep unsaved files open
+set nocompatible
 set hidden
 
-" Disable compatibility with Vi
-set nocompatible
+set backspace=indent,eol,start
+set virtualedit=all
 
-"-----------------------------------------------------------------------------
-" Search Settings
-"-----------------------------------------------------------------------------
-set hlsearch              " Highlight search matches
-set incsearch             " Incremental search
-set ignorecase            " Ignore case in search
-set smartcase             " Override ignorecase if uppercase letters are used
+set lazyredraw
+set updatetime=250
+set ttimeoutlen=10
+set timeoutlen=300
+set redrawtime=1500
 
-" File format compatibility
-set fileformats=unix,dos,mac
+let mapleader = " "
+let maplocalleader = " "
 
-"-----------------------------------------------------------------------------
-" Shell Configuration
-"-----------------------------------------------------------------------------
+syntax enable
+
+set number
+set norelativenumber
+
+set showtabline=0
+set laststatus=0
+set signcolumn=no
+set fillchars+=eob:\ 
+
+set guicursor=n-v-c:block-blinkwait300-blinkon200-blinkoff150
+
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+set autoindent
+
+set ruler
+set title
+set titlestring=%F
+
+try
+  colorscheme gruvbox
+  set background=dark
+  set termguicolors
+catch
+  colorscheme default
+endtry
+
+set ignorecase
+set smartcase
+set incsearch
+
+set nowrap
+set linebreak
+set breakindent
+set scrolloff=8
+set sidescrolloff=8
+set splitright
+set splitbelow
+
+set cindent
+set cinoptions=l1,g0,t0,(0,ws1,N-s,j1
+set copyindent
+set preserveindent
+set backspace=indent,eol,start
+
+set formatoptions-=c
+set formatoptions-=r
+set formatoptions-=o
+
+set cinwords+=Assert,PushStruct,internal,arena,Arena
+
+set autoread
+set autowrite
+set nobackup
+set noswapfile
+set undofile
+
+set tags=./tags;,tags;
+
 if exists('$SHELL')
   set shell=$SHELL
 else
   set shell=/bin/sh
 endif
 
-"-----------------------------------------------------------------------------
-" Session Management
-"-----------------------------------------------------------------------------
-let g:session_directory = "~/.vim/session"
-let g:session_autoload = "no"
-let g:session_autosave = "yes"
-let g:session_command_aliases = 1
+set mouse=
+set clipboard=unnamedplus
+set completeopt=menu,menuone,noselect
+set shortmess+=c
+set iskeyword-=_
 
-"-----------------------------------------------------------------------------
-" Visual Settings
-"-----------------------------------------------------------------------------
-syntax enable              " Enable syntax highlighting
-set ruler                  " Show cursor position in the status line
-set number                 " Show absolute line numbers
-set relativenumber         " Show relative line numbers
-set cursorline             " Highlight the current line
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
-" Status line settings
-set laststatus=2           " Always show the status line
-set title                  " Set terminal window title
-set titlestring=%F         " Show the current file name in the title
+nnoremap <M-Up> :resize +2<CR>
+nnoremap <M-Down> :resize -2<CR>
+nnoremap <M-Left> :vertical resize -2<CR>
+nnoremap <M-Right> :vertical resize +2<CR>
 
-" Indentation line plugin settings
-let g:indentLine_enabled = 1
-let g:indentLine_char = '┆'
-let g:indentLine_faster = 1
+nnoremap <leader>v :vsplit<CR>
+nnoremap <leader>h :split<CR>
+nnoremap <leader>to :tabnew<CR>
+nnoremap <leader>tc :tabclose<CR>
+nnoremap <leader>tl :tabnext<CR>
+nnoremap <leader>th :tabprevious<CR>
 
-"-----------------------------------------------------------------------------
-" Color Scheme
-"-----------------------------------------------------------------------------
-colorscheme gruvbox        " Use Gruvbox color scheme
-set background=dark        " Use dark background
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
-"-----------------------------------------------------------------------------
-" Key Mappings
-"-----------------------------------------------------------------------------
-" Search navigation: center the match after jumping
-nnoremap n nzzzv
-nnoremap N Nzzzv
+vnoremap < <gv
+vnoremap > >gv
 
-" Open terminal in a split
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap n nzz
+nnoremap N Nzz
+
+nnoremap <leader>p "_dP
+xnoremap <leader>p "_dP
+
+nnoremap <leader>R :%s/\v
+vnoremap <leader>R :s/\v
+
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
+nnoremap <leader>Q :qa!<CR>
+nnoremap <C-x><C-f> :Oil<CR>
+
+nnoremap <leader>bn :bnext<CR>
+nnoremap <leader>bp :bprevious<CR>
+nnoremap <leader>bd :bdelete!<CR>
+nnoremap <leader>ba :%bd<bar>e#<bar>bd#<CR>
+
+nnoremap <leader>tr :set invrelativenumber<CR>
+nnoremap <leader>tw :set invwrap<CR>
+nnoremap <leader>yp :let @+ = expand('%:p')<CR>:echo 'Copied: ' . expand('%:p')<CR>
 nnoremap <silent> <leader>sh :terminal<CR>
+nnoremap <C-]> g<C-]>
 
-"-----------------------------------------------------------------------------
-" grep.vim Configuration
-"-----------------------------------------------------------------------------
-nnoremap <silent> <leader>f :Rgrep<CR>
-let Grep_Default_Options = '-IR'
-let Grep_Skip_Files = '*.log *.db'
-let Grep_Skip_Dirs = '.git,node_modules'
+nnoremap <leader><leader> :Files<CR>
+nnoremap <leader>fa :Rg<CR>
+nnoremap <leader>fb :Buffers<CR>
+nnoremap <leader>fr :History<CR>
+nnoremap <leader>gs :GFiles?<CR>
+nnoremap <leader>sr :History:<CR>
+nnoremap <leader>tg :Tags<CR>
 
-"-----------------------------------------------------------------------------
-" jedi-vim Configuration
-"-----------------------------------------------------------------------------
-autocmd FileType python call jedi#init_python()
+if has('nvim')
+else
+  nnoremap <C-x><C-f> :Explore<CR>
+endif
 
-"-----------------------------------------------------------------------------
-" Miscellaneous
-"-----------------------------------------------------------------------------
 " Disable blinking cursor
 set gcr=a:blinkon0
 
-"-----------------------------------------------------------------------------
+if !exists('g:loaded_matchit')
+  runtime macros/matchit.vim
+endif
+
+augroup VimGroup
+  autocmd!
+  autocmd VimLeave * if filereadable('Session.vim') | call writefile(readfile('Session.vim'), 'Session.vim') | endif
+augroup END
+

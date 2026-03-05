@@ -43,16 +43,16 @@ map({"n", "x"}, "<leader>p", [["_dP]], { desc = "Paste (keep register)" })
 map("n", "<leader>R", ":%s/\\v", { desc = "Search & Replace (Global)" })
 map("v", "<leader>R", ":s/\\v",  { desc = "Search & Replace (Selection)" })
 
-map("n", "<leader>w",  "<cmd>w<cr>",  { desc = "Save" })
-map("n", "<leader>q",  "<cmd>q<cr>",  { desc = "Quit" })
-map("n", "<leader>Q",  "<cmd>qa!<cr>", { desc = "Force quit all" })
-map("n", "<C-x><C-f>", "<cmd>Oil<cr>", { desc = "Open Oil" })
+map("n", "<leader>w",  "<cmd>w<cr>",           { desc = "Save" })
+map("n", "<leader>q",  "<cmd>q<cr>",           { desc = "Quit" })
+map("n", "<leader>Q",  "<cmd>qa!<cr>",         { desc = "Force quit all" })
+map("n", "<C-x><C-f>", "<cmd>Oil<cr>",         { desc = "Open Oil" })
 
 -- Buffers
-map("n", "<leader>bn", "<cmd>bnext<cr>",     { desc = "Next buffer" })
-map("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
-map("n", "<leader>bd", "<cmd>bdelete!<cr>",  { desc = "Delete buffer" })
-map("n", "<leader>ba", "<cmd>%bd|e#|bd#<cr>", { desc = "Close other buffers" })
+map("n", "<leader>bn", "<cmd>bnext<cr>",       { desc = "Next buffer" })
+map("n", "<leader>bp", "<cmd>bprevious<cr>",   { desc = "Prev buffer" })
+map("n", "<leader>bd", "<cmd>bdelete!<cr>",    { desc = "Delete buffer" })
+map("n", "<leader>ba", "<cmd>%bd|e#|bd#<cr>",  { desc = "Close other buffers" })
 
 -- fzf-lua 
 map("n", "<leader><leader>", fzf.files,        { desc = "Find files" })
@@ -63,8 +63,10 @@ map("n", "<leader>gs"      , fzf.git_status,   { desc = "Git status" })
 map("n", "<leader>sr"      , fzf.resume,       { desc = "Resume last search" })
 map("n", "<leader>cd"      , fzf.zoxide,       { desc = "Zoxide folder navigation" })
 map("n", "<leader>tg"      , fzf.tags,         { desc = "View Tags" })
-map("n", "<leader>ma"      , fzf.manpages,          { desc = "Man pages" })
+map("n", "<leader>ma"      , fzf.manpages,     { desc = "Man pages" })
 
+ -- init.lua
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 map("n", "<C-]>", "g<C-]>", { desc = "Jump to tag/definition" })
 map({"i", "s"}, "<S-Tab>", function() if ls.jumpable(-1) then ls.jump(-1) end end, { silent = true })

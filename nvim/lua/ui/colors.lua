@@ -4,7 +4,7 @@ local function hl(name, opts)
 end
 
 local colors = {
-    bg         = "#161616", 
+    bg         = "#000000", 
     bgAlt      = "#262626", 
     fg         = "#A08563", 
     fgDim      = "#5B4D3C", 

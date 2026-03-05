@@ -1,21 +1,21 @@
  /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx = 0;
-static const unsigned int gappx = 0;
-static const unsigned int snap = 0;
+static const unsigned int borderpx = 5;
+static const unsigned int gappx = 5;
+static const unsigned int snap = 1;
 static const int showbar = 1;
 static const int topbar = 0;
 
 static const char statussep = ';'; /* separator between status bars */
 
 /* no bar padding */
-static const int vertpad = 0;
-static const int sidepad = 0;
+static const int vertpad = 10;
+static const int sidepad = 10;
 
 /* fonts */
-static const char *fonts[] = {"Liberation Mono:size=18"};
-static const char dmenufont[] = "Liberation Mono:size=16";
+static const char *fonts[] = {"Liberation Mono:size=14"};
+static const char dmenufont[] = "Liberation Mono:size=14";
 
 /* --- Handmade Hero Palette --- */
 static const char hh_back[]         = "#161616"; /* defcolor_back */
@@ -37,14 +37,14 @@ static const char *colors[][3] = {
 };
 
 /* tags */
-static const char *tags[] = {"editor", "browser", "terminal"};
+static const char *tags[] = {"1", "2", "3", "4", "5"};
 
 /* rules */
 static const Rule rules[] = {
 	/* class       instance  title  tags mask  isfloating  monitor */
 	{"neovide", NULL, NULL, 1 << 0, 0, -1},
 	{"Neovide", NULL, NULL, 1 << 0, 0, -1},
-	{"Chromium", NULL, NULL, 1 << 1, 0, -1},
+	{"Firefox", NULL, NULL, 1 << 1, 0, -1},
 	{"Navigator", NULL, NULL, 1 << 1, 0, -1},
 	{"CLion", NULL, NULL, 1 << 3, 0, -1},
 	{"GoLand", NULL, NULL, 1 << 3, 0, -1},

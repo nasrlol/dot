@@ -98,6 +98,8 @@ static const char *colorname[] = {
     "#40ff40", /* 258: handmade cursor (green) */
 };
 
+#include "autocomplete.h"
+
 /*
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
@@ -126,11 +128,50 @@ static unsigned int defaultattr = 11;
 
 static uint forcemousemod = ShiftMask;
 
-static MouseShortcut mshortcuts[] = {};
+static MouseShortcut mshortcuts[] = {
+     	{ XK_ANY_MOD,           Button2, selpaste,       {.i = 0},      1 },
+    	{ ShiftMask,            Button4, ttysend,        {.s = "\033[5;2~"} },
+    	{ XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
+    	{ ShiftMask,            Button5, ttysend,        {.s = "\033[6;2~"} },
+    	{ XK_ANY_MOD,           Button5, ttysend,        {.s = "\005"} },
+
+
+};
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask | ShiftMask)
 
-static Shortcut shortcuts[] = {};
+#define ACMPL_MOD ControlMask|Mod1Mask
+
+static Shortcut shortcuts[] = {
+
+  { XK_ANY_MOD,           XK_Break,       sendbreak,      {.i =  0} },
+  { ControlMask,          XK_Print,       toggleprinter,  {.i =  0} },
+  { ShiftMask,            XK_Print,       printscreen,    {.i =  0} },
+  { XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
+  { TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
+  { TERMMOD,              XK_Next,        zoom,           {.f = -1} },
+  { TERMMOD,              XK_Home,        zoomreset,      {.f =  0} },
+  { TERMMOD,              XK_C,           clipcopy,       {.i =  0} },
+  { TERMMOD,              XK_V,           clippaste,      {.i =  0} },
+  { TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
+  { ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
+  { TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
+
+
+	{ ShiftMask,            XK_Up,     kscrollup,      {.i = -1} },
+	{ ShiftMask,            XK_Down,   kscrolldown,    {.i = -1} },
+
+	{ ControlMask,            XK_slash,       autocomplete,   { .i = ACMPL_WORD        } },
+	{ ControlMask,            XK_period,      autocomplete,   { .i = ACMPL_FUZZY_WORD  } },
+	{ ControlMask,            XK_comma,       autocomplete,   { .i = ACMPL_FUZZY       } },
+	{ ControlMask,            XK_apostrophe,  autocomplete,   { .i = ACMPL_SUFFIX      } },
+	{ ControlMask,            XK_semicolon,   autocomplete,   { .i = ACMPL_SURROUND    } },
+	{ ControlMask,            XK_bracketright,autocomplete,   { .i = ACMPL_WWORD       } },
+	{ ControlMask,            XK_bracketleft, autocomplete,   { .i = ACMPL_FUZZY_WWORD } },
+	{ ControlMask,            XK_equal,       autocomplete,   { .i = ACMPL_UNDO        } },
+
+
+};
 
 /* mapped keys (none) */
 static KeySym mappedkeys[] = {-1};
@@ -263,6 +304,10 @@ static Key key[] = {
     {XK_Next, ControlMask, "\033[6;5~", 0, 0},
     {XK_Next, ShiftMask, "\033[6;2~", 0, 0},
     {XK_Next, XK_ANY_MOD, "\033[6~", 0, 0},
+
+
+
+
     {XK_F1, XK_NO_MOD, "\033OP", 0, 0},
     {XK_F1, /* F13 */ ShiftMask, "\033[1;2P", 0, 0},
     {XK_F1, /* F25 */ ControlMask, "\033[1;5P", 0, 0},
