@@ -45,7 +45,7 @@ hl("TermCursor",   { fg = colors.bg, bg = colors.cursor })
 
 hl("CursorLine",   { bg = colors.cursorLine })
 hl("CursorLineNr", { fg = colors.accent, bold = true, bg = colors.cursorLine })
-hl("LineNr",       { fg = colors.lineNr, bg = colors.lineNrBg })
+hl("LineNr",       { fg = colors.lineNr, bg = None })
 
 hl("Visual",       { fg = colors.fg, bg = colors.visual })
 hl("MatchParen",   { fg = colors.bg, bg = colors.accent, bold = true })

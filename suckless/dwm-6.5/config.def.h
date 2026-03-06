@@ -1,11 +1,12 @@
  /* See LICENSE file for copyright and license details. */
+ #include <X11/XF86keysym.h>
 
 /* appearance */
 static const unsigned int borderpx = 5;
 static const unsigned int gappx = 5;
 static const unsigned int snap = 1;
 static const int showbar = 1;
-static const int topbar = 0;
+static const int topbar = 1;
 
 static const char statussep = ';'; /* separator between status bars */
 
@@ -14,10 +15,9 @@ static const int vertpad = 10;
 static const int sidepad = 10;
 
 /* fonts */
-static const char *fonts[] = {"Liberation Mono:size=14"};
+static const char *fonts[] = {"JetBrainsMonoNL Nerd Font:style=Regular:size=14"};
 static const char dmenufont[] = "Liberation Mono:size=14";
 
-/* --- Handmade Hero Palette --- */
 static const char hh_back[]         = "#161616"; /* defcolor_back */
 static const char hh_text[]         = "#a08563"; /* defcolor_text_default (tan) */
 static const char hh_comment[]      = "#7d7d7d"; /* defcolor_comment (gray) */
@@ -91,15 +91,22 @@ static const char *dmenucmd[] = {
 static const char *termcmd[] = {"st", NULL};
 static const char *ghostty[] = {"ghostty", NULL};
 static const char *neovide[] = {"neovide", NULL};
-static const char *emacs[]   = {"emacs-gtk+x11", NULL};
+static const char *emacs[]   = {"emacs", NULL};
 static const char *browser[] = {"firefox", NULL};
 static const char *discord[] = {"discord", NULL};
-static const char *lock[]    = { "slock", NULL };
+static const char *lock[]    = {"slock", NULL };
+
+
+/* Volumes */
+static const char *vol_up[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL };
+static const char *vol_down[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%", NULL };
+static const char *vol_mute[] = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle", NULL };
 
 /* Screenshots */
 static const char *scrot_full[]      = { "scrot", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
 static const char *scrot_select[]    = { "scrot", "-s", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
 static const char *scrot_window[]    = { "scrot", "-u", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
+
 
 /* keys */
 static const Key keys[] = {
@@ -132,6 +139,10 @@ static const Key keys[] = {
 	/* resize */
 	{MODKEY, XK_h, setmfact, {.f = -0.05}},
 	{MODKEY, XK_l, setmfact, {.f = +0.05}},
+
+  { MODKEY, XK_F12, spawn, {.v = vol_up   } },
+  { MODKEY, XK_F11, spawn, {.v = vol_down } },
+  { MODKEY, XK_F10, spawn, {.v = vol_mute } },
 
 	/* layout */
 	{MODKEY, XK_t, setlayout, {.v = &layouts[0]}},

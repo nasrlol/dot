@@ -144,7 +144,7 @@ struct Monitor {
   int nmaster;
   int num;
   int by;             /* bar geometry */
-  int eby;	      /* extra bar geometry */
+  int eby;            /* extra bar geometry */
   int mx, my, mw, mh; /* screen size */
   int wx, wy, ww, wh; /* window area  */
   int gappx;
@@ -675,9 +675,9 @@ Monitor *createmon(void) {
   m->topbar = topbar;
   m->gappx = gappx;
 
-   m->lt[0] = &layouts[0];
-   m->lt[1] = &layouts[1 % LENGTH(layouts)];
-   strncpy(m->ltsymbol, m->lt[0]->symbol, sizeof m->ltsymbol);
+  m->lt[0] = &layouts[0];
+  m->lt[1] = &layouts[1 % LENGTH(layouts)];
+  strncpy(m->ltsymbol, m->lt[0]->symbol, sizeof m->ltsymbol);
 
   /* pertag */
   m->pertag = ecalloc(1, sizeof(Pertag));
@@ -728,62 +728,45 @@ void detachstack(Client *c) {
 
 void drawbar(Monitor *m) {
   int x, w, tw = 0;
-  int boxs = drw->fonts->h / 9;
-  int boxw = drw->fonts->h / 6 + 2;
   unsigned int i, occ = 0, urg = 0;
   Client *c;
 
   if (!m->showbar)
     return;
-  if (m == selmon) {
-    drw_setscheme(drw, scheme[SchemeNorm]);
-    tw = TEXTW(stext) - lrpad + 2;
-    drw_text(drw, m->ww - tw - 2 * sp, 0, tw, bh, 0, stext, 0);
-  }
 
+  /* urgent tags */
   for (c = m->clients; c; c = c->next) {
     occ |= c->tags;
     if (c->isurgent)
       urg |= c->tags;
   }
-  x = 0;
-  for (i = 0; i < LENGTH(tags); i++) {
-    w = TEXTW(tags[i]);
-    drw_setscheme(
-        drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
-    drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
-    if (occ & 1 << i)
-      drw_rect(drw, x + boxs, boxs, boxw, boxw,
-               m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
-               urg & 1 << i);
-    x += w;
-  }
-  // disabling tag thing 
-  // w = TEXTW(m->ltsymbol);
-  // drw_setscheme(drw, scheme[SchemeNorm]);
-  // x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
-  if ((w = m->ww - tw - x) > bh) {
-    if (m->sel) {
-      drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
-      drw_text(drw, x, 0, w - 2 * sp, bh, lrpad / 2, m->sel->name, 0);
-      if (m->sel->isfloating) {
-        drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
-      } else {
+  if (m == selmon) {
+    drw_setscheme(drw, scheme[SchemeNorm]);
+    drw_rect(drw, 0, 0, m->ww, bh, 1, 1);
+    tw = TEXTW(stext) - lrpad + 2 * sp + 2;
+    drw_text(drw, m->ww - tw - 2 * sp, 0, tw, bh, 0, stext, 0);
+    drw_text(drw, 0, 0, m->ww - tw - 2 * sp, bh, lrpad / 2, estext, 0);
+    drw_map(drw, m->barwin, 0, 0, m->ww, bh);
 
-        drw_setscheme(drw, scheme[SchemeNorm]);
-        drw_rect(drw, x, 0, w - 2 * sp, bh, 1, 1);
-      }
+    drw_setscheme(drw, scheme[SchemeNorm]);
+    drw_rect(drw, 0, 0, m->ww, bh, 1, 1);
+
+    int total_tags_w = 0;
+    for (i = 0; i < LENGTH(tags); i++)
+      total_tags_w += TEXTW(tags[i]);
+    x = ((m->ww - (total_tags_w)) / 2) - 30 ;
+    for (i = 0; i < LENGTH(tags); i++) {
+      w = TEXTW(tags[i]);
+      drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
+      drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
+      x += w;
     }
-  }
 
-  drw_map(drw, m->barwin, 0, 0, m->ww, bh);
-  if (m == selmon) { /* extra status is only drawn on selected monitor */
-      drw_setscheme(drw, scheme[SchemeNorm]);
-      drw_text(drw, 0, 0, mons->ww, bh, 0, estext, 0);
-      drw_map(drw, m->extrabarwin, 0, 0, m->ww, bh);
+    drw_map(drw, m->extrabarwin, 0, 0, m->ww, bh);
   }
 }
+
 
 void drawbars(void) {
   Monitor *m;
@@ -1525,7 +1508,7 @@ void setup(void) {
   if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
     die("no fonts could be loaded.");
   lrpad = drw->fonts->h;
-  // NOTE(nasr): bar size 
+  // NOTE(nasr): bar size
   bh = drw->fonts->h + 20;
   updategeom();
   sp = sidepad;
@@ -1778,44 +1761,45 @@ void updatebars(void) {
   XClassHint ch = {"dwm", "dwm"};
 
   for (m = mons; m; m = m->next) {
-		if (!m->barwin) {
-			m->barwin = XCreateWindow(dpy, root, m->wx, m->by, m->ww, bh, 0, DefaultDepth(dpy, screen),
-					CopyFromParent, DefaultVisual(dpy, screen),
-					CWOverrideRedirect|CWBackPixmap|CWEventMask, &wa);
-			XDefineCursor(dpy, m->barwin, cursor[CurNormal]->cursor);
-			XMapRaised(dpy, m->barwin);
-			XSetClassHint(dpy, m->barwin, &ch);
-		}
-		if (!m->extrabarwin) {
-			m->extrabarwin = XCreateWindow(dpy, root, m->wx, m->eby, m->ww, bh, 0, DefaultDepth(dpy, screen),
-					CopyFromParent, DefaultVisual(dpy, screen),
-					CWOverrideRedirect|CWBackPixmap|CWEventMask, &wa);
-			XDefineCursor(dpy, m->extrabarwin, cursor[CurNormal]->cursor);
-			XMapRaised(dpy, m->extrabarwin);
-			XSetClassHint(dpy, m->extrabarwin, &ch);
-		}
+    if (!m->barwin) {
+      m->barwin = XCreateWindow(
+          dpy, root, m->wx, m->by, m->ww, bh, 0, DefaultDepth(dpy, screen),
+          CopyFromParent, DefaultVisual(dpy, screen),
+          CWOverrideRedirect | CWBackPixmap | CWEventMask, &wa);
+      XDefineCursor(dpy, m->barwin, cursor[CurNormal]->cursor);
+      XMapRaised(dpy, m->barwin);
+      XSetClassHint(dpy, m->barwin, &ch);
+    }
+    if (!m->extrabarwin) {
+      m->extrabarwin = XCreateWindow(
+          dpy, root, m->wx, m->eby, m->ww, bh, 0, DefaultDepth(dpy, screen),
+          CopyFromParent, DefaultVisual(dpy, screen),
+          CWOverrideRedirect | CWBackPixmap | CWEventMask, &wa);
+      XDefineCursor(dpy, m->extrabarwin, cursor[CurNormal]->cursor);
+      XMapRaised(dpy, m->extrabarwin);
+      XSetClassHint(dpy, m->extrabarwin, &ch);
+    }
   }
 }
 
-void updatebarpos(Monitor *m)
-{
-    m->wy = m->my;
-    m->wh = m->mh;
-    if (m->showbar) {
-        m->wh -= bh * 2; // Reserve space for BOTH bars
-        
-        // Position the main bar
-        m->by = m->topbar ? m->wy : m->wy + m->wh + bh;
-        
-        // Position the extra bar (opposite of the main bar)
-        m->eby = m->topbar ? m->wy + m->wh + bh : m->wy;
-        
-        // Adjust the window area Y-offset if the top bar is present
-        m->wy = m->wy + bh; 
-    } else {
-        m->by = -bh;
-        m->eby = -bh;
-    }
+void updatebarpos(Monitor *m) {
+  m->wy = m->my;
+  m->wh = m->mh;
+  if (m->showbar) {
+    m->wh -= (bh + vp) * 2;
+
+    // Position the main bar
+    m->by = m->topbar ? m->wy + vp : m->wy + m->wh + bh + vp;
+
+    // Position the extra bar (opposite of the main bar)
+    m->eby = m->topbar ? m->wy + m->wh + bh + vp : m->wy + vp;
+
+    // Adjust the window area Y-offset if the top bar is present
+    m->wy = m->wy + bh + vp;
+  } else {
+    m->by = -bh;
+    m->eby = -bh;
+  }
 }
 
 void updateclientlist(void) {
@@ -1964,29 +1948,26 @@ void updatesizehints(Client *c) {
 
 void updatestatus(void) {
 
-	char text[512];
-	if (!gettextprop(root, XA_WM_NAME, text, sizeof(text))) {
-		strcpy(stext, "dwm-"VERSION);
-		estext[0] = '\0';
-	} else {
-		char *e = strchr(text, statussep);
-		if (e) {
-			*e = '\0'; e++;
-			strncpy(estext, e, sizeof(estext) - 1);
-		} else {
-			estext[0] = '\0';
-		}
-		strncpy(stext, text, sizeof(stext) - 1);
-	}
+  char text[512];
+  if (!gettextprop(root, XA_WM_NAME, text, sizeof(text))) {
+    strcpy(stext, "dwm-" VERSION);
+    estext[0] = '\0';
+  } else {
+    char *e = strchr(text, statussep);
+    if (e) {
+      *e = '\0';
+      e++;
+      strncpy(estext, e, sizeof(estext) - 1);
+    } else {
+      estext[0] = '\0';
+    }
+    strncpy(stext, text, sizeof(stext) - 1);
+  }
   drawbar(selmon);
 }
 
-void updatetitle(Client *c) {
-  if (!gettextprop(c->win, netatom[NetWMName], c->name, sizeof c->name))
-    gettextprop(c->win, XA_WM_NAME, c->name, sizeof c->name);
-  if (c->name[0] == '\0') /* hack to mark broken clients */
-    strcpy(c->name, broken);
-}
+// NOTE(nasr): removed the updating of the title
+void updatetitle(Client *c) { return; }
 
 void updatewindowtype(Client *c) {
   Atom state = getatomprop(c, netatom[NetWMState]);
@@ -2044,7 +2025,7 @@ Monitor *wintomon(Window w) {
   if (w == root && getrootptr(&x, &y))
     return recttomon(x, y, 1, 1);
   for (m = mons; m; m = m->next)
-    	if (w == m->barwin || w == m->extrabarwin)
+    if (w == m->barwin || w == m->extrabarwin)
       return m;
   if ((c = wintoclient(w)))
     return c->mon;
