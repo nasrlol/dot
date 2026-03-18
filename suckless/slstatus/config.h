@@ -15,8 +15,6 @@ static const struct arg args[] = {
     {datetime,     " %s ",           "%a %b %d  %H:%M"},
     {run_command,  "; ",             "echo"},
     {run_command,  " :: ",           "echo"},
-    {vol_perc,     " volume %s%%",      NULL},
-    {run_command,  " :: ",           "echo"},
     {battery_perc, " battery %s%%",      BATTERY_CMD},
     {run_command,  " :: ",           "echo"},
     {uptime,       " %s",        NULL},

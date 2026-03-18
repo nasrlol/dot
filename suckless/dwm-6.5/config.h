@@ -18,7 +18,6 @@ static const int sidepad = 10;
 static const char *fonts[] = {"JetBrainsMonoNL Nerd Font:style=Regular:size=14"};
 static const char dmenufont[] = "Liberation Mono:size=14";
 
-/* --- Handmade Hero Palette --- */
 static const char hh_back[]         = "#161616"; /* defcolor_back */
 static const char hh_text[]         = "#a08563"; /* defcolor_text_default (tan) */
 static const char hh_comment[]      = "#7d7d7d"; /* defcolor_comment (gray) */
@@ -92,7 +91,7 @@ static const char *dmenucmd[] = {
 static const char *termcmd[] = {"st", NULL};
 static const char *ghostty[] = {"ghostty", NULL};
 static const char *neovide[] = {"neovide", NULL};
-static const char *emacs[]   = {"emacs", NULL};
+static const char *emacs[]   = {"emacs-gtk+x11", NULL};
 static const char *browser[] = {"firefox", NULL};
 static const char *discord[] = {"discord", NULL};
 static const char *lock[]    = {"slock", NULL };
@@ -107,6 +106,7 @@ static const char *vol_mute[] = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", 
 static const char *scrot_full[]      = { "scrot", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
 static const char *scrot_select[]    = { "scrot", "-s", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
 static const char *scrot_window[]    = { "scrot", "-u", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
+
 
 /* keys */
 static const Key keys[] = {

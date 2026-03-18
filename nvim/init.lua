@@ -1,6 +1,6 @@
 require("core.options")
 require("core.lazy")
-require("tools.build")
 require("core.keymaps")
 require("ui.colors")
 require("ui.neovide")
+
