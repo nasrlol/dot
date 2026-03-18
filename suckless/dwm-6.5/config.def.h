@@ -18,13 +18,13 @@ static const int sidepad = 10;
 static const char *fonts[] = {"JetBrainsMonoNL Nerd Font:style=Regular:size=14"};
 static const char dmenufont[] = "Liberation Mono:size=14";
 
-static const char hh_back[]         = "#161616"; /* defcolor_back */
-static const char hh_text[]         = "#a08563"; /* defcolor_text_default (tan) */
-static const char hh_comment[]      = "#7d7d7d"; /* defcolor_comment (gray) */
-static const char hh_keyword[]      = "#cd950c"; /* defcolor_keyword (gold) */
-static const char hh_cursor[]       = "#40ff40"; /* defcolor_cursor green */
-static const char hh_border[]       = "#262626"; /* defcolor_margin */
-static const char hh_highlight[]    = "#703419"; /* defcolor_highlight (dark orange/brown) */
+static const char hh_back[]         = "#161616"; 
+static const char hh_text[]         = "#a08563"; 
+static const char hh_comment[]      = "#7d7d7d"; 
+static const char hh_keyword[]      = "#cd950c"; 
+static const char hh_cursor[]       = "#40ff40"; 
+static const char hh_border[]       = "#262626"; 
+static const char hh_highlight[]    = "#703419"; 
 
 /* --- The Scheme Array --- */
 static const char *colors[][3] = {
@@ -91,7 +91,7 @@ static const char *dmenucmd[] = {
 static const char *termcmd[] = {"st", NULL};
 static const char *ghostty[] = {"ghostty", NULL};
 static const char *neovide[] = {"neovide", NULL};
-static const char *emacs[]   = {"emacs", NULL};
+static const char *emacs[]   = {"emacs-gtk+x11", NULL};
 static const char *browser[] = {"firefox", NULL};
 static const char *discord[] = {"discord", NULL};
 static const char *lock[]    = {"slock", NULL };

@@ -4,11 +4,11 @@ local function hl(name, opts)
 end
 
 local colors = {
-    bg         = "#000000", 
+    bg         = "#072626", 
     bgAlt      = "#262626", 
     fg         = "#A08563", 
     fgDim      = "#5B4D3C", 
-    cursor     = "#40FF40", 
+    cursor     = "#fff8ff", 
     cursorAlt  = "#FF4040",
     cursorLine = "#121E12", 
     lineNr     = "#484848", 
@@ -30,7 +30,7 @@ local colors = {
     pop2       = "#FF0000",
 }
 
-if vim.g.neovide then
+if  vim.g.neovide then
     hl("Normal", { fg = colors.fg, bg = colors.bg })
     hl("NormalFloat",  { fg = colors.fg, bg = colors.bgAlt })
 else 
@@ -61,12 +61,12 @@ hl("WinSeparator", { fg = colors.border, bg = "NONE" })
 hl("WinBar",       { fg = colors.bar, bg = "NONE", bold = true })
 
 hl("Pmenu",        { fg = colors.fg, bg = colors.bgAlt })
-hl("PmenuSel",     { fg = colors.bg, bg = colors.accent, bold = true })
+hl("PmenuSel",     { fg = colors.bg, bg = colors.accent, bold = false })
 hl("PmenuSbar",    { bg = colors.bgAlt })
 hl("PmenuThumb",   { bg = colors.bar })
 
 -- Syntax Highlighting
-hl("Comment",      { fg = colors.comment, italic = true })
+hl("Comment",      { fg = colors.comment, italic = false })
 hl("Constant",     { fg = colors.constant })
 hl("String",       { fg = colors.string })
 hl("Character",    { fg = colors.string })
@@ -117,7 +117,7 @@ hl("@punctuation.bracket",  { fg = colors.fg })
 hl("@property",            { fg = colors.fg })
 hl("@field",               { fg = colors.fg })
 hl("@tag",                 { fg = colors.keyword })
-hl("@tag.attribute",       { fg = colors.fg, italic = true })
+hl("@tag.attribute",       { fg = colors.fg, italic = false })
 hl("@tag.delimiter",       { fg = colors.fg })
 
 -- Gitsigns / Diagnostics
@@ -126,6 +126,6 @@ hl("DiagnosticWarn",          { fg = colors.keyword })
 hl("DiagnosticInfo",          { fg = colors.commentPop })
 hl("DiagnosticHint",          { fg = colors.comment })
 
-hl("statusline",              { bg = NONE })
-hl("winbar",                  { bg = NONE })
+-- hl("statusline",              { bg = NONE })
+-- hl("winbar",                  { bg = NONE })
 
