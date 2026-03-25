@@ -11,8 +11,8 @@ static const int topbar = 1;
 static const char statussep = ';'; /* separator between status bars */
 
 /* no bar padding */
-static const int vertpad = 10;
-static const int sidepad = 10;
+static const int vertpad = 0;
+static const int sidepad = 0;
 
 /* fonts */
 static const char *fonts[] = {"JetBrainsMonoNL Nerd Font:style=Regular:size=14"};
@@ -41,13 +41,12 @@ static const char *tags[] = {"1", "2", "3", "4", "5"};
 
 /* rules */
 static const Rule rules[] = {
-	/* class       instance  title  tags mask  isfloating  monitor */
-	{"neovide", NULL, NULL, 1 << 0, 0, -1},
-	{"Neovide", NULL, NULL, 1 << 0, 0, -1},
-	{"Firefox", NULL, NULL, 1 << 1, 0, -1},
-	{"Navigator", NULL, NULL, 1 << 1, 0, -1},
-	{"CLion", NULL, NULL, 1 << 3, 0, -1},
-	{"GoLand", NULL, NULL, 1 << 3, 0, -1},
+	/* class                instance  title  tags   mask  isfloating  monitor */
+	{"neovide",             NULL,   NULL,   1 << 0, 0, -1},
+	{"org.mozzila.firefox", NULL,   NULL,   1 << 2, 0, -1},
+	{"Navigator",           NULL,   NULL,   1 << 2, 0, -1},
+	{"jetbrains-clion",     NULL,   NULL,   1 << 3, 0, -1},
+	{"jetbrains-goland",    NULL,   NULL,   1 << 3, 0, -1},
 };
 
 /* layout */
@@ -55,7 +54,7 @@ static const float mfact = 0.55;
 static const int nmaster = 1;
 static const int lockfullscreen = 1;
 static const int resizehints = 0;
-static const int refreshrate = 120;
+static const int refreshrate = 60;
 
 static const Layout layouts[] = {
 	{"[]=", tile},

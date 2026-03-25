@@ -3,9 +3,9 @@ if vim.g.neovide then
     local opt = vim.opt
     local keymap = vim.keymap.set
     local g = vim.g
-    local fonts = { "JetBrainsMono_Nerd_Font_Mono:h7", "AnonymicePro_Nerd_Font_Mono:h7", "LiterationMono_Nerd_Font_Mono:h10", "Monaspace_Argon_NF:h13" }
+    local fonts = { "JetBrainsMono_Nerd_Font_Mono:h7", "AnonymicePro_Nerd_Font_Mono:h7", "LiterationMono_Nerd_Font_Mono:h09", "Monaspace_Argon_NF:h13" }
     opt.linespace                               = -2
-    opt.guicursor                               = "n-v-c:block-Cursor-blinkwait0-blinkon150-blinkoff150"
+    opt.guicursor                               = "n-v-c:block-Cursor-blinkwait0-blinkon0-blinkoff0"
     o.guifont                                   =  fonts[3]
     g.neovide_theme                             = 'dark'
     g.neovide_scale_factor                      = 1
@@ -15,8 +15,8 @@ if vim.g.neovide then
     g.neovide_floating_z_height                 = 0
     g.neovide_light_angle_degrees               = 0
     g.neovide_light_radius                      = 0
-    g.neovide_refresh_rate                      = 30
-    g.neovide_refresh_rate_idle                 = 5
+    g.neovide_refresh_rate                      = 2
+    g.neovide_refresh_rate_idle                 = 1
     g.neovide_underline_stroke_scale            = 0.0
     g.neovide_position_animation_length         = 0.0
     g.neovide_scroll_animation_length           = 0.0
@@ -31,7 +31,7 @@ if vim.g.neovide then
     g.neovide_cursor_vfx_particle_lifetime      = 0
     g.neovide_cursor_vfx_mode                   = ""
     g.neovide_no_idle                           = false
-    g.neovide_hide_mouse_when_typing            = false
+    g.neovide_hide_mouse_when_typing            = true
     g.neovide_floating_shadow                   = false
     g.neovide_window_blurred                    = false
     g.neovide_cursor_animate_in_insert_mode     = false
