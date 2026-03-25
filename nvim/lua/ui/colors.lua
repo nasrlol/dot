@@ -4,24 +4,24 @@ local function hl(name, opts)
 end
 
 local colors = {
-    bg         = "#072626", 
-    bgAlt      = "#262626", 
-    fg         = "#A08563", 
-    fgDim      = "#5B4D3C", 
-    cursor     = "#FF4040", 
+    bg         = "#072626",
+    bgAlt      = "#262626",
+    fg         = "#A08563",
+    fgDim      = "#5B4D3C",
+    cursor     = "#A08563",
     cursorAlt  = "#FF4040",
-    cursorLine = NONE, 
-    lineNr     = "#505050", 
+    cursorLine = NONE,
+    lineNr     = "#505050",
     lineNrBg   = "#202020",
-    visual     = "#703419", 
-    search     = "#703419", 
+    visual     = "#703419",
+    search     = "#703419",
     border     = "#262626",
-    comment    = "#7D7D7D", 
+    comment    = "#7D7D7D",
     commentPop = "#00A000",
-    keyword    = "#CD950C", 
-    string     = "#6B8E23", 
+    keyword    = "#CD950C",
+    string     = "#6B8E23",
     constant   = "#6B8E23",
-    type       = "#A08563", 
+    type       = "#A08563",
     accent     = "#CDAA7D",
     preproc    = "#DAB98F",
     bar        = "#CACACA",
@@ -33,7 +33,7 @@ local colors = {
 if  vim.g.neovide then
     hl("Normal", { fg = colors.fg, bg = colors.bg })
     hl("NormalFloat",  { fg = colors.fg, bg = colors.bgAlt })
-else 
+else
     hl("Normal", { fg = colors.fg, bg = "NONE" })
     hl("NormalFloat",  { fg = colors.fg, bg = "NONE" })
 end
