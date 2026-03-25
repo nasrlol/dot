@@ -42,9 +42,8 @@ static const char *tags[] = {" code", "terminal", "browser", "IDE", "+ "};
 /* rules */
 static const Rule rules[] = {
 	/* class                instance  title  tags   mask  isfloating  monitor */
-	// {"neovide",             NULL,   NULL,   1 << 0, 0, -1},
+	{"neovide",             NULL,   NULL,   1 << 0, 0, -1},
 	{"org.mozzila.firefox", NULL,   NULL,   1 << 2, 0, -1},
-    {"Mozilla Firefox",     NULL,   NULL,   1 << 2, 0, -1},
 	{"Navigator",           NULL,   NULL,   1 << 2, 0, -1},
 	{"jetbrains-clion",     NULL,   NULL,   1 << 3, 0, -1},
 	{"jetbrains-goland",    NULL,   NULL,   1 << 3, 0, -1},

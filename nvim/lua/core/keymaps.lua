@@ -1,20 +1,24 @@
 local fzf = require("fzf-lua")
 
-local diagnostic = vim.diagnostic
-local map        = vim.keymap.set
-local g          = vim.g
+map("n", "<M-Up>",    "<cmd>resize +2<cr>",          { desc = "Increase height" })
+map("n", "<M-Down>",  "<cmd>resize -2<cr>",          { desc = "Decrease height" })
+map("n", "<M-Left>",  "<cmd>vertical resize -2<cr>", { desc = "Decrease width" })
+map("n", "<M-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase width" })
 
--- NEOVIDE ---------------------------------------------------------------
--- (single definition — was duplicated)
-map("n", "<F11>", function()
-    g.neovide_fullscreen = not g.neovide_fullscreen
-end, { desc = "Toggle Neovide fullscreen" })
+if  vim.g.neovide then
+    map("n", "<M-h>", "<C-w>h")
+    map("n", "<M-j>", "<C-w>j")
+    map("n", "<M-k>", "<C-w>k")
+    map("n", "<M-l>", "<C-w>l")
+else 
+    map("n", "<C-h>", "<C-w>h")
+    map("n", "<C-j>", "<C-w>j")
+    map("n", "<C-k>", "<C-w>k")
+    map("n", "<C-l>", "<C-w>l")
+end
 
--- SPLITS & RESIZE -------------------------------------------------------
-map("n", "<C-Up>",    "<cmd>resize +2<cr>",          { desc = "Increase height" })
-map("n", "<C-Down>",  "<cmd>resize -2<cr>",          { desc = "Decrease height" })
-map("n", "<C-Left>",  "<cmd>vertical resize +2<cr>", { desc = "Decrease width" })
-map("n", "<C-Right>", "<cmd>vertical resize -2<cr>", { desc = "Increase width" })
+
+map("n", "<M-c>", "<cmd>!ctags -R<cr>", {  noremap = true, silent = true, desc = "generate ctags"  })
 
 map("n", "<C-h>", "<C-w>h", { desc = "Window left" })
 map("n", "<C-j>", "<C-w>j", { desc = "Window down" })
