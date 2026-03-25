@@ -12,7 +12,7 @@ y = 15
 shell = "/usr/bin/zsh"
 
 [font]
-size = 9
+size = 15
 
 [font.normal]
 family = "Jetbrains Mono Nerd Font"
@@ -43,7 +43,7 @@ vi_mode_style = { shape = "Block", blinking = "Never" }
 draw_bold_text_with_bright_colors = true
 
 [colors.primary]
-background = '#000000'
+background = '#111111'
 foreground = '#ffffff'
 
 [colors.cursor]
