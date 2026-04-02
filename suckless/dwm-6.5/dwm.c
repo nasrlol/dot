@@ -1509,7 +1509,7 @@ void setup(void) {
     die("no fonts could be loaded.");
   lrpad = drw->fonts->h;
   // NOTE(nasr): bar size
-  bh = drw->fonts->h + 20;
+  bh = drw->fonts->h + 28;
   updategeom();
   sp = sidepad;
   vp = (topbar == 1) ? vertpad : -vertpad;

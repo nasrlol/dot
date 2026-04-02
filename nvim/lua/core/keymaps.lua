@@ -1,5 +1,6 @@
 local map = vim.keymap.set
 local fzf = require("fzf-lua")
+local ls = require("luasnip")
 
 map("n", "<M-Up>",    "<cmd>resize +2<cr>",          { desc = "Increase height" })
 map("n", "<M-Down>",  "<cmd>resize -2<cr>",          { desc = "Decrease height" })
@@ -11,7 +12,7 @@ if  vim.g.neovide then
     map("n", "<M-j>", "<C-w>j")
     map("n", "<M-k>", "<C-w>k")
     map("n", "<M-l>", "<C-w>l")
-else 
+else
     map("n", "<C-h>", "<C-w>h")
     map("n", "<C-j>", "<C-w>j")
     map("n", "<C-k>", "<C-w>k")
@@ -54,16 +55,14 @@ map("n", "<leader>bp", "<cmd>bprevious<cr>",   { desc = "Prev buffer" })
 map("n", "<leader>bd", "<cmd>bdelete!<cr>",    { desc = "Delete buffer" })
 map("n", "<leader>ba", "<cmd>%bd|e#|bd#<cr>",  { desc = "Close other buffers" })
 
-map("n", "<leader>fr"      , fzf.oldfiles,     { noremap = true, silent = true, desc = "Recent files" })
-map("n", "<leader>sr"      , fzf.resume,       { noremap = true, silent = true, desc = "Resume search" })
-map("n", "<leader>cd"      , fzf.zoxide,       { noremap = true, silent = true, desc = "Zoxide" })
-map("n", "<leader>tg"      , fzf.tags,         { noremap = true, silent = true, desc = "Tags" })
-map("n", "<leader>fc"      , fzf.commands,     { noremap = true, silent = true, desc = "Commands" })
-map("n", "<M-m>"           , fzf.manpages,     { noremap = true, silent = true, desc = "Man pages" })
-map("n", "<M-f>"           , fzf.grep,         { noremap = true, silent = true, desc = "grep" })
-map("n", "<M-p>"           , fzf.files,        { noremap = true, silent = true, desc = "Files" })
-map("n", "<M-b>"           , fzf.buffers,      { noremap = true, silent = true, desc = "Buffers" })
-map("n", "<M-g>"           , fzf.grep_curbuf,  { noremap = true, silent = true, desc = "Grep buffer" })
+map("n", "<leader>cd", fzf.zoxide,                        { noremap = true, silent = true, desc = "Zoxide" })
+map("n", "<leader>tg", fzf.tags,                          { noremap = true, silent = true, desc = "Tags" })
+map("n", "<leader>fc", fzf.commands,                      { noremap = true, silent = true, desc = "Commands" })
+map("n", "<M-f>",      fzf.grep,                          { noremap = true, silent = true, desc = "Grep project" })
+map("n", "<M-p>",      fzf.files,                         { noremap = true, silent = true, desc = "Files" })
+map("n", "<M-b>",      fzf.buffers,                       { noremap = true, silent = true, desc = "Buffers" })
+map("n", "<M-g>",      fzf.grep_curbuf,                   { noremap = true, silent = true, desc = "Grep buffer" })
+map("n", "<M-s>",      fzf.grep_cword,                    { noremap = true, silent = true, desc = "Grep word under cursor" })
 
 map("n", "<leader>tr", "<cmd>set rnu!<cr>",  { desc = "Toggle relative numbers" })
 map("n", "<leader>tw", "<cmd>set wrap!<cr>", { desc = "Toggle wrap" })
@@ -91,9 +90,9 @@ end, { desc = "Run makeprg into vertical quickfix" })
 map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 map("n", "gd", "<C-]>", { desc = "Jump to tag/definition" })
 
- map({"i", "s"}, "<S-Tab>", function() 
+ map({"i", "s"}, "<S-Tab>", function()
     local ls = require("luasnip")
-    if ls.jumpable(-1) then ls.jump(-1) end 
+    if ls.jumpable(-1) then ls.jump(-1) end
 end, { silent = true })
 
 map({"i", "s"}, "<Tab>", function()
@@ -102,6 +101,10 @@ map({"i", "s"}, "<Tab>", function()
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
     end
 end, { silent = true })
+
+
+
+
 map("n", "<leader>so", function()
   for name, _ in pairs(package.loaded) do
     if name:match("^core") or name:match("^ui") or name:match("^plugins") or name:match("^tools") then
