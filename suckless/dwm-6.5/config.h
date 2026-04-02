@@ -2,9 +2,9 @@
  #include <X11/XF86keysym.h>
 
 /* appearance */
-static const unsigned int borderpx = 5;
-static const unsigned int gappx = 5;
-static const unsigned int snap = 1;
+static const unsigned int borderpx = 4;
+static const unsigned int gappx = 4;
+static const unsigned int snap = 4;
 static const int showbar = 1;
 static const int topbar = 1;
 
@@ -18,13 +18,13 @@ static const int sidepad = 0;
 static const char *fonts[] = {"JetBrainsMonoNL Nerd Font:style=Regular:size=14"};
 static const char dmenufont[] = "Liberation Mono:size=14";
 
-static const char hh_back[]         = "#161616"; 
-static const char hh_text[]         = "#a08563"; 
-static const char hh_comment[]      = "#7d7d7d"; 
-static const char hh_keyword[]      = "#cd950c"; 
-static const char hh_cursor[]       = "#40ff40"; 
-static const char hh_border[]       = "#262626"; 
-static const char hh_highlight[]    = "#703419"; 
+static const char hh_back[]         = "#161616";
+static const char hh_text[]         = "#a08563";
+static const char hh_comment[]      = "#7d7d7d";
+static const char hh_keyword[]      = "#cd950c";
+static const char hh_cursor[]       = "#40ff40";
+static const char hh_border[]       = "#262626";
+static const char hh_highlight[]    = "#703419";
 
 /* --- The Scheme Array --- */
 static const char *colors[][3] = {

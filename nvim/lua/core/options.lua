@@ -4,6 +4,12 @@ local g = vim.g
 g.mapleader = " "
 g.maplocalleader = " "
 
+g.loaded_node_provider = 0
+g.loaded_perl_provider = 0
+g.loaded_python3_provider = 0
+g.loaded_ruby_provider = 0
+
+
 opt.path:append("include/**")
 opt.path:append("src/**")
 opt.path:append("source/**")
@@ -86,7 +92,7 @@ opt.autowrite = true
 opt.hidden = true
 opt.tags = { "./tags;", "tags;" }
 opt.shada = "!,'100,<50,s10,h"
-opt.shortmess:append("c")
+opt.shortmess:append("I")
 
 opt.cinwords:append("Assert,PushStruct,internal,arena,Arena")
 

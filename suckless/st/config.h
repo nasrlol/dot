@@ -68,36 +68,23 @@ unsigned int tabspaces = 4;
  * Terminal colors
  * ========================= */
 
- /* Terminal colors (16 first used by escape sequence) */
+/* Terminal colors (16 first used by escape sequence) */
 static const char *colorname[] = {
     /* 8 normal colors */
-    "#202226", /* black   */
-    "#c84f4f", /* red     */
-    "#6fa36f", /* green   */
-    "#b89e4f", /* yellow  */
-    "#5f87af", /* blue    */
-    "#9b6fb8", /* magenta */
-    "#5fa3a3", /* cyan    */
-    "#d2d6dc", /* white   */
+    "#1E2A2A", "#FF6347", "#32CD32", "#DAA520",
+    "#20B2AA", "#D2B48C", "#6FC6C6", "#D3D3D3",
 
     /* 8 bright colors */
-    "#2a2d33", /* bright black   */
-    "#e05f5f", /* bright red     */
-    "#82c682", /* bright green   */
-    "#d7c06a", /* bright yellow  */
-    "#6f9fd8", /* bright blue    */
-    "#b487d8", /* bright magenta */
-    "#6fc6c6", /* bright cyan    */
-    "#f0f2f5", /* bright white   */
+    "#072626", "#FF6347", "#7CFC00", "#FFD700",
+    "#20B2AA", "#FF1493", "#00CED1", "#F0F2F5",
 
     [255] = 0,
 
-    /* more colors can be added after 255 to use with DefaultXX */
-    "#a08563", /* 256: handmade foreground */
-    "#0f0f0f", /* 257: handmade background */
-    "#40ff40", /* 258: handmade cursor (green) */
+    /* Extended colors (256+) */
+    [256] = "#A08563",     /* foreground */
+    [257] = "#072626",     /* background */
+    [258] = "#FFD700",     /* cursor */
 };
-
 #include "autocomplete.h"
 
 /*

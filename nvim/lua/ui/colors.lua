@@ -2,32 +2,58 @@ local function hl(name, opts)
     opts.force = true
     vim.api.nvim_set_hl(0, name, opts)
 end
-
-local colors = {
-    bg         = "#072626",
-    bgAlt      = "#262626",
-    fg         = "#A08563",
-    fgDim      = "#5B4D3C",
-    cursor     = "#A08563",
-    cursorAlt  = "#FF4040",
-    cursorLine = NONE,
-    lineNr     = "#505050",
-    lineNrBg   = "#202020",
-    visual     = "#703419",
-    search     = "#703419",
-    border     = "#262626",
-    comment    = "#7D7D7D",
-    commentPop = "#00A000",
-    keyword    = "#CD950C",
-    string     = "#6B8E23",
-    constant   = "#6B8E23",
-    type       = "#A08563",
-    accent     = "#CDAA7D",
-    preproc    = "#DAB98F",
-    bar        = "#CACACA",
-    barActive  = "#A8A8A8",
-    pop1       = "#03CF0C",
-    pop2       = "#FF0000",
+--
+-- local colors = {
+--     bg         = "#072626",
+--     bgAlt      = "#262626",
+--     fg         = "#A08563",
+--     fgDim      = "#5B4D3C",
+--     cursor     = "#A08563",
+--     cursorAlt  = "#FF4040",
+--     cursorLine = NONE,
+--     lineNr     = "#505050",
+--     lineNrBg   = "#202020",
+--     visual     = "#703419",
+--     search     = "#703419",
+--     border     = "#262626",
+--     comment    = "#7D7D7D",
+--     commentPop = "#00A000",
+--     keyword    = "#CD950C",
+--     string     = "#6B8E23",
+--     constant   = "#6B8E23",
+--     type       = "#A08563",
+--     accent     = "#CDAA7D",
+--     preproc    = "#DAB98F",
+--     bar        = "#CACACA",
+--     barActive  = "#A8A8A8",
+--     pop1       = "#03CF0C",
+--     pop2       = "#FF0000",
+-- }
+ local colors = {
+    bg         = "#072626",   -- unchanged
+    bgAlt      = "#1E2A2A",   -- slightly different dark shade
+    fg         = "#A08563",   -- unchanged
+    fgDim      = "#8C7A5A",   -- warmer dim foreground
+    cursor     = "#FFD700",   -- golden cursor for visibility
+    cursorAlt  = "#FF4500",   -- bright orange
+    cursorLine = "#0A3B3B",   -- subtle highlight for current line
+    lineNr     = "#606060",   -- slightly brighter
+    lineNrBg   = "#1A1A1A",   -- darker background for line numbers
+    visual     = "#556B2F",   -- olive green for selection
+    search     = "#DAA520",   -- golden search highlight
+    border     = "#303030",   -- neutral border
+    comment    = "#6A6A6A",   -- cooler gray for comments
+    commentPop = "#00CED1",   -- teal for emphasized comments
+    keyword    = "#FF6347",   -- tomato red for keywords
+    string     = "#32CD32",   -- lime green strings
+    constant   = "#20B2AA",   -- light sea green for constants
+    type       = "#D2B48C",   -- tan type color
+    accent     = "#FFD700",   -- soft teal accent
+    preproc    = "#FFA07A",   -- light salmon for preprocessor
+    bar        = "#B0B0B0",   -- light gray for inactive bars
+    barActive  = "#D3D3D3",   -- lighter gray for active bars
+    pop1       = "#7CFC00",   -- lawn green popup
+    pop2       = "#FF1493",   -- deep pink popup
 }
 
 if  vim.g.neovide then
@@ -47,7 +73,7 @@ hl("CursorLine",   { bg = colors.cursorLine })
 hl("CursorLineNr", { fg = colors.accent, bold = true, bg = colors.cursorLine })
 hl("LineNr",       { fg = colors.lineNr, bg = None })
 
-hl("Visual",       { fg = colors.fg, bg = colors.visual })
+hl("Visual",       { fg = "#aaaaaa", bg = colors.visual })
 hl("MatchParen",   { fg = colors.bg, bg = colors.accent, bold = true })
 
 hl("Search",       { bg = colors.search })
