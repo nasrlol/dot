@@ -1,43 +1,56 @@
 if vim.g.neovide then
-    local o = vim.o
-    local opt = vim.opt
-    local keymap = vim.keymap.set
-    local g = vim.g
-    local fonts = { "JetBrainsMono_Nerd_Font_Mono:h7", "AnonymicePro_Nerd_Font_Mono:h7", "LiterationMono_Nerd_Font_Mono:h09", "Monaspace_Argon_NF:h13" }
+    local o                                     = vim.o
+    local opt                                   = vim.opt
+    local g                                     = vim.g
+
+    o.guifont                                   = "LiterationMono_Nerd_Font_Mono:h09"  
+
     opt.linespace                               = -2
-    opt.guicursor = "n-v-c-i:block-Cursor-blinkwait0-blinkon0-blinkoff0"
-    o.guifont                                   =  fonts[3]
+    opt.guicursor =
+    "n-v-c:block-Cursor-blinkwait300-blinkon200-blinkoff200," ..
+    "i-ci:ver25-Cursor-blinkwait0," ..
+    "r-cr:hor20-Cursor," ..
+    "o:hor50-Cursor"
+
     g.neovide_theme                             = 'dark'
     g.neovide_scale_factor                      = 1
     g.neovide_opacity                           = 1
-    g.neovide_floating_blur_amount_x            = 1
-    g.neovide_floating_blur_amount_y            = 1
+
+    g.neovide_floating_blur_amount_x            = 0
+    g.neovide_floating_blur_amount_y            = 0
     g.neovide_floating_z_height                 = 0
     g.neovide_light_angle_degrees               = 0
     g.neovide_light_radius                      = 0
-    g.neovide_refresh_rate                      = 2
-    g.neovide_refresh_rate_idle                 = 1
-    g.neovide_underline_stroke_scale            = 0.5
-    g.neovide_position_animation_length         = 0.5
-    g.neovide_scroll_animation_length           = 0.5
-    g.neovide_scroll_animation_far_lines        = 0.5
-    g.neovide_cursor_animation_length           = 0.5
-    g.neovide_cursor_trail_size                 = 0.5
-    g.neovide_progress_bar_height               = 0.5
-    g.neovide_progress_bar_animation_speed      = 0.5
-    g.neovide_cursor_unfocused_outline_width    = 0.5
+
+    g.neovide_refresh_rate                      = 60
+    g.neovide_refresh_rate_idle                 = 10  
+
+    g.neovide_position_animation_length         = 0.0
+    g.neovide_scroll_animation_length           = 0.0
+    g.neovide_scroll_animation_far_lines        = 0.0
+    g.neovide_cursor_animation_length           = 0.0
+    g.neovide_underline_stroke_scale            = 0.0
+    g.neovide_cursor_trail_size                 = 0
+
     g.neovide_cursor_vfx_particle_density       = 0
     g.neovide_cursor_vfx_opacity                = 0
     g.neovide_cursor_vfx_particle_lifetime      = 0
     g.neovide_cursor_vfx_mode                   = ""
-    g.neovide_no_idle                           = false
-    g.neovide_hide_mouse_when_typing            = true
-    g.neovide_floating_shadow                   = false
-    g.neovide_window_blurred                    = false
     g.neovide_cursor_animate_in_insert_mode     = false
     g.neovide_cursor_animate_command_line       = false
     g.neovide_cursor_smooth_blink               = false
-    g.neovide_input_use_logo                    = false
+    g.neovide_cursor_unfocused_outline_width    = 0
+
+    g.neovide_fullscreen = false
+
     g.neovide_progress_bar_enabled              = false
-    g.neovide_cursor_antialiasing               = false
+    g.neovide_progress_bar_height               = 0
+    g.neovide_progress_bar_animation_speed      = 0
+    g.neovide_floating_shadow                   = false
+    g.neovide_window_blurred                    = false
+
+    g.neovide_hide_mouse_when_typing            = true
+    g.neovide_input_use_logo                    = false
+    g.neovide_no_idle                           = false  
+    g.neovide_cursor_antialiasing               = false  
 end

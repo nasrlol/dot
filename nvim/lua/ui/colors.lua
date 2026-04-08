@@ -1,35 +1,9 @@
 local function hl(name, opts)
-    opts.force = true
+    opts.force = false
     vim.api.nvim_set_hl(0, name, opts)
 end
---
--- local colors = {
---     bg         = "#072626",
---     bgAlt      = "#262626",
---     fg         = "#A08563",
---     fgDim      = "#5B4D3C",
---     cursor     = "#A08563",
---     cursorAlt  = "#FF4040",
---     cursorLine = NONE,
---     lineNr     = "#505050",
---     lineNrBg   = "#202020",
---     visual     = "#703419",
---     search     = "#703419",
---     border     = "#262626",
---     comment    = "#7D7D7D",
---     commentPop = "#00A000",
---     keyword    = "#CD950C",
---     string     = "#6B8E23",
---     constant   = "#6B8E23",
---     type       = "#A08563",
---     accent     = "#CDAA7D",
---     preproc    = "#DAB98F",
---     bar        = "#CACACA",
---     barActive  = "#A8A8A8",
---     pop1       = "#03CF0C",
---     pop2       = "#FF0000",
--- }
- local colors = {
+
+local colors = {
     bg         = "#072626",   -- unchanged
     bgAlt      = "#1E2A2A",   -- slightly different dark shade
     fg         = "#A08563",   -- unchanged
@@ -70,11 +44,11 @@ hl("Cursor",       { fg = colors.bg, bg = colors.cursor })
 hl("TermCursor",   { fg = colors.bg, bg = colors.cursor })
 
 hl("CursorLine",   { bg = colors.cursorLine })
-hl("CursorLineNr", { fg = colors.accent, bold = true, bg = colors.cursorLine })
+hl("CursorLineNr", { fg = colors.accent, bold = false, bg = colors.cursorLine })
 hl("LineNr",       { fg = colors.lineNr, bg = None })
 
 hl("Visual",       { fg = "#aaaaaa", bg = colors.visual })
-hl("MatchParen",   { fg = colors.bg, bg = colors.accent, bold = true })
+hl("MatchParen",   { fg = colors.bg, bg = colors.accent, bold = false })
 
 hl("Search",       { bg = colors.search })
 hl("IncSearch",    { fg = colors.bg, bg = colors.cursor })
@@ -84,7 +58,7 @@ hl("StatusLineNC", { fg = colors.fgDim, bg = colors.bg })
 
 hl("VertSplit",    { fg = colors.border, bg = "NONE" })
 hl("WinSeparator", { fg = colors.border, bg = "NONE" })
-hl("WinBar",       { fg = colors.bar, bg = "NONE", bold = true })
+hl("WinBar",       { fg = colors.bar, bg = "NONE", bold = false })
 
 hl("Pmenu",        { fg = colors.fg, bg = colors.bgAlt })
 hl("PmenuSel",     { fg = colors.bg, bg = colors.accent, bold = false })
@@ -97,31 +71,31 @@ hl("Constant",     { fg = colors.constant })
 hl("String",       { fg = colors.string })
 hl("Character",    { fg = colors.string })
 hl("Number",       { fg = colors.constant })
-hl("Boolean",      { fg = colors.constant, bold = true })
+hl("Boolean",      { fg = colors.constant, bold = false })
 hl("Float",        { fg = colors.constant })
 
 hl("Identifier",   { fg = colors.fg })
-hl("Function",     { fg = colors.fg, bold = true })
+hl("Function",     { fg = colors.fg, bold = false })
 
-hl("Statement",    { fg = colors.keyword, bold = true })
-hl("Conditional",  { fg = colors.keyword, bold = true })
-hl("Repeat",       { fg = colors.keyword, bold = true })
+hl("Statement",    { fg = colors.keyword, bold = false })
+hl("Conditional",  { fg = colors.keyword, bold = false })
+hl("Repeat",       { fg = colors.keyword, bold = false })
 hl("Label",        { fg = colors.keyword })
 hl("Operator",     { fg = colors.fg })
-hl("Keyword",      { fg = colors.keyword, bold = true })
-hl("Exception",    { fg = colors.keyword, bold = true })
+hl("Keyword",      { fg = colors.keyword, bold = false })
+hl("Exception",    { fg = colors.keyword, bold = false })
 
 hl("PreProc",      { fg = colors.preproc })
 hl("Include",      { fg = colors.string })
-hl("Type",         { fg = colors.type, bold = true })
+hl("Type",         { fg = colors.type, bold = false })
 hl("Special",      { fg = colors.pop2 })
 hl("SpecialChar",  { fg = colors.pop2 })
 hl("Delimiter",    { fg = colors.fg })
 
-hl("Underlined",   { underline = true })
+hl("Underlined",   { underline = false })
 hl("Error",        { fg = colors.pop2, bg = colors.bg })
-hl("Todo",         { fg = colors.commentPop, bg = colors.bg, bold = true })
-hl("Note",         { fg = colors.commentPop, bg = colors.bg, bold = true })
+hl("Todo",         { fg = colors.commentPop, bg = colors.bg, bold = false })
+hl("Note",         { fg = colors.commentPop, bg = colors.bg, bold = false })
 
 -- Tree-sitter Links
 hl("@comment",             { link = "Comment" })
@@ -152,6 +126,6 @@ hl("DiagnosticWarn",          { fg = colors.keyword })
 hl("DiagnosticInfo",          { fg = colors.commentPop })
 hl("DiagnosticHint",          { fg = colors.comment })
 
--- hl("statusline",              { bg = NONE })
--- hl("winbar",                  { bg = NONE })
+hl("statusline",              { bg = NONE })
+hl("winbar",                  { bg = NONE })
 

@@ -1,8 +1,14 @@
-
 fork = true
-vsync = true
-multigrid = false 
+vsync = false
+multigrid = true
 maximized = false
-remember_window_size = true
-remember_window_position = true
-ime = false
+
+remember_window_size        = true
+remember_window_position    = true
+
+
+# Padding
+padding_top     = 0
+padding_bottom  = 0
+padding_left    = 0
+padding_right   = 0
