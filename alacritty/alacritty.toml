@@ -9,7 +9,7 @@ x = 2
 y = 2
 
 [font]
-size = 15
+size = 7.0
 
 [font.normal]
 family = "Liberation Mono"

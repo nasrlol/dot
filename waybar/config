@@ -1,51 +1,20 @@
 {
-  "layer": "top",
-  "position": "right",
-  "width": 50,
-  "height": "100%",
-  "spacing": 0,
-  "orientation": "vertical",
-  "margin-top": 0,
-  "margin-right": 0,
-  "margin-bottom": 0,
-  "margin-left": 0,
-
-  "modules-left": [
-    "hyprland/workspaces"
-  ],
-
-  "modules-center": [
-
-    "clock",
-  ],
-
-  "modules-right": [
-    "battery"
-  ],
-
-  "hyprland/workspaces": {
-    "disable-scroll": true,
-    "all-outputs": true,
-    "format": "{id}"
-  },
-
-  "clock": {
-    "timezone": "Europe/Brussels",
-    "format": "{:%H\n%M}",
-    "format-alt": "{:%a\n%d\n%b}",
-    "tooltip-format": "<big>{:%Y-%m-%d}</big>\n<tt><small>{calendar}</small></tt>",
-    "interval": 60
-  },
-
-  "battery": {
-    "states": {
-      "warning": 30,
-      "critical": 15
-    },
-    "format": "{capacity}",
-    "format-charging": "{capacity}",
-    "format-plugged": "{capacity}",
-    "format-alt": "{time}",
-    "interval": 30
-  }
+    "layer": "top",
+    "position": "top",
+    "height": 20,
+    "spacing": 4,
+    "modules-left": ["hyprland/workspaces"],
+    "modules-right": ["clock", "battery", "   "],
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "on-click": "activate",
+        "all-outputs": true,
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": []
+        }
+    }
 }

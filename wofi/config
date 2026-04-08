@@ -1,41 +1,50 @@
 # ~/.config/wofi/config
 
 # === Geometry ===
-width=55%
-height=2%
-orientation=horizontal
-columns=2
+width=50%
+height=40%
+x=300%
+y=250%
+orientation=vertical
+columns=1
 
-location=center            # Set to center
-layer=overlay                 # background, bottom, top, overlay
-global_coords=false       # Set to false to let location take over
+# === Location / Layer ===
+location=center           # center, top_left, top, top_right, right, bottom_right, bottom, bottom_left, left
+layer=top                 # background, bottom, top, overlay
+global_coords=false       # use global compositor space for x/y (avoid with location=)
 normal_window=false       # set true if not using wlroots/layer-shell
 
-show=dmenu                  # run, drun, dmenu, or combi e.g. run,drun
+# === Mode ===
+show=drun                 # run, drun, dmenu, or combi e.g. run,drun
 fork=true                 # fork so the launching terminal can close
 
-prompt=
-matching=fuzzy         # contains, strict-contains, multi-contains, fuzzy
+# === Search ===
+prompt=Search
+matching=contains         # contains, strict-contains, multi-contains, fuzzy
 insensitive=true
-filter_rate=5            # debounce ms - faster filtering
-exec_search=true         # Enter runs search text instead of first result
+filter_rate=100           # debounce ms
+exec_search=false         # Enter runs search text instead of first result
 parse_search=false        # strip pango/image escapes from search
-no_actions=true          # disable multi-action entries
+no_actions=false          # disable multi-action entries
 
-sort_order=alphabetical   # alphabetical sorting is faster than default
+# === Display ===
+sort_order=alphabetical   # default, alphabetical
 image_size=0              # icon size in px; 0 = disabled
-dynamic_lines=false       # grow window to fit results
+dynamic_lines=true       # grow window to fit results
 line_wrap=off             # off, word, char, word_char
 allow_markup=false        # allow pango markup in entries
-show_all=false            # don't show all entries initially - faster startup
-allow_images=true
+show_all=false            # show all entries before typing
+allow_images=false
 
+# === UI Elements ===
 hide_search=false
 hide_scroll=true
-term_string=foot
+term_string=alacritty -e  # terminal for term= entries in desktop files
 
+# === Clipboard ===
 copy_exec=wl-copy
 
+# === Quit behavior ===
 quit_on_focus_loss=false
 
 # === Password mode (uncomment to enable) ===
@@ -50,14 +59,14 @@ key_exit=Escape
 
 # === drun mode options ===
 drun-print_command=false        # print desktop file path instead of launching
-drun-display_generic=true      # show generic app name alongside app name
+drun-display_generic=false      # show generic app name alongside app name
 drun-only_match_name=false      # search only app name, skip category/description
 drun-ignore_non_default_gpu=false
 
 # === run mode options ===
 run-cache_file=~/.cache/wofi-run
 run-always_parse_args=false
-run-show_all=true
+run-show_all=false
 
 # === dmenu mode options ===
 dmenu-parse_action=false
