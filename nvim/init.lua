@@ -1,3 +1,4 @@
+-- author: nasr
 require("core.pack")
 
 require("plugins.fzf")
