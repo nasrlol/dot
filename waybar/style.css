@@ -1,81 +1,45 @@
 * {
-    font-family: "ComicMono";
-    font-size: 20px;
-    font-weight: 100 ;
-    margin: 5px 0px 0px 0px;
-    padding: 0;
+    font-family: LiterationMono;
+    font-size: 10px;
+    border-radius: 0;
 }
 
 window#waybar {
-    background: #0d1117;
-    color: #c4a882;
-    border: none;
-    border-left: 1px solid #21262d;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    margin: 0;
     padding: 0;
+    border-bottom: 1px solid #444444;
+    min-height: 20px;
 }
 
 #workspaces {
-    margin: 0 12px;
-    padding: 0;
-    background: transparent;
-    font-size: 13px;
+    margin: 0;
+    padding: 0 5px;
 }
 
 #workspaces button {
-    min-width: 32px;
-    min-height: 32px;
-    padding: 0;
-    margin: 0 4px;
-    color: #c4a882;
-    background: transparent;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 13px;
+    min-width: 30px;
+    padding: 0 8px;
+    margin: 0;
+    background-color: #1e1e1e;
+    color: #888888;
+    border: none;
+    border-bottom: 2px solid transparent;
 }
+
+#workspaces button:hover {
+    background-color: #2d2d2d;
+    color: #aaaaaa;
+}
+
 #workspaces button.active {
-
-    background: transparent;
-    border-right: 4px solid #c4a882;
-    padding-left: calc(0px - 4px);
-}
-
-#workspaces button:hover  {
-    background: transparent;
-    border-left: 4px solid #c4a882;
-    padding-left: calc(0px - 4px);
-}
-
-#workspaces button.urgent {
-    background: #da3633;
+    background-color: #1e1e1e;
     color: #ffffff;
+    border-bottom: 2px solid #ffffff;
 }
 
 #clock {
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    font-size: 24px;
-    font-weight: normal;
-    min-width: 40px;
-    border-bottom: 3px;
-}
-
-#battery {
-    margin: 0px 0px 4px 0px;
-    padding: 0;
-    background: transparent;
-    color: #c9d1d9;
-    font-size: 24px;
-    min-width: 40px;
-}
-
-#battery.warning {
-    color: #d29922;
-    border-color: #d29922;
-}
-
-#battery.critical {
-    color: #da3633;
-    border-color: #da3633;
+    padding: 0 15px;
+    min-width: 50px;
 }
