@@ -1,18 +1,18 @@
 [window]
-opacity = 1
+opacity = 1.0
 dynamic_padding = true
 option_as_alt = "OnlyRight"
 blur = false
 
 [window.padding]
-x = 15
-y = 15
+x = 10
+y = 10
 
 [terminal]
 shell = "/usr/bin/zsh"
 
 [font]
-size = 15
+size = 7.0
 
 [font.normal]
 family = "Jetbrains Mono Nerd Font"
@@ -23,6 +23,7 @@ family = "Jetbrains Mono Nerd Font"
 style = "Bold"
 
 [font.italic]
+family = "Jetbrains Mono Nerd Font"
 style = "Italic"
 
 [font.bold_italic]
@@ -43,37 +44,40 @@ vi_mode_style = { shape = "Block", blinking = "Never" }
 draw_bold_text_with_bright_colors = true
 
 [colors.primary]
-background = '#111111'
-foreground = '#ffffff'
+background = "#072626"
+foreground = "#A08563"
 
 [colors.cursor]
-text = '#000000'
-cursor = '#7fda89'
+text = "#072626"
+cursor = "#FFD700"
+
+[colors.vi_mode_cursor]
+text = "#072626"
+cursor = "#FF4500"
 
 [colors.selection]
-text = '#e0e0e0'
-background = '#1a1a1a'
+text = "#A08563"
+background = "#0A3B3B"
 
 [colors.normal]
-black = '#000000'
-red = '#6b6b6b'
-green = '#7fda89'
-yellow = '#8a8a8a'
-blue = '#5a5a5a'
-magenta = '#707070'
-cyan = '#9be3a1'
-white = '#dddddd'
+black = "#1A1A1A"
+red = "#FF6347"
+green = "#32CD32"
+yellow = "#DAA520"
+blue = "#20B2AA"
+magenta = "#FF1493"
+cyan = "#00CED1"
+white = "#B0B0B0"
 
 [colors.bright]
-black = '#404040'
-red = '#888888'
-green = '#98e6a3'
-yellow = '#a0a0a0'
-blue = '#757575'
-magenta = '#909090'
-cyan = '#b5f0bd'
-white = '#dddddd'
-
+black = "#303030"
+red = "#FF6347"
+green = "#32CD32"
+yellow = "#FFD700"
+blue = "#20B2AA"
+magenta = "#FF1493"
+cyan = "#00CED1"
+white = "#D3D3D3"
 
 [scrolling]
 history = 20000

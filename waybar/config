@@ -1,0 +1,20 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 20,
+    "spacing": 4,
+    "modules-left": ["hyprland/workspaces"],
+    "modules-right": ["clock", "battery", "   "],
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "on-click": "activate",
+        "all-outputs": true,
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": []
+        }
+    }
+}

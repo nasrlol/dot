@@ -45,10 +45,14 @@ map({"n", "x"}, "<leader>p", [["_dP]], { desc = "Paste (keep register)" })
 map("n", "<leader>R", ":%s/\\v", { desc = "Search & Replace (Global)" })
 map("v", "<leader>R", ":s/\\v",  { desc = "Search & Replace (Selection)" })
 
+
+-- cuz its ez
 map("n", "<leader>w",  "<cmd>w<cr>",           { desc = "Save" })
 map("n", "<leader>q",  "<cmd>q<cr>",           { desc = "Quit" })
-map("n", "<leader>Q",  "<cmd>qa!<cr>",         { desc = "Force quit all" })
+
+-- oil stuff
 map("n", "<C-x><C-f>", "<cmd>Oil<cr>",         { desc = "Open Oil" })
+map("n", "-", "<cmd>Oil<cr>",         { desc = "Open Oil" })
 
 map("n", "<leader>bn", "<cmd>bnext<cr>",       { desc = "Next buffer" })
 map("n", "<leader>bp", "<cmd>bprevious<cr>",   { desc = "Prev buffer" })
@@ -60,9 +64,10 @@ map("n", "<leader>tg", fzf.tags,                          { noremap = true, sile
 map("n", "<leader>fc", fzf.commands,                      { noremap = true, silent = true, desc = "Commands" })
 map("n", "<M-f>",      fzf.grep,                          { noremap = true, silent = true, desc = "Grep project" })
 map("n", "<M-p>",      fzf.files,                         { noremap = true, silent = true, desc = "Files" })
-map("n", "<M-b>",      fzf.buffers,                       { noremap = true, silent = true, desc = "Buffers" })
 map("n", "<M-g>",      fzf.grep_curbuf,                   { noremap = true, silent = true, desc = "Grep buffer" })
 map("n", "<M-s>",      fzf.grep_cword,                    { noremap = true, silent = true, desc = "Grep word under cursor" })
+
+
 
 map("n", "<leader>tr", "<cmd>set rnu!<cr>",  { desc = "Toggle relative numbers" })
 map("n", "<leader>tw", "<cmd>set wrap!<cr>", { desc = "Toggle wrap" })
@@ -90,7 +95,7 @@ end, { desc = "Run makeprg into vertical quickfix" })
 map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 map("n", "gd", "<C-]>", { desc = "Jump to tag/definition" })
 
- map({"i", "s"}, "<S-Tab>", function()
+map({"i", "s"}, "<S-Tab>", function()
     local ls = require("luasnip")
     if ls.jumpable(-1) then ls.jump(-1) end
 end, { silent = true })
@@ -103,8 +108,35 @@ map({"i", "s"}, "<Tab>", function()
 end, { silent = true })
 
 
+-- Built-in ins-completion
+map("i", "<C-n>", function()
+    return vim.fn.pumvisible() == 1 and "<C-n>" or "<C-x><C-n>"
+end, { expr = true, desc = "Next completion / open buffer completion" })
+
+map("i", "<C-p>", function()
+    return vim.fn.pumvisible() == 1 and "<C-p>" or "<C-x><C-p>"
+end, { expr = true, desc = "Prev completion / open buffer completion" })
+
+map("i", "<C-]>", "<C-x><C-]>", { desc = "Tag completion" })
+
+map("i", "<Esc>", function()
+    return vim.fn.pumvisible() == 1 and "<C-e><Esc>" or "<Esc>"
+end, { expr = true, desc = "Close popup / exit insert" })
 
 
+ map("i", "<M-n>", function()
+    if vim.fn.pumvisible() == 1 then
+        return "<C-n>"
+    end
+    if ls.expand_or_jumpable() then
+        ls.expand_or_jump()
+        return ""
+    end
+    return "<C-n>"
+end, { expr = true, desc = "Complete / snippet / indent" })
+
+
+-- source
 map("n", "<leader>so", function()
   for name, _ in pairs(package.loaded) do
     if name:match("^core") or name:match("^ui") or name:match("^plugins") or name:match("^tools") then
@@ -115,6 +147,7 @@ map("n", "<leader>so", function()
   vim.notify("Config reloaded", vim.log.levels.INFO)
 end, { desc = "Reload all Lua config" })
 
+-- super write
 map("c", "w!!", function()
   vim.cmd("w !sudo tee % > /dev/null")
   vim.cmd("edit!")
