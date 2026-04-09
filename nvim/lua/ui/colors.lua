@@ -30,7 +30,7 @@ local colors = {
     pop2       = "#FF1493",   -- deep pink popup
 }
 
-if  vim.g.neovide then
+if  not vim.g.neovide then
     hl("Normal", { fg = colors.fg, bg = colors.bg })
     hl("NormalFloat",  { fg = colors.fg, bg = colors.bgAlt })
 else
