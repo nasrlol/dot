@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd("InsertEnter", {
     ls.config.set_config({
       history = true,
       updateevents = "TextChanged,TextChangedI",
-      enable_autosnippets = false,
+      enable_autosnippets = true,
       region_check_events = "CursorMoved",
       delete_check_events = "TextChanged",
     })

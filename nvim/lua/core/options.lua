@@ -11,8 +11,8 @@ opt.path:append("src/**")
 opt.path:append("source/**")
 opt.path:append("/usr/include")
 opt.path:append("/usr/local/include")
-opt.signcolumn     = "yes:1"
-opt.number         = true
+opt.signcolumn     = "no"
+opt.number         = false
 opt.relativenumber = false
 opt.cursorline     = true
 opt.termguicolors  = true
@@ -43,8 +43,11 @@ opt.backup = false
 opt.virtualedit = "all"
 opt.iskeyword:remove({"_",";", ".", ",", "(", ")", "[", "]", "{", "}", "*", "&", "+", "-" })
 opt.formatoptions:remove({ "c", "r", "o" })
+
+-- what in the magic=
 opt.errorformat = "%f:%l:%c: %t%*[^:]: %m"
 opt.commentstring = "// %s"
+
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "winpos", "folds", "help", "localoptions" }
 opt.expandtab = true
 opt.tabstop = 4
