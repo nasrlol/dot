@@ -59,7 +59,10 @@ pulse
 # Other Apps
 /obsidian
 /label-studio
-/Antigravity
+/QtProject.conf
+/JetBrains
+/systemd/user
+/discord
 /tailscale
 /freerdp/server
 /autostart

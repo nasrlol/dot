@@ -29,10 +29,12 @@ local palettes = {
     }
 }
 
-local colors = palettes[dark and "dark" or "light"]
-
-local function apply_hl_group(group_name, opts)
-    hl(group_name, opts)
+if  not vim.g.neovide then
+    hl("Normal", { fg = colors.fg, bg = colors.bg })
+    hl("NormalFloat",  { fg = colors.fg, bg = colors.bgAlt })
+else
+    hl("Normal", { fg = colors.fg, bg = "NONE" })
+    hl("NormalFloat",  { fg = colors.fg, bg = "NONE" })
 end
 
 apply_hl_group("Normal",      { fg = colors.fg,    bg = colors.bg,    blend = 10 })

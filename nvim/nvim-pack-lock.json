@@ -1,44 +1,16 @@
 {
   "plugins": {
     "LuaSnip": {
-      "rev": "642b0c595e11608b4c18219e93b88d7637af27bc",
+      "rev": "a62e1083a3cfe8b6b206e7d3d33a51091df25357",
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
-    "cmp-nvim-lsp": {
-      "rev": "cbc7b02bb99fae35cb42f514762b89b5126651ef",
-      "src": "https://github.com/hrsh7th/cmp-nvim-lsp"
-    },
     "fzf-lua": {
-      "rev": "3f194300c92e3ec2de8f9307d6a7ce988b7b6d0c",
+      "rev": "9f0432fdd7825ab163520045831a40b6df82ea28",
       "src": "https://github.com/ibhagwan/fzf-lua"
-    },
-    "hydra.nvim": {
-      "rev": "8c4a9f621ec7cdc30411a1f3b6d5eebb12b469dc",
-      "src": "https://github.com/nvimtools/hydra.nvim"
     },
     "marks.nvim": {
       "rev": "f353e8c08c50f39e99a9ed474172df7eddd89b72",
       "src": "https://github.com/chentoast/marks.nvim"
-    },
-    "mini.indentscope": {
-      "rev": "ace9b4e503cb095b9a3f6442c909d117c4aa8d0e",
-      "src": "https://github.com/nvim-mini/mini.indentscope"
-    },
-    "multicursors.nvim": {
-      "rev": "72225ea9e4443c3f4b9df91d0193e07c4ee8d382",
-      "src": "https://github.com/smoka7/multicursors.nvim"
-    },
-    "nvim-cmp": {
-      "rev": "a1d504892f2bc56c2e79b65c6faded2fd21f3eca",
-      "src": "https://github.com/hrsh7th/nvim-cmp"
-    },
-    "nvim-lspconfig": {
-      "rev": "a776085e04f7b15d0b59fae2244df07d98360ab4",
-      "src": "https://github.com/neovim/nvim-lspconfig"
-    },
-    "nvim-treesitter": {
-      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
-      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "oil.nvim": {
       "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
