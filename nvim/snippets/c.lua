@@ -5,363 +5,333 @@ local i  = ls.insert_node
 local f  = ls.function_node
 
 return {
-    -- main()
-    s("main", {
-        t({ "#include <stdio.h>", "", "int main(int count, char **argument)", "{", "    " }),
-        i(1, "return 0;"),
-        t({ "", "}" }),
-    }),
+  -- main()
+  s("main", {
+    t({ "#include <stdio.h>", "", "int main(int argc, char **argv)", "{", "    " }),
+    i(1, "return 0;"),
+    t({ "", "}" }),
+  }),
 
-    -- for loop (index-based)
-    s("fori", {
-        t("for (s32 "),
-        i(1, "index"),
-        t(" = 0; "),
-        f(function(args) return args[1][1] end, { 1 }),
-        t(" < "),
-        i(2, "value"),
-        t("; ++"),
-        f(function(args) return args[1][1] end, { 1 }),
-        t(")"),
-        t({ "", "{", "\t" }),
-        i(3),
-        t({ "", "}" }),
-    }),
+  -- for loop (index-based)
+  s("fori", {
+    t("for (i32 "),
+    i(1, "index"),
+    t(" = 0;"),
+    t({ "", "" }),
+    f(function(args) return args[1][1] end, { 1 }),
+    t(" < "),
+    i(2, "value"),
+    t(";"),
+    t({ "", "" }),
+    t("++"),
+    f(function(args) return args[1][1] end, { 1 }),
+    t(")"),
+    t({ "", "{", "", "" }),
+    i(3),
+    t({ "", "", "}" }),
+  }),
 
-    -- for loop (pointer traversal)
-    s("forp", {
-        t("for ("),
-        i(1, "type"),
-        t(" *"),
-        i(2, "it"),
-        t(" = "),
-        i(3, "head"),
-        t("; "),
-        f(function(args) return args[1][1] end, { 2 }),
-        t("; "),
-        f(function(args) return args[1][1] end, { 2 }),
-        t(" = "),
-        f(function(args) return args[1][1] end, { 2 }),
-        t("->"),
-        i(4, "next"),
-        t(")"),
-        t({ "", "{", "    " }),
-        i(5),
-        t({ "", "}" }),
-    }),
+  -- for loop (pointer traversal) - common in your code
+  s("forp", {
+    t("for ("),
+    i(1, "node_type"),
+    t(" *"),
+    i(2, "Node"),
+    t(" = "),
+    i(3, "Root"),
+    t("; "),
+    f(function(args) return args[1][1] end, { 2 }),
+    t("; "),
+    f(function(args) return args[1][1] end, { 2 }),
+    t(" = "),
+    f(function(args) return args[1][1] end, { 2 }),
+    t("->"),
+    i(4, "Next"),
+    t(")"),
+    t({ "", "{", "    " }),
+    i(5),
+    t({ "", "}" }),
+  }),
 
-    -- while loop
-    s("wh", {
-        t("while ("),
-        i(1, "condition"),
-        t(")"),
-        t({ "", "{", "    " }),
-        i(2),
-        t({ "", "}" }),
-    }),
+  -- if statement
+  s("if", {
+    t("if ("),
+    i(1, "condition"),
+    t(")"),
+    t({ "", "{", "    " }),
+    i(2),
+    t({ "", "}" }),
+  }),
 
-    -- do-while loop
-    s("dow", {
-        t({ "do", "{", "    " }),
-        i(1),
-        t({ "", "} while (" }),
-        i(2, "condition"),
-        t(");"),
-    }),
+  -- if / else
+  s("ife", {
+    t("if ("),
+    i(1, "condition"),
+    t(")"),
+    t({ "", "{", "    " }),
+    i(2),
+    t({ "", "}", "else", "{", "    " }),
+    i(3),
+    t({ "", "}" }),
+  }),
 
-    -- if statement
-    s("if", {
-        t("if ("),
-        i(1, "condition"),
-        t(")"),
-        t({ "", "{", "    " }),
-        i(2),
-        t({ "", "}" }),
-    }),
+  -- NULL pointer check (very common in your code)
+  s("ifnull", {
+    t("if ("),
+    i(1, "ptr"),
+    t(" == NULL)"),
+    t({ "", "{", "    " }),
+    i(2, "continue;"),
+    t({ "", "}" }),
+  }),
 
-    -- if / else
-    s("ife", {
-        t("if ("),
-        i(1, "condition"),
-        t(")"),
-        t({ "", "{", "    " }),
-        i(2),
-        t({ "", "}", "else", "{", "    " }),
-        i(3),
-        t({ "", "}" }),
-    }),
+  -- NOT NULL check
+  s("ifnot", {
+    t("if (!"),
+    i(1, "ptr"),
+    t(")"),
+    t({ "", "{", "    " }),
+    i(2, "continue;"),
+    t({ "", "}" }),
+  }),
 
-    -- NULL check
-    s("ifnull", {
-        t("if ("),
-        i(1, "ptr"),
-        t(" == NULL)"),
-        t({ "", "{", "    " }),
-        i(2),
-        t({ "", "}" }),
-    }),
+  -- function
+  s("fn", {
+    i(1, "static"),
+    t(" "),
+    i(2, "void"),
+    t(" "),
+    i(3, "function_name"),
+    t("("),
+    i(4),
+    t(")"),
+    t({ "", "{", "    " }),
+    i(5),
+    t({ "", "}" }),
+  }),
 
-    -- NOT NULL check
-    s("ifnot", {
-        t("if (!"),
-        i(1, "ptr"),
-        t(")"),
-        t({ "", "{", "    " }),
-        i(2),
-        t({ "", "}" }),
-    }),
+  -- internal function (your convention)
+  s("ifn", {
+    t("internal "),
+    i(1, "void"),
+    t(" "),
+    i(2, "function_name"),
+    t("("),
+    i(3),
+    t(")"),
+    t({ "", "{", "    " }),
+    i(4),
+    t({ "", "}" }),
+  }),
 
-    -- ternary
-    s("tern", {
-        i(1, "condition"),
-        t(" ? "),
-        i(2, "true"),
-        t(" : "),
-        i(3, "false"),
-    }),
+  -- struct
+  s("struct", {
+    t("typedef struct "),
+    i(1, "name"),
+    t({ " {", "    " }),
+    i(2),
+    t({ "", "} " }),
+    f(function(args) return args[1][1] end, {1}),
+    t(";"),
+  }),
 
-    -- function
-    s("fn", {
-        i(1, "void"),
-        t(" "),
-        i(2, "function_name"),
-        t("("),
-        i(3),
-        t(")"),
-        t({ "", "{", "    " }),
-        i(4),
-        t({ "", "}" }),
-    }),
+  -- pointer struct member (common pattern)
+  s("member", {
+    i(1, "type"),
+    t(" *"),
+    i(2, "name"),
+    t(";"),
+  }),
 
-    -- static function
-    s("sfn", {
-        t("static "),
-        i(1, "void"),
-        t(" "),
-        i(2, "function_name"),
-        t("("),
-        i(3),
-        t(")"),
-        t({ "", "{", "    " }),
-        i(4),
-        t({ "", "}" }),
-    }),
+  -- switch statement (used in Parse function)
+  s("switch", {
+    t("switch ("),
+    i(1, "expr"),
+    t(")"),
+    t({ "", "{", "    case " }),
+    i(2, "value"),
+    t(":"),
+    t({ "", "    {", "        " }),
+    i(3),
+    t({ "", "    }", "    break;", "", "}" }),
+  }),
 
-    -- struct
-    s("struct", {
-        t("typedef struct "),
-        i(1, "name"),
-        t({ " {", "    " }),
-        i(2),
-        t({ "", "} " }),
-        f(function(args) return args[1][1] end, { 1 }),
-        t(";"),
-    }),
+  -- case statement
+  s("case", {
+    t("case "),
+    i(1, "value"),
+    t(":"),
+    t({ "", "{", "    " }),
+    i(2),
+    t({ "", "}", "break;" }),
+  }),
 
-    -- enum
-    s("enum", {
-        t("typedef enum "),
-        i(1, "name"),
-        t({ " {", "    " }),
-        i(2),
-        t({ "", "} " }),
-        f(function(args) return args[1][1] end, { 1 }),
-        t(";"),
-    }),
+  -- include (system)
+  s("inc", {
+    t("#include <"),
+    i(1, "stdio.h"),
+    t(">"),
+  }),
 
-    -- union
-    s("union", {
-        t("typedef union "),
-        i(1, "name"),
-        t({ " {", "    " }),
-        i(2),
-        t({ "", "} " }),
-        f(function(args) return args[1][1] end, { 1 }),
-        t(";"),
-    }),
+  -- include (local)
+  s("incl", {
+    t('#include "'),
+    i(1, "file.h"),
+    t('"'),
+  }),
 
-    -- struct member
-    s("member", {
-        i(1, "type"),
-        t(" "),
-        i(2, "name"),
-        t(";"),
-    }),
+  -- header guard
+  s("guard", {
+    t("#ifndef "),
+    i(1, "HEADER_H"),
+    t({ "", "#define " }),
+    f(function(args) return args[1][1] end, {1}),
+    t({ "", "", "" }),
+    i(2),
+    t({ "", "", "#endif /* " }),
+    f(function(args) return args[1][1] end, {1}),
+    t(" */"),
+  }),
 
-    -- pointer member
-    s("pmember", {
-        i(1, "type"),
-        t(" *"),
-        i(2, "name"),
-        t(";"),
-    }),
+  -- assert-style check
+  s("check", {
+    t("if (!("),
+    i(1, "expr"),
+    t("))"),
+    t({ "", "{", "    " }),
+    i(2, "return -1;"),
+    t({ "", "}" }),
+  }),
 
-    -- switch statement
-    s("switch", {
-        t("switch ("),
-        i(1, "expr"),
-        t(")"),
-        t({ "", "{", "    case " }),
-        i(2, "value"),
-        t(":"),
-        t({ "", "    {", "        " }),
-        i(3),
-        t({ "", "    } break;", "", "    default:", "    {", "        " }),
-        i(4),
-        t({ "", "    } break;", "}" }),
-    }),
+  -- parent traversal (Recursive_Peek pattern)
+  s("whileparent", {
+    t("for (; "),
+    i(1, "Node"),
+    t("; "),
+    f(function(args) return args[1][1] end, { 1 }),
+    t(" = "),
+    f(function(args) return args[1][1] end, { 1 }),
+    t("->Parent)"),
+    t({ "", "{", "    " }),
+    i(2),
+    t({ "", "}" }),
+  }),
 
-    -- case
-    s("case", {
-        t("case "),
-        i(1, "value"),
-        t(":"),
-        t({ "", "{", "    " }),
-        i(2),
-        t({ "", "} break;" }),
-    }),
+  -- TODO comment (used throughout your code)
+  s("todo", {
+    t("// TODO("),
+    i(1, "nasr"),
+    t("): "),
+    i(2, "description"),
+  }),
 
-    -- include system
-    s("inc", {
-        t("#include <"),
-        i(1, "stdio.h"),
-        t(">"),
-    }),
+  -- NOTE comment
+  s("note", {
+    t("// NOTE("),
+    i(1, "nasr"),
+    t("): "),
+    i(2, "description"),
+  }),
 
-    -- include local
-    s("incl", {
-        t('#include "'),
-        i(1, "file.h"),
-        t('"'),
-    }),
+  -- bitwise flag operation (seen in Token->Flags)
+  s("flag", {
+    i(1, "Var"),
+    t(" = ("),
+    i(2, "type"),
+    t(")("),
+    f(function(args) return args[1][1] end, { 1 }),
+    t(" | "),
+    i(3, "Flag"),
+    t(");"),
+  }),
 
-    -- header guard
-    s("guard", {
-        t("#ifndef "),
-        i(1, "HEADER_H"),
-        t({ "", "#define " }),
-        f(function(args) return args[1][1] end, { 1 }),
-        t({ "", "", "" }),
-        i(2),
-        t({ "", "", "#endif /* " }),
-        f(function(args) return args[1][1] end, { 1 }),
-        t(" */"),
-    }),
+  -- PushStruct allocation pattern
+  s("push", {
+    i(1, "type"),
+    t(" *"),
+    i(2, "var"),
+    t(" = PushStruct("),
+    i(3, "Arena"),
+    t(", "),
+    f(function(args) return args[1][1] end, { 1 }),
+    t(");"),
+  }),
 
-    -- define
-    s("def", {
-        t("#define "),
-        i(1, "NAME"),
-        t(" "),
-        i(2, "value"),
-    }),
+  -- MemoryZero pattern
+  s("mzero", {
+    t("MemoryZero("),
+    i(1, "ptr"),
+    t(");"),
+  }),
 
-    -- typedef
-    s("td", {
-        t("typedef "),
-        i(1, "type"),
-        t(" "),
-        i(2, "alias"),
-        t(";"),
-    }),
+  -- linked list append (First/Last pattern from your code)
+  s("append", {
+    t({ "if (" }),
+    i(1, "Parent"),
+    t("->First == NULL)"),
+    t({ "", "{", "    " }),
+    f(function(args) return args[1][1] end, { 1 }),
+    t("->First = "),
+    i(2, "Child"),
+    t(";"),
+    t({ "", "    " }),
+    f(function(args) return args[1][1] end, { 1 }),
+    t("->Last  = "),
+    f(function(args) return args[1][1] end, { 2 }),
+    t(";"),
+    t({ "", "}", "else", "{", "    " }),
+    f(function(args) return args[1][1] end, { 1 }),
+    t("->Last->NextNode = "),
+    f(function(args) return args[1][1] end, { 2 }),
+    t(";"),
+    t({ "", "    " }),
+    f(function(args) return args[1][1] end, { 1 }),
+    t("->Last           = "),
+    f(function(args) return args[1][1] end, { 2 }),
+    t(";"),
+    t({ "", "}" }),
+  }),
 
-    -- assert-style check
-    s("check", {
-        t("if (!("),
-        i(1, "expr"),
-        t("))"),
-        t({ "", "{", "    " }),
-        i(2, "return -1;"),
-        t({ "", "}" }),
-    }),
+  -- cast with check
+  s("castchk", {
+    t("if ("),
+    i(1, "Node"),
+    t("->Token->Type != (token_type)"),
+    i(2, "TokenType"),
+    t(")"),
+    t({ "", "{", "    " }),
+    i(3, "Token->Flags |= FlagDirty;"),
+    t({ "", "}" }),
+  }),
 
-    -- printf
-    s("pr", {
-        t('printf("'),
-        i(1, "%s\\n"),
-        t('"'),
-        i(2),
-        t(");"),
-    }),
+  -- token type check (common pattern)
+  s("toktype", {
+    t("if ("),
+    i(1, "Token"),
+    t("->Type == "),
+    i(2, "TokenIdentifier"),
+    t(")"),
+    t({ "", "{", "    " }),
+    i(3),
+    t({ "", "}" }),
+  }),
 
-    -- fprintf stderr
-    s("epr", {
-        t('fprintf(stderr, "'),
-        i(1, "error: %s\\n"),
-        t('"'),
-        i(2),
-        t(");"),
-    }),
+  -- assignment operator
+  s("assign", {
+    i(1, "var"),
+    t(" = "),
+    i(2, "value"),
+    t(";"),
+  }),
 
-    -- malloc
-    s("mal", {
-        i(1, "type"),
-        t(" *"),
-        i(2, "ptr"),
-        t(" = malloc(sizeof("),
-        f(function(args) return args[1][1] end, { 1 }),
-        t("));"),
-    }),
+  s("sep", {
+    t("///////////////////////////////////////////////////////////////////////////////"),
+  }),
 
-    -- calloc
-    s("cal", {
-        i(1, "type"),
-        t(" *"),
-        i(2, "ptr"),
-        t(" = calloc("),
-        i(3, "count"),
-        t(", sizeof("),
-        f(function(args) return args[1][1] end, { 1 }),
-        t("));"),
-    }),
-
-    -- free and null
-    s("fr", {
-        t("free("),
-        i(1, "ptr"),
-        t(");"),
-        t({ "", "" }),
-        f(function(args) return args[1][1] end, { 1 }),
-        t(" = NULL;"),
-    }),
-
-    -- sizeof
-    s("sz", {
-        t("sizeof("),
-        i(1, "type"),
-        t(")"),
-    }),
-
-    -- cast
-    s("cast", {
-        t("("),
-        i(1, "type"),
-        t(")("),
-        i(2, "expr"),
-        t(")"),
-    }),
-
-    -- TODO comment
-    s("todo", {
-        t("// TODO(nasr): "),
-        i(1, "description"),
-    }),
-
-    -- NOTE comment
-    s("note", {
-        t("// NOTE(nasr): "),
-        i(1, "description"),
-    }),
-
-    -- separator
-    s("sep", {
-        t("///////////////////////////////////////////////////////////////////////////////"),
-    }),
-
-    -- section banner
-    s("ban", {
-        t({ "///////////////////////////////////////////////////////////////////////////////", "// " }),
-        i(1, "Section"),
-        t({ "", "///////////////////////////////////////////////////////////////////////////////", "" }),
-    }),
+  -- double pointer dereference
+  s("deref", {
+    i(1, "ptr"),
+    t("->"),
+    i(2, "member"),
+  }),
 }

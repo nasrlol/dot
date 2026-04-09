@@ -7,6 +7,7 @@ require("plugins.oil")
 
 require("core.options")
 require("core.keymaps")
+require("core.tools")
 require("ui.colors")
 require("ui.neovide")
 
