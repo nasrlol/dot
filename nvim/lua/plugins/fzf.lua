@@ -9,6 +9,7 @@ local inline = {
 }
 
 fzf.setup({
+
     multiprocess = true,
 
     fzf_opts = {
@@ -25,7 +26,7 @@ fzf.setup({
         formatter = "path.filename_first",
         fd_opts = "--type f --hidden --exclude .git --exclude node_modules --exclude .cache --exclude tags --exclude TAGS",
         winopts = inline,
-        prompt = "files :: ",
+        prompt = " files :: ",
         hidden =  true,
         cwd_prompt  = false,
     },
@@ -36,11 +37,11 @@ fzf.setup({
     },
 
     grep = {
-        prompt      = "found ::  ", 
-        input_prompt = "grep ::  ",
-        lgrep        = true,
-        rg_opts      = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
-        winopts      = inline,
+        prompt          = " found ::  ",
+        input_prompt    = " grep ::  ",
+        lgrep           = true,
+        rg_opts         = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
+        winopts         = inline,
     },
 
     lsp = {

@@ -16,15 +16,15 @@ static const int sidepad = 0;
 
 /* fonts */
 static const char *fonts[] = {"JetBrainsMonoNL Nerd Font:style=Regular:size=14"};
-static const char dmenufont[] = "Liberation Mono:size=14";
+static const char dmenufont[] = "Liberation Mono:size=18";
 
-static const char hh_back[]         = "#161616";
-static const char hh_text[]         = "#a08563";
-static const char hh_comment[]      = "#7d7d7d";
-static const char hh_keyword[]      = "#cd950c";
-static const char hh_cursor[]       = "#40ff40";
-static const char hh_border[]       = "#262626";
-static const char hh_highlight[]    = "#703419";
+static const char hh_back[]         = "#0a0a0a";
+static const char hh_text[]         = "#b0b0b0";
+static const char hh_comment[]      = "#606060";
+static const char hh_keyword[]      = "#6eb3d9";
+static const char hh_cursor[]       = "#00ff00";
+static const char hh_border[]       = "#1a1a1a";
+static const char hh_highlight[]    = "#1a3a4d";
 
 /* --- The Scheme Array --- */
 static const char *colors[][3] = {
@@ -42,7 +42,7 @@ static const char *tags[] = {"1", "2", "3", "4", "5"};
 /* rules */
 static const Rule rules[] = {
 	/* class                instance  title  tags   mask  isfloating  monitor */
-	{"neovide",             NULL,   NULL,   1 << 0, 0, -1},
+	// {"neovide",             NULL,   NULL,   1 << 0, 0, -1},
 	{"org.mozzila.firefox", NULL,   NULL,   1 << 2, 0, -1},
 	{"Navigator",           NULL,   NULL,   1 << 2, 0, -1},
 	{"jetbrains-clion",     NULL,   NULL,   1 << 3, 0, -1},
@@ -91,7 +91,7 @@ static const char *termcmd[] = {"st", NULL};
 static const char *ghostty[] = {"ghostty", NULL};
 static const char *neovide[] = {"neovide", NULL};
 static const char *emacs[]   = {"emacs-gtk+x11", NULL};
-static const char *browser[] = {"firefox", NULL};
+static const char *browser[] = {"ungoogled", NULL};
 static const char *discord[] = {"discord", NULL};
 static const char *lock[]    = {"slock", NULL };
 
@@ -102,6 +102,7 @@ static const char *vol_down[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", 
 static const char *vol_mute[] = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle", NULL };
 
 /* Screenshots */
+// - removed, looking for a single binary screenshot tool. scrot is shit
 static const char *scrot_full[]      = { "scrot", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
 static const char *scrot_select[]    = { "scrot", "-s", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
 static const char *scrot_window[]    = { "scrot", "-u", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
@@ -123,8 +124,8 @@ static const Key keys[] = {
 	{MODKEY|ShiftMask, XK_l, spawn, {.v = lock }},
 
 	/* screenshot bindings */
-	{ MODKEY,         XK_s,      spawn, {.v = scrot_select } }, /* Mod + s        = Select Area */
 	{ MODKEY|ShiftMask, XK_s,    spawn, {.v = scrot_full   } }, /* Mod + Shift + s = Entire Screen */
+	{ MODKEY,         XK_s,      spawn, {.v = scrot_select } }, /* Mod + s        = Select Area */
 	{ MODKEY|ControlMask, XK_s,  spawn, {.v = scrot_window } }, /* Mod + Ctrl + s  = Active Window */
 
 	/* focus */
