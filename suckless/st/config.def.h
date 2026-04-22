@@ -4,7 +4,8 @@
  * appearance
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
- */ static char *font =
+ */
+static char *font =
     "Liberation Mono:style=Regular:pixelsize=22:antialias=true:autohint=true";
 
 static int borderpx = 12;
@@ -53,7 +54,7 @@ static double maxlatency = 33;
 static unsigned int blinktimeout = 800;
 
 /* thickness of underline and bar cursors */
-static unsigned int cursorthickness = 14;
+static unsigned int cursorthickness = 6;
 
 /* bell volume */
 static int bellvolume = 0;
@@ -62,7 +63,7 @@ static int bellvolume = 0;
 char *termname = "st-256color";
 
 /* spaces per tab */
-unsigned int tabspaces = 4;
+unsigned int tabspaces = 1;
 
 /* =========================
  * Terminal colors
@@ -71,19 +72,19 @@ unsigned int tabspaces = 4;
 /* Terminal colors (16 first used by escape sequence) */
 static const char *colorname[] = {
     /* 8 normal colors */
-    "#1E2A2A", "#FF6347", "#32CD32", "#DAA520",
-    "#20B2AA", "#D2B48C", "#6FC6C6", "#D3D3D3",
+    "#1E2A2A", "#FF6347", "#32CD32", "#DAA520", "#20B2AA", "#D2B48C", "#6FC6C6",
+    "#D3D3D3",
 
     /* 8 bright colors */
-    "#072626", "#FF6347", "#7CFC00", "#FFD700",
-    "#20B2AA", "#FF1493", "#00CED1", "#F0F2F5",
+    "#072626", "#FF6347", "#7CFC00", "#FFD700", "#20B2AA", "#FF1493", "#00CED1",
+    "#F0F2F5",
 
     [255] = 0,
 
     /* Extended colors (256+) */
-    [256] = "#A08563",     /* foreground */
-    [257] = "#072626",     /* background */
-    [258] = "#FFD700",     /* cursor */
+    [256] = "#A08563", /* foreground */
+    [257] = "#072626", /* background */
+    [258] = "#FFD700", /* cursor */
 };
 #include "autocomplete.h"
 
@@ -96,12 +97,8 @@ unsigned int defaultbg = 257;
 unsigned int defaultcs = 258;
 static unsigned int defaultrcs = 257;
 
-
-
-
-
 /* cursor shape (2 = block) */
-static unsigned int cursorshape = 2;
+static unsigned int cursorshape = 1;
 
 /* default cols / rows */
 static unsigned int cols = 80;
@@ -116,47 +113,49 @@ static unsigned int defaultattr = 11;
 static uint forcemousemod = ShiftMask;
 
 static MouseShortcut mshortcuts[] = {
-     	{ XK_ANY_MOD,           Button2, selpaste,       {.i = 0},      1 },
-    	{ ShiftMask,            Button4, ttysend,        {.s = "\033[5;2~"} },
-    	{ XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
-    	{ ShiftMask,            Button5, ttysend,        {.s = "\033[6;2~"} },
-    	{ XK_ANY_MOD,           Button5, ttysend,        {.s = "\005"} },
-
+    {XK_ANY_MOD, Button2, selpaste, {.i = 0}, 1},
+    {ShiftMask, Button4, ttysend, {.s = "\033[5;2~"}},
+    {XK_ANY_MOD, Button4, ttysend, {.s = "\031"}},
+    {ShiftMask, Button5, ttysend, {.s = "\033[6;2~"}},
+    {XK_ANY_MOD, Button5, ttysend, {.s = "\005"}},
 
 };
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask | ShiftMask)
 
-#define ACMPL_MOD ControlMask|Mod1Mask
+#define ACMPL_MOD ControlMask | Mod1Mask
 
 static Shortcut shortcuts[] = {
 
-  { XK_ANY_MOD,           XK_Break,       sendbreak,      {.i =  0} },
-  { ControlMask,          XK_Print,       toggleprinter,  {.i =  0} },
-  { ShiftMask,            XK_Print,       printscreen,    {.i =  0} },
-  { XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
-  { TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
-  { TERMMOD,              XK_Next,        zoom,           {.f = -1} },
-  { TERMMOD,              XK_Home,        zoomreset,      {.f =  0} },
-  { TERMMOD,              XK_C,           clipcopy,       {.i =  0} },
-  { TERMMOD,              XK_V,           clippaste,      {.i =  0} },
-  { TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
-  { ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
-  { TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
+    {TERMMOD, XK_F1, sendbreak, {.i = 0}},
+    {TERMMOD, XK_F2, toggleprinter, {.i = 0}},
+    {TERMMOD, XK_F3, printscreen, {.i = 0}},
+    {TERMMOD, XK_F4, printsel, {.i = 0}},
 
+    //- font size handling
+    {TERMMOD, XK_plus, zoom, {.f = +1}},
+    {TERMMOD, XK_underscore, zoom, {.f = -1}},
+    {TERMMOD, XK_F10, zoomreset, {.f = 0}},
 
-	{ ShiftMask,            XK_Up,     kscrollup,      {.i = -1} },
-	{ ShiftMask,            XK_Down,   kscrolldown,    {.i = -1} },
+    {TERMMOD, XK_C, clipcopy, {.i = 0}},
+    {TERMMOD, XK_V, clippaste, {.i = 0}},
 
-	{ ControlMask,            XK_slash,       autocomplete,   { .i = ACMPL_WORD        } },
-	{ ControlMask,            XK_period,      autocomplete,   { .i = ACMPL_FUZZY_WORD  } },
-	{ ControlMask,            XK_comma,       autocomplete,   { .i = ACMPL_FUZZY       } },
-	{ ControlMask,            XK_apostrophe,  autocomplete,   { .i = ACMPL_SUFFIX      } },
-	{ ControlMask,            XK_semicolon,   autocomplete,   { .i = ACMPL_SURROUND    } },
-	{ ControlMask,            XK_bracketright,autocomplete,   { .i = ACMPL_WWORD       } },
-	{ ControlMask,            XK_bracketleft, autocomplete,   { .i = ACMPL_FUZZY_WWORD } },
-	{ ControlMask,            XK_equal,       autocomplete,   { .i = ACMPL_UNDO        } },
+    {TERMMOD, XK_Y, selpaste, {.i = 0}},
+    {ShiftMask, XK_Insert, selpaste, {.i = 0}},
 
+    {TERMMOD, XK_Num_Lock, numlock, {.i = 0}},
+
+    {ShiftMask, XK_Up, kscrollup, {.i = -1}},
+    {ShiftMask, XK_Down, kscrolldown, {.i = -1}},
+
+    {ControlMask, XK_slash, autocomplete, {.i = ACMPL_WORD}},
+    {ControlMask, XK_period, autocomplete, {.i = ACMPL_FUZZY_WORD}},
+    {ControlMask, XK_comma, autocomplete, {.i = ACMPL_FUZZY}},
+    {ControlMask, XK_apostrophe, autocomplete, {.i = ACMPL_SUFFIX}},
+    {ControlMask, XK_semicolon, autocomplete, {.i = ACMPL_SURROUND}},
+    {ControlMask, XK_bracketright, autocomplete, {.i = ACMPL_WWORD}},
+    {ControlMask, XK_bracketleft, autocomplete, {.i = ACMPL_FUZZY_WWORD}},
+    {ControlMask, XK_equal, autocomplete, {.i = ACMPL_UNDO}},
 
 };
 
@@ -291,9 +290,6 @@ static Key key[] = {
     {XK_Next, ControlMask, "\033[6;5~", 0, 0},
     {XK_Next, ShiftMask, "\033[6;2~", 0, 0},
     {XK_Next, XK_ANY_MOD, "\033[6~", 0, 0},
-
-
-
 
     {XK_F1, XK_NO_MOD, "\033OP", 0, 0},
     {XK_F1, /* F13 */ ShiftMask, "\033[1;2P", 0, 0},

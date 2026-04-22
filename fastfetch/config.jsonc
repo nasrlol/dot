@@ -11,6 +11,7 @@
   "modules": [
     "title",
     "separator",
+    "packages",
     "os",
     "host",
     "kernel",
