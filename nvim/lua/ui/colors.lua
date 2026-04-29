@@ -8,12 +8,12 @@ local colors = {
     bgAlt      = "#1E2A2A",
     fg         = "#A08563",
     fgDim      = "#5A5240",
-    cursor     = "#88D700",
+    cursor     = "#e53e10",
     cursorAlt  = "#FF4500",
     cursorLine = "#0A3B3B",
     lineNr     = "#606060",
     lineNrBg   = "#1A1A1A",
-    visual     = "#224424",
+    visual     = "#e53e10",
     search     = "#DAA520",
     border     = "#303030",
     comment    = "#6A6A6A",
@@ -34,6 +34,7 @@ local colors = {
 dark = true
 
 if dark then
+
     hl("Normal",        { fg = colors.fg,   bg = NONE  , blend=10})
     hl("NormalFloat",   { fg = colors.fg,   bg = NONE  , blend=10})
     hl("NormalNC",      { fg = colors.fgDim,bg = NONE  , blend=10})
@@ -110,14 +111,13 @@ hl("LineNr",       { fg = colors.lineNr, bg = NONE, blend = 10 })
 hl("LineNrNC",     { fg = colors.fgDim, bg = NONE, blend = 10 })
 
 -- Selection
-hl("Visual",       { fg = colors.fg, bg = colors.visual, blend = 10 })
+hl("Visual",       { fg = colors.bg, bg = colors.visual, blend = 10 })
 hl("VisualNC",     { fg = colors.fgDim, bg = colors.bgAlt, blend = 10 })
+hl("Search",       { bg = colors.search, blend = 10 })
+hl("IncSearch",    {  fg = colors.bg, bg = colors.visual, blend = 10} )
 
 hl("MatchParen",   { fg = colors.bg, bg = colors.accent, blend = 10 })
 
--- Search
-hl("Search",       { bg = colors.search, blend = 10 })
-hl("IncSearch",    { fg = colors.bg, bg = colors.cursor, blend = 10 })
 
 -- Completion Menu
 hl("Pmenu",        { fg = colors.fg, bg = colors.bgAlt, blend = 10 })
@@ -267,5 +267,16 @@ hl("@type.builtin",      { fg = colors.constant })
 hl("@type.definition",   { fg = colors.type, bold = true })
 hl("@keyword.type",      { fg = colors.keyword })
 hl("@storageclass",      { fg = colors.keyword })
+
+-- lsp colors
+hl('@lsp.type.variable', {})
+hl('@lsp.type.function', {})
+hl('@lsp.type.keyword', {})
+hl('@lsp.type.comment', {})
+hl('@lsp.type.string', {})
+hl('@lsp.type.number', {})
+hl('@lsp.type.operator', {})
+hl('@lsp.type.punctuation', {})
+
 
 end

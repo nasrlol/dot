@@ -14,9 +14,9 @@ g.loaded_ruby_provider = 0
 -- DISPLAY & COLORS
 opt.termguicolors   = true
 opt.signcolumn      = "yes"
-opt.number          = false
-opt.relativenumber  = false
-opt.cursorline      = false
+opt.number          = true
+opt.relativenumber  = true
+opt.cursorline      = true
 opt.showmode        = false
 opt.list            = false
 
@@ -32,7 +32,7 @@ if vim.g.neovide then
     opt.statusline = " %{mode()} %f%m%r %=%l:%c/%L [%Y] [%{&encoding}]"
 
     opt.laststatus = 2
-    opt.showtabline = 2
+    opt.showtabline = 0
 else
     opt.winbar = ""
     opt.statusline = " %{mode()} %f%m%r %=%l:%c/%L [%Y] [%{&encoding}]"
@@ -79,24 +79,24 @@ opt.incsearch       = true
 opt.inccommand      = "split"
 
 
--- WRAPPING & SCROLLING
+-- wrapping & scrolling
 opt.smoothscroll = false
 opt.wrap = false
 opt.linebreak = false
 opt.scrolloff = 0
-opt.sidescrolloff = 5
+opt.sidescrolloff = 10
 opt.scroll = 0
-vim.opt.scrolljump = -50
+opt.scrolljump = -100
 
 
--- EDITING
+-- editing
 opt.backspace = "indent,eol,start"
 opt.mouse = ""
 opt.clipboard = "unnamedplus"
 opt.virtualedit = "all"
 
 
--- FILES & PERSISTENCE
+-- files & persistence
 opt.undofile = true
 opt.swapfile = false
 opt.backup = false
@@ -110,6 +110,9 @@ opt.updatetime  = 250
 opt.timeoutlen  = 500
 opt.ttimeoutlen = 0
 opt.redrawtime  = 1500
+
+opt.exrc = true
+opt.secure = true
 
 
 -- FORMATTING & COMMENTS

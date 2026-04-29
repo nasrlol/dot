@@ -1,70 +1,179 @@
+# Editors
 export EDITOR=nvim
 export VISUAL=nvim
-export PAGER=less
+export PAGER=cat
 export MANPAGER="nvim +Man!"
 
+# Locale
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/odin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
+# Build consolidated PATH once (more efficient than multiple exports)
+export PATH="$HOME/.local/bin:$HOME/odin:$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
 
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/go
-export PATH="$GOROOT/bin:$PATH"
-export PATH="$GOPATH/bin:$PATH"
+# Go
+# export GOROOT=/usr/local/go
+# export GOPATH=$HOME/go
+# export PATH="$GOROOT/bin:$GOPATH/bin:/usr/local/bin:$PATH"
 
+export PATH="$HOME/third_party/go-versions/go1.26.1/bin:$PATH"
+
+# Java
+export JAVA_HOME="$HOME/.jdks/openjdk-25.0.1"
+export PATH="$JAVA_HOME/bin:$PATH"
+export CLASSPATH="/usr/share/java/easymock.jar:$CLASSPATH"
+export PATH="$PATH:/opt/clion/bin"
+
+# .NET
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH="$DOTNET_ROOT:$PATH"
 
-setopt AUTO_CD              
-setopt AUTO_PUSHD           
-setopt PUSHD_IGNORE_DUPS    
-setopt PUSHD_SILENT         
-setopt EXTENDED_GLOB        
-setopt HIST_IGNORE_DUPS     
-setopt HIST_FIND_NO_DUPS    
-setopt HIST_REDUCE_BLANKS   
-setopt SHARE_HISTORY        
-setopt APPEND_HISTORY       
-setopt INC_APPEND_HISTORY   
+# FZF
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+
+# Colors
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+export ls_colors="di=37:fi=0:ln=37;2:ex=37;1:*.png=37;2:*.jpg=37;2:*.sh=37;2"
+
+setopt AUTO_CD                  # Auto change directory
+setopt AUTO_PUSHD               # Push directories onto stack
+setopt PUSHD_IGNORE_DUPS        # Don't push duplicates
+setopt PUSHD_SILENT             # Silent directory stack
+setopt EXTENDED_GLOB            # Extended globbing
+setopt HIST_IGNORE_DUPS         # Don't record duplicate commands
+setopt HIST_FIND_NO_DUPS        # Don't show duplicates in history search
+setopt HIST_REDUCE_BLANKS       # Remove superfluous blanks
+setopt SHARE_HISTORY            # Share history between sessions
+setopt APPEND_HISTORY           # Append to history file
+setopt INC_APPEND_HISTORY       # Append immediately
+setopt PROMPT_SUBST             # Enable prompt substitution
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
+
 bindkey -v
+export KEYTIMEOUT=10
 
-export KEYTIMEOUT=1
-
+# Custom key bindings
 bindkey '^F' autosuggest-accept
 bindkey '^E' edit-command-line
 
+# Enable edit-command-line widget
 autoload -Uz edit-command-line
 zle -N edit-command-line
 
+
+autoload -Uz vcs_info
+
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' unstagedstr '*'
+zstyle ':vcs_info:*' stagedstr '+'
+zstyle ':vcs_info:git:*' formats ' [%F{yellow}%b%f%F{red}%u%c%f]'
+zstyle ':vcs_info:git:*' actionformats ' [%F{yellow}%b%f%F{red}%u%c%f (%a)]'
+
+precmd() {
+    vcs_info
+}
+
+PROMPT='%n@%m :: '
+
+if [[ -n "$ZSH_HIGHLIGHT_STYLES" ]]; then
+    ZSH_HIGHLIGHT_STYLES=(
+        default none
+        unknown-token "fg=red,bold"
+        reserved-word "fg=yellow"
+        alias "fg=blue"
+        builtin "fg=blue"
+        function "fg=blue"
+        command "fg=blue"
+        precommand "fg=blue,underline"
+        commandseparator none
+        hashed-command "fg=blue"
+        path "fg=cyan"
+        path_pathseparator ""
+        path_prefix "fg=cyan"
+        path_approx "fg=cyan"
+        globbing "fg=cyan"
+        history-expansion "fg=cyan"
+        single-hyphen-option "fg=cyan"
+        double-hyphen-option "fg=cyan"
+        back-quoted-argument none
+        single-quoted-argument "fg=yellow"
+        double-quoted-argument "fg=yellow"
+        dollar-double-quoted-argument "fg=cyan"
+        back-double-quoted-argument "fg=cyan"
+        assign none
+        redirection "fg=cyan"
+        comment "fg=black,bold"
+    )
+fi
+
+
+# Navigation (using zoxide)
 alias cd="z"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
+
+# i find this a hard word to type
+alias lz="lazygit"
+
+alias ss="exec dbus-run-session startx"
+
+# System
+# alias gentoo="sudo systemd-nspawn -D /mnt/gentoo --bind /boot"
+alias dls="docker container ls -a"
+alias net="ping 1.1.1.1"
 alias emacs="emacs-gtk+x11"
+alias ports="ss -tulpn"
+alias mem="free -h"
+alias cpu="lscpu | sed -n '1,12p'"
+alias top="btop"
+
+
+# docker
+alias dstop='docker ps -q | xargs -r docker stop'
+alias drm='docker ps -a -q | xargs -r docker rm -f'
+alias drmi='docker images -q | xargs -r docker rmi -f'
+alias drnet='docker network ls -q | xargs -r docker network rm'
+alias drv='docker volume ls -q | xargs -r docker volume rm'
+alias dclean='dstop && drm && drmi && drnet && drv'
+
+# Editor shortcuts
 alias vim="nvim"
 alias vi="nvim"
 alias v="nvim"
-alias l="exa -l"
-alias ls="exa --group-directories-first"
-alias ll="exa -l --group-directories-first --git"
-alias la="exa -la --group-directories-first --git"
-alias lt="exa --tree --level=2 --group-directories-first"
-alias lta="exa --tree --level=2 --group-directories-first -a"
-alias grep="rg"
-alias cat="bat"
-alias find="fd"
+
+# Web server
+alias server="python -m http.server 8000"
+
+# Modern replacements (safety nets)
+# alias grep="rg"
+# alias cat="bat"
+# alias find="fd"
 alias ps="procs"
 alias du="dust"
 alias df="duf"
+alias rm="rm"
+alias cp="cp"
+alias mv="mv"
+
+autoload -Uz compinit
+compinit
+
+# Directory listing (eza)
+alias l="eza -l --group"
+alias ls="eza --group --group-directories-first"
+alias ll="eza -l --group --group-directories-first --git"
+alias la="eza -la --group --group-directories-first --git"
+alias lt="eza --tree --level=2 --group --group-directories-first"
+alias lta="eza --tree --level=2 --group --group-directories-first -a"
+
+# Git shortcuts
 alias g="git"
 alias gs="git status"
 alias ga="git add"
@@ -76,29 +185,34 @@ alias gco="git checkout"
 alias gb="git branch"
 alias glog="git log --oneline --graph --decorate"
 alias checkpoint="git add . && git commit -m 'checkpoint' && git push"
+
+# Tmux
 alias attach="tmux attach-session -t"
 alias new="tmux new-session -s"
 alias list="tmux list-sessions"
 alias ta="tmux attach"
 alias tls="tmux list-sessions"
+
+# Utilities
 alias copypath="pwd | xsel --clipboard"
 alias copy="xsel --clipboard"
 alias t="todocli"
 alias battery="cat /sys/class/power_supply/macsmc-battery/capacity"
-alias ports="ss -tulpn"
 alias weather="curl wttr.in"
 alias myip="curl ifconfig.me"
 alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
-alias mem="free -h"
-alias cpu="lscpu | sed -n '1,12p'"
-alias top="btop"
-alias rm="rm -i"
-alias cp="cp -i"
-alias mv="mv -i"
+alias kbbr="echo 0 | sudo tee /sys/class/leds/kbd_backlight/brightness"
+
+# Config
 alias zshconfig="nvim ~/.zshrc"
 alias reload="source ~/.zshrc"
 
+# Cpupower
+alias powersave="sudo cpupower frequency-set -g powersave"
+alias performance="sudo cpupower frequency-set -g performance"
 
+
+# Fuzzy file editor with git awareness
 edit() {
     local file
     if ! git rev-parse --git-dir >/dev/null 2>&1; then
@@ -111,30 +225,69 @@ edit() {
     [[ -n "$file" ]] && nvim "$file"
 }
 
+# Config file editor
 config() {
     local file
     file=$(git -C ~/.config ls-files | fzf \
-        --preview 'bat -n --style=full --color=always ~/.config/{} 2>/dev/null' \
+        --preview 'bat -n --style=full --color=always "$HOME/.config/{}" 2>/dev/null' \
         --preview-window=right:60%:wrap)
+
     [[ -n "$file" ]] && nvim ~/.config/"$file"
 }
 
-goto() {
-    local file
-    file=$(fd --type f --hidden --follow \
-        --exclude .git \
-        --exclude node_modules \
-        --exclude target \
-        --exclude build \
-        . ~ \
-        | fzf --preview 'bat -n --style=full --color=always {} 2>/dev/null' \
-              --preview-window=right:60%:wrap)
-    [[ -n "$file" ]] && cd "$(dirname "$file")"
+# Open file/directory
+open() {
+    if [[ $# -eq 0 ]]; then
+        xdg-open . > /dev/null 2>&1
+    else
+        xdg-open "$@" > /dev/null 2>&1
+    fi
 }
 
+goto() {
+    local file viewer
+
+    file=$(fd --type f --hidden --follow --exclude node_modules .git  | fzf --preview 'bat -n --style=full --color=always {} 2>/dev/null' --preview-window=right:60%:wrap)
+
+    [[ -z "$file" ]] && return
+    cd "$(dirname "$file")"
+}
+
+# Jump to project and open in editor
+wo() {
+    local dir
+    dir=$(zoxide query -l | fzf --height 40% --reverse --header="Jump to Project")
+    if [[ -n "$dir" ]]; then
+        cd "$dir"
+        [[ -n "$TMUX" ]] && tmux rename-window "$(basename "$dir")"
+        nvim .
+    fi
+}
+
+# Install package with fuzzy search
+install() {
+    local pkg
+    pkg=$(dnf search all 2>/dev/null \
+        | awk '{print $1}' \
+        | sed 's/\.$//' \
+        | sort -u \
+        | fzf --prompt="dnf install > " \
+              --preview 'dnf info {} 2>/dev/null' \
+              --preview-window=right:60%:wrap)
+    [[ -n "$pkg" ]] && sudo dnf install "$pkg"
+}
+
+memleak() {
+    while true
+    do
+        grep -E "VmRSS|VmSize|VmPeak" /proc/70409/status
+        sleep 1
+    done
+}
+
+# Git utilities
 groot() {
-    local root
-    root=$(git rev-parse --show-toplevel 2>/dev/null)
+    local root=$(git rev-parse --show-toplevel 2>/dev/null)
     if [[ -n "$root" ]]; then
         cd "$root"
     else
@@ -143,29 +296,24 @@ groot() {
     fi
 }
 
-mkcd() {
-    mkdir -p "$1" && cd "$1"
+
+screenrec() {
+    if pgrep ffmpeg > /dev/null; then
+        pkill -SIGINT ffmpeg
+    else
+        ffmpeg -f x11grab -r 15 -s 2560x1664 -i :0.0 \
+            -c:v libx264 -preset ultrafast \
+            -vf scale=1280:832 \
+            -crf 32 \
+            -maxrate 400k -bufsize 800k \
+            "/home/nasr/videos/$(date +%Y-%m-%d-%H%M%S).mp4" &
+    fi
 }
 
-extract() {
-    if [[ -f "$1" ]]; then
-        case "$1" in
-            *.tar.bz2)   tar xjf "$1"     ;;
-            *.tar.gz)    tar xzf "$1"     ;;
-            *.bz2)       bunzip2 "$1"     ;;
-            *.rar)       unrar x "$1"     ;;
-            *.gz)        gunzip "$1"      ;;
-            *.tar)       tar xf "$1"      ;;
-            *.tbz2)      tar xjf "$1"     ;;
-            *.tgz)       tar xzf "$1"     ;;
-            *.zip)       unzip "$1"       ;;
-            *.Z)         uncompress "$1"  ;;
-            *.7z)        7z x "$1"        ;;
-            *)           echo "'$1' cannot be extracted via extract()" ;;
-        esac
-    else
-        echo "'$1' is not a valid file"
-    fi
+
+
+gnb() {
+    git checkout -b "$1"
 }
 
 gcm() {
@@ -177,10 +325,37 @@ gac() {
     git commit -m "$*"
 }
 
-gnb() {
-    git checkout -b "$1"
+gitls() {
+    git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return 1
+    git ls-files -z | xargs -0 eza --color=always --icons --group-directories-first
 }
 
+# Directory utilities
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
+# Extract archives
+extract() {
+    if [[ -f "$1" ]]; then
+        case "$1" in
+            *.tar.bz2|*.tbz2)   tar xjf "$1"     ;;
+            *.tar.gz|*.tgz)     tar xzf "$1"     ;;
+            *.bz2)              bunzip2 "$1"     ;;
+            *.rar)              unrar x "$1"     ;;
+            *.gz)               gunzip "$1"      ;;
+            *.tar)              tar xf "$1"      ;;
+            *.zip)              unzip "$1"       ;;
+            *.Z)                uncompress "$1"  ;;
+            *.7z)               7z x "$1"        ;;
+            *)                  echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# Process utilities
 psg() {
     ps aux | grep -v grep | grep -i -e VSZ -e "$1"
 }
@@ -196,6 +371,7 @@ killp() {
     fi
 }
 
+# Utilities
 backup() {
     local filename=$(basename "$1")
     local timestamp=$(date +%Y%m%d_%H%M%S)
@@ -213,6 +389,7 @@ note() {
     echo "Note added to $note_file"
 }
 
+# Colored man pages
 man() {
     env \
     LESS_TERMCAP_mb=$(printf "\033[01;31m") \
@@ -225,81 +402,39 @@ man() {
     man "$@"
 }
 
+
 if [[ -z "$SSH_AUTH_SOCK" ]]; then
     eval "$(ssh-agent -s)" > /dev/null
 fi
 
 
+# Initialize zoxide (better cd)
 if command -v zoxide &> /dev/null; then
     eval "$(zoxide init zsh)"
 fi
 
+# Initialize direnv (directory-specific env)
 if command -v direnv &> /dev/null; then
     eval "$(direnv hook zsh)"
 fi
 
+# Initialize fzf key bindings
 if command -v fzf &> /dev/null; then
     source <(fzf --zsh)
 fi
 
+# Initialize zsh-autosuggestions
 if [[ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
     source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 elif [[ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
     source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
+# Initialize zsh-syntax-highlighting (must be last)
 if [[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
     source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 elif [[ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
     source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
-if [[ -n "$ZSH_HIGHLIGHT_STYLES" ]]; then
-    ZSH_HIGHLIGHT_STYLES[default]=none
-    ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=red,bold
-    ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=yellow
-    ZSH_HIGHLIGHT_STYLES[alias]=fg=blue
-    ZSH_HIGHLIGHT_STYLES[builtin]=fg=blue
-    ZSH_HIGHLIGHT_STYLES[function]=fg=blue
-    ZSH_HIGHLIGHT_STYLES[command]=fg=blue
-    ZSH_HIGHLIGHT_STYLES[precommand]=fg=blue,underline
-    ZSH_HIGHLIGHT_STYLES[commandseparator]=none
-    ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=blue
-    ZSH_HIGHLIGHT_STYLES[path]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[path_pathseparator]=
-    ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[path_approx]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[globbing]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=none
-    ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=yellow
-    ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=yellow
-    ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[assign]=none
-    ZSH_HIGHLIGHT_STYLES[redirection]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[comment]=fg=black,bold
-fi
-
-if [[ -n "$ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE" ]]; then
-    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
-fi
-
-setopt PROMPT_SUBST
-autoload -Uz vcs_info
-
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' unstagedstr '*'
-zstyle ':vcs_info:*' stagedstr '+'
-zstyle ':vcs_info:git:*' formats ' on %F{yellow}%b%f%F{red}%u%c%f'
-zstyle ':vcs_info:git:*' actionformats ' on %F{yellow}%b%f%F{red}%u%c%f (%a)'
-
-precmd() {
-    vcs_info
-}
-
-
-PROMPT='%F{8}[%f%F{blue}%n%f%F{8}]%f %F{magenta}%1~%f${vcs_info_msg_0_} %(?.%F{green}❯%f.%F{red}✗%f) '
+export PATH="$HOME/.local/bin:$PATH"

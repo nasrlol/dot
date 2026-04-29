@@ -22,3 +22,12 @@ autocmd("LspAttach", {
         vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
     end,
 })
+
+autocmd('LspAttach', {
+  callback = function(args)
+    local client_id = args.data.client_id
+    local bufnr = args.buf
+
+    vim.lsp.completion.enable(true, client_id, bufnr)
+  end,
+})
