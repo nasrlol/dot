@@ -1,0 +1,54 @@
+func SetupLogsConsumer(ctx context.Context, ch *amqp.Channel, dlqCh *amqp.Channel) error {
+    msgs, err := SetupQueue(
+        ch,
+        ExchangeInfo{
+            Name:       "logs.direct",
+            Kind:       "direct",
+            Durable:    true,
+            AutoDelete: false,
+            Internal:   false,
+            NoWait:     false,
+            Args:       nil,
+        },
+        QueueInfo{
+            Name:       "logs.queue",
+            Durable:    true,
+            AutoDelete: false,
+            Exclusive:  false,
+            NoWait:     false,
+            Args:       nil,
+        },
+        BindingInfo{
+            Key:    "log",
+            NoWait: false,
+            Args:   nil,
+        },
+    )
+    if err != nil {
+        return fmt.Errorf("SetupLogsConsumer: %w", err)
+    }
+
+    cfg := &ConsumerConfig{
+        DLQCh:   dlqCh,
+        DLQName: "dlq",
+        Process: processLogMessage,
+    }
+
+    go Consume(cfg, msgs, ctx)
+    return nil
+}
+
+func processLogMessage(body []byte) error {
+
+    msg, err := parseLogMessage(body)
+
+    if err != nil {
+
+        logger.Log(logger.NewMessage(logger.INFO, logger.CONTROLROOM,
+            fmt.Sprintf("unparseable log body: %s", body)))
+        return nil
+    }
+
+    logger.Log(msg)
+    return nil
+}

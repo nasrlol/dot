@@ -21,3 +21,4 @@ require("ui.ui")
 -- extra
 require("extra.ts")
 require("extra.lsp")
+require("extra.lsp-cmp")

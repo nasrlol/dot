@@ -39,7 +39,7 @@ if vim.g.neovide then
     g.neovide_scroll_animation_far_lines        = 0.05
     g.neovide_cursor_animation_length           = 0.25
     g.neovide_underline_stroke_scale            = 0
-    g.neovide_cursor_trail_size                 = 1
+    g.neovide_cursor_trail_size                 = 3
 
     -- Cursor VFX (disabled for now)
     g.neovide_cursor_vfx_particle_density       = 0
