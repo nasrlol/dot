@@ -19,9 +19,9 @@ static int vertpadbar = 2;                  /* vertical padding */
 static const char *colors[SchemeLast][2] = {
     /*               fg         bg       */
     [SchemeNorm]    = {"#A08563", "#000000"},  /* warm tan on pure black */
-    [SchemeSel]     = {"#072626", "#22D700"},  /* dark teal on golden (high contrast) */
+    [SchemeSel]     = {"#072626", "#FFD700"},  /* dark teal on golden (high contrast) */
     [SchemeOut]     = {"#072626", "#32CD32"},  /* dark teal on lime green */
-    [SchemeCursor]  = {"#072626", "#22D700"},  /* cursor matches selection */
+    [SchemeCursor]  = {"#072626", "#FFD700"},  /* cursor matches selection */
 };
 
 /*
