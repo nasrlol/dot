@@ -2,9 +2,9 @@
  #include <X11/XF86keysym.h>
 
 /* appearance */
-static const unsigned int borderpx = 4;
-static const unsigned int gappx = 4;
-static const unsigned int snap = 4;
+static const unsigned int borderpx = 0;
+static const unsigned int gappx = 10;
+static const unsigned int snap = 0;
 static const int showbar = 1;
 static const int topbar = 1;
 
@@ -19,12 +19,12 @@ static const char *fonts[] = {"JetBrainsMonoNL Nerd Font:style=Regular:size=14"}
 static const char dmenufont[] = "Liberation Mono:size=18";
 
 static const char hh_back[]         = "#0a0a0a";
-static const char hh_text[]         = "#b0b0b0";
-static const char hh_comment[]      = "#606060";
-static const char hh_keyword[]      = "#6eb3d9";
+static const char hh_text[]         = "#a0b8a0";
+static const char hh_comment[]      = "#506050";
+static const char hh_keyword[]      = "#7ad97a";
 static const char hh_cursor[]       = "#00ff00";
-static const char hh_border[]       = "#1a1a1a";
-static const char hh_highlight[]    = "#1a3a4d";
+static const char hh_border[]       = "#0a1a0a";
+static const char hh_highlight[]    = "#1a3a1a";
 
 /* --- The Scheme Array --- */
 static const char *colors[][3] = {
@@ -37,7 +37,7 @@ static const char *colors[][3] = {
 };
 
 /* tags */
-static const char *tags[] = {"1", "2", "3", "4", "5"};
+static const char *tags[] = {" 1", "2", "3", "4", "5 "};
 
 /* rules */
 static const Rule rules[] = {
@@ -94,6 +94,7 @@ static const char *emacs[]   = {"emacs-gtk+x11", NULL};
 static const char *browser[] = {"ungoogled", NULL};
 static const char *discord[] = {"discord", NULL};
 static const char *lock[]    = {"slock", NULL };
+static const char *mail[]    = {"thunderbird", NULL };
 
 
 /* Volumes */
@@ -103,9 +104,14 @@ static const char *vol_mute[] = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", 
 
 /* Screenshots */
 // - removed, looking for a single binary screenshot tool. scrot is shit
-static const char *scrot_full[]      = { "scrot", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
-static const char *scrot_select[]    = { "scrot", "-s", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
-static const char *scrot_window[]    = { "scrot", "-u", "%Y-%m-%d-%H%M%S.png", "-e", "mv $f ~/Pictures/Screenshots/", NULL };
+static const char *scrot_full[]   = { "scrot", "%Y-%m-%d-%H%M%S.png", "-e",
+    "mv $f ~/Pictures/Screenshots/ && xclip -selection clipboard -t image/png -i ~/Pictures/Screenshots/$f", NULL };
+
+static const char *scrot_select[] = { "scrot", "-s", "%Y-%m-%d-%H%M%S.png", "-e",
+    "mv $f ~/Pictures/Screenshots/ && xclip -selection clipboard -t image/png -i ~/Pictures/Screenshots/$f", NULL };
+
+static const char *scrot_window[] = { "scrot", "-u", "%Y-%m-%d-%H%M%S.png", "-e",
+    "mv $f ~/Pictures/Screenshots/ && xclip -selection clipboard -t image/png -i ~/Pictures/Screenshots/$f", NULL };
 
 
 /* keys */
@@ -119,6 +125,7 @@ static const Key keys[] = {
 	{MODKEY,            XK_d,      spawn, {.v = discord}},
 	{MODKEY,            XK_e,      spawn, {.v = emacs}},
 	{MODKEY|ShiftMask,  XK_l,      spawn, {.v = lock}},
+	{MODKEY|ShiftMask,  XK_m,      spawn, {.v = mail}},
 
 	/* lock screen */
 	{MODKEY|ShiftMask, XK_l, spawn, {.v = lock }},

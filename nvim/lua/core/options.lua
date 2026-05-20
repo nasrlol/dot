@@ -9,16 +9,17 @@ g.maplocalleader = " "
 g.loaded_node_provider = 0
 g.loaded_perl_provider = 0
 g.loaded_python3_provider = 0
-g.loaded_ruby_provider = 0
+g.loaded_rubyprovider = 0
 
 -- DISPLAY & COLORS
 opt.termguicolors   = true
-opt.signcolumn      = "yes"
-opt.number          = true
-opt.relativenumber  = true
-opt.cursorline      = true
-opt.showmode        = false
-opt.list            = false
+opt.signcolumn      = "no"
+opt.number          = false
+opt.numberwidth     = 1
+opt.relativenumber  = false
+opt.cursorline      = false
+opt.showmode        = true
+opt.list            = true
 
 opt.fillchars = { eob = " ", }
 opt.listchars = { tab = "_ ", trail = "."}
@@ -32,7 +33,7 @@ if vim.g.neovide then
     opt.statusline = " %{mode()} %f%m%r %=%l:%c/%L [%Y] [%{&encoding}]"
 
     opt.laststatus = 2
-    opt.showtabline = 0
+    opt.showtabline = 2
 else
     opt.winbar = ""
     opt.statusline = " %{mode()} %f%m%r %=%l:%c/%L [%Y] [%{&encoding}]"

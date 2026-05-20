@@ -7,6 +7,22 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "ssh_connections": [
+    {
+      "host": "100.98.120.96",
+      "username": "nasr",
+      "port": 22,
+      "args": [],
+      "projects": [
+        {
+          "paths": [
+            "/home/nasr/iot-badge-scanner"
+          ]
+        }
+      ]
+    }
+  ],
+  "disable_ai": true,
   "multi_cursor_modifier": "cmd_or_ctrl",
   "buffer_font_weight": 100.0,
   "buffer_line_height": {
@@ -41,5 +57,5 @@
   "icon_theme": "Material Icon Theme",
   "ui_font_size": 10.0,
   "buffer_font_size": 14.0,
-  "theme": "Ayu Mirage",
+  "theme": "Gruvbox Light Hard",
 }

@@ -10,7 +10,7 @@ static const char *fonts[] = {
     "JetBrainsMono Nerd Font:size=12"
 };
 
-static const char *prompt = "looking "; /* -p option; prompt to the left of input field */
+static const char *prompt = "   looking :: "; /* -p option; prompt to the left of input field */
 
 static unsigned int lines = 18; /* NUMBER OF VISIBLE LINES (vertical) */
 

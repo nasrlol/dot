@@ -97,7 +97,8 @@ map("n", "<M-p>",      fzf.files,                         { noremap = true, sile
 map("n", "<M-f>",      fzf.grep,                          { noremap = true, silent = true, desc = "Grep project" })
 map("n", "<M-g>",      fzf.grep_curbuf,                   { noremap = true, silent = true, desc = "Grep buffer" })
 map("n", "<M-s>",      fzf.grep_cword,                    { noremap = true, silent = true, desc = "Grep word under cursor" })
-map("n", "<M-e>",      fzf.live_grep_native,                    { noremap = true, silent = true, desc = "fast grep" })
+map("n", "<M-e>",      fzf.live_grep_native,              { noremap = true, silent = true, desc = "fast grep" })
+map("n", "<M-a>",      fzf.diagnostics_workspace,         { noremap = true, silent = true, desc = "workspace diagnostics" })
 
 map('n', 'q', '<Nop>')
 

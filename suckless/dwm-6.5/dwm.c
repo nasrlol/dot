@@ -147,6 +147,10 @@ struct Monitor {
   int eby;            /* extra bar geometry */
   int mx, my, mw, mh; /* screen size */
   int wx, wy, ww, wh; /* window area  */
+  // text width extra bar
+  int ebw;
+  // horizontal position
+  int ebx;
   int gappx;
   unsigned int seltags;
   unsigned int sellt;
@@ -598,9 +602,10 @@ void configurenotify(XEvent *e) {
         for (c = m->clients; c; c = c->next)
           if (c->isfullscreen)
             resizeclient(c, m->mx, m->my, m->mw, m->mh);
-        XMoveResizeWindow(dpy, m->barwin, m->wx + sp, m->by + vp,
-                          m->ww - 2 * sp, bh);
-        XMoveResizeWindow(dpy, m->extrabarwin, m->wx, m->eby, m->ww, bh);
+
+        // NOTE(nasr): handling text width with tags instead of default
+        XMoveResizeWindow(dpy, m->barwin, m->wx + sp, m->by + vp, m->ww - 2 * sp, bh);
+        XMoveResizeWindow(dpy, m->extrabarwin, m->ebx, m->eby, m->ebw, bh);
       }
       focus(NULL);
       arrange(NULL);
@@ -747,15 +752,20 @@ void drawbar(Monitor *m) {
     tw = TEXTW(stext) - lrpad + 2 * sp + 2;
     drw_text(drw, m->ww - tw - 2 * sp, 0, tw, bh, 0, stext, 0);
     drw_text(drw, 0, 0, m->ww - tw - 2 * sp, bh, lrpad / 2, estext, 0);
-    drw_map(drw, m->barwin, 0, 0, m->ww, bh);
 
+    drw_map(drw, m->barwin, 0, 0, m->ww, bh);
     drw_setscheme(drw, scheme[SchemeNorm]);
     drw_rect(drw, 0, 0, m->ww, bh, 1, 1);
 
-    int total_tags_w = 0;
-    for (i = 0; i < LENGTH(tags); i++)
-      total_tags_w += TEXTW(tags[i]);
-    x = ((m->ww - (total_tags_w)) / 2) - 30 ;
+    // int total_tags_w = 0;
+    // for (i = 0; i < LENGTH(tags); i++)
+    //   total_tags_w += TEXTW(tags[i]);
+
+    // NOTE(nasr): ebw
+    // x = ((m->ebw - (total_tags_w)) / 2) - 30 ;
+
+    x = 0;
+
     for (i = 0; i < LENGTH(tags); i++) {
       w = TEXTW(tags[i]);
       drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
@@ -763,7 +773,8 @@ void drawbar(Monitor *m) {
       x += w;
     }
 
-    drw_map(drw, m->extrabarwin, 0, 0, m->ww, bh);
+    // NOTE(nasr): ebw
+    drw_map(drw, m->extrabarwin, 0, 0, m->ebw, bh);
   }
 }
 
@@ -1509,7 +1520,7 @@ void setup(void) {
     die("no fonts could be loaded.");
   lrpad = drw->fonts->h;
   // NOTE(nasr): bar size
-  bh = drw->fonts->h + 28;
+  bh = drw->fonts->h + 30;
   updategeom();
   sp = sidepad;
   vp = (topbar == 1) ? vertpad : -vertpad;
@@ -1772,7 +1783,9 @@ void updatebars(void) {
     }
     if (!m->extrabarwin) {
       m->extrabarwin = XCreateWindow(
-          dpy, root, m->wx, m->eby, m->ww, bh, 0, DefaultDepth(dpy, screen),
+// NOTE(nasr): change m->ww to m->ebw to take in the size of the tags
+// also changed m->wx to m->ebx, this centers the bar by dividing the window area / 2
+          dpy, root, m->ebx, m->eby, m->ebw, bh, 0, DefaultDepth(dpy, screen),
           CopyFromParent, DefaultVisual(dpy, screen),
           CWOverrideRedirect | CWBackPixmap | CWEventMask, &wa);
       XDefineCursor(dpy, m->extrabarwin, cursor[CurNormal]->cursor);
@@ -1785,17 +1798,27 @@ void updatebars(void) {
 void updatebarpos(Monitor *m) {
   m->wy = m->my;
   m->wh = m->mh;
+
+  m->ebw = 0;
+  for (unsigned int i = 0; i < LENGTH(tags); i++)
+      m->ebw += TEXTW(tags[i]);
+//  m->ebw += lrpad;
+
+  m->ebx = m->wx + (m->ww - m->ebw) / 2;
+
+
   if (m->showbar) {
+
     m->wh -= (bh + vp) * 2;
 
-    // Position the main bar
-    m->by = m->topbar ? m->wy + vp : m->wy + m->wh + bh + vp;
+    // Position the main bar and the extra bar
+    m->by = m->topbar ? m->wy + vp : m->wy + m->wh + bh + vp + 10;
 
-    // Position the extra bar (opposite of the main bar)
-    m->eby = m->topbar ? m->wy + m->wh + bh + vp : m->wy + vp;
+    m->eby = m->topbar ? m->wy + m->wh + bh + vp - 10 : m->wy + vp;
 
     // Adjust the window area Y-offset if the top bar is present
     m->wy = m->wy + bh + vp;
+
   } else {
     m->by = -bh;
     m->eby = -bh;

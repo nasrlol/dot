@@ -20,6 +20,10 @@
       "rev": "f353e8c08c50f39e99a9ed474172df7eddd89b72",
       "src": "https://github.com/chentoast/marks.nvim"
     },
+    "mini.indentscope": {
+      "rev": "ace9b4e503cb095b9a3f6442c909d117c4aa8d0e",
+      "src": "https://github.com/nvim-mini/mini.indentscope"
+    },
     "multicursors.nvim": {
       "rev": "72225ea9e4443c3f4b9df91d0193e07c4ee8d382",
       "src": "https://github.com/smoka7/multicursors.nvim"
@@ -43,6 +47,10 @@
     "todo-comments.nvim": {
       "rev": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668",
       "src": "https://github.com/folke/todo-comments.nvim"
+    },
+    "twilight.nvim": {
+      "rev": "664e752f4a219801265cc3fc18782b457b58c1e1",
+      "src": "https://github.com/folke/twilight.nvim"
     }
   }
 }

@@ -8,7 +8,7 @@
 static char *font =
     "Liberation Mono:style=Regular:pixelsize=22:antialias=true:autohint=true";
 
-static int borderpx = 0;
+static int borderpx = 16;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -70,22 +70,7 @@ unsigned int tabspaces = 1;
  * ========================= */
 
 /* Terminal colors (16 first used by escape sequence) */
-static const char *colorname[] = {
-    /* 8 normal colors */
-    "#1E2A2A", "#FF6347", "#32CD32", "#DAA520", "#20B2AA", "#D2B48C", "#6FC6C6",
-    "#D3D3D3",
-
-    /* 8 bright colors */
-    "#072626", "#FF6347", "#7CFC00", "#FFD700", "#20B2AA", "#FF1493", "#00CED1",
-    "#F0F2F5",
-
-    [255] = 0,
-
-    /* Extended colors (256+) */
-    [256] = "#A08563", /* foreground */
-    [257] = "#072626", /* background */
-    [258] = "#FFD700", /* cursor */
-};
+/* Terminal colors (16 first used by escape sequence) */ static const char *colorname[] = { /* 8 normal colors */ "#1a1a1a", "#e74c3c", "#2ecc71", "#f39c12", "#3498db", "#9b59b6", "#1abc9c", "#bdc3c7", /* 8 bright colors */ "#34495e", "#e67e22", "#27ae60", "#f1c40f", "#2980b9", "#8e44ad", "#16a085", "#ecf0f1", [255] = 0, /* Extended colors (256+) */ [256] = "#e0e0e0", /* foreground */ [257] = "#0a0a0a", /* background */ [258] = "#1abc9c", /* cursor */ };
 #include "autocomplete.h"
 
 /*

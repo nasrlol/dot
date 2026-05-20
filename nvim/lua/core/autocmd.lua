@@ -31,3 +31,9 @@ autocmd('LspAttach', {
     vim.lsp.completion.enable(true, client_id, bufnr)
   end,
 })
+
+autocmd("FileType", {
+  callback = function()
+    pcall(vim.treesitter.start)
+  end,
+})
