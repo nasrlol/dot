@@ -175,3 +175,11 @@ map({ "i", "s" }, "<Tab>", function()
     end
 end, { silent = true })
 
+
+
+
+-- Insert current date/time like: # May 28 22:48 - nasr
+map("n", "<leader>dt", function()
+    local timestamp = os.date("%B %d %H:%M - nasr")
+    vim.api.nvim_put({ timestamp }, "l", true, true)
+end, { desc = "Insert timestamp with name" })

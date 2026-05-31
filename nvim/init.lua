@@ -6,14 +6,12 @@ require("core.pack")
 require("plugins.fzf")
 require("plugins.luasnip")
 require("plugins.oil")
-require("plugins.indentscope")
 
 -- options
 require("core.options")
 require("core.keymaps")
 require("core.tools")
 require("core.autocmd")
-require("core.tools")
 
 -- ui
 require("ui.colors")

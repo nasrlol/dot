@@ -15,8 +15,8 @@ static const int vertpad = 0;
 static const int sidepad = 0;
 
 /* fonts */
-static const char *fonts[] = {"JetBrainsMonoNL Nerd Font:style=Regular:size=14"};
-static const char dmenufont[] = "Liberation Mono:size=18";
+static const char *fonts[] = {"Comic Mono:style=Regular:size=14"};
+static const char dmenufont[] = "Comic Mono:size=14";
 
 static const char hh_back[]         = "#0a0a0a";
 static const char hh_text[]         = "#a0b8a0";
@@ -37,13 +37,14 @@ static const char *colors[][3] = {
 };
 
 /* tags */
-static const char *tags[] = {" 1", "2", "3", "4", "5 "};
+static const char *tags[] = {" code", "terminal", "browser", "IDE", "+ "};
 
 /* rules */
 static const Rule rules[] = {
 	/* class                instance  title  tags   mask  isfloating  monitor */
 	// {"neovide",             NULL,   NULL,   1 << 0, 0, -1},
 	{"org.mozzila.firefox", NULL,   NULL,   1 << 2, 0, -1},
+    {"Mozilla Firefox",     NULL,   NULL,   1 << 2, 0, -1},
 	{"Navigator",           NULL,   NULL,   1 << 2, 0, -1},
 	{"jetbrains-clion",     NULL,   NULL,   1 << 3, 0, -1},
 	{"jetbrains-goland",    NULL,   NULL,   1 << 3, 0, -1},
@@ -90,8 +91,8 @@ static const char *dmenucmd[] = {
 static const char *termcmd[] = {"st", NULL};
 static const char *ghostty[] = {"ghostty", NULL};
 static const char *neovide[] = {"neovide", NULL};
-static const char *emacs[]   = {"emacs-gtk+x11", NULL};
-static const char *browser[] = {"ungoogled", NULL};
+static const char *emacs[]   = {"emacs", NULL};
+static const char *browser[] = {"firefox", NULL};
 static const char *discord[] = {"discord", NULL};
 static const char *lock[]    = {"slock", NULL };
 static const char *mail[]    = {"thunderbird", NULL };

@@ -11,10 +11,12 @@ lsp.config['gopls'] = {
   root_markers = { 'go.mod', '.git' },
 }
 lsp.enable('gopls')
+
 lsp.config['rust-analyzer'] = {
   cmd = { 'rust-analyzer' },
   filetypes = { 'rust' },
   root_markers = { 'Cargo.toml', '.git' },
 }
-lsp.enable('rust-analyzer')
+
+-- lsp.enable('rust-analyzer')
 lsp.semantic_tokens.enabled = false

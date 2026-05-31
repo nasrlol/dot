@@ -15,7 +15,7 @@ local palettes = {
         bgAlt      = "#1E2A2A",
         fg         = "#A08563",
         fgDim      = "#A08563",
-        cursor     = "#1abc9c",
+        cursor     = "#d4bc3c",
         cursorAlt  = "#A08563",
         cursorLine = "#A08563",
         lineNr     = "#A08563",
@@ -210,7 +210,7 @@ apply_hl_group("@tag.attribute",        { fg = colors.fg, italic = false })
 apply_hl_group("@tag.delimiter",        { fg = colors.fg })
 
 -- Type system highlights
-apply_hl_group("@type.definition",      { fg = colors.type, bold = true })
+apply_hl_group("@type.definition",      { fg = colors.type, bold = false })
 apply_hl_group("@type.qualifier",       { fg = colors.keyword })
 apply_hl_group("@type.int",             { fg = colors.constant })
 apply_hl_group("@type.float",           { fg = colors.constant })
@@ -220,7 +220,7 @@ apply_hl_group("@type.void",            { fg = colors.keyword })
 apply_hl_group("@type.ptr",             { fg = colors.preproc })
 
 -- Declarations
-apply_hl_group("@declaration.type",     { fg = colors.type, bold = true })
+apply_hl_group("@declaration.type",     { fg = colors.type, bold = false })
 apply_hl_group("@declaration.var",      { fg = colors.fg })
 apply_hl_group("@declaration.function", { fg = colors.fg })
 apply_hl_group("@declaration.const",    { fg = colors.constant })
@@ -233,10 +233,10 @@ apply_hl_group("@modifier.extern",      { fg = colors.keyword, italic = true })
 apply_hl_group("@modifier.volatile",    { fg = colors.keyword, italic = true })
 apply_hl_group("@modifier.restrict",    { fg = colors.keyword, italic = true })
 apply_hl_group("@storageclass",         { fg = colors.keyword })
-apply_hl_group("@storageclass.typedef", { fg = colors.type, bold = true })
-apply_hl_group("@storageclass.struct",  { fg = colors.type, bold = true })
-apply_hl_group("@storageclass.union",   { fg = colors.type, bold = true })
-apply_hl_group("@storageclass.enum",    { fg = colors.type, bold = true })
+apply_hl_group("@storageclass.typedef", { fg = colors.type, bold = false })
+apply_hl_group("@storageclass.struct",  { fg = colors.type, bold = false })
+apply_hl_group("@storageclass.union",   { fg = colors.type, bold = false })
+apply_hl_group("@storageclass.enum",    { fg = colors.type, bold = false })
 
 -- Field & Property
 apply_hl_group("@field.type",           { fg = colors.type })
@@ -244,7 +244,7 @@ apply_hl_group("@property.type",        { fg = colors.type })
 
 -- Function highlights
 apply_hl_group("@function.call",        { fg = colors.fg })
-apply_hl_group("@function.declaration", { fg = colors.fg, bold = true })
+apply_hl_group("@function.declaration", { fg = colors.fg, bold = false })
 apply_hl_group("@function.type",        { fg = colors.type })
 
 -- Parameters
