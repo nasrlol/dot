@@ -1520,7 +1520,7 @@ void setup(void) {
     die("no fonts could be loaded.");
   lrpad = drw->fonts->h;
   // NOTE(nasr): bar size
-  bh = drw->fonts->h + 30;
+  bh = drw->fonts->h + 10;
   updategeom();
   sp = sidepad;
   vp = (topbar == 1) ? vertpad : -vertpad;
@@ -1814,7 +1814,8 @@ void updatebarpos(Monitor *m) {
     // Position the main bar and the extra bar
     m->by = m->topbar ? m->wy + vp : m->wy + m->wh + bh + vp + 10;
 
-    m->eby = m->topbar ? m->wy + m->wh + bh + vp - 10 : m->wy + vp;
+    // padding below the bottom one
+    m->eby = m->topbar ? m->wy + m->wh + bh + vp : m->wy + vp;
 
     // Adjust the window area Y-offset if the top bar is present
     m->wy = m->wy + bh + vp;

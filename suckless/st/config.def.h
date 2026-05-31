@@ -6,7 +6,7 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 static char *font =
-    "Liberation Mono:style=Regular:pixelsize=22:antialias=true:autohint=true";
+    "Comic Mono:style=Regular:pixelsize=14:antialias=true:autohint=true";
 
 static int borderpx = 16;
 

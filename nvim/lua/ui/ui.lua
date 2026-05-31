@@ -1,5 +1,5 @@
-fontsize = 13
-opt.linespace = 2
+fontsize = 7
+opt.linespace = 1
 
 function set_fontsize()
     o.guifont = "comic mono:h" .. fontsize
@@ -10,20 +10,21 @@ set_fontsize()
 if vim.g.neovide then
 
     -- Cursor settings
-    opt.guicursor = "n-v-c-i-ci-r-cr:block-Cursor,o:hor50-Cursor"
+    opt.guicursor = "n-v-c:block-Cursor,i-ci:vline10-Cursor-blinkon100,r-cr:hor20-Cursor"
 
     g.neovide_theme                             = 'dark'
     g.neovide_scale_factor                      = 1
-    g.neovide_opacity                           = 0.98
+    g.neovide_opacity                           =  1
+
 
     -- Disable visual bloat
-    g.neovide_floating_blur_amount_x            = 0.8
-    g.neovide_floating_blur_amount_y            = 0.8
-    g.neovide_floating_z_height                 = 0.8
+    g.neovide_floating_blur_amount_x            = 0.0
+    g.neovide_floating_blur_amount_y            = 0.0
+    g.neovide_floating_z_height                 = 0.0
     g.neovide_light_angle_degrees               = 0
     g.neovide_light_radius                      = 0
     g.neovide_floating_shadow                   = false
-    g.neovide_window_blurred                    = true
+    g.neovide_window_blurred                    = false
 
 
     -- Refresh rate
