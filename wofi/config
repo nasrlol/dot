@@ -2,49 +2,45 @@
 
 # === Geometry ===
 width=50%
-height=40%
-x=300%
-y=250%
+height=50%
 orientation=vertical
-columns=1
+columns=2
 
-# === Location / Layer ===
-location=center           # center, top_left, top, top_right, right, bottom_right, bottom, bottom_left, left
-layer=top                 # background, bottom, top, overlay
-global_coords=false       # use global compositor space for x/y (avoid with location=)
+location=center            # Set to center
+layer=overlay                 # background, bottom, top, overlay
+global_coords=false       # Set to false to let location take over
 normal_window=false       # set true if not using wlroots/layer-shell
 
-# === Mode ===
-show=drun                 # run, drun, dmenu, or combi e.g. run,drun
+location=bottom           # center, top_left, top, top_right, right, bottom_right, bottom, bottom_left, left
+layer=overlay                 # background, bottom, top, overlay
+global_coords=true       # use global compositor space for x/y (avoid with location=)
+normal_window=false       # set true if not using wlroots/layer-shell
+
+show=run                  # run, drun, dmenu, or combi e.g. run,drun
 fork=true                 # fork so the launching terminal can close
 
-# === Search ===
-prompt=Search
+prompt=
 matching=contains         # contains, strict-contains, multi-contains, fuzzy
 insensitive=true
-filter_rate=100           # debounce ms
-exec_search=false         # Enter runs search text instead of first result
+filter_rate=10           # debounce ms
+exec_search=true         # Enter runs search text instead of first result
 parse_search=false        # strip pango/image escapes from search
 no_actions=false          # disable multi-action entries
 
-# === Display ===
-sort_order=alphabetical   # default, alphabetical
+sort_order=default   # default, alphabetical
 image_size=0              # icon size in px; 0 = disabled
-dynamic_lines=true       # grow window to fit results
+dynamic_lines=false       # grow window to fit results
 line_wrap=off             # off, word, char, word_char
 allow_markup=false        # allow pango markup in entries
-show_all=false            # show all entries before typing
+show_all=true            # show all entries before typing
 allow_images=false
 
-# === UI Elements ===
 hide_search=false
 hide_scroll=true
 term_string=alacritty -e  # terminal for term= entries in desktop files
 
-# === Clipboard ===
 copy_exec=wl-copy
 
-# === Quit behavior ===
 quit_on_focus_loss=false
 
 # === Password mode (uncomment to enable) ===
@@ -59,14 +55,14 @@ key_exit=Escape
 
 # === drun mode options ===
 drun-print_command=false        # print desktop file path instead of launching
-drun-display_generic=false      # show generic app name alongside app name
+drun-display_generic=true      # show generic app name alongside app name
 drun-only_match_name=false      # search only app name, skip category/description
 drun-ignore_non_default_gpu=false
 
 # === run mode options ===
 run-cache_file=~/.cache/wofi-run
 run-always_parse_args=false
-run-show_all=false
+run-show_all=true
 
 # === dmenu mode options ===
 dmenu-parse_action=false

@@ -2,27 +2,27 @@
     margin: 0;
     padding: 0;
     border-radius: 0;
-    font-family: "JetBrains Mono", "Fira Mono", monospace;
-    font-size: 12px;
+    font-family: "ComicMono", monospace;
+    font-size: 12px; /* Matched to your compact bar text scale */
 }
 
 window {
-    background-color: #1a1a1a;
-    border: 1px solid #333333;
-    color: #c0c0c0;
+    background-color: #1A1A1A; /* bgAlt */
+    border: 1px solid #252525; /* border */
+    color: #C4A882;            /* fg */
 }
 
 #input {
-    background-color: #141414;
-    color: #c0c0c0;
-    padding: 6px 8px;
+    background-color: #151515; /* Slightly darker than bgAlt for depth */
+    color: #C4A882;            /* fg */
+    padding: 1px 3px;          /* Tighter padding */
     border: none;
-    border-bottom: 1px solid #2a2a2a;
-    caret-color: #7aa2f7;
+    border-bottom: 1px solid #252525; /* border */
+    caret-color: #CC7A3A;       /* keyword (accent) */
 }
 
 #input:focus {
-    background-color: #141414;
+    background-color: #151515;
     outline: none;
 }
 
@@ -41,21 +41,21 @@ window {
 }
 
 #entry {
-    padding: 3px 10px;
+    padding: 4px 3px; /* Compacted height */
     margin: 0;
     background-color: transparent;
-    color: #8a8a8a;
+    color: #6B5E4A;            /* fgDim */
     border: none;
-    border-left: 2px solid transparent;
+    border-left: 1px solid transparent;
 }
 
 #entry:selected {
-    background-color: #c0c0c0;
-    color: #1a1a1a;
-    border-left: 2px solid #7aa2f7;
+    background-color: #1F2B2B; /* cursorLine */
+    color: #C4A882;            /* fg */
+    border-left: 1px solid #CC7A3A; /* keyword (accent) */
 }
 
- #img {
+#img {
     min-width: 0;
     min-height: 0;
     max-width: 0;
@@ -65,11 +65,18 @@ window {
 }
 
 #entry:hover {
-    background-color: #222222;
-    color: #c0c0c0;
-    border-left: 2px solid #333333;
+    background-color: #1F2B2B; /* cursorLine */
+    color: #C4A882;            /* fg */
+    border-left: 1px solid #4A4A3A; /* lineNr */
 }
 
 #text:selected {
-    color: #1a1a1a;
+    color: #C4A882;            /* fg */
+}
+
+#input image {
+    border: none;
+    background-color: transparent;
+    background-image: none;
+    color: transparent;
 }

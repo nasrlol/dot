@@ -15,16 +15,16 @@ static const int vertpad = 0;
 static const int sidepad = 0;
 
 /* fonts */
-static const char *fonts[] = {"Comic Mono:style=Regular:size=14"};
-static const char dmenufont[] = "Comic Mono:size=14";
+static const char *fonts[] = {"Comic Mono:style=Regular:size=12"};
+static const char dmenufont[] = "Comic Mono:size=12";
 
-static const char hh_back[]         = "#0a0a0a";
-static const char hh_text[]         = "#a0b8a0";
-static const char hh_comment[]      = "#506050";
-static const char hh_keyword[]      = "#7ad97a";
-static const char hh_cursor[]       = "#00ff00";
-static const char hh_border[]       = "#0a1a0a";
-static const char hh_highlight[]    = "#1a3a1a";
+static const char hh_back[]         = "#1d2021";
+static const char hh_text[]         = "#ebdbb2";
+static const char hh_comment[]      = "#928374";
+static const char hh_keyword[]      = "#fe8019";
+static const char hh_cursor[]       = "#fabd2f";
+static const char hh_border[]       = "#282828";
+static const char hh_highlight[]    = "#3c3836";
 
 /* --- The Scheme Array --- */
 static const char *colors[][3] = {

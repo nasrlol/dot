@@ -1,45 +1,46 @@
 * {
-    font-family: LiterationMono;
-    font-size: 10px;
-    border-radius: 0;
+    font-family: ComicMono;
+    font-size: 16px; /* Shrunk from 8px */
+    border-radius: 4;
 }
 
 window#waybar {
-    background-color: #1e1e1e;
-    color: #ffffff;
+    background-color: #1A1A1A; /* bgAlt */
+    color: #C4A882;            /* fg */
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid #444444;
-    min-height: 20px;
+    border-bottom: 1px solid #252525; /* border */
+    min-height: 0px; /* Removed minimum height constraint */
 }
 
 #workspaces {
     margin: 0;
-    padding: 0 5px;
+    padding: 0 1px; /* Reduced side padding */
 }
 
 #workspaces button {
-    min-width: 30px;
-    padding: 0 8px;
+    min-width: 15px; /* Halved width for a tighter fit */
+    padding: 0 4px;  /* Halved horizontal padding */
     margin: 0;
-    background-color: #1e1e1e;
-    color: #888888;
+    background-color: #1A1A1A; /* bgAlt */
+    color: #6B5E4A;            /* fgDim */
     border: none;
-    border-bottom: 2px solid transparent;
+    border-bottom: 1px solid transparent; /* Thinner accent line */
 }
 
 #workspaces button:hover {
-    background-color: #2d2d2d;
-    color: #aaaaaa;
+    background-color: #1F2B2B; /* cursorLine */
+    color: #C4A882;            /* fg */
 }
 
 #workspaces button.active {
-    background-color: #1e1e1e;
-    color: #ffffff;
-    border-bottom: 2px solid #ffffff;
+    background-color: #1A1A1A; /* bgAlt */
+    color: #C4A882;            /* fg */
+    border-bottom: 1px solid #CC7A3A; /* Thinner accent line */
 }
 
 #clock {
-    padding: 0 15px;
-    min-width: 50px;
+    padding: 0 6px; /* Tightened clock padding */
+    min-width: 0px; /* Let it shrink to text size */
+    color: #C4A882; /* fg */
 }
