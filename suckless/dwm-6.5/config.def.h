@@ -15,8 +15,8 @@ static const int vertpad = 0;
 static const int sidepad = 0;
 
 /* fonts */
-static const char *fonts[] = {"Comic Mono:style=Regular:size=14"};
-static const char dmenufont[] = "Comic Mono:size=14";
+static const char *fonts[] = {"Comic Mono:style=Regular:size=12"};
+static const char dmenufont[] = "Comic Mono:size=12";
 
 static const char hh_back[]         = "#0a0a0a";
 static const char hh_text[]         = "#a0b8a0";

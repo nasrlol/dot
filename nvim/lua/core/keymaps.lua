@@ -8,16 +8,6 @@ local map           = vim.keymap.set
 local o = vim.o
 local g = vim.g
 
-map("n", "<C-=>", function()
-    fontsize = fontsize + 1
-    set_fontsize()
-end)
-
-map("n", "<C-->", function()
-    fontsize = fontsize - 1
-    set_fontsize()
-end)
-
 map("n", "<F11>", function()
 g.neovide_fullscreen = not g.neovide_fullscreen
 end, { desc = "Toggle Neovide fullscreen" })

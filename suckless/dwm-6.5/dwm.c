@@ -186,6 +186,7 @@ static void attach(Client *c);
 static void attachstack(Client *c);
 static void buttonpress(XEvent *e);
 static void checkotherwm(void);
+static void runAutostart(void);
 static void cleanup(void);
 static void cleanupmon(Monitor *mon);
 static void clientmessage(XEvent *e);
@@ -733,7 +734,8 @@ void detachstack(Client *c) {
 
 void drawbar(Monitor *m) {
   int x, w, tw = 0;
-  unsigned int i, occ = 0, urg = 0;
+  // unsigned int i, occ = 0, urg = 0;
+  unsigned int i = 0, urg = 0;
   Client *c;
 
   if (!m->showbar)
@@ -741,7 +743,7 @@ void drawbar(Monitor *m) {
 
   /* urgent tags */
   for (c = m->clients; c; c = c->next) {
-    occ |= c->tags;
+    // occ |= c->tags;
     if (c->isurgent)
       urg |= c->tags;
   }
@@ -2106,6 +2108,12 @@ void zoom(const Arg *arg) {
   pop(c);
 }
 
+void runAutostart(void) {
+	system("cd ~/.config/suckless/autostart; ./autostart_blocking.sh");
+	system("cd ~/.config/suckless/autostart; ./autostart.sh &");
+}
+
+
 int main(int argc, char *argv[]) {
   if (argc == 2 && !strcmp("-v", argv[1]))
     die("dwm-" VERSION);
@@ -2117,6 +2125,7 @@ int main(int argc, char *argv[]) {
     die("dwm: cannot open display");
   checkotherwm();
   setup();
+  runAutostart();
 #ifdef __OpenBSD__
   if (pledge("stdio rpath proc exec", NULL) == -1)
     die("pledge");

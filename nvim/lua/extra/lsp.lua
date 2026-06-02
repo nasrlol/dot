@@ -18,5 +18,14 @@ lsp.config['rust-analyzer'] = {
   root_markers = { 'Cargo.toml', '.git' },
 }
 
--- lsp.enable('rust-analyzer')
+lsp.config('asm_lsp', {
+    cmd = { 'asm-lsp' },
+    filetypes = { 'asm', 'vmasm', 's', 'S' },
+    root_markers = { '.asm-lsp.toml', '.git' },
+})
+
+-- Enable it globally
+vim.lsp.enable('asm_lsp')
+
+lsp.enable('rust-analyzer')
 lsp.semantic_tokens.enabled = false

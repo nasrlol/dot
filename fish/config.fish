@@ -85,10 +85,10 @@ function fish_prompt
 end
 
 # Navigation (using zoxide)
-abbr -a cd z
-abbr -a .. "cd .."
-abbr -a ... "cd ../.."
-abbr -a .... "cd ../../.."
+alias  cd z
+alias  .. "cd .."
+alias  ... "cd ../.."
+alias  .... "cd ../../.."
 
 # i find this a hard word to type
 abbr -a lz lazygit
@@ -99,7 +99,6 @@ abbr -a ss "exec dbus-run-session startx"
 # abbr -a gentoo "sudo systemd-nspawn -D /mnt/gentoo --bind /boot"
 abbr -a dls "docker container ls -a"
 abbr -a net "ping 1.1.1.1"
-abbr -a emacs "emacs-gtk+x11"
 abbr -a ports "ss -tulpn"
 abbr -a mem "free -h"
 abbr -a cpu "lscpu | sed -n '1,12p'"
@@ -133,12 +132,12 @@ abbr -a cp cp
 abbr -a mv mv
 
 # Directory listing (eza)
-abbr -a l "eza -l --group"
-abbr -a ls "eza --group --group-directories-first"
-abbr -a ll "eza -l --group --group-directories-first --git"
-abbr -a la "eza -la --group --group-directories-first --git"
-abbr -a lt "eza --tree --level=2 --group --group-directories-first"
-abbr -a lta "eza --tree --level=2 --group --group-directories-first -a"
+alias  l "eza -l --group"
+alias  ls "eza --group --group-directories-first"
+alias  ll "eza -l --group --group-directories-first --git"
+alias  la "eza -la --group --group-directories-first --git"
+alias  lt "eza --tree --level=2 --group --group-directories-first"
+alias  lta "eza --tree --level=2 --group --group-directories-first -a"
 
 # Git shortcuts
 abbr -a g git

@@ -1,10 +1,11 @@
 {
     "layer": "top",
-    "position": "top",
-    "height": 20,
-    "spacing": 4,
-    "modules-left": ["hyprland/workspaces"],
-    "modules-right": ["clock", "battery", "   "],
+    "position": "center",
+    "height": 12,
+    "spacing": 1,
+    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-right": ["clock", "battery"],
+
     "hyprland/workspaces": {
         "format": "{name}",
         "on-click": "activate",
@@ -16,5 +17,22 @@
             "4": [],
             "5": []
         }
+    },
+
+    "hyprland/window": {
+        "format": " | {title}",
+        "max-length": 50,
+        "separate-outputs": true
+    },
+
+    "clock": {
+        "format": "{:%a %H:%M}"
+    },
+
+    "battery": {
+        "format": "{capacity}%",
+        "format-charging": "+{capacity}%",
+        "format-plugged": "={capacity}%",
+        "interval": 5
     }
 }

@@ -12,22 +12,22 @@ y = 10
 shell = "/usr/bin/zsh"
 
 [font]
-size = 7.0
+size = 11.0
 
 [font.normal]
-family = "Jetbrains Mono Nerd Font"
+family = "ComicMono"
 style = "Regular"
 
 [font.bold]
-family = "Jetbrains Mono Nerd Font"
+family = "ComicMono"
 style = "Bold"
 
 [font.italic]
-family = "Jetbrains Mono Nerd Font"
+family = "ComicMono"
 style = "Italic"
 
 [font.bold_italic]
-family = "Jetbrains Mono Nerd Font"
+family = "ComicMono"
 style = "Bold Italic"
 
 [font.offset]
