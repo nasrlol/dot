@@ -1,46 +1,57 @@
 * {
     font-family: ComicMono;
-    font-size: 16px; /* Shrunk from 8px */
-    border-radius: 4;
+    font-size: 16px;
+    border-radius: 0px 0px 0px 0px;
 }
 
 window#waybar {
-    background-color: #1A1A1A; /* bgAlt */
-    color: #C4A882;            /* fg */
-    margin: 0;
-    padding: 0;
-    border-bottom: 1px solid #252525; /* border */
-    min-height: 0px; /* Removed minimum height constraint */
+    background-color: #1A1A1A;
+    color: #C4A882;
+}
+
+.modules-left > widget,
+.modules-center > widget,
+.modules-right > widget {
+    padding: 0 12px;
+    margin: 0 16px;
 }
 
 #workspaces {
     margin: 0;
-    padding: 0 1px; /* Reduced side padding */
+    margin-right: 16px;
+    padding: 0 1px;
 }
 
-#workspaces button {
-    min-width: 15px; /* Halved width for a tighter fit */
-    padding: 0 4px;  /* Halved horizontal padding */
-    margin: 0;
-    background-color: #1A1A1A; /* bgAlt */
-    color: #6B5E4A;            /* fgDim */
+ #workspaces button {
+    min-width: 15px;
+    padding: 4px 10px; /* Slightly adjusted padding to make the box look balanced around the number */
+    margin: 0 4px;     /* Added a bit of spacing between the buttons */
+    background-color: transparent; /* Let the bar background show through when inactive */
+    color: #6B5E4A;
     border: none;
-    border-bottom: 1px solid transparent; /* Thinner accent line */
+    border-radius: 8px; /* Smooth corners for the hover/active backgrounds */
+    transition: all 0.2s ease;
 }
 
 #workspaces button:hover {
-    background-color: #1F2B2B; /* cursorLine */
-    color: #C4A882;            /* fg */
+    background-color: #1F2B2B;
+    color: #C4A882;
 }
 
 #workspaces button.active {
-    background-color: #1A1A1A; /* bgAlt */
-    color: #C4A882;            /* fg */
-    border-bottom: 1px solid #CC7A3A; /* Thinner accent line */
+    background-color: #CC7A3A; /* The orange now fills the background */
+    color: #1A1A1A;            /* Flipped text color to dark so it's readable against the orange */
+    border-bottom: none;       /* Removed the old underline */
 }
 
+
 #clock {
-    padding: 0 6px; /* Tightened clock padding */
-    min-width: 0px; /* Let it shrink to text size */
-    color: #C4A882; /* fg */
+    padding: 0 16px;
+    font-weight: bold;
+    color: #C4A882;
+}
+
+#tray {
+    margin-left: 12px;
+    padding: 0 8px;
 }

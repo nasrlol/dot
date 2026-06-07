@@ -391,3 +391,7 @@ end
 if command -v fzf &> /dev/null
     fzf --fish | source
 end
+
+
+# Added by Antigravity CLI installer
+set -gx PATH "/home/nasr/.local/bin" $PATH
