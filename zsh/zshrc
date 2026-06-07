@@ -1,141 +1,66 @@
 # Editors
+
+# export
+export KEYTIMEOUT=10
 export EDITOR=nvim
 export VISUAL=nvim
 export PAGER=cat
 export MANPAGER="nvim +Man!"
-
-# Locale
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-
-# Build consolidated PATH once (more efficient than multiple exports)
 export PATH="$HOME/.local/bin:$HOME/odin:$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
-
-# Go
-# export GOROOT=/usr/local/go
-# export GOPATH=$HOME/go
-# export PATH="$GOROOT/bin:$GOPATH/bin:/usr/local/bin:$PATH"
-
 export PATH="$HOME/third_party/go-versions/go1.26.1/bin:$PATH"
-
-# Java
-export JAVA_HOME="$HOME/.jdks/openjdk-25.0.1"
-export PATH="$JAVA_HOME/bin:$PATH"
-export CLASSPATH="/usr/share/java/easymock.jar:$CLASSPATH"
-export PATH="$PATH:/opt/clion/bin"
-
-# .NET
-export DOTNET_ROOT=$HOME/.dotnet
-export PATH="$DOTNET_ROOT:$PATH"
-
-# FZF
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-
-# Colors
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 export ls_colors="di=37:fi=0:ln=37;2:ex=37;1:*.png=37;2:*.jpg=37;2:*.sh=37;2"
 
-setopt AUTO_CD                  # Auto change directory
-setopt AUTO_PUSHD               # Push directories onto stack
-setopt PUSHD_IGNORE_DUPS        # Don't push duplicates
-setopt PUSHD_SILENT             # Silent directory stack
-setopt EXTENDED_GLOB            # Extended globbing
-setopt HIST_IGNORE_DUPS         # Don't record duplicate commands
-setopt HIST_FIND_NO_DUPS        # Don't show duplicates in history search
-setopt HIST_REDUCE_BLANKS       # Remove superfluous blanks
-setopt SHARE_HISTORY            # Share history between sessions
-setopt APPEND_HISTORY           # Append to history file
-setopt INC_APPEND_HISTORY       # Append immediately
-setopt PROMPT_SUBST             # Enable prompt substitution
+# special
+setopt AUTO_CD
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+setopt PUSHD_SILENT
+setopt EXTENDED_GLOB
+setopt HIST_IGNORE_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
+setopt PROMPT_SUBST
+
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
-
+PROMPT='%n@%m :: '
 
 bindkey -v
-export KEYTIMEOUT=10
-
-# Custom key bindings
 bindkey '^F' autosuggest-accept
 bindkey '^E' edit-command-line
 
-# Enable edit-command-line widget
 autoload -Uz edit-command-line
-zle -N edit-command-line
-
-
+autoload -Uz compinit
 autoload -Uz vcs_info
 
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' unstagedstr '*'
-zstyle ':vcs_info:*' stagedstr '+'
-zstyle ':vcs_info:git:*' formats ' [%F{yellow}%b%f%F{red}%u%c%f]'
-zstyle ':vcs_info:git:*' actionformats ' [%F{yellow}%b%f%F{red}%u%c%f (%a)]'
+zle -N edit-command-line
 
-precmd() {
-    vcs_info
-}
-
-PROMPT='%n@%m :: '
-
-if [[ -n "$ZSH_HIGHLIGHT_STYLES" ]]; then
-    ZSH_HIGHLIGHT_STYLES=(
-        default none
-        unknown-token "fg=red,bold"
-        reserved-word "fg=yellow"
-        alias "fg=blue"
-        builtin "fg=blue"
-        function "fg=blue"
-        command "fg=blue"
-        precommand "fg=blue,underline"
-        commandseparator none
-        hashed-command "fg=blue"
-        path "fg=cyan"
-        path_pathseparator ""
-        path_prefix "fg=cyan"
-        path_approx "fg=cyan"
-        globbing "fg=cyan"
-        history-expansion "fg=cyan"
-        single-hyphen-option "fg=cyan"
-        double-hyphen-option "fg=cyan"
-        back-quoted-argument none
-        single-quoted-argument "fg=yellow"
-        double-quoted-argument "fg=yellow"
-        dollar-double-quoted-argument "fg=cyan"
-        back-double-quoted-argument "fg=cyan"
-        assign none
-        redirection "fg=cyan"
-        comment "fg=black,bold"
-    )
-fi
-
-
-# Navigation (using zoxide)
+# alias
 alias cd="z"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
-# i find this a hard word to type
+alias coder='command coder >/dev/null 2>&1 & disown'
 alias lz="lazygit"
-
 alias ss="exec dbus-run-session startx"
-
-# System
-# alias gentoo="sudo systemd-nspawn -D /mnt/gentoo --bind /boot"
 alias dls="docker container ls -a"
 alias net="ping 1.1.1.1"
-alias emacs="emacs-gtk+x11"
 alias ports="ss -tulpn"
 alias mem="free -h"
 alias cpu="lscpu | sed -n '1,12p'"
 alias top="btop"
 
-
-# docker
 alias dstop='docker ps -q | xargs -r docker stop'
 alias drm='docker ps -a -q | xargs -r docker rm -f'
 alias drmi='docker images -q | xargs -r docker rmi -f'
@@ -143,29 +68,11 @@ alias drnet='docker network ls -q | xargs -r docker network rm'
 alias drv='docker volume ls -q | xargs -r docker volume rm'
 alias dclean='dstop && drm && drmi && drnet && drv'
 
-# Editor shortcuts
 alias vim="nvim"
 alias vi="nvim"
-alias v="nvim"
 
-# Web server
 alias server="python -m http.server 8000"
 
-# Modern replacements (safety nets)
-# alias grep="rg"
-# alias cat="bat"
-# alias find="fd"
-alias ps="procs"
-alias du="dust"
-alias df="duf"
-alias rm="rm"
-alias cp="cp"
-alias mv="mv"
-
-autoload -Uz compinit
-compinit
-
-# Directory listing (eza)
 alias l="eza -l --group"
 alias ls="eza --group --group-directories-first"
 alias ll="eza -l --group --group-directories-first --git"
@@ -173,27 +80,14 @@ alias la="eza -la --group --group-directories-first --git"
 alias lt="eza --tree --level=2 --group --group-directories-first"
 alias lta="eza --tree --level=2 --group --group-directories-first -a"
 
-# Git shortcuts
-alias g="git"
-alias gs="git status"
-alias ga="git add"
-alias gc="git commit"
-alias gp="git push"
-alias gl="git pull"
-alias gd="git diff"
-alias gco="git checkout"
-alias gb="git branch"
-alias glog="git log --oneline --graph --decorate"
 alias checkpoint="git add . && git commit -m 'checkpoint' && git push"
 
-# Tmux
 alias attach="tmux attach-session -t"
 alias new="tmux new-session -s"
 alias list="tmux list-sessions"
 alias ta="tmux attach"
 alias tls="tmux list-sessions"
 
-# Utilities
 alias copypath="pwd | xsel --clipboard"
 alias copy="xsel --clipboard"
 alias t="todocli"
@@ -202,17 +96,14 @@ alias weather="curl wttr.in"
 alias myip="curl ifconfig.me"
 alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
 alias kbbr="echo 0 | sudo tee /sys/class/leds/kbd_backlight/brightness"
-
-# Config
 alias zshconfig="nvim ~/.zshrc"
 alias reload="source ~/.zshrc"
-
-# Cpupower
 alias powersave="sudo cpupower frequency-set -g powersave"
 alias performance="sudo cpupower frequency-set -g performance"
 
+# functions
 
-# Fuzzy file editor with git awareness
+# edit any tracked file
 edit() {
     local file
     if ! git rev-parse --git-dir >/dev/null 2>&1; then
@@ -225,7 +116,7 @@ edit() {
     [[ -n "$file" ]] && nvim "$file"
 }
 
-# Config file editor
+# edit any config file in the .config/ folder
 config() {
     local file
     file=$(git -C ~/.config ls-files | fzf \
@@ -235,15 +126,6 @@ config() {
     [[ -n "$file" ]] && nvim ~/.config/"$file"
 }
 
-# Open file/directory
-open() {
-    if [[ $# -eq 0 ]]; then
-        xdg-open . > /dev/null 2>&1
-    else
-        xdg-open "$@" > /dev/null 2>&1
-    fi
-}
-
 goto() {
     local file viewer
 
@@ -251,17 +133,6 @@ goto() {
 
     [[ -z "$file" ]] && return
     cd "$(dirname "$file")"
-}
-
-# Jump to project and open in editor
-wo() {
-    local dir
-    dir=$(zoxide query -l | fzf --height 40% --reverse --header="Jump to Project")
-    if [[ -n "$dir" ]]; then
-        cd "$dir"
-        [[ -n "$TMUX" ]] && tmux rename-window "$(basename "$dir")"
-        nvim .
-    fi
 }
 
 # Install package with fuzzy search
@@ -277,6 +148,7 @@ install() {
     [[ -n "$pkg" ]] && sudo dnf install "$pkg"
 }
 
+# credits to luca
 memleak() {
     while true
     do
@@ -285,7 +157,7 @@ memleak() {
     done
 }
 
-# Git utilities
+# jump to the root of the project
 groot() {
     local root=$(git rev-parse --show-toplevel 2>/dev/null)
     if [[ -n "$root" ]]; then
@@ -296,7 +168,7 @@ groot() {
     fi
 }
 
-
+# ffmpeg wrapper
 screenrec() {
     if pgrep ffmpeg > /dev/null; then
         pkill -SIGINT ffmpeg
@@ -310,32 +182,6 @@ screenrec() {
     fi
 }
 
-
-
-gnb() {
-    git checkout -b "$1"
-}
-
-gcm() {
-    git commit -m "$*"
-}
-
-gac() {
-    git add .
-    git commit -m "$*"
-}
-
-gitls() {
-    git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return 1
-    git ls-files -z | xargs -0 eza --color=always --icons --group-directories-first
-}
-
-# Directory utilities
-mkcd() {
-    mkdir -p "$1" && cd "$1"
-}
-
-# Extract archives
 extract() {
     if [[ -f "$1" ]]; then
         case "$1" in
@@ -355,86 +201,30 @@ extract() {
     fi
 }
 
-# Process utilities
-psg() {
-    ps aux | grep -v grep | grep -i -e VSZ -e "$1"
-}
-
-killp() {
-    local pid
-    pid=$(psg "$1" | awk '{print $2}')
-    if [[ -n "$pid" ]]; then
-        echo "Killing process $pid"
-        kill -9 $pid
-    else
-        echo "No process found matching: $1"
-    fi
-}
-
-# Utilities
-backup() {
-    local filename=$(basename "$1")
-    local timestamp=$(date +%Y%m%d_%H%M%S)
-    cp -r "$1" "$1.backup_$timestamp"
-    echo "Backed up to: $1.backup_$timestamp"
-}
-
-note() {
-    local note_file=~/notes/$(date +%Y-%m-%d).md
-    if [[ ! -e "$note_file" ]]; then
-        echo "# Notes for $(date +%Y-%m-%d)" > "$note_file"
-        echo "" >> "$note_file"
-    fi
-    echo "- [$(date +%H:%M)] $*" >> "$note_file"
-    echo "Note added to $note_file"
-}
-
-# Colored man pages
-man() {
-    env \
-    LESS_TERMCAP_mb=$(printf "\033[01;31m") \
-    LESS_TERMCAP_md=$(printf "\033[01;31m") \
-    LESS_TERMCAP_me=$(printf "\033[0m") \
-    LESS_TERMCAP_se=$(printf "\033[0m") \
-    LESS_TERMCAP_so=$(printf "\033[01;44;33m") \
-    LESS_TERMCAP_ue=$(printf "\033[0m") \
-    LESS_TERMCAP_us=$(printf "\033[01;32m") \
-    man "$@"
-}
-
-
 if [[ -z "$SSH_AUTH_SOCK" ]]; then
     eval "$(ssh-agent -s)" > /dev/null
 fi
 
-
-# Initialize zoxide (better cd)
 if command -v zoxide &> /dev/null; then
     eval "$(zoxide init zsh)"
 fi
 
-# Initialize direnv (directory-specific env)
 if command -v direnv &> /dev/null; then
     eval "$(direnv hook zsh)"
 fi
 
-# Initialize fzf key bindings
 if command -v fzf &> /dev/null; then
     source <(fzf --zsh)
 fi
 
-# Initialize zsh-autosuggestions
 if [[ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
     source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 elif [[ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
     source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
-# Initialize zsh-syntax-highlighting (must be last)
 if [[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
     source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 elif [[ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
     source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
-
-export PATH="$HOME/.local/bin:$PATH"
