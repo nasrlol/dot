@@ -1,5 +1,11 @@
 _trash
 pulse
+/pulse
+/github-copilot
+/gtk-3.0
+/ctags
+/dconf
+/chromium
 JetBrains/CLion2025.3
 autostart
 jgit
@@ -39,6 +45,7 @@ pavucontrol.ini
 /discord
 /mozilla/firefox
 /systemd/user
+/systemd
 /discord
 /tailscale
 /GIMP/3.2
