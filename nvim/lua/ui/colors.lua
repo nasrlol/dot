@@ -5,17 +5,17 @@ function hl(name, opts)
     vim.api.nvim_set_hl(0, name, opts)
 end
 local dark = true
--- Color Palettes
+-- Color Palettes (nasr 4coder theme: warm amber/rust/sepia on dark)
 local palettes = {
     dark = {
-        bg         = "NONE", bgAlt      = "#1A1A1A", fg         = "#C4A882",
-        fgDim      = "#6B5E4A", cursor     = "#C4A882", cursorAlt  = "#CC7A3A",
-        cursorLine = "#1F2B2B", lineNr     = "#4A4A3A", visual     = "#3A1A0A",
-        search     = "#2A2010", border     = "#252525", comment    = "#5A5A4A",
-        commentPop = "#3A9A8A", keyword    = "#CC7A3A", string     = "#7A9E5A",
-        constant   = "#4A9E8A", type       = "#B89A6A", accent     = "#C48A28",
-        preproc    = "#A06030", bar        = "#4A4A3A", pop1       = "#5A8E5A",
-        pop2       = "#B84040",
+        bg         = "NONE", bgAlt      = "#1A1208", fg         = "#C4A882",
+        fgDim      = "#6B5A45", cursor     = "#F0A030", cursorAlt  = "#C04018",
+        cursorLine = "#1F1610", lineNr     = "#5A4A38", visual     = "#3A0A00",
+        search     = "#3D2B1A", border     = "#241A10", comment    = "#6B5A45",
+        commentPop = "#B87040", keyword    = "#D48B30", string     = "#B86030",
+        constant   = "#9B7040", type       = "#B87040", accent     = "#D48B30",
+        preproc    = "#C05020", bar        = "#8B7355", pop1       = "#D4A030",
+        pop2       = "#DC4A20",
     },
     light = {
         bg         = "#F5F1E8", bgAlt      = "#EBE4D9", fg         = "#3E3530",

@@ -7,18 +7,18 @@
 }
 
 window {
-    background-color: #1A1A1A; /* bgAlt */
-    border: 1px solid #252525; /* border */
+    background-color: #1A1208; /* bgAlt */
+    border: 1px solid #241A10; /* border */
     color: #C4A882;            /* fg */
 }
 
 #input {
-    background-color: #151515; /* Slightly darker than bgAlt for depth */
+    background-color: #0D1117; /* darker background */
     color: #C4A882;            /* fg */
     padding: 1px 3px;          /* Tighter padding */
     border: none;
-    border-bottom: 1px solid #252525; /* border */
-    caret-color: #CC7A3A;       /* keyword (accent) */
+    border-bottom: 1px solid #241A10; /* border */
+    caret-color: #F0A030;       /* cursor gold */
 }
 
 #input:focus {
@@ -44,15 +44,15 @@ window {
     padding: 4px 3px; /* Compacted height */
     margin: 0;
     background-color: transparent;
-    color: #6B5E4A;            /* fgDim */
+    color: #6B5A45;            /* fgDim */
     border: none;
     border-left: 1px solid transparent;
 }
 
 #entry:selected {
-    background-color: #1F2B2B; /* cursorLine */
-    color: #C4A882;            /* fg */
-    border-left: 1px solid #CC7A3A; /* keyword (accent) */
+    background-color: #1F1610; /* cursorLine */
+    color: #F0A030;            /* cursor gold */
+    border-left: 1px solid #D48B30; /* keyword amber */
 }
 
 #img {
@@ -65,9 +65,9 @@ window {
 }
 
 #entry:hover {
-    background-color: #1F2B2B; /* cursorLine */
+    background-color: #1F1610; /* cursorLine */
     color: #C4A882;            /* fg */
-    border-left: 1px solid #4A4A3A; /* lineNr */
+    border-left: 1px solid #5A4A38; /* lineNr */
 }
 
 #text:selected {

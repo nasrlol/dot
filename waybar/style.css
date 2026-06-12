@@ -5,7 +5,7 @@
 }
 
 window#waybar {
-    background-color: #1A1A1A;
+    background-color: #0D1117;
     color: #C4A882;
 }
 
@@ -26,28 +26,27 @@ window#waybar {
     min-width: 15px;
     padding: 4px 10px; /* Slightly adjusted padding to make the box look balanced around the number */
     margin: 0 4px;     /* Added a bit of spacing between the buttons */
-    background-color: transparent; /* Let the bar background show through when inactive */
+    background-color: transparent;
     color: #6B5E4A;
     border: none;
-    border-radius: 8px; /* Smooth corners for the hover/active backgrounds */
+    border-radius: 0px;
     transition: all 0.2s ease;
 }
 
 #workspaces button:hover {
-    background-color: #1F2B2B;
+    background-color: transparent;
     color: #C4A882;
 }
 
 #workspaces button.active {
-    background-color: #CC7A3A; /* The orange now fills the background */
-    color: #1A1A1A;            /* Flipped text color to dark so it's readable against the orange */
-    border-bottom: none;       /* Removed the old underline */
+    background-color: transparent;
+    color: #F0A030;
+    border-bottom: 2px solid #D48B30;
 }
 
 
 #clock {
     padding: 0 16px;
-    font-weight: bold;
     color: #C4A882;
 }
 

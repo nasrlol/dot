@@ -1,11 +1,14 @@
 (require 'package)
 
+;; ============================================================================
+;; PACKAGE MANAGEMENT
+;; ============================================================================
+
 (setq package-archives
       '(("gnu"   . "https://elpa.gnu.org/packages/")
         ("melpa" . "https://melpa.org/packages/")))
 
 (setq package-check-signature nil)
-
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -15,21 +18,54 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;; ============================================================================
+;; UI/UX SETTINGS
+;; ============================================================================
+
+;; Startup
 (setq inhibit-startup-screen t
       inhibit-startup-message t
       inhibit-startup-echo-area-message t
-      ring-bell-function 'ignore)
+      ring-bell-function 'ignore
+      use-dialog-box nil)
 
+;; Remove default UI elements
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+
+;; Cursor
+(setq cursor-type 'box)
 (blink-cursor-mode 0)
+
+;; Line wrapping
+(setq-default word-wrap nil)
+(setq truncate-lines t)
+
+;; Auto-revert buffers when files change on disk
 (global-auto-revert-mode 1)
 
-(setq cursor-type 'box)
+;; ============================================================================
+;; PERFORMANCE & COMPILATION
+;; ============================================================================
 
-(setq-default default-directory "C:\dev\projects")
+;; Native compilation settings (Emacs 28+)
+(setq native-comp-async-report-warnings-errors nil
+      native-comp-speed 2)
 
+;; Garbage collection and process I/O optimization
+(setq gc-cons-threshold (* 100 1024 1024)
+      read-process-output-max (* 1024 1024)
+      inhibit-compacting-font-caches t
+      bidi-display-reordering nil
+      frame-resize-pixelwise nil
+      window-resize-pixelwise nil)
+
+;; ============================================================================
+;; APPEARANCE & THEMING
+;; ============================================================================
+
+;; Font and colors
 (set-face-attribute 'default nil
                     :font "Comic Mono"
                     :height 120
@@ -39,44 +75,32 @@
 (add-to-list 'default-frame-alist '(background-color . "#042327"))
 (setq custom-enabled-themes nil)
 
+;; Face customization (syntax highlighting)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(cursor ((t (:background "#00ff00"))))
- '(font-lock-comment-face ((t (:foreground "#555555"))))
+ '(font-lock-comment-face ((t (:foreground "#999999"))))
  '(font-lock-function-name-face ((t (:foreground "#dddddd"))))
- '(font-lock-keyword-face ((t (:foreground "#dddddd" :weight bold))))
- '(font-lock-string-face ((t (:foreground "#aaaaaa"))))
- '(font-lock-type-face ((t (:foreground "#cccccc"))))
- '(font-lock-variable-name-face ((t (:foreground "#cccccc"))))
- '(region ((t (:background "#222222")))))
+ '(font-lock-keyword-face ((t (:foreground "#aaaaaa")))))
 
-(global-hl-line-mode -1)
+;; ============================================================================
+;; DEFAULTS & PATHS
+;; ============================================================================
 
-(global-font-lock-mode 1)
-(setq font-lock-maximum-decoration t)
+;; OS-specific default directory
+(setq-default default-directory
+              (if (eq system-type 'windows-nt)
+                  "C:/dev/projects"
+                "/home/nasr"))
 
-(setq treesit-auto-install nil)
-(setq major-mode-remap-alist nil)
+;; ============================================================================
+;; PACKAGE CONFIGURATION
+;; ============================================================================
 
-(setq gc-cons-threshold (* 100 1024 1024)
-      read-process-output-max (* 1024 1024)
-      inhibit-compacting-font-caches t
-      bidi-display-reordering nil
-      frame-resize-pixelwise nil
-      window-resize-pixelwise nil)
-
-(setq-default indent-tabs-mode nil
-              tab-width 1)
-
-(setq make-backup-files nil
-      auto-save-default nil)
-
-(fset 'yes-or-no-p #'y-or-n-p)
-(add-hook 'before-save-hook #'delete-trailing-whitespace)
-
+;; Evil mode (Vim keybindings)
 (use-package evil
   :init
   (setq evil-want-integration t
@@ -98,63 +122,20 @@
   (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>"))
 
-(require 'windmove)
-(global-set-key (kbd "C-h") #'windmove-left)
-(global-set-key (kbd "C-j") #'windmove-down)
-(global-set-key (kbd "C-k") #'windmove-up)
-(global-set-key (kbd "C-l") #'windmove-right)
-
-(evil-leader/set-key
-  "w"  #'save-buffer
-  "q"  #'kill-current-buffer
-  "bd" #'kill-current-buffer
-  "ex" #'dired-jump)
-
-(evil-define-key 'normal 'global
-  "gd" #'xref-find-definitions
-  "gr" #'xref-find-references
-  "K"  #'eldoc)
-
-(setq-default
- mode-line-format
- '("%e "
-   (:eval (upcase (symbol-name evil-state)))
-   " "
-   "%b "
-   mode-line-fill
-   "%l:%c"))
-
-(evil-leader/set-key
-  "v" #'split-window-right
-  "s" #'split-window-below)
-
-(defun nasr/split-left ()
-  (interactive)
-  (split-window-right)
-  (windmove-left))
-
-(evil-leader/set-key
-  "V" #'nasr/split-left)
-
-
-(evil-define-key 'normal 'global
-  "]e" #'next-error
-  "[e" #'previous-error)
-
-(with-eval-after-load 'evil
-  (setq evil-normal-state-cursor  '(box "#00ff00")
-        evil-insert-state-cursor  '(box "#00ff00")
-        evil-visual-state-cursor  '(box "#00ff00")
-        evil-replace-state-cursor '(box "#00ff00")
-        evil-motion-state-cursor  '(box "#00ff00")
-        evil-emacs-state-cursor   '(box "#00ff00")))
-
-(use-package ein
-  :ensure t
-  :defer t
+(use-package fzf
+  :bind ("C-c f" . fzf/local-directory-only)
   :config
-  (evil-leader/set-key "jb" #'ein:jupyter-server-start))
+  (defun fzf/local-directory-only ()
+    "Run fzf strictly on files in the current local directory."
+    (interactive)
+    (let ((fzf/project-root-function (lambda () default-directory)))
+      (fzf))))
 
+;; Project management
+(use-package projectile
+  :config
+  (projectile-mode 1)
+  (evil-leader/set-key "p" #'projectile-command-map))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

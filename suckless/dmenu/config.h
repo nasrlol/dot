@@ -15,13 +15,13 @@ static unsigned int lines = 18; /* NUMBER OF VISIBLE LINES (vertical) */
 static int horizpadbar = 2;                 /* horizontal padding */
 static int vertpadbar = 2;                  /* vertical padding */
 
-/* Color scheme — matched to your Neovide theme */
+/* Color scheme — nasr theme: warm amber/rust/sepia on dark */
 static const char *colors[SchemeLast][2] = {
     /*               fg         bg       */
-    [SchemeNorm]    = {"#A08563", "#000000"},  /* warm tan on pure black */
-    [SchemeSel]     = {"#072626", "#FFD700"},  /* dark teal on golden (high contrast) */
-    [SchemeOut]     = {"#072626", "#32CD32"},  /* dark teal on lime green */
-    [SchemeCursor]  = {"#072626", "#FFD700"},  /* cursor matches selection */
+    [SchemeNorm]    = {"#C4A882", "#0D1117"},  /* warm tan on dark back */
+    [SchemeSel]     = {"#0D1117", "#D48B30"},  /* dark on keyword amber */
+    [SchemeOut]     = {"#0D1117", "#D4A030"},  /* dark on pop1 gold */
+    [SchemeCursor]  = {"#0D1117", "#F0A030"},  /* dark on cursor gold */
 };
 
 /*

@@ -65,12 +65,32 @@ char *termname = "st-256color";
 /* spaces per tab */
 unsigned int tabspaces = 1;
 
-/* =========================
- * Terminal colors
- * ========================= */
-
 /* Terminal colors (16 first used by escape sequence) */
-/* Terminal colors (16 first used by escape sequence) */ static const char *colorname[] = { /* 8 normal colors */ "#1a1a1a", "#e74c3c", "#2ecc71", "#f39c12", "#3498db", "#9b59b6", "#1abc9c", "#bdc3c7", /* 8 bright colors */ "#34495e", "#e67e22", "#27ae60", "#f1c40f", "#2980b9", "#8e44ad", "#16a085", "#ecf0f1", [255] = 0, /* Extended colors (256+) */ [256] = "#e0e0e0", /* foreground */ [257] = "#0a0a0a", /* background */ [258] = "#1abc9c", /* cursor */ };
+static const char *colorname[] = {
+	/* 8 normal colors */
+	"#0D1117",
+	"#DC4A20",
+	"#B87040",
+	"#D48B30",
+	"#8B7355",
+	"#B87040",
+	"#C05020",
+	"#C4A882",
+	/* 8 bright colors */
+	"#3D2B1A",
+	"#DC4A20",
+	"#B87040",
+	"#D4A030",
+	"#8B7355",
+	"#D4A030",
+	"#C05020",
+	"#E8C8A0",
+	[255] = 0,
+	/* Extended colors (256+) */
+	[256] = "#C4A882",  /* foreground */
+	[257] = "#0D1117",  /* background */
+	[258] = "#F0A030",  /* cursor */
+};
 #include "autocomplete.h"
 
 /*
