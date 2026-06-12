@@ -24,8 +24,7 @@ lsp.config('asm_lsp', {
     root_markers = { '.asm-lsp.toml', '.git' },
 })
 
--- Enable it globally
-vim.lsp.enable('asm_lsp')
+-- vim.lsp.enable('asm_lsp')
+-- lsp.enable('rust-analyzer')
 
-lsp.enable('rust-analyzer')
 lsp.semantic_tokens.enabled = false

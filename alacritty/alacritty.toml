@@ -44,40 +44,40 @@ vi_mode_style = { shape = "Block", blinking = "Never" }
 draw_bold_text_with_bright_colors = true
 
 [colors.primary]
-background = "#072626"
-foreground = "#A08563"
+background = "#0D1117"
+foreground = "#C4A882"
 
 [colors.cursor]
-text = "#072626"
-cursor = "#FFD700"
+text = "#0D1117"
+cursor = "#F0A030"
 
 [colors.vi_mode_cursor]
-text = "#072626"
-cursor = "#FF4500"
+text = "#0D1117"
+cursor = "#C04018"
 
 [colors.selection]
-text = "#A08563"
-background = "#0A3B3B"
+text = "#C4A882"
+background = "#1F1610"
 
 [colors.normal]
-black = "#1A1A1A"
-red = "#FF6347"
-green = "#32CD32"
-yellow = "#DAA520"
-blue = "#20B2AA"
-magenta = "#FF1493"
-cyan = "#00CED1"
-white = "#B0B0B0"
+black = "#1A1208"
+red = "#DC4A20"
+green = "#D4A030"
+yellow = "#D48B30"
+blue = "#B87040"
+magenta = "#C05020"
+cyan = "#B86030"
+white = "#C4A882"
 
 [colors.bright]
-black = "#303030"
-red = "#FF6347"
-green = "#32CD32"
-yellow = "#FFD700"
-blue = "#20B2AA"
-magenta = "#FF1493"
-cyan = "#00CED1"
-white = "#D3D3D3"
+black = "#3D2B1A"
+red = "#DC4A20"
+green = "#D4A030"
+yellow = "#D48B30"
+blue = "#B87040"
+magenta = "#C05020"
+cyan = "#C84820"
+white = "#DCA880"
 
 [scrolling]
 history = 20000
@@ -88,3 +88,8 @@ hide_when_typing = true
 
 [debug]
 render_timer = false
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"

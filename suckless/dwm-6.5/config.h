@@ -18,13 +18,14 @@ static const int sidepad = 0;
 static const char *fonts[] = {"Comic Mono:style=Regular:size=12"};
 static const char dmenufont[] = "Comic Mono:size=12";
 
-static const char hh_back[]         = "#1d2021";
-static const char hh_text[]         = "#ebdbb2";
-static const char hh_comment[]      = "#928374";
-static const char hh_keyword[]      = "#fe8019";
-static const char hh_cursor[]       = "#fabd2f";
-static const char hh_border[]       = "#282828";
-static const char hh_highlight[]    = "#3c3836";
+/* nasr theme — warm amber/rust/sepia on dark */
+static const char hh_back[]         = "#0D1117";
+static const char hh_text[]         = "#C4A882";
+static const char hh_comment[]      = "#6B5A45";
+static const char hh_keyword[]      = "#D48B30";
+static const char hh_cursor[]       = "#F0A030";
+static const char hh_border[]       = "#1F1610";
+static const char hh_highlight[]    = "#3D2B1A";
 
 /* --- The Scheme Array --- */
 static const char *colors[][3] = {
