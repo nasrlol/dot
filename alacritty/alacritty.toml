@@ -12,7 +12,7 @@ y = 10
 shell = "/usr/bin/zsh"
 
 [font]
-size = 11.0
+size = 13.0
 
 [font.normal]
 family = "ComicMono"
