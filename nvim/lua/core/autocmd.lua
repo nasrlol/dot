@@ -5,7 +5,6 @@ autocmd("BufWritePre", {
     command = ":%s/\\s\\+$//e",
 })
 
--- jump to previous cursor position
 autocmd("BufReadPost", {
     pattern = "*",
     callback = function()
@@ -17,23 +16,3 @@ autocmd("BufReadPost", {
     end,
 })
 
-autocmd("LspAttach", {
-    callback = function(ev)
-        vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-    end,
-})
-
-autocmd('LspAttach', {
-  callback = function(args)
-    local client_id = args.data.client_id
-    local bufnr = args.buf
-
-    vim.lsp.completion.enable(true, client_id, bufnr)
-  end,
-})
-
-autocmd("FileType", {
-  callback = function()
-    pcall(vim.treesitter.start)
-  end,
-})

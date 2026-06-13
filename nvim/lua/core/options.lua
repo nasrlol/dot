@@ -79,7 +79,6 @@ opt.hlsearch        = false
 opt.incsearch       = true
 opt.inccommand      = "split"
 
-
 -- wrapping & scrolling
 opt.smoothscroll = false
 opt.wrap = false
@@ -89,13 +88,11 @@ opt.sidescrolloff = 10
 opt.scroll = 0
 opt.scrolljump = -100
 
-
 -- editing
 opt.backspace = "indent,eol,start"
-opt.mouse = ""
+opt.mouse = "n"
 opt.clipboard = "unnamedplus"
 opt.virtualedit = "all"
-
 
 -- files & persistence
 opt.undofile = true

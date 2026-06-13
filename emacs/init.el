@@ -69,22 +69,31 @@
 (set-face-attribute 'default nil
                     :font "Comic Mono"
                     :height 120
-                    :foreground "#A08563"
-                    :background "#042327")
+                    :foreground "#C4A882"
+                    :background "#0D1117")
 
-(add-to-list 'default-frame-alist '(background-color . "#042327"))
+(add-to-list 'default-frame-alist '(background-color . "#0D1117"))
 (setq custom-enabled-themes nil)
 
 ;; Face customization (syntax highlighting)
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(cursor ((t (:background "#00ff00"))))
- '(font-lock-comment-face ((t (:foreground "#999999"))))
- '(font-lock-function-name-face ((t (:foreground "#dddddd"))))
- '(font-lock-keyword-face ((t (:foreground "#aaaaaa")))))
+ '(cursor ((t (:background "#F0A030"))))
+ '(hl-line ((t (:background "#1F1610"))))
+ '(region ((t (:background "#3A0A00"))))
+ '(isearch ((t (:background "#3D2B1A" :foreground "#C4A882"))))
+ '(lazy-highlight ((t (:background "#3D2B1A"))))
+ '(line-number ((t (:foreground "#5A4A38"))))
+ '(line-number-current-line ((t (:foreground "#D48B30"))))
+ '(font-lock-comment-face ((t (:foreground "#6B5A45"))))
+ '(font-lock-keyword-face ((t (:foreground "#D48B30"))))
+ '(font-lock-string-face ((t (:foreground "#B86030"))))
+ '(font-lock-constant-face ((t (:foreground "#9B7040"))))
+ '(font-lock-type-face ((t (:foreground "#B87040"))))
+ '(font-lock-function-name-face ((t (:foreground "#C4A882"))))
+ '(font-lock-variable-name-face ((t (:foreground "#C4A882"))))
+ '(font-lock-builtin-face ((t (:foreground "#D4A030"))))
+ '(font-lock-preprocessor-face ((t (:foreground "#C05020"))))
+ '(font-lock-warning-face ((t (:foreground "#DC4A20")))))
 
 ;; ============================================================================
 ;; DEFAULTS & PATHS
@@ -108,9 +117,9 @@
         evil-undo-system 'undo-redo)
   :config
   (evil-mode 1)
-  (setq evil-normal-state-cursor '(box "#00ff00")
-        evil-insert-state-cursor '(box "#ff005f")
-        evil-visual-state-cursor '(box "#ffaa00")))
+  (setq evil-normal-state-cursor '(box "#F0A030")
+        evil-insert-state-cursor '(box "#C04018")
+        evil-visual-state-cursor '(box "#D48B30")))
 
 (use-package evil-collection
   :after evil
@@ -136,6 +145,12 @@
   :config
   (projectile-mode 1)
   (evil-leader/set-key "p" #'projectile-command-map))
+
+;; Rust support
+(use-package rust-mode
+  :config
+  (setq rust-format-on-save t))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

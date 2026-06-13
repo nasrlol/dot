@@ -1,1 +1,0 @@
-("~/layer/4cc/build/4coder_byp/" "~/layer/4cc/code/custom/4coder_fleury/" "~/layer/4cc/" "~/layer/4cc/build/4coder_byp/4coder_vim/" "~/.config/")

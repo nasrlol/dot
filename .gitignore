@@ -67,3 +67,10 @@ jgit
 # Misc Trash
 /_trash
 /pulse
+/emacs/auto-save-list
+/emacs/eln-cache/30.2-6a8b22b2
+/emacs/elpa
+/emacs/projectile-bookmarks.eld
+/emacs/transient/history.el
+/ghc/ghci_history
+/mimeapps.list
