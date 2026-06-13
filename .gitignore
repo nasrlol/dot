@@ -58,3 +58,8 @@ pavucontrol.ini
 gh/
 gh
 /Code - OSS
+
+/auto-save-list
+/eln-cache
+/elpa
+/transient
