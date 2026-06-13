@@ -1,65 +1,69 @@
-_trash
-pulse
-/pulse
-/github-copilot
-/gtk-3.0
-/ctags
-/dconf
-/chromium
-JetBrains/CLion2025.3
-autostart
+# IDEs and Editors
+/Code
+/Code - OSS
+JetBrains/
+/clangd
 jgit
-Code
-dconf
-pavucontrol.ini
+
+# Web Browsers
 /chromium
+/mozilla/firefox
+/BraveSoftware/Brave-Browser
+
+# Chat and Communication
+/discord
+
+# Text Editors
+/sublime-text
+
+# Development Tools
 /github-copilot
-/mimeapps.list
-/obsidian
-/sublime-text/Local
-/qalculate
-/remmina
-/sublime-text/Packages/User
-/picom
+/gh
+/go/telemetry/local
+
+# Desktop Environments and Display
+/gtk-3.0
+/dconf
+/systemd/user
+/QCurve/
+/QtProject.conf
+/menus/applications-merged
+
+# Audio and Media
+/pavucontrol.ini
+/obs-studio
+/Ultralytics
+
+# System Apps
 /btop
 /htop
 /vifm
 /hexchat
-/obs-studio
+/picom
+/ly
+/remmina
 /qutebrowser
-/QtProject
-/clangd
-/ly
-/ly
-/ly/startup.sh
-/ly
-/ly
-/GIMP/3.0
-/Ultralytics
+/qalculate
 /calcurse
-/go/telemetry/local
-/label-studio
-/QtProject.conf
-/Code - OSS
-/JetBrains/RustRover2026.1
-/discord
-/mozilla/firefox
-/systemd/user
-/systemd
-/discord
-/tailscale
-/GIMP/3.2
-/mozilla/firefox
-/Antigravity
-/BraveSoftware/Brave-Browser
-/menus/applications-merged
-/freerdp/server
-/gh
-gh/
-gh
-/Code - OSS
+/ctags
 
+# Creative Tools
+/GIMP/
+
+# Other Apps
+/obsidian
+/label-studio
+/Antigravity
+/tailscale
+/freerdp/server
+/autostart
+
+# Emacs
 /auto-save-list
 /eln-cache
 /elpa
 /transient
+
+# Misc Trash
+/_trash
+/pulse
