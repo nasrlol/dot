@@ -1,71 +1,51 @@
 {
-    "layer": "top",
-    "position": "top",
-    "height": 30,
-    "spacing": 4,
+  "layer": "top",
+  "position": "right",
+  "width": 50,
+  "height": "100%",
+  "spacing": 0,
+  "orientation": "vertical",
+  "margin-top": 0,
+  "margin-right": 0,
+  "margin-bottom": 0,
+  "margin-left": 0,
 
-    // 1. Module Placement
-    "modules-left": [
-        "hyprland/workspaces",
-        "hyprland/submap"
-    ],
-    "modules-center": [
-        "clock"
-    ],
-    "modules-right": [
-        "network",
-        "battery",
-    ],
+  "modules-left": [
+    "hyprland/workspaces"
+  ],
 
-    "hyprland/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": true,
-        "active-only": false,
-        "format": "{name}"
+  "modules-center": [
+
+    "clock",
+  ],
+
+  "modules-right": [
+    "battery"
+  ],
+
+  "hyprland/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{id}"
+  },
+
+  "clock": {
+    "timezone": "Europe/Brussels",
+    "format": "{:%H\n%M}",
+    "format-alt": "{:%a\n%d\n%b}",
+    "tooltip-format": "<big>{:%Y-%m-%d}</big>\n<tt><small>{calendar}</small></tt>",
+    "interval": 60
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
     },
-
-    "clock": {
-        "timezone": "Europe/Brussels",
-        "format": "{:%H:%M || %Y-%m-%d}",
-        "tooltip-format": "<big>{:%Y}</big>\n<tt><small>{calendar}</small></tt>"
-    },
-
-    "cpu": {
-        "format": "CPU: {usage}%",
-        "interval": 2,
-        "tooltip": false
-    },
-
-    "memory": {
-        "format": "RAM: {}%",
-        "interval": 2
-    },
-
-    "network": {
-        "format-wifi": "  {essid}  " ,
-        "format-ethernet": "eth",
-        "format-disconnected": "dscon",
-        "tooltip-format": "{ifname} via {gwaddr}"
-    },
-
-    "pulseaudio": {
-        "format": "VOL: {volume}%",
-        "format-muted": "MUTED",
-        "on-click": "pavucontrol"
-    },
-
-    "battery": {
-        "states": {
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "BAT: {capacity}%",
-        "format-charging": "CHG: {capacity}%",
-        "interval": 5
-    },
-
-    "tray": {
-        "icon-size": 10,
-        "spacing": 8
-    }
+    "format": "{capacity}",
+    "format-charging": "{capacity}",
+    "format-plugged": "{capacity}",
+    "format-alt": "{time}",
+    "interval": 30
+  }
 }

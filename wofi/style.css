@@ -3,26 +3,29 @@
     padding: 0;
     border-radius: 0;
     font-family: "ComicMono", monospace;
-    font-size: 12px; /* Matched to your compact bar text scale */
+    font-size: 20px;
 }
 
 window {
-    background-color: #1A1208; /* bgAlt */
-    border: 1px solid #241A10; /* border */
-    color: #C4A882;            /* fg */
+    background-color: #282828;
+    border: 2px solid #fe8019;
+    border-radius: 0;
+    color: #ebdbb2;
+    padding: 8px;
 }
 
 #input {
-    background-color: #0D1117; /* darker background */
-    color: #C4A882;            /* fg */
-    padding: 1px 3px;          /* Tighter padding */
-    border: none;
-    border-bottom: 1px solid #241A10; /* border */
-    caret-color: #F0A030;       /* cursor gold */
+    background-color: #1d2021;
+    color: #ebdbb2;
+    padding: 8px 12px;
+    border: 1px solid #3c3836;
+    border-radius: 0;
+    margin-bottom: 8px;
+    caret-color: #fe8019;
 }
 
 #input:focus {
-    background-color: #151515;
+    background-color: #3c3836;
     outline: none;
 }
 
@@ -41,18 +44,20 @@ window {
 }
 
 #entry {
-    padding: 4px 3px; /* Compacted height */
-    margin: 0;
+    padding: 8px 8px;
+    margin: 2px 0;
     background-color: transparent;
-    color: #6B5A45;            /* fgDim */
+    color: #928374;
     border: none;
-    border-left: 1px solid transparent;
+    border-radius: 0;
+    border-left: 3px solid transparent;
 }
 
 #entry:selected {
-    background-color: #1F1610; /* cursorLine */
-    color: #F0A030;            /* cursor gold */
-    border-left: 1px solid #D48B30; /* keyword amber */
+    background-color: #3c3836;
+    color: #fe8019;
+    border-left: 3px solid #fe8019;
+    border-radius: 0;
 }
 
 #img {
@@ -65,9 +70,10 @@ window {
 }
 
 #entry:hover {
-    background-color: #1F1610; /* cursorLine */
-    color: #C4A882;            /* fg */
-    border-left: 1px solid #5A4A38; /* lineNr */
+    background-color: #3c3836;
+    color: #ebdbb2;
+    border-left: 3px solid #928374;
+    border-radius: 0;
 }
 
 #text:selected {

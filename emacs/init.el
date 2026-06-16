@@ -1,8 +1,5 @@
 (require 'package)
 
-;; ============================================================================
-;; PACKAGE MANAGEMENT
-;; ============================================================================
 
 (setq package-archives
       '(("gnu"   . "https://elpa.gnu.org/packages/")
@@ -18,9 +15,6 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-;; ============================================================================
-;; UI/UX SETTINGS
-;; ============================================================================
 
 ;; Startup
 (setq inhibit-startup-screen t
@@ -45,9 +39,6 @@
 ;; Auto-revert buffers when files change on disk
 (global-auto-revert-mode 1)
 
-;; ============================================================================
-;; PERFORMANCE & COMPILATION
-;; ============================================================================
 
 ;; Native compilation settings (Emacs 28+)
 (setq native-comp-async-report-warnings-errors nil
@@ -61,43 +52,42 @@
       frame-resize-pixelwise nil
       window-resize-pixelwise nil)
 
-;; ============================================================================
-;; APPEARANCE & THEMING
-;; ============================================================================
 
 ;; Font and colors
 (set-face-attribute 'default nil
                     :font "Comic Mono"
-                    :height 120
+                    :height 130 
                     :foreground "#C4A882"
                     :background "#0D1117")
 
 (add-to-list 'default-frame-alist '(background-color . "#0D1117"))
 (setq custom-enabled-themes nil)
 
+
 ;; Face customization (syntax highlighting)
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(cursor ((t (:background "#F0A030"))))
+ '(font-lock-builtin-face ((t (:foreground "#D4A030"))))
+ '(font-lock-comment-face ((t (:foreground "#6B5A45"))))
+ '(font-lock-constant-face ((t (:foreground "#9B7040"))))
+ '(font-lock-function-name-face ((t (:foreground "#C4A882"))))
+ '(font-lock-keyword-face ((t (:foreground "#D48B30"))))
+ '(font-lock-preprocessor-face ((t (:foreground "#C05020"))))
+ '(font-lock-string-face ((t (:foreground "#B86030"))))
+ '(font-lock-type-face ((t (:foreground "#B87040"))))
+ '(font-lock-variable-name-face ((t (:foreground "#C4A882"))))
+ '(font-lock-warning-face ((t (:foreground "#DC4A20"))))
  '(hl-line ((t (:background "#1F1610"))))
- '(region ((t (:background "#3A0A00"))))
  '(isearch ((t (:background "#3D2B1A" :foreground "#C4A882"))))
  '(lazy-highlight ((t (:background "#3D2B1A"))))
  '(line-number ((t (:foreground "#5A4A38"))))
  '(line-number-current-line ((t (:foreground "#D48B30"))))
- '(font-lock-comment-face ((t (:foreground "#6B5A45"))))
- '(font-lock-keyword-face ((t (:foreground "#D48B30"))))
- '(font-lock-string-face ((t (:foreground "#B86030"))))
- '(font-lock-constant-face ((t (:foreground "#9B7040"))))
- '(font-lock-type-face ((t (:foreground "#B87040"))))
- '(font-lock-function-name-face ((t (:foreground "#C4A882"))))
- '(font-lock-variable-name-face ((t (:foreground "#C4A882"))))
- '(font-lock-builtin-face ((t (:foreground "#D4A030"))))
- '(font-lock-preprocessor-face ((t (:foreground "#C05020"))))
- '(font-lock-warning-face ((t (:foreground "#DC4A20")))))
+ '(region ((t (:background "#3A0A00")))))
 
-;; ============================================================================
-;; DEFAULTS & PATHS
-;; ============================================================================
 
 ;; OS-specific default directory
 (setq-default default-directory
@@ -105,9 +95,6 @@
                   "C:/dev/projects"
                 "/home/nasr"))
 
-;; ============================================================================
-;; PACKAGE CONFIGURATION
-;; ============================================================================
 
 ;; Evil mode (Vim keybindings)
 (use-package evil
@@ -146,14 +133,29 @@
   (projectile-mode 1)
   (evil-leader/set-key "p" #'projectile-command-map))
 
+
+(use-package racket-mode
+  :ensure t
+  :hook (racket-mode . racket-xp-mode) ; Enables advanced definition tracking and linting
+  :config
+  ;; Optional: If your racket executable isn't in your standard PATH, specify it here:
+  ;; (setq racket-program "/usr/bin/racket")
+  )
+
 ;; Rust support
 (use-package rust-mode
   :config
   (setq rust-format-on-save t))
+
+;; Line numbers and highlighting
+(global-display-line-numbers-mode 1)
+(global-hl-line-mode 1)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(evil-collection evil-leader flycheck fzf projectile racket-mode
+		     rust-mode)))
