@@ -157,5 +157,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(evil-collection evil-leader flycheck fzf projectile racket-mode
-		     rust-mode)))
+   '(evil-collection evil-leader flycheck fzf projectile rust-mode)))

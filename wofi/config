@@ -1,8 +1,8 @@
 # ~/.config/wofi/config
 
 # === Geometry ===
-width=50%
-height=50%
+width=65%
+height=65%
 orientation=vertical
 columns=2
 
@@ -22,17 +22,17 @@ fork=true                 # fork so the launching terminal can close
 prompt=
 matching=contains         # contains, strict-contains, multi-contains, fuzzy
 insensitive=true
-filter_rate=10           # debounce ms
+filter_rate=5            # debounce ms - faster filtering
 exec_search=true         # Enter runs search text instead of first result
 parse_search=false        # strip pango/image escapes from search
 no_actions=false          # disable multi-action entries
 
-sort_order=default   # default, alphabetical
+sort_order=alphabetical   # alphabetical sorting is faster than default
 image_size=0              # icon size in px; 0 = disabled
 dynamic_lines=false       # grow window to fit results
 line_wrap=off             # off, word, char, word_char
 allow_markup=false        # allow pango markup in entries
-show_all=true            # show all entries before typing
+show_all=false            # don't show all entries initially - faster startup
 allow_images=false
 
 hide_search=false
