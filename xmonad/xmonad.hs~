@@ -1,0 +1,16 @@
+import XMonad
+
+import XMonad.Util.EZConfig
+
+main :: IO ()
+main = xmonad $ internalConfig
+
+terminal = "alacritty"
+
+internalConfig = def
+    { modMask    = mod4Mask }
+
+  `additionalKeysP`
+    [ ("M-t"  , spawn "alacritty"    ),
+      ("M-e"  , spawn "emacs"        ),
+      ("M-b"  , spawn "firefox"      )]
