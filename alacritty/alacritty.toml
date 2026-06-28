@@ -5,30 +5,27 @@ option_as_alt = "OnlyRight"
 blur = false
 
 [window.padding]
-x = 10
-y = 10
-
-[terminal]
-shell = "/usr/bin/zsh"
+x = 2
+y = 2
 
 [font]
 size = 13.0
 
 [font.normal]
-family = "ComicMono"
+family = "Liberation Mono"
 style = "Regular"
 
 [font.bold]
-family = "ComicMono"
-style = "Bold"
+family = "Liberation Mono"
+style = "Regular"
 
 [font.italic]
-family = "ComicMono"
-style = "Italic"
+family = "Liberation Mono"
+style = "Regular"
 
 [font.bold_italic]
-family = "ComicMono"
-style = "Bold Italic"
+family = "Liberation Mono"
+style = "Regular"
 
 [font.offset]
 x = 0
