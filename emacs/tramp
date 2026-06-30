@@ -1,4 +1,4 @@
-;; -*- emacs-lisp -*- <26/06/28 16:04:09 ~/.config/emacs/tramp>
+;; -*- emacs-lisp -*- <26/06/28 17:05:47 ~/.config/emacs/tramp>
 ;; Tramp connection history.  Don't change this file.
 ;; Run `M-x tramp-cleanup-all-connections' instead.
 
@@ -14,4 +14,7 @@
   ("stat" "env QUOTING_STYLE=locale \\stat")
   ("id" "/run/current-system/sw/bin/id") ("uid-integer" 0)
   ("uid-string" "root") ("gid-integer" 0) ("gid-string" "root")
-  ("groups-integer" (0)) ("groups-string" ("root"))))
+  ("groups-integer" (0)) ("groups-string" ("root"))
+  ("perl-file-spec" t) ("perl-cwd-realpath" t) ("perl" "\\perl")
+  ("case-insensitive" nil) ("~" "/root") ("readlink" "\\readlink")
+  ("bzr" nil) ("git" "\\git") ("hg" nil)))
