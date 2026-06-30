@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./modules/dmenu.nix
 
     ];
 
@@ -100,6 +101,7 @@
       update = "sudo nixos-rebuild switch";
       vi     = "vis";
     };
+
   };
 
   # vcs
