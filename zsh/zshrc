@@ -8,12 +8,18 @@ export PAGER=cat
 export MANPAGER="nvim +Man!"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-export PATH="$HOME/.local/bin:$HOME/odin:$HOME/.cargo/bin:$PATH"
-export PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
-export PATH="$HOME/third_party/go-versions/go1.26.1/bin:$PATH"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 export ls_colors="di=37:fi=0:ln=37;2:ex=37;1:*.png=37;2:*.jpg=37;2:*.sh=37;2"
+
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+	export XDG_RUNTIME_DIR=/run/user/$(id -u)
+	mkdir -p "$XDG_RUNTIME_DIR"
+	chmod 700 "$XDG_RUNTIME_DIR"
+fi
+
+export PATH="$HOME/.local/bin:$PATH"
+export XDG_DATA_HOME="$HOME/.local/share"
 
 # special
 setopt AUTO_CD
@@ -33,7 +39,7 @@ setopt PROMPT_SUBST
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
-PROMPT='%n@%m :: '
+PROMPT='%n :: %~ :: '
 
 bindkey -v
 bindkey '^F' autosuggest-accept
@@ -46,7 +52,6 @@ autoload -Uz vcs_info
 zle -N edit-command-line
 
 # alias
-alias cd="z"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -73,12 +78,7 @@ alias vi="nvim"
 
 alias server="python -m http.server 8000"
 
-alias l="eza -l --group"
-alias ls="eza --group --group-directories-first"
-alias ll="eza -l --group --group-directories-first --git"
-alias la="eza -la --group --group-directories-first --git"
-alias lt="eza --tree --level=2 --group --group-directories-first"
-alias lta="eza --tree --level=2 --group --group-directories-first -a"
+alias ll="ls -hal"
 
 alias checkpoint="git add . && git commit -m 'checkpoint' && git push"
 
@@ -201,30 +201,7 @@ extract() {
     fi
 }
 
-if [[ -z "$SSH_AUTH_SOCK" ]]; then
-    eval "$(ssh-agent -s)" > /dev/null
-fi
-
-if command -v zoxide &> /dev/null; then
-    eval "$(zoxide init zsh)"
-fi
-
-if command -v direnv &> /dev/null; then
-    eval "$(direnv hook zsh)"
-fi
-
 if command -v fzf &> /dev/null; then
     source <(fzf --zsh)
 fi
 
-if [[ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
-    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-elif [[ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
-    source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
-
-if [[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-elif [[ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-    source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
