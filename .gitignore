@@ -70,6 +70,8 @@ pulse
 /elpa
 /transient
 
+*un~
+
 # Misc Trash
 /_trash
 /pulse
@@ -80,3 +82,5 @@ pulse
 /emacs/transient/history.el
 /ghc/ghci_history
 /mimeapps.list
+/pavucontrol-qt
+/QtProject
