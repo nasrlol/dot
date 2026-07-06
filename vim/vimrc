@@ -61,7 +61,7 @@ set titlestring=%F
 set termguicolors
 set background=dark
 " Nasr theme: warm amber/rust/sepia on dark
-highlight Normal ctermfg=180 ctermbg=16 guifg=#C4A882 guibg=#0D1117
+highlight Normal ctermfg=180 ctermbg=NONE guifg=#C4A882 guibg=NONE
 highlight NormalFloat ctermfg=180 ctermbg=59 guifg=#C4A882 guibg=#1A1208
 highlight Comment ctermfg=95 guifg=#6B5A45
 highlight String ctermfg=137 guifg=#B86030
@@ -103,7 +103,7 @@ set autoread
 set autowrite
 set nobackup
 set noswapfile
-set undofile
+set noundofile
 
 set tags=./tags;,tags;
 
