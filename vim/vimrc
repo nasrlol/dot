@@ -1,21 +1,3 @@
-let vimplug_exists = expand('~/.vim/autoload/plug.vim')
-if has('win32') && !has('win64')
-  let curl_exists = expand('C:\Windows\Sysnative\curl.exe')
-else
-  let curl_exists = expand('curl')
-endif
-
-if !filereadable(vimplug_exists)
-  if !executable(curl_exists)
-    echoerr "Curl is required to install vim-plug. Please install curl or vim-plug manually."
-    execute "q!"
-  endif
-  echo "Installing vim-plug..."
-  silent exec "!" . curl_exists . " -fLo " . shellescape(vimplug_exists) . " --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-  let g:not_finish_vimplug = "yes"
-  autocmd VimEnter * PlugInstall
-endif
-
 filetype plugin indent on
 
 set encoding=utf-8
@@ -60,21 +42,6 @@ set titlestring=%F
 
 set termguicolors
 set background=dark
-" Nasr theme: warm amber/rust/sepia on dark
-highlight Normal ctermfg=180 ctermbg=NONE guifg=#C4A882 guibg=NONE
-highlight NormalFloat ctermfg=180 ctermbg=59 guifg=#C4A882 guibg=#1A1208
-highlight Comment ctermfg=95 guifg=#6B5A45
-highlight String ctermfg=137 guifg=#B86030
-highlight Keyword ctermfg=172 guifg=#D48B30
-highlight Type ctermfg=137 guifg=#B87040
-highlight Function ctermfg=180 guifg=#C4A882
-highlight Cursor guibg=#F0A030 guifg=#0D1117
-highlight CursorLine guibg=#1F1610
-highlight LineNr ctermfg=59 guifg=#5A4A38
-highlight Visual guibg=#3A0A00
-highlight Search guibg=#3D2B1A
-highlight MatchParen guibg=#D48B30 guifg=#0D1117
-
 set ignorecase
 set smartcase
 set incsearch
@@ -106,12 +73,6 @@ set noswapfile
 set noundofile
 
 set tags=./tags;,tags;
-
-if exists('$SHELL')
-  set shell=$SHELL
-else
-  set shell=/bin/sh
-endif
 
 set mouse=
 set clipboard=unnamedplus

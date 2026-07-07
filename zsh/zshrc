@@ -8,9 +8,6 @@ export PAGER=cat
 export MANPAGER="nvim +Man!"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
-export ls_colors="di=37:fi=0:ln=37;2:ex=37;1:*.png=37;2:*.jpg=37;2:*.sh=37;2"
 
 if [ -z "$XDG_RUNTIME_DIR" ]; then
 	export XDG_RUNTIME_DIR=/run/user/$(id -u)
@@ -21,7 +18,6 @@ fi
 export PATH="$HOME/.local/bin:$PATH"
 export XDG_DATA_HOME="$HOME/.local/share"
 
-# special
 setopt AUTO_CD
 setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
@@ -34,7 +30,6 @@ setopt SHARE_HISTORY
 setopt APPEND_HISTORY
 setopt INC_APPEND_HISTORY
 setopt PROMPT_SUBST
-
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -56,22 +51,10 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
-alias coder='command coder >/dev/null 2>&1 & disown'
-alias lz="lazygit"
-alias ss="exec dbus-run-session startx"
-alias dls="docker container ls -a"
-alias net="ping 1.1.1.1"
 alias ports="ss -tulpn"
 alias mem="free -h"
 alias cpu="lscpu | sed -n '1,12p'"
 alias top="btop"
-
-alias dstop='docker ps -q | xargs -r docker stop'
-alias drm='docker ps -a -q | xargs -r docker rm -f'
-alias drmi='docker images -q | xargs -r docker rmi -f'
-alias drnet='docker network ls -q | xargs -r docker network rm'
-alias drv='docker volume ls -q | xargs -r docker volume rm'
-alias dclean='dstop && drm && drmi && drnet && drv'
 
 alias vim="nvim"
 alias vi="nvim"
@@ -91,62 +74,10 @@ alias tls="tmux list-sessions"
 alias copypath="pwd | xsel --clipboard"
 alias copy="xsel --clipboard"
 alias t="todocli"
-alias battery="cat /sys/class/power_supply/macsmc-battery/capacity"
 alias weather="curl wttr.in"
-alias myip="curl ifconfig.me"
-alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
-alias kbbr="echo 0 | sudo tee /sys/class/leds/kbd_backlight/brightness"
 alias zshconfig="nvim ~/.zshrc"
 alias reload="source ~/.zshrc"
-alias powersave="sudo cpupower frequency-set -g powersave"
-alias performance="sudo cpupower frequency-set -g performance"
 
-# functions
-
-# edit any tracked file
-edit() {
-    local file
-    if ! git rev-parse --git-dir >/dev/null 2>&1; then
-        file=$(fzf --preview 'bat --style=full --color=always {} 2>/dev/null' \
-                   --preview-window=right:60%:wrap)
-    else
-        file=$(git ls-files | fzf --preview 'bat -n --style=full --color=always {} 2>/dev/null' \
-                                   --preview-window=right:60%:wrap)
-    fi
-    [[ -n "$file" ]] && nvim "$file"
-}
-
-# edit any config file in the .config/ folder
-config() {
-    local file
-    file=$(git -C ~/.config ls-files | fzf \
-        --preview 'bat -n --style=full --color=always "$HOME/.config/{}" 2>/dev/null' \
-        --preview-window=right:60%:wrap)
-
-    [[ -n "$file" ]] && nvim ~/.config/"$file"
-}
-
-goto() {
-    local file viewer
-
-    file=$(fd --type f --hidden --follow --exclude node_modules .git  | fzf --preview 'bat -n --style=full --color=always {} 2>/dev/null' --preview-window=right:60%:wrap)
-
-    [[ -z "$file" ]] && return
-    cd "$(dirname "$file")"
-}
-
-# Install package with fuzzy search
-install() {
-    local pkg
-    pkg=$(dnf search all 2>/dev/null \
-        | awk '{print $1}' \
-        | sed 's/\.$//' \
-        | sort -u \
-        | fzf --prompt="dnf install > " \
-              --preview 'dnf info {} 2>/dev/null' \
-              --preview-window=right:60%:wrap)
-    [[ -n "$pkg" ]] && sudo dnf install "$pkg"
-}
 
 # credits to luca
 memleak() {
@@ -165,39 +96,6 @@ groot() {
     else
         echo "Not in a git repository"
         return 1
-    fi
-}
-
-# ffmpeg wrapper
-screenrec() {
-    if pgrep ffmpeg > /dev/null; then
-        pkill -SIGINT ffmpeg
-    else
-        ffmpeg -f x11grab -r 15 -s 2560x1664 -i :0.0 \
-            -c:v libx264 -preset ultrafast \
-            -vf scale=1280:832 \
-            -crf 32 \
-            -maxrate 400k -bufsize 800k \
-            "/home/nasr/videos/$(date +%Y-%m-%d-%H%M%S).mp4" &
-    fi
-}
-
-extract() {
-    if [[ -f "$1" ]]; then
-        case "$1" in
-            *.tar.bz2|*.tbz2)   tar xjf "$1"     ;;
-            *.tar.gz|*.tgz)     tar xzf "$1"     ;;
-            *.bz2)              bunzip2 "$1"     ;;
-            *.rar)              unrar x "$1"     ;;
-            *.gz)               gunzip "$1"      ;;
-            *.tar)              tar xf "$1"      ;;
-            *.zip)              unzip "$1"       ;;
-            *.Z)                uncompress "$1"  ;;
-            *.7z)               7z x "$1"        ;;
-            *)                  echo "'$1' cannot be extracted via extract()" ;;
-        esac
-    else
-        echo "'$1' is not a valid file"
     fi
 }
 

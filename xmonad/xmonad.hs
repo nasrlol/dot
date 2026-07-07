@@ -13,7 +13,7 @@ main = do
      xmproc <- spawnPipe "xmobar"
      xmonad $ docks $ conf 
 
-term = "alacritty"
+term = "foot"
 
 
 conf = def
@@ -29,7 +29,7 @@ conf = def
   `additionalKeysP`
     [ ("M-e"        , spawn "emacs"        ),
       ("M-b"        , spawn "firefox"      ),
-      ("M-<Return>" , spawn "alacritty"    )
+      ("M-<Return>" , spawn "foot"         )
     ]
 
 

@@ -1,9 +1,8 @@
--- Neovim Theme Configuration
--- Dark and Light mode support with unified colorscheme
 function hl(name, opts)
     opts.force = false
     vim.api.nvim_set_hl(0, name, opts)
 end
+
 local dark = true
 -- Color Palettes (nasr 4coder theme: warm amber/rust/sepia on dark)
 local palettes = {
@@ -29,7 +28,10 @@ local palettes = {
     }
 }
 
-if  not vim.g.neovide then
+-- SELECT ACTIVE PALETTE
+local colors = dark and palettes.dark or palettes.light
+
+if not vim.g.neovide then
     hl("Normal", { fg = colors.fg, bg = colors.bg })
     hl("NormalFloat",  { fg = colors.fg, bg = colors.bgAlt })
 else
@@ -37,15 +39,21 @@ else
     hl("NormalFloat",  { fg = colors.fg, bg = "NONE" })
 end
 
+-- APPLY_HL_GROUP HELPER (was missing)
+local function apply_hl_group(name, opts)
+    opts.force = false
+    vim.api.nvim_set_hl(0, name, opts)
+end
+
 apply_hl_group("Normal",      { fg = colors.fg,    bg = colors.bg,    blend = 10 })
 apply_hl_group("NormalFloat", { fg = colors.fg,    bg = colors.bgAlt, blend = 10 })
 apply_hl_group("NormalNC",    { fg = colors.fgDim, bg = colors.bg,    blend = 10 })
-apply_hl_group("WinBar",      { fg = colors.bar,   bg = NONE,         blend = 10 })
-apply_hl_group("WinBarNC",    { fg = colors.fgDim, bg = NONE,         blend = 10 })
+apply_hl_group("WinBar",      { fg = colors.bar,   bg = "NONE",       blend = 10 })
+apply_hl_group("WinBarNC",    { fg = colors.fgDim, bg = "NONE",       blend = 10 })
 
 -- Status Lines
-apply_hl_group("statusline",   { fg = colors.fg,    bg = NONE, blend = 10 })
-apply_hl_group("statuslinenc", { fg = colors.fgDim, bg = NONE, blend = 10 })
+apply_hl_group("statusline",   { fg = colors.fg,    bg = "NONE", blend = 10 })
+apply_hl_group("statuslinenc", { fg = colors.fgDim, bg = "NONE", blend = 10 })
 
 -- Messages (Neovide-specific)
 if vim.g.neovide then
