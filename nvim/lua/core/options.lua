@@ -1,11 +1,14 @@
-local opt = vim.opt
-local g = vim.g
+opt = vim.opt
+g = vim.g
+o = vim.o
+
 g.mapleader = " "
 g.maplocalleader = " "
 g.loaded_node_provider = 0
 g.loaded_perl_provider = 0
 g.loaded_python3_provider = 0
 g.loaded_ruby_provider = 0
+
 opt.path:append("include/**")
 opt.path:append("src/**")
 opt.path:append("source/**")
@@ -17,7 +20,9 @@ opt.relativenumber = false
 opt.cursorline     = true
 opt.termguicolors  = true
 opt.showmode       = false
+
 g.autocomplete = true
+
 opt.wildmenu = true
 opt.wildmode = { "longest", "list", "full" }
 opt.cmdheight = 2
@@ -50,9 +55,9 @@ opt.commentstring = "// %s"
 
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "winpos", "folds", "help", "localoptions" }
 opt.expandtab = true
-opt.tabstop = 4
-opt.shiftwidth = 4
-opt.softtabstop = 4
+opt.tabstop = 1
+opt.shiftwidth = 1
+opt.softtabstop = 1
 opt.smartindent = false
 opt.breakindent = true
 opt.ignorecase = true

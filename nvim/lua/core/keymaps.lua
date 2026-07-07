@@ -1,4 +1,5 @@
 local fzf = require("fzf-lua")
+map = vim.keymap.set
 
 map("n", "<M-Up>",    "<cmd>resize +2<cr>",          { desc = "Increase height" })
 map("n", "<M-Down>",  "<cmd>resize -2<cr>",          { desc = "Decrease height" })
