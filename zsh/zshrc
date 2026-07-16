@@ -9,15 +9,6 @@ export MANPAGER="nvim +Man!"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-if [ -z "$XDG_RUNTIME_DIR" ]; then
-	export XDG_RUNTIME_DIR=/run/user/$(id -u)
-	mkdir -p "$XDG_RUNTIME_DIR"
-	chmod 700 "$XDG_RUNTIME_DIR"
-fi
-
-export PATH="$HOME/.local/bin:$PATH"
-export XDG_DATA_HOME="$HOME/.local/share"
-
 setopt AUTO_CD
 setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS

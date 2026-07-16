@@ -98,3 +98,6 @@ pulse
 /niri/.config.kdl.un~
 /foot/foot.ini~
 /foot/.foot.ini.un~
+/emacs/semanticdb
+/emacs/init.el~
+/emacs/lib.el~
