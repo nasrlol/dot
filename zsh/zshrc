@@ -1,21 +1,4 @@
-# Editors
-
-# export
-export KEYTIMEOUT=10
-export EDITOR=nvim
-export VISUAL=nvim
-export PAGER=cat
-export MANPAGER="nvim +Man!"
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-export PATH="$HOME/.local/bin:$HOME/odin:$HOME/.cargo/bin:$PATH"
-export PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
-export PATH="$HOME/third_party/go-versions/go1.26.1/bin:$PATH"
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
-export ls_colors="di=37:fi=0:ln=37;2:ex=37;1:*.png=37;2:*.jpg=37;2:*.sh=37;2"
-
-# special
+# 
 setopt AUTO_CD
 setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
@@ -29,13 +12,15 @@ setopt APPEND_HISTORY
 setopt INC_APPEND_HISTORY
 setopt PROMPT_SUBST
 
-
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
+
 PROMPT='%n@%m :: '
 
+
 bindkey -v
+bindkey '^R' history-incremental-search-backward
 bindkey '^F' autosuggest-accept
 bindkey '^E' edit-command-line
 
@@ -45,41 +30,14 @@ autoload -Uz vcs_info
 
 zle -N edit-command-line
 
-# alias
-alias cd="z"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
-alias coder='command coder >/dev/null 2>&1 & disown'
-alias lz="lazygit"
-alias ss="exec dbus-run-session startx"
-alias dls="docker container ls -a"
-alias net="ping 1.1.1.1"
-alias ports="ss -tulpn"
-alias mem="free -h"
-alias cpu="lscpu | sed -n '1,12p'"
-alias top="btop"
-
-alias dstop='docker ps -q | xargs -r docker stop'
-alias drm='docker ps -a -q | xargs -r docker rm -f'
-alias drmi='docker images -q | xargs -r docker rmi -f'
-alias drnet='docker network ls -q | xargs -r docker network rm'
-alias drv='docker volume ls -q | xargs -r docker volume rm'
-alias dclean='dstop && drm && drmi && drnet && drv'
-
 alias vim="nvim"
 alias vi="nvim"
 
-alias server="python -m http.server 8000"
-
-alias l="eza -l --group"
-alias ls="eza --group --group-directories-first"
-alias ll="eza -l --group --group-directories-first --git"
-alias la="eza -la --group --group-directories-first --git"
-alias lt="eza --tree --level=2 --group --group-directories-first"
-alias lta="eza --tree --level=2 --group --group-directories-first -a"
-
+alias run_python_server="python -m http.server 8000"
 alias checkpoint="git add . && git commit -m 'checkpoint' && git push"
 
 alias attach="tmux attach-session -t"
@@ -90,65 +48,7 @@ alias tls="tmux list-sessions"
 
 alias copypath="pwd | xsel --clipboard"
 alias copy="xsel --clipboard"
-alias t="todocli"
-alias battery="cat /sys/class/power_supply/macsmc-battery/capacity"
-alias weather="curl wttr.in"
-alias myip="curl ifconfig.me"
-alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
-alias kbbr="echo 0 | sudo tee /sys/class/leds/kbd_backlight/brightness"
-alias zshconfig="nvim ~/.zshrc"
-alias reload="source ~/.zshrc"
-alias powersave="sudo cpupower frequency-set -g powersave"
-alias performance="sudo cpupower frequency-set -g performance"
 
-# functions
-
-# edit any tracked file
-edit() {
-    local file
-    if ! git rev-parse --git-dir >/dev/null 2>&1; then
-        file=$(fzf --preview 'bat --style=full --color=always {} 2>/dev/null' \
-                   --preview-window=right:60%:wrap)
-    else
-        file=$(git ls-files | fzf --preview 'bat -n --style=full --color=always {} 2>/dev/null' \
-                                   --preview-window=right:60%:wrap)
-    fi
-    [[ -n "$file" ]] && nvim "$file"
-}
-
-# edit any config file in the .config/ folder
-config() {
-    local file
-    file=$(git -C ~/.config ls-files | fzf \
-        --preview 'bat -n --style=full --color=always "$HOME/.config/{}" 2>/dev/null' \
-        --preview-window=right:60%:wrap)
-
-    [[ -n "$file" ]] && nvim ~/.config/"$file"
-}
-
-goto() {
-    local file viewer
-
-    file=$(fd --type f --hidden --follow --exclude node_modules .git  | fzf --preview 'bat -n --style=full --color=always {} 2>/dev/null' --preview-window=right:60%:wrap)
-
-    [[ -z "$file" ]] && return
-    cd "$(dirname "$file")"
-}
-
-# Install package with fuzzy search
-install() {
-    local pkg
-    pkg=$(dnf search all 2>/dev/null \
-        | awk '{print $1}' \
-        | sed 's/\.$//' \
-        | sort -u \
-        | fzf --prompt="dnf install > " \
-              --preview 'dnf info {} 2>/dev/null' \
-              --preview-window=right:60%:wrap)
-    [[ -n "$pkg" ]] && sudo dnf install "$pkg"
-}
-
-# credits to luca
 memleak() {
     while true
     do
@@ -156,75 +56,3 @@ memleak() {
         sleep 1
     done
 }
-
-# jump to the root of the project
-groot() {
-    local root=$(git rev-parse --show-toplevel 2>/dev/null)
-    if [[ -n "$root" ]]; then
-        cd "$root"
-    else
-        echo "Not in a git repository"
-        return 1
-    fi
-}
-
-# ffmpeg wrapper
-screenrec() {
-    if pgrep ffmpeg > /dev/null; then
-        pkill -SIGINT ffmpeg
-    else
-        ffmpeg -f x11grab -r 15 -s 2560x1664 -i :0.0 \
-            -c:v libx264 -preset ultrafast \
-            -vf scale=1280:832 \
-            -crf 32 \
-            -maxrate 400k -bufsize 800k \
-            "/home/nasr/videos/$(date +%Y-%m-%d-%H%M%S).mp4" &
-    fi
-}
-
-extract() {
-    if [[ -f "$1" ]]; then
-        case "$1" in
-            *.tar.bz2|*.tbz2)   tar xjf "$1"     ;;
-            *.tar.gz|*.tgz)     tar xzf "$1"     ;;
-            *.bz2)              bunzip2 "$1"     ;;
-            *.rar)              unrar x "$1"     ;;
-            *.gz)               gunzip "$1"      ;;
-            *.tar)              tar xf "$1"      ;;
-            *.zip)              unzip "$1"       ;;
-            *.Z)                uncompress "$1"  ;;
-            *.7z)               7z x "$1"        ;;
-            *)                  echo "'$1' cannot be extracted via extract()" ;;
-        esac
-    else
-        echo "'$1' is not a valid file"
-    fi
-}
-
-if [[ -z "$SSH_AUTH_SOCK" ]]; then
-    eval "$(ssh-agent -s)" > /dev/null
-fi
-
-if command -v zoxide &> /dev/null; then
-    eval "$(zoxide init zsh)"
-fi
-
-if command -v direnv &> /dev/null; then
-    eval "$(direnv hook zsh)"
-fi
-
-if command -v fzf &> /dev/null; then
-    source <(fzf --zsh)
-fi
-
-if [[ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
-    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-elif [[ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
-    source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
-
-if [[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-elif [[ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-    source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
