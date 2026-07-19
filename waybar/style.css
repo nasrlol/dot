@@ -1,13 +1,13 @@
 * {
-    font-family: "ComicMono";
+    font-family: "LiberationMono";
     font-size: 20px;
     font-weight: 100 ;
-    margin: 5px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
     padding: 0;
 }
 
 window#waybar {
-    background: #0d1117;
+    background: #000000;
     color: #c4a882;
     border: none;
     border-left: 1px solid #21262d;
@@ -57,7 +57,7 @@ window#waybar {
     background: transparent;
     font-size: 24px;
     font-weight: normal;
-    min-width: 40px;
+    min-width: 120px;
     border-bottom: 3px;
 }
 

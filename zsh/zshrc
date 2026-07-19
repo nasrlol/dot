@@ -1,23 +1,13 @@
-# 
 setopt AUTO_CD
 setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
 setopt PUSHD_SILENT
 setopt EXTENDED_GLOB
-setopt HIST_IGNORE_DUPS
-setopt HIST_FIND_NO_DUPS
 setopt HIST_REDUCE_BLANKS
 setopt SHARE_HISTORY
 setopt APPEND_HISTORY
 setopt INC_APPEND_HISTORY
 setopt PROMPT_SUBST
-
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-
-PROMPT='%n@%m :: '
-
 
 bindkey -v
 bindkey '^R' history-incremental-search-backward
@@ -30,29 +20,25 @@ autoload -Uz vcs_info
 
 zle -N edit-command-line
 
+alias vim="nvim"
+alias ll="ls -hal"
+alias checkpoint="git add . && git commit -m 'checkpoint' && git push"
+alias attach="tmux attach-session -t"
+alias new="tmux new-session -s"
+alias list="tmux list-sessions"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
-alias vim="nvim"
-alias vi="nvim"
-
-alias run_python_server="python -m http.server 8000"
-alias checkpoint="git add . && git commit -m 'checkpoint' && git push"
-
-alias attach="tmux attach-session -t"
-alias new="tmux new-session -s"
-alias list="tmux list-sessions"
-alias ta="tmux attach"
-alias tls="tmux list-sessions"
-
-alias copypath="pwd | xsel --clipboard"
-alias copy="xsel --clipboard"
-
-memleak() {
+memory() {
     while true
     do
         grep -E "VmRSS|VmSize|VmPeak" /proc/70409/status
         sleep 1
     done
 }
+
+
+
+PROMPT='%n :: '
+
