@@ -1,87 +1,67 @@
+/* Reset all elements globally */
 * {
     margin: 0;
     padding: 0;
     border-radius: 0;
-    font-family: "ComicMono", monospace;
+    font-family: "LiberationMono", monospace;
     font-size: 20px;
+    border: none;
 }
 
 window {
     background-color: #282828;
-    border: 2px solid #fe8019;
-    border-radius: 0;
     color: #ebdbb2;
-    padding: 8px;
 }
 
 #input {
     background-color: #1d2021;
     color: #ebdbb2;
-    padding: 8px 12px;
-    border: 1px solid #3c3836;
-    border-radius: 0;
-    margin-bottom: 8px;
+    padding: 8px 8px;
+    outline: none;
     caret-color: #fe8019;
 }
 
 #input:focus {
     background-color: #3c3836;
     outline: none;
+    border-color: #3c3836;
+
 }
 
-#outer-box {
-    margin: 0;
-    padding: 0;
+#input:active {
+    background-color: #3c3836;
+    outline: none;
+    border-color: #3c3836;
 }
 
-#scroll {
-    margin: 0;
-}
-
-#inner-box {
-    margin: 0;
-    padding: 0;
-}
 
 #entry {
-    padding: 8px 8px;
-    margin: 2px 0;
+    padding: 10px 10px;
+    margin: 0px 10px 0px 10px;
     background-color: transparent;
     color: #928374;
-    border: none;
-    border-radius: 0;
-    border-left: 3px solid transparent;
 }
 
 #entry:selected {
-    background-color: #3c3836;
     color: #fe8019;
-    border-left: 3px solid #fe8019;
-    border-radius: 0;
+    background-color: transparent;
 }
 
-#img {
+#entry:hover {
+    color: #ebdbb2;
+    background-color: transparent;
+}
+
+#text:selected {
+    color: #C4A882;
+}
+
+/* Hide images/icons completely */
+#img, #input image {
     min-width: 0;
     min-height: 0;
     max-width: 0;
     max-height: 0;
-    margin: 0;
-    padding: 0;
-}
-
-#entry:hover {
-    background-color: #3c3836;
-    color: #ebdbb2;
-    border-left: 3px solid #928374;
-    border-radius: 0;
-}
-
-#text:selected {
-    color: #C4A882;            /* fg */
-}
-
-#input image {
-    border: none;
     background-color: transparent;
     background-image: none;
     color: transparent;

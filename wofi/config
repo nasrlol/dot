@@ -2,27 +2,27 @@
 
 # === Geometry ===
 width=65%
-height=65%
-orientation=vertical
-columns=2
+height=1%
+orientation=horizontal
+columns=10
 
-location=center            # Set to center
-layer=overlay                 # background, bottom, top, overlay
-global_coords=false       # Set to false to let location take over
+location=left            # Set to center
+layer=background                 # background, bottom, top, overlay
+global_coords=true       # Set to false to let location take over
 normal_window=false       # set true if not using wlroots/layer-shell
 
-location=bottom           # center, top_left, top, top_right, right, bottom_right, bottom, bottom_left, left
+location=center           # center, top_left, top, top_right, right, bottom_right, bottom, bottom_left, left
 layer=overlay                 # background, bottom, top, overlay
 global_coords=true       # use global compositor space for x/y (avoid with location=)
-normal_window=false       # set true if not using wlroots/layer-shell
+normal_window=true       # set true if not using wlroots/layer-shell
 
 show=run                  # run, drun, dmenu, or combi e.g. run,drun
 fork=true                 # fork so the launching terminal can close
 
 prompt=
-matching=contains         # contains, strict-contains, multi-contains, fuzzy
+matching=fuzzy         # contains, strict-contains, multi-contains, fuzzy
 insensitive=true
-filter_rate=5            # debounce ms - faster filtering
+filter_rate=1            # debounce ms - faster filtering
 exec_search=true         # Enter runs search text instead of first result
 parse_search=false        # strip pango/image escapes from search
 no_actions=false          # disable multi-action entries
@@ -37,7 +37,7 @@ allow_images=false
 
 hide_search=false
 hide_scroll=true
-term_string=alacritty -e  # terminal for term= entries in desktop files
+term_string=foot
 
 copy_exec=wl-copy
 

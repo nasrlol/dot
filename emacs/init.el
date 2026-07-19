@@ -50,7 +50,7 @@
 ;; Font and colors
 (set-face-attribute 'default nil
                     :font "liberation mono"
-                    :height 120 
+                    :height 150 
                     :foreground "#C4A882"
                     :background "#000000")
 
@@ -128,6 +128,9 @@
 (setq dired-listing-switches "-alh")
 (setq dired-mouse-drag-files t)
 
+(setq c-default-style "awk"
+      c-set-style "awk"
+      c-basic-offset 4)
 
 (require 'ede)
 (global-ede-mode t)
@@ -136,4 +139,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ede-project-directories '("/home/nasr/tb")))
+ '(ede-project-directories '("/home/nasr/tb"))
+ '(package-selected-packages nil))
