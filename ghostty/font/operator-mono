@@ -1,0 +1,11 @@
+font-family = Operator Mono SSm
+font-style = Book
+font-style-bold = Bold
+font-style-italic = Book Italic
+font-style-bold-italic = Bold Italic
+adjust-cell-height = 40%
+adjust-cursor-height = 40%
+
+
+
+# vim: ft=config

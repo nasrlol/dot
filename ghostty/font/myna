@@ -1,0 +1,6 @@
+font-family = Myna
+adjust-cell-height = 15%
+adjust-cursor-height = 15%
+font-size = 18pt
+
+# vim: ft=config

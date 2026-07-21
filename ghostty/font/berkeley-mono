@@ -1,0 +1,10 @@
+font-family = Berkeley Mono
+font-style = Regular
+font-style-bold = Black
+font-style-italic = Oblique
+font-style-bold-italic = Black Oblique
+adjust-cell-height = 40%
+adjust-cursor-height = 40%
+adjust-box-thickness = -1
+
+# vim: ft=config

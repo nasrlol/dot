@@ -1,0 +1,8 @@
+font-family = Liberation Mono
+adjust-cell-height = 4
+adjust-cursor-height = 4
+adjust-underline-position = 5%
+font-size = 18
+
+
+# vim: ft=config
