@@ -78,7 +78,9 @@
  '(lazy-highlight ((t (:background "#3D2B1A"))))
  '(line-number ((t (:foreground "#5A4A38"))))
  '(line-number-current-line ((t (:foreground "#D48B30"))))
+ '(minibuffer-prompt ((t (:foreground "#C4A882"))))
  '(mode-line ((t (:background "#C4A882" :foreground "#5A4A38" :box nil))))
+ '(mode-line-inactive ((t (:background "#2A1A0A" :foreground "#6B5A45" :box nil))))
  '(region ((t (:background "#3A0A00")))))
 
 
@@ -139,5 +141,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ede-project-directories '("/home/nasr/tb"))
+ '(ede-project-directories '("/home/nasr/compiler" "/home/nasr/tb"))
  '(package-selected-packages nil))

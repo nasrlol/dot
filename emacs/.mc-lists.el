@@ -7,6 +7,7 @@
 	evil-next-line
 	evil-normal-state
 	evil-previous-line
+	project-compile
 	))
 
 (setq mc/cmds-to-run-once
