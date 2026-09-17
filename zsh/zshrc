@@ -9,6 +9,9 @@ setopt APPEND_HISTORY
 setopt INC_APPEND_HISTORY
 setopt PROMPT_SUBST
 
+export EDITOR="nvim"
+export VISUAL="nvim"
+
 bindkey -v
 bindkey '^R' history-incremental-search-backward
 bindkey '^F' autosuggest-accept
@@ -29,6 +32,11 @@ alias list="tmux list-sessions"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
+alias build="./build.sh"
+alias bl="./build.sh > log.txt 2>&1"
+
+# gentoo start
+alias start="dbus-run-session niri"
 
 memory() {
     while true
@@ -40,5 +48,6 @@ memory() {
 
 
 
-PROMPT='%n :: '
+PROMPT='%n :: %~ :: '
 
+export PATH="$HOME/.local/bin:$PATH"

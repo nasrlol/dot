@@ -11,8 +11,8 @@ layer=background                 # background, bottom, top, overlay
 global_coords=true       # Set to false to let location take over
 normal_window=false       # set true if not using wlroots/layer-shell
 
-location=center           # center, top_left, top, top_right, right, bottom_right, bottom, bottom_left, left
-layer=overlay                 # background, bottom, top, overlay
+location=top           # center, top_left, top, top_right, right, bottom_right, bottom, bottom_left, left
+layer=top                 # background, bottom, top, overlay
 global_coords=true       # use global compositor space for x/y (avoid with location=)
 normal_window=true       # set true if not using wlroots/layer-shell
 
@@ -55,7 +55,7 @@ key_exit=Escape
 
 # === drun mode options ===
 drun-print_command=false        # print desktop file path instead of launching
-drun-display_generic=true      # show generic app name alongside app name
+drun-display_generic=false      # show generic app name alongside app name
 drun-only_match_name=false      # search only app name, skip category/description
 drun-ignore_non_default_gpu=false
 

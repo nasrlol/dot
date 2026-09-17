@@ -84,3 +84,7 @@ pulse
 
 *vis*
 /glib-2.0/settings
+/emacs/semanticdb
+/opencode
+/pavucontrol-qt
+/rc/runlevels/default
