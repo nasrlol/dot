@@ -17,9 +17,7 @@ files = {
     prompt = " files :: ",
     hidden = true,
     cwd_prompt = false,
-    winopts = {
-        preview = { hidden = "always" }
-    }
+    previewer = false,
 },
 
 

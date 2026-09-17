@@ -49,8 +49,8 @@
 
 ;; Font and colors
 (set-face-attribute 'default nil
-                    :font "liberation mono"
-                    :height 150 
+                    :font "iosevka"
+                    :height 170 
                     :foreground "#C4A882"
                     :background "#000000")
 
@@ -141,5 +141,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ede-project-directories '("/home/nasr/compiler" "/home/nasr/tb"))
+ '(ede-project-directories
+   '("/home/nasr/tetris" "/home/nasr/compiler" "/home/nasr/tb"))
  '(package-selected-packages nil))
