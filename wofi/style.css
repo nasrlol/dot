@@ -1,68 +1,82 @@
-/* Reset all elements globally */
+@define-color bg #0D1117;
+@define-color bg-alt #1F1610;
+@define-color fg #C4A882;
+@define-color fg-muted #8B7355;
+@define-color border #3D2B1A;
+@define-color accent #C84820;
+
 * {
     margin: 0;
     padding: 0;
     border-radius: 0;
-    font-family: "LiberationMono", monospace;
-    font-size: 30px;
+    font-family: "LiterationMono Nerd Font", "Liberation Mono", monospace;
+    font-size: 26px;
     border: none;
 }
 
 window {
-    background-color: #282828;
-    color: #ebdbb2;
+    background-color: @bg;
+    color: @fg;
+    border: 3px solid @border;
+    border-radius: 16px;
+}
+
+#outer-box {
+    margin: 10px;
 }
 
 #input {
-    background-color: #1d2021;
-    color: #ebdbb2;
-    padding: 8px 8px;
+    background-color: @bg-alt;
+    color: @fg;
+    padding: 14px 18px;
+    margin: 0 0 10px 0;
+    border-radius: 10px;
+    border: 1px solid @border;
     outline: none;
-    caret-color: #fe8019;
+    caret-color: @accent;
 }
 
 #input:focus {
-    background-color: #3c3836;
-    outline: none;
-    border-color: #3c3836;
-
+    border-color: @fg-muted;
 }
 
-#input:active {
-    background-color: #3c3836;
-    outline: none;
-    border-color: #3c3836;
+#inner-box {
+    margin: 0;
 }
 
+#scroll {
+    margin: 0;
+}
 
 #entry {
-    padding: 10px 10px ;
-    margin: 0px 10px 0px 10px;
+    padding: 10px 12px;
+    margin: 3px 0;
+    border-radius: 10px;
     background-color: transparent;
-    color: #928374;
+    color: @fg-muted;
 }
 
 #entry:selected {
-    color: #fe8019;
-    background-color: transparent;
+    background-color: @bg-alt;
+    color: @fg;
+    border-left: 4px solid @accent;
+    padding-left: 8px;
 }
 
 #entry:hover {
-    color: #ebdbb2;
-    background-color: transparent;
+    color: @fg;
+}
+
+#text {
+    color: inherit;
 }
 
 #text:selected {
-    color: #C4A882;
+    color: @fg;
 }
 
-/* Hide images/icons completely */
-#img, #input image {
-    min-width: 0;
-    min-height: 0;
-    max-width: 0;
-    max-height: 0;
-    background-color: transparent;
-    background-image: none;
-    color: transparent;
+#img {
+    margin-right: 14px;
+    min-width: 40px;
+    min-height: 40px;
 }

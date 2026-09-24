@@ -1,17 +1,16 @@
-
 {
-  "layer": "bottom",
+  "layer": "top",
   "position": "bottom",
-  "height": 40,
+  "height": 44,
   "spacing": 0,
-  "orientation": "horizontal",
   "margin-top": 0,
-  "margin-right": 0,
-  "margin-bottom": 0,
-  "margin-left": 0,
+  "margin-right": 8,
+  "margin-bottom": 6,
+  "margin-left": 8,
 
   "modules-left": [
-    "hyprland/workspaces"
+    "custom/workspaces",
+    "custom/window"
   ],
 
   "modules-center": [
@@ -19,13 +18,21 @@
   ],
 
   "modules-right": [
-    "battery"
+    "custom/volume",
+    "custom/network",
+    "cpu",
+    "memory"
   ],
 
-  "hyprland/workspaces": {
-    "disable-scroll": true,
-    "all-outputs": true,
-    "format": "{id}"
+  "custom/workspaces": {
+    "exec": "~/.config/waybar/scripts/niri-workspaces.py",
+    "return-type": "json",
+    "escape": false
+  },
+
+  "custom/window": {
+    "exec": "~/.config/waybar/scripts/niri-window.py",
+    "return-type": "json"
   },
 
   "clock": {
@@ -39,11 +46,11 @@
       "weeks-pos": "right",
       "on-scroll": 1,
       "format": {
-        "months": "<span color='#c4a882'><b>{}</b></span>",
-        "days": "<span color='#c9d1d9'>{}</span>",
-        "weeks": "<span color='#21262d'><b>W{}</b></span>",
-        "weekdays": "<span color='#d29922'><b>{}</b></span>",
-        "today": "<span color='#da3633'><b><u>{}</u></b></span>"
+        "months": "<span color='#C4A882'><b>{}</b></span>",
+        "days": "<span color='#D9C6A5'>{}</span>",
+        "weeks": "<span color='#8B7355'><b>W{}</b></span>",
+        "weekdays": "<span color='#D48B30'><b>{}</b></span>",
+        "today": "<span color='#C84820'><b><u>{}</u></b></span>"
       }
     },
     "actions": {
@@ -52,15 +59,29 @@
     "interval": 60
   },
 
-  "battery": {
-    "states": {
-      "warning": 30,
-      "critical": 15
-    },
-    "format": "{capacity}%",
-    "format-charging": "{capacity}%",
-    "format-plugged": "{capacity}%",
-    "format-alt": "{time}",
-    "interval": 30
+  "custom/volume": {
+    "exec": "~/.config/waybar/scripts/volume.py",
+    "return-type": "json",
+    "interval": 2,
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-click-right": "pavucontrol-qt",
+    "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+  },
+
+  "custom/network": {
+    "exec": "~/.config/waybar/scripts/network.py",
+    "return-type": "json",
+    "interval": 5
+  },
+
+  "cpu": {
+    "format": " {usage}%",
+    "interval": 5
+  },
+
+  "memory": {
+    "format": " {percentage}%",
+    "interval": 5
   }
 }

@@ -88,3 +88,8 @@ pulse
 /opencode
 /pavucontrol-qt
 /rc/runlevels/default
+
+# tmux plugins (installed by TPM, not config)
+/tmux/plugins
+/racket
+/nixos/modules

@@ -11,6 +11,7 @@ setopt PROMPT_SUBST
 
 export EDITOR="nvim"
 export VISUAL="nvim"
+export QT_SCALE_FACTOR=1.5
 
 bindkey -v
 bindkey '^R' history-incremental-search-backward
@@ -41,13 +42,13 @@ alias start="dbus-run-session niri"
 memory() {
     while true
     do
-        grep -E "VmRSS|VmSize|VmPeak" /proc/70409/status
+        grep -E "VmRSS|VmSize|VmPeak" /proc/15082/status
         sleep 1
     done
 }
 
 
 
-PROMPT='%n :: %~ :: '
+PROMPT='%n %~ $ '
 
 export PATH="$HOME/.local/bin:$PATH"

@@ -30,7 +30,7 @@ blur {
 
 output "eDP-1" {
     mode "2560x1600@60.000"
-    scale 1.0
+    scale 1.1
     transform "normal"
     position x=1280 y=0
 }
@@ -56,16 +56,16 @@ layout {
 
         width 0
 
-        active-color "#c4a888"
-        inactive-color "#505050"
+        active-color "#c84820"
+        inactive-color "#3d2b1a"
     }
 
     border {
         on
         width 4
-        active-color "#333333"
-        inactive-color "#505050"
-        urgent-color "#9b0000"
+        active-color "#48482f"
+        inactive-color "#241a10"
+        urgent-color "#9b9990"
     }
 
     shadow {
@@ -113,8 +113,8 @@ window-rule {
 }
 
 window-rule {
-    geometry-corner-radius 8
-    clip-to-geometry true
+    geometry-corner-radius 0
+    clip-to-geometry false
 }
 
 overview {
@@ -241,7 +241,7 @@ binds {
 cursor {
 
     xcursor-theme "Bibata-Original-Ice"
-    xcursor-size 32
+    xcursor-size 30
     hide-when-typing
     hide-after-inactive-ms 1000
 }
