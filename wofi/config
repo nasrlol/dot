@@ -1,39 +1,33 @@
 # ~/.config/wofi/config
 
 # === Geometry ===
-width=65%
-height=1%
-orientation=horizontal
-columns=10
+width=40%
+height=45%
+columns=1
 
-location=left            # Set to center
-layer=background                 # background, bottom, top, overlay
-global_coords=true       # Set to false to let location take over
-normal_window=false       # set true if not using wlroots/layer-shell
+location=center            # center, top_left, top, top_right, right, bottom_right, bottom, bottom_left, left
+layer=overlay              # background, bottom, top, overlay
+global_coords=true         # use global compositor space for x/y (avoid with location=)
+normal_window=false        # set true if not using wlroots/layer-shell
 
-location=top           # center, top_left, top, top_right, right, bottom_right, bottom, bottom_left, left
-layer=top                 # background, bottom, top, overlay
-global_coords=true       # use global compositor space for x/y (avoid with location=)
-normal_window=true       # set true if not using wlroots/layer-shell
-
-show=run                  # run, drun, dmenu, or combi e.g. run,drun
-fork=true                 # fork so the launching terminal can close
+show=drun                  # run, drun, dmenu, or combi e.g. run,drun
+fork=true                  # fork so the launching terminal can close
 
 prompt=
-matching=fuzzy         # contains, strict-contains, multi-contains, fuzzy
+matching=fuzzy          # contains, strict-contains, multi-contains, fuzzy
 insensitive=true
-filter_rate=1            # debounce ms - faster filtering
-exec_search=true         # Enter runs search text instead of first result
-parse_search=false        # strip pango/image escapes from search
-no_actions=false          # disable multi-action entries
+filter_rate=1             # debounce ms - faster filtering
+exec_search=true          # Enter runs search text instead of first result
+parse_search=false         # strip pango/image escapes from search
+no_actions=false           # disable multi-action entries
 
-sort_order=alphabetical   # alphabetical sorting is faster than default
-image_size=0              # icon size in px; 0 = disabled
-dynamic_lines=false       # grow window to fit results
-line_wrap=off             # off, word, char, word_char
-allow_markup=false        # allow pango markup in entries
-show_all=false            # don't show all entries initially - faster startup
-allow_images=false
+sort_order=alphabetical    # alphabetical sorting is faster than default
+image_size=40              # icon size in px
+dynamic_lines=true         # grow window to fit results
+line_wrap=word             # off, word, char, word_char
+allow_markup=false         # allow pango markup in entries
+show_all=false             # don't show all entries initially - faster startup
+allow_images=true
 
 hide_search=false
 hide_scroll=true
@@ -55,7 +49,7 @@ key_exit=Escape
 
 # === drun mode options ===
 drun-print_command=false        # print desktop file path instead of launching
-drun-display_generic=false      # show generic app name alongside app name
+drun-display_generic=true       # show generic app name alongside app name
 drun-only_match_name=false      # search only app name, skip category/description
 drun-ignore_non_default_gpu=false
 

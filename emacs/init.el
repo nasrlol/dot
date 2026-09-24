@@ -14,7 +14,6 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-
 (setq inhibit-startup-screen t
       inhibit-startup-message t
       inhibit-startup-echo-area-message t
@@ -45,12 +44,10 @@
 (setq native-comp-async-report-warnings-errors nil
       native-comp-speed 2)
 
-
-
 ;; Font and colors
 (set-face-attribute 'default nil
                     :font "iosevka"
-                    :height 170 
+                    :height 190 
                     :foreground "#C4A882"
                     :background "#000000")
 
@@ -122,6 +119,18 @@
 (global-set-key (kbd "C-\"")        'mc/skip-to-next-like-this)
 (global-set-key (kbd "C-:")         'mc/skip-to-previous-like-this)
 
+(use-package geiser-mit
+  :ensure t)
+
+(use-package geiser
+  :ensure t
+  :custom
+  (geiser-active-implementations '(mit))
+  (geiser-default-implementation 'mit)
+  :config
+  (evil-collection-init 'geiser))
+
+
 ;;; dired
 (require 'dired-x)
 (setq dired-omit-files
@@ -143,4 +152,5 @@
  ;; If there is more than one, they won't work right.
  '(ede-project-directories
    '("/home/nasr/tetris" "/home/nasr/compiler" "/home/nasr/tb"))
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(evil-collection geiser geiser-mit multiple-cursors powershell)))
