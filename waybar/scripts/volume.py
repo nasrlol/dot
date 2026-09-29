@@ -14,10 +14,10 @@ def main():
     vol = int(m.group(1)) if m else 0
 
     if muted:
-        icon, cls = "", "muted"
+        icon, cls = "󰝟", "muted"
         text = f"{icon} muted"
     else:
-        icon = "" if vol >= 60 else ("" if vol >= 20 else "")
+        icon = "󰕾" if vol >= 60 else ("󰖀" if vol >= 20 else "󰕿")
         cls = "normal"
         text = f"{icon} {vol}%"
 

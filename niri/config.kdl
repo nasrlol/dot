@@ -37,7 +37,7 @@ output "eDP-1" {
 
 layout {
     gaps 16
-    background-color "#c4a882"
+    background-color "#222222"
 
     center-focused-column "never"
     preset-column-widths {
@@ -98,27 +98,53 @@ animations {
     slowdown 0.8
 }
 window-rule {
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id=r#"firefox$"#  title="^Picture-in-Picture$"
     match app-id=r#"chromium$"# title="^Picture-in-Picture$"
     open-floating true
 }
 
+// Named workspaces, in order: Mod+1 dev, Mod+2 web, Mod+3 term, Mod+4 media
 workspace "dev" {
     open-on-output "eDP-1"
 }
+workspace "web"
+workspace "term"
+workspace "media"
 
 window-rule {
-    match at-startup=true app-id=r#"^GNU Emacs$"#
+    match app-id=r#"^4coder$"#
+    match app-id=r#"(?i)emacs"#
     open-on-workspace "dev"
 }
 
 window-rule {
-    geometry-corner-radius 0
-    clip-to-geometry false
+    match title="Mozilla Firefox"
+    open-on-workspace "web"
+}
+
+window-rule {
+    match app-id=r#"^(foot|footclient)$"#
+    open-on-workspace "term"
+}
+
+window-rule {
+    match app-id=r#"^(vlc|org\.videolan\.vlc)$"#
+    open-on-workspace "media"
+}
+
+window-rule {
+    geometry-corner-radius 10
+    clip-to-geometry true
+    tiled-state true
+
+    background-effect {
+
+    }
+
 }
 
 overview {
-    backdrop-color "#000000"
+    backdrop-color "#444444"
 }
 
 binds {
@@ -127,7 +153,7 @@ binds {
     Mod+Return hotkey-overlay-title=" foot"      { spawn "foot";      }
     Mod+P hotkey-overlay-title="      wofi"      { spawn "wofi" "--show" "drun"; }
     Mod+E hotkey-overlay-title="      emacs"     { spawn "emacs";     }
-    Mod+B hotkey-overlay-title="      chromium"  { spawn "chromium";  }
+    Mod+B hotkey-overlay-title="      firefox"  { spawn "firefox-bin";  }
     Mod+N hotkey-overlay-title="      4coder"    { spawn "/opt/4coder/build/4ed";       }
 
     Mod+O repeat=false { toggle-overview; }
@@ -231,7 +257,7 @@ binds {
     Mod+V       { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+W { toggle-column-tabbed-display; }
-    Print { screenshot; }
+    F12 { screenshot; }
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
@@ -242,7 +268,7 @@ cursor {
 
     xcursor-theme "Bibata-Original-Ice"
     xcursor-size 30
-    hide-when-typing
-    hide-after-inactive-ms 1000
+    // hide-when-typing
+    // hide-after-inactive-ms 1000
 }
 

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'package)
 
 (setq package-archives
@@ -46,7 +47,7 @@
 
 ;; Font and colors
 (set-face-attribute 'default nil
-                    :font "iosevka"
+                    :font "liberation mono"
                     :height 190 
                     :foreground "#C4A882"
                     :background "#000000")

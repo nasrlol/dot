@@ -27,11 +27,13 @@ def main():
             if len(parts) >= 3 and parts[0] == "yes":
                 ssid, signal = parts[1], parts[2]
                 break
-        print(json.dumps({"text": f" {signal}%", "class": "wifi", "tooltip": f"{ssid} ({signal}%)"}))
+        icons = ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"]
+        icon = icons[min(int(signal or 0) // 20, 4)]
+        print(json.dumps({"text": f"{icon} {signal}%", "class": "wifi", "tooltip": f"{ssid} ({signal}%)"}))
     elif eth_dev:
-        print(json.dumps({"text": f" {eth_dev}", "class": "ethernet", "tooltip": f"Ethernet: {eth_dev}"}))
+        print(json.dumps({"text": f"󰈀 {eth_dev}", "class": "ethernet", "tooltip": f"Ethernet: {eth_dev}"}))
     else:
-        print(json.dumps({"text": "⚠ offline", "class": "disconnected", "tooltip": "Disconnected"}))
+        print(json.dumps({"text": "󰤮 offline", "class": "disconnected", "tooltip": "Disconnected"}))
 
 
 if __name__ == "__main__":
