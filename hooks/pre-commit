@@ -1,0 +1,48 @@
+#!/bin/sh
+# Refuse commits that leak secrets or break scripts/templates.
+set -eu
+fail=0
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+[ -n "$staged" ] || exit 0
+
+# 1. Secrets: private keys and common token formats
+if git diff --cached -U0 | grep -E '^\+' | grep -nE -e \
+	'-----BEGIN [A-Z ]*PRIVATE KEY-----|gh[pousr]_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{50,}|sk-ant-[A-Za-z0-9_-]{20,}|sk-[A-Za-z0-9]{32,}|AKIA[0-9A-Z]{16}|xox[baprs]-[A-Za-z0-9-]{10,}'; then
+	echo "pre-commit: possible secret in staged changes (see above)" >&2
+	fail=1
+fi
+if command -v gitleaks >/dev/null; then
+	gitleaks protect --staged --no-banner || fail=1
+fi
+
+# 2. Shell scripts pass shellcheck
+for f in $staged; do
+	[ -f "$f" ] || continue
+	case $(head -c 64 "$f" | head -n1) in
+	'#!/bin/sh'*|'#!/usr/bin/env sh'*|'#!/bin/bash'*|'#!/usr/bin/env bash'*)
+		shellcheck "$f" || fail=1 ;;
+	esac
+done
+
+# 3. Lua is formatted (opt-in: add a stylua.toml at the repo root to enable;
+#    off by default because it would undo the hand-aligned tables in nvim/)
+lua=$(echo "$staged" | grep '\.lua$' || true)
+if [ -n "$lua" ] && [ -f stylua.toml ] && command -v stylua >/dev/null; then
+	# shellcheck disable=SC2086
+	stylua --check $lua || { echo "pre-commit: run stylua on the files above" >&2; fail=1; }
+fi
+
+# 4. Generated files match the palette
+if echo "$staged" | grep -qE '(\.tmpl|theme/palette)$'; then
+	./theme/gen >/dev/null
+	outputs=$(git ls-files -co --exclude-standard '*.tmpl' | sed 's/\.tmpl$//')
+	# shellcheck disable=SC2086
+	if ! git diff --quiet -- $outputs || [ -n "$(git ls-files -o --exclude-standard -- $outputs)" ]; then
+		echo "pre-commit: generated files are out of date or unstaged; run theme/gen and stage:" >&2
+		# shellcheck disable=SC2086
+		git status --short -- $outputs >&2
+		fail=1
+	fi
+fi
+
+exit $fail
