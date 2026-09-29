@@ -1,0 +1,19 @@
+// Generated from colors.kdl.tmpl by theme/gen. Do not edit colors.kdl.
+layout {
+    background-color "#1a1208"
+
+    focus-ring {
+        active-color "#c84820"
+        inactive-color "#3d2b1a"
+    }
+
+    border {
+        active-color "#8b7355"
+        inactive-color "#241a10"
+        urgent-color "#dc4a20"
+    }
+}
+
+overview {
+    backdrop-color "#000000"
+}

@@ -1,3 +1,5 @@
+@import url("colors.css");
+
 * {
     font-family: "LiterationMono Nerd Font", "Liberation Mono", monospace;
     font-size: 20px;
@@ -9,26 +11,26 @@
 
 window#waybar {
     background: transparent;
-    color: #C4A882;
+    color: @fg;
     border: none;
 }
 
 window#waybar > box {
-    background: #000000;
+    background: @bg;
     border-radius: 12px;
 }
 
 #custom-workspaces {
     margin: 6px 8px;
     padding: 3px 6px;
-    background: #000000;
+    background: @bg;
     border-radius: 8px;
 }
 
 #window {
     margin: 4px 4px;
     padding: 0 6px;
-    color: #8B7355;
+    color: @fg_dim;
     font-style: italic;
     font-size: 18px;
 }
@@ -36,8 +38,8 @@ window#waybar > box {
 #clock {
     margin: 6px 8px;
     padding: 5px 20px;
-    background: #000000;
-    color: #C4A882;
+    background: @bg;
+    color: @fg;
     font-weight: bold;
     font-size: 21px;
     border-radius: 8px;
@@ -54,33 +56,33 @@ window#waybar > box {
 #idle_inhibitor {
     margin: 6px 4px;
     padding: 5px 16px;
-    background: #1F1610;
-    color: #C4A882;
+    background: @surface;
+    color: @fg;
     border-radius: 8px;
 }
 
 #custom-volume.muted {
-    color: #8B7355;
+    color: @fg_dim;
 }
 
 #custom-network.disconnected {
-    color: #C84820;
+    color: @rust;
 }
 
 #battery.warning:not(.charging) {
-    color: #D48B30;
+    color: @accent;
 }
 
 #battery.critical:not(.charging) {
-    color: #C84820;
+    color: @rust;
 }
 
 #temperature.critical {
-    color: #C84820;
+    color: @rust;
 }
 
 #bluetooth.off,
 #bluetooth.disabled,
 #idle_inhibitor.deactivated {
-    color: #8B7355;
+    color: @fg_dim;
 }

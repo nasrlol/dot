@@ -29,7 +29,6 @@
     "custom/volume": {
       "exec": "~/.config/waybar/scripts/volume.py",
       "return-type": "json",
-      "interval": 2,
       "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
       "on-click-right": "pavucontrol-qt",
       "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
@@ -37,8 +36,7 @@
     },
     "custom/network": {
       "exec": "~/.config/waybar/scripts/network.py",
-      "return-type": "json",
-      "interval": 5
+      "return-type": "json"
     },
     "battery": {
       "interval": 30,
@@ -80,11 +78,11 @@
         "weeks-pos": "right",
         "on-scroll": 1,
         "format": {
-          "months": "<span color='#C4A882'><b>{}</b></span>",
-          "days": "<span color='#D9C6A5'>{}</span>",
-          "weeks": "<span color='#8B7355'><b>W{}</b></span>",
-          "weekdays": "<span color='#D48B30'><b>{}</b></span>",
-          "today": "<span color='#C84820'><b><u>{}</u></b></span>"
+          "months": "<span color='#c4a882'><b>{}</b></span>",
+          "days": "<span color='#d9c6a5'>{}</span>",
+          "weeks": "<span color='#8b7355'><b>W{}</b></span>",
+          "weekdays": "<span color='#d48b30'><b>{}</b></span>",
+          "today": "<span color='#c84820'><b><u>{}</u></b></span>"
         }
       },
       "actions": {
