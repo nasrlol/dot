@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 import json
+import os
 import subprocess
 import sys
+
+# Generated from theme/palette by theme/gen
+with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "colors.json")) as f:
+    C = json.load(f)
 
 workspaces = []
 
@@ -11,11 +16,11 @@ def emit():
     for w in sorted(workspaces, key=lambda w: w["idx"]):
         idx = w.get("name") or w["idx"]
         if w.get("is_urgent"):
-            parts.append(f"<span background='#C84820' color='#0D1117'> {idx} </span>")
+            parts.append(f"<span background='{C["rust"]}' color='{C["bg"]}'> {idx} </span>")
         elif w.get("is_focused"):
-            parts.append(f"<span background='#C4A882' color='#0D1117'><b> {idx} </b></span>")
+            parts.append(f"<span background='{C["fg"]}' color='{C["bg"]}'><b> {idx} </b></span>")
         else:
-            parts.append(f"<span color='#8B7355'> {idx} </span>")
+            parts.append(f"<span color='{C["fg_dim"]}'> {idx} </span>")
     print(json.dumps({"text": " ".join(parts)}), flush=True)
 
 
