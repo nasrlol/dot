@@ -37,7 +37,6 @@ output "eDP-1" {
 
 layout {
     gaps 16
-    background-color "#222222"
 
     center-focused-column "never"
     preset-column-widths {
@@ -56,16 +55,11 @@ layout {
 
         width 0
 
-        active-color "#c84820"
-        inactive-color "#3d2b1a"
     }
 
     border {
         on
         width 4
-        active-color "#48482f"
-        inactive-color "#241a10"
-        urgent-color "#9b9990"
     }
 
     shadow {
@@ -143,9 +137,6 @@ window-rule {
 
 }
 
-overview {
-    backdrop-color "#444444"
-}
 
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
@@ -258,6 +249,19 @@ binds {
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+W { toggle-column-tabbed-display; }
     F12 { screenshot; }
+
+    // Apple keyboard media / brightness keys
+    XF86AudioRaiseVolume  allow-when-locked=true { spawn "wpctl" "set-volume" "-l" "1.0" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+    XF86AudioLowerVolume  allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    XF86AudioMute         allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute      allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    XF86AudioPlay         allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioNext         allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPrev         allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "-d" "apple-panel-bl" "set" "5%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "-d" "apple-panel-bl" "set" "5%-"; }
+    XF86KbdBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "-d" "kbd_backlight" "set" "10%+"; }
+    XF86KbdBrightnessDown allow-when-locked=true { spawn "brightnessctl" "-d" "kbd_backlight" "set" "10%-"; }
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
@@ -272,3 +276,5 @@ cursor {
     // hide-after-inactive-ms 1000
 }
 
+// Colors come from theme/palette via colors.kdl.tmpl (run theme/gen).
+include "colors.kdl"
