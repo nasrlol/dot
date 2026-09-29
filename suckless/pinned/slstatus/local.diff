@@ -1,0 +1,144 @@
+--- a/components/ram.c
++++ b/components/ram.c
+@@ -11,36 +11,45 @@
+ 	ram_free(const char *unused)
+ 	{
+ 		uintmax_t free;
++		FILE *fp;
+ 
+-		if (pscanf("/proc/meminfo",
+-		           "MemTotal: %ju kB\n"
+-		           "MemFree: %ju kB\n"
+-		           "MemAvailable: %ju kB\n",
+-		           &free, &free, &free) != 3)
++		if (!(fp = fopen("/proc/meminfo", "r")))
+ 			return NULL;
+ 
++		if (lscanf(fp, "MemFree:", "%ju kB", &free) != 1) {
++			fclose(fp);
++			return NULL;
++		}
++
++		fclose(fp);
+ 		return fmt_human(free * 1024, 1024);
+ 	}
+ 
+ 	const char *
+ 	ram_perc(const char *unused)
+ 	{
+-		uintmax_t total, free, buffers, cached;
++		uintmax_t total, free, buffers, cached, shmem, sreclaimable;
+ 		int percent;
++		FILE *fp;
++
++		if (!(fp = fopen("/proc/meminfo", "r")))
++			return NULL;
+ 
+-		if (pscanf("/proc/meminfo",
+-		           "MemTotal: %ju kB\n"
+-		           "MemFree: %ju kB\n"
+-		           "MemAvailable: %ju kB\n"
+-		           "Buffers: %ju kB\n"
+-		           "Cached: %ju kB\n",
+-		           &total, &free, &buffers, &buffers, &cached) != 5)
++		if (lscanf(fp, "MemTotal:", "%ju kB", &total)  != 1 ||
++		    lscanf(fp, "MemFree:", "%ju kB", &free)    != 1 ||
++		    lscanf(fp, "Buffers:", "%ju kB", &buffers) != 1 ||
++		    lscanf(fp, "Cached:", "%ju kB", &cached)   != 1 ||
++		    lscanf(fp, "Shmem:", "%ju kB", &shmem)     != 1 ||
++		    lscanf(fp, "SReclaimable:", "%ju kB", &sreclaimable) != 1) {
++			fclose(fp);
+ 			return NULL;
++		}
++		fclose(fp);
+ 
+ 		if (total == 0)
+ 			return NULL;
+ 
+-		percent = 100 * ((total - free) - (buffers + cached)) / total;
++		percent = 100 * (total - free - buffers - cached - sreclaimable + shmem) / total;
+ 		return bprintf("%d", percent);
+ 	}
+ 
+@@ -59,18 +68,24 @@
+ 	const char *
+ 	ram_used(const char *unused)
+ 	{
+-		uintmax_t total, free, buffers, cached, used;
++		uintmax_t total, free, buffers, cached, used, shmem, sreclaimable;
++		FILE *fp;
++
++		if (!(fp = fopen("/proc/meminfo", "r")))
++			return NULL;
+ 
+-		if (pscanf("/proc/meminfo",
+-		           "MemTotal: %ju kB\n"
+-		           "MemFree: %ju kB\n"
+-		           "MemAvailable: %ju kB\n"
+-		           "Buffers: %ju kB\n"
+-		           "Cached: %ju kB\n",
+-		           &total, &free, &buffers, &buffers, &cached) != 5)
++		if (lscanf(fp, "MemTotal:", "%ju kB", &total)  != 1 ||
++		    lscanf(fp, "MemFree:", "%ju kB", &free)    != 1 ||
++		    lscanf(fp, "Buffers:", "%ju kB", &buffers) != 1 ||
++		    lscanf(fp, "Cached:", "%ju kB", &cached)   != 1 ||
++		    lscanf(fp, "Shmem:", "%ju kB", &shmem)     != 1 ||
++		    lscanf(fp, "SReclaimable:", "%ju kB", &sreclaimable) != 1) {
++			fclose(fp);
+ 			return NULL;
++		}
++		fclose(fp);
+ 
+-		used = (total - free - buffers - cached);
++		used = total - free - buffers - cached - sreclaimable + shmem;
+ 		return fmt_human(used * 1024, 1024);
+ 	}
+ #elif defined(__OpenBSD__)
+--- a/LICENSE
++++ b/LICENSE
+@@ -21,7 +21,7 @@
+ Copyright 2016-2019 Joerg Jung <jung@openbsd.org>
+ Copyright 2019 Ryan Kes <alrayyes@gmail.com>
+ Copyright 2019 Cem Keylan <cem@ckyln.com>
+-Copyright 2019 Dimitris Papastamos <dsp@2f30.org>
++Copyright 2019 Spiros Thanasoulas <dsp@2f30.org>
+ Copyright 2019-2022 Ingo Feinerer <feinerer@logic.at>
+ Copyright 2020 Alexandre Ratchov <alex@caoua.org>
+ Copyright 2020 Mart Lubbers <mart@martlubbers.net>
+--- a/util.c
++++ b/util.c
+@@ -139,3 +139,20 @@
+ 
+ 	return (n == EOF) ? -1 : n;
+ }
++
++int
++lscanf(FILE *fp, const char *key, const char *fmt, void *res)
++{
++		int n;
++		char line[256];
++
++		n = -1;
++		while (fgets(line, sizeof(line), fp))
++			if (strncmp(line, key, strlen(key)) == 0) {
++				n = sscanf(line + strlen(key), fmt, res);
++				break;
++			}
++
++		rewind(fp);
++		return (n == 1) ? 1 : -1;
++}
+--- a/util.h
++++ b/util.h
+@@ -1,5 +1,6 @@
+ /* See LICENSE file for copyright and license details. */
+ #include <stdint.h>
++#include <stdio.h>
+ 
+ extern char buf[1024];
+ 
+@@ -14,3 +15,4 @@
+ const char *bprintf(const char *fmt, ...);
+ const char *fmt_human(uintmax_t num, int base);
+ int pscanf(const char *path, const char *fmt, ...);
++int lscanf(FILE *fp, const char *key, const char *fmt, void *res);
