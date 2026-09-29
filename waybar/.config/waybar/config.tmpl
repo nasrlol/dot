@@ -1,0 +1,152 @@
+[
+  {
+    "layer": "top",
+    "position": "top",
+    "height": 40,
+    "spacing": 10,
+    "margin-top": 8,
+    "margin-right": 8,
+    "margin-bottom": 6,
+    "margin-left": 12,
+    "modules-left": [
+      "custom/workspaces",
+      "custom/window"
+    ],
+    "modules-right": [
+      "custom/volume",
+      "custom/network",
+      "battery"
+    ],
+    "custom/workspaces": {
+      "exec": "~/.config/waybar/scripts/niri-workspaces.py",
+      "return-type": "json",
+      "escape": false
+    },
+    "custom/window": {
+      "exec": "~/.config/waybar/scripts/niri-window.py",
+      "return-type": "json"
+    },
+    "custom/volume": {
+      "exec": "~/.config/waybar/scripts/volume.py",
+      "return-type": "json",
+      "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+      "on-click-right": "pavucontrol-qt",
+      "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+      "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+    },
+    "custom/network": {
+      "exec": "~/.config/waybar/scripts/network.py",
+      "return-type": "json"
+    },
+    "battery": {
+      "interval": 30,
+      "states": {
+        "warning": 25,
+        "critical": 10
+      },
+      "format": "{icon} {capacity}%",
+      "format-charging": "󰂄 {capacity}%",
+      "format-plugged": "󰚥 {capacity}%",
+      "format-icons": [
+        "󰁺",
+        "󰁼",
+        "󰁾",
+        "󰂀",
+        "󰁹"
+      ],
+      "tooltip-format": "{timeTo}"
+    }
+  },
+  {
+    "name": "bottom",
+    "layer": "top",
+    "position": "bottom",
+    "height": 40,
+    "margin-top": 6,
+    "margin-bottom": 8,
+    "modules-center": [
+      "clock"
+    ],
+    "clock": {
+      "timezone": "Europe/Brussels",
+      "format": "{:%H:%M}",
+      "format-alt": "{:%A, %B %d, %Y}",
+      "tooltip-format": "<tt><small>{calendar}</small></tt>",
+      "calendar": {
+        "mode": "month",
+        "mode-mon-col": 3,
+        "weeks-pos": "right",
+        "on-scroll": 1,
+        "format": {
+          "months": "<span color='{{fg}}'><b>{}</b></span>",
+          "days": "<span color='{{fg_bright}}'>{}</span>",
+          "weeks": "<span color='{{fg_dim}}'><b>W{}</b></span>",
+          "weekdays": "<span color='{{accent}}'><b>{}</b></span>",
+          "today": "<span color='{{rust}}'><b><u>{}</u></b></span>"
+        }
+      },
+      "actions": {
+        "on-click-right": "mode"
+      },
+      "interval": 60
+    },
+    "modules-left": [
+      "cpu",
+      "memory",
+      "temperature"
+    ],
+    "modules-right": [
+      "backlight",
+      "bluetooth",
+      "idle_inhibitor"
+    ],
+    "cpu": {
+      "format": "󰍛 {usage}%",
+      "interval": 5
+    },
+    "memory": {
+      "format": "󰘚 {percentage}%",
+      "interval": 5
+    },
+    "temperature": {
+      "hwmon-path-abs": "/sys/devices/platform/soc/23e400000.smc/macsmc-hwmon/hwmon",
+      "input-filename": "temp4_input",
+      "critical-threshold": 80,
+      "format": "󰔏 {temperatureC}°C",
+      "tooltip-format": "WiFi/BT module {temperatureC}°C",
+      "interval": 5
+    },
+    "backlight": {
+      "device": "apple-panel-bl",
+      "format": "{icon} {percent}%",
+      "format-icons": [
+        "󰃞",
+        "󰃟",
+        "󰃠"
+      ],
+      "scroll-step": 5
+    },
+    "bluetooth": {
+      "format": "󰂯",
+      "format-disabled": "󰂲",
+      "format-off": "󰂲",
+      "format-connected": "󰂱 {num_connections}",
+      "tooltip-format": "{controller_alias}\t{controller_address}",
+      "tooltip-format-connected": "{device_enumerate}",
+      "tooltip-format-enumerate-connected": "{device_alias}",
+      "on-click": "bluetoothctl show | grep -q 'Powered: yes' && bluetoothctl power off || bluetoothctl power on"
+    },
+    "idle_inhibitor": {
+      "format": "{icon}",
+      "format-icons": {
+        "activated": "󰅶",
+        "deactivated": "󰾪"
+      },
+      "tooltip-format-activated": "Idle inhibitor on",
+      "tooltip-format-deactivated": "Idle inhibitor off"
+    },
+    "spacing": 10,
+    "margin-left": 12,
+    "margin-right": 8
+  }
+]

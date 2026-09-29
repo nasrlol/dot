@@ -1,0 +1,7 @@
+/* Generated from colors.css.tmpl by theme/gen. Do not edit colors.css. */
+@define-color bg #111111;
+@define-color surface #1f1610;
+@define-color fg #c4a882;
+@define-color fg_dim #8b7355;
+@define-color accent #d48b30;
+@define-color rust #c84820;

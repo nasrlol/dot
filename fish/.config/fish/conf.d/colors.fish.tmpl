@@ -1,0 +1,28 @@
+# Generated from colors.fish.tmpl by theme/gen. Do not edit colors.fish.
+status is-interactive; or return
+
+set -g fish_color_normal {{fg.hex}}
+set -g fish_color_command {{accent.hex}}
+set -g fish_color_keyword {{keyword.hex}}
+set -g fish_color_quote {{string.hex}}
+set -g fish_color_redirection {{constant.hex}}
+set -g fish_color_end {{fg_dim.hex}}
+set -g fish_color_error {{rust_bright.hex}}
+set -g fish_color_param {{fg.hex}}
+set -g fish_color_option {{type.hex}}
+set -g fish_color_comment {{comment.hex}}
+set -g fish_color_operator {{builtin.hex}}
+set -g fish_color_escape {{preproc.hex}}
+set -g fish_color_autosuggestion {{line_nr.hex}}
+set -g fish_color_valid_path --underline
+set -g fish_color_search_match --background={{border.hex}}
+set -g fish_color_selection --background={{selection.hex}}
+set -g fish_pager_color_prefix {{accent.hex}} --bold
+set -g fish_pager_color_completion {{fg.hex}}
+set -g fish_pager_color_description {{fg_dim.hex}}
+set -g fish_pager_color_progress {{fg_dim.hex}}
+set -g fish_pager_color_selected_background --background={{surface.hex}}
+
+set -gx FZF_DEFAULT_OPTS "--height=40% --layout=reverse --border=none --info=inline-right \
+--color=fg:{{fg}},bg:-1,hl:{{accent}},fg+:{{fg_bright}},bg+:{{surface}},hl+:{{accent_bright}} \
+--color=info:{{fg_dim}},prompt:{{rust}},pointer:{{rust}},marker:{{accent}},spinner:{{fg_dim}},header:{{comment}},gutter:-1"

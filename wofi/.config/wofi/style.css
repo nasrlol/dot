@@ -1,9 +1,4 @@
-@define-color bg #0D1117;
-@define-color bg-alt #1F1610;
-@define-color fg #C4A882;
-@define-color fg-muted #8B7355;
-@define-color border #3D2B1A;
-@define-color accent #C84820;
+@import url("colors.css");
 
 * {
     margin: 0;

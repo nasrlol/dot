@@ -1,0 +1,56 @@
+# nasr — warm amber / rust / sepia on near-black.
+#
+# Single source of truth for every color in this repo. Edit here, then run
+#   theme/gen
+# which renders every *.tmpl file next to itself. In templates, {{name}}
+# expands to "#rrggbb" and {{name.hex}} to "rrggbb" (for foot, tmux, etc).
+
+# surfaces
+bg=#111111
+bg_alt=#1a1208
+surface=#1f1610
+overlay=#000000
+border=#3d2b1a
+border_dim=#241a10
+selection=#3a0a00
+
+# text
+fg=#c4a882
+fg_bright=#d9c6a5
+fg_dim=#8b7355
+comment=#6b5a45
+line_nr=#5a4a38
+
+# accents
+accent=#d48b30
+accent_bright=#f0a030
+rust=#c84820
+rust_bright=#dc4a20
+cursor=#f0a030
+cursor_alt=#c04018
+
+# syntax
+keyword=#d48b30
+string=#b86030
+constant=#9b7040
+type=#b87040
+preproc=#c05020
+builtin=#d4a030
+
+# terminal ANSI (warm-shifted so ls/git/compilers match the rest)
+black=#111111
+red=#c84820
+green=#8a8f45
+yellow=#d48b30
+blue=#7a8b99
+magenta=#a86a5a
+cyan=#7f998a
+white=#c4a882
+bright_black=#5a4a38
+bright_red=#dc4a20
+bright_green=#a3a85a
+bright_yellow=#f0a030
+bright_blue=#95a6b3
+bright_magenta=#c08070
+bright_cyan=#9ab5a5
+bright_white=#d9c6a5
