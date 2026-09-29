@@ -1,0 +1,10 @@
+# Stow packages linked on every machine (one per line).
+home
+bin
+git
+ssh
+fish
+tmux
+nvim
+emacs
+lazygit

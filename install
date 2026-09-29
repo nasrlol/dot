@@ -1,0 +1,70 @@
+#!/bin/sh
+# Bootstrap: link dotfiles into $HOME with GNU Stow.
+#
+#   ./install              link the packages for this host
+#   ./install --host NAME  use hosts/NAME (remembered in .host); otherwise
+#                          .host, then hosts/$(hostname), then hosts/default
+#   ./install --system     also install system/ files into / (sudo)
+#   ./install --packages   also emerge everything in packages/world (Gentoo)
+#   ./install -n           dry run
+set -eu
+
+cd "$(dirname "$0")"
+dots=$(pwd)
+
+system=0 packages=0 dry='' host=''
+while [ $# -gt 0 ]; do
+	arg=$1
+	shift
+	case $arg in
+	--host) host=${1:?--host needs a name}; shift; echo "$host" > .host ;;
+	--system) system=1 ;;
+	--packages) packages=1 ;;
+	-n) dry=-n ;;
+	*) echo "unknown option: $arg" >&2; exit 1 ;;
+	esac
+done
+
+# Resolve the host's package list, following "include <file>" lines.
+resolve() {
+	grep -v '^[[:space:]]*\(#\|$\)' "hosts/$1" | while read -r word rest; do
+		if [ "$word" = include ]; then resolve "$rest"; else echo "$word"; fi
+	done
+}
+[ -n "$host" ] || { [ -f .host ] && read -r host < .host; } || true
+[ -n "$host" ] || host=$(hostname)
+[ -f "hosts/$host" ] || host=default
+pkgs=$(resolve "$host")
+
+if [ "$packages" = 1 ]; then
+	# shellcheck disable=SC2046
+	sudo emerge --noreplace --ask $(grep -v '^#' packages/world)
+fi
+
+command -v stow >/dev/null || { echo "install: GNU stow is required" >&2; exit 1; }
+
+# Generated files must exist before linking.
+./theme/gen >/dev/null
+
+mkdir -p "$HOME/.config" "$HOME/.local/bin" "$HOME/.ssh/config.d"
+chmod 700 "$HOME/.ssh"
+printf "linking (%s): %s\n" "$host" "$(echo "$pkgs" | tr "\n" " ")"
+# shellcheck disable=SC2086
+stow $dry --dir "$dots" --target "$HOME" --restow $pkgs
+
+if [ "$system" = 1 ]; then
+	find system -type f | while read -r f; do
+		echo "installing /${f#system/}"
+		[ -n "$dry" ] || sudo install -Dm644 "$f" "/${f#system/}"
+	done
+	[ -n "$dry" ] || sudo udevadm control --reload 2>/dev/null || true
+fi
+
+[ -n "$dry" ] && exit 0
+
+git config core.hooksPath hooks
+
+tpm=${XDG_DATA_HOME:-$HOME/.local/share}/tmux/plugins/tpm
+[ -d "$tpm" ] || git clone -q https://github.com/tmux-plugins/tpm "$tpm"
+
+echo "done. X11 suckless tools are built separately: suckless/pinned/build.sh <tool> install"
