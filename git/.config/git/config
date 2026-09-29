@@ -1,0 +1,92 @@
+[user]
+	name = nasr
+	email = nsrddyn@gmail.com
+	signingkey = ~/.ssh/id_ed25519.pub
+
+# core.editor is intentionally unset: git follows $VISUAL/$EDITOR (nvim).
+[core]
+	pager = delta
+	excludesFile = ~/.config/git/ignore
+	untrackedCache = true
+	fsmonitor = false
+
+[init]
+	defaultBranch = main
+
+# --- signing: ssh key, verified against allowed_signers ---
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = ~/.config/git/allowed_signers
+[commit]
+	gpgSign = true
+	verbose = true
+[tag]
+	gpgSign = true
+	sort = version:refname
+
+# --- everyday behavior ---
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+	default = current
+	followTags = true
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+[rebase]
+	autoSquash = true
+	autoStash = true
+	updateRefs = true
+[merge]
+	conflictStyle = zdiff3
+[rerere]
+	enabled = true
+	autoUpdate = true
+[diff]
+	algorithm = histogram
+	colorMoved = default
+	mnemonicPrefix = true
+	renames = true
+[branch]
+	sort = -committerdate
+[column]
+	ui = auto
+[help]
+	autocorrect = prompt
+[status]
+	showStash = true
+[log]
+	date = iso
+
+# --- delta ---
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	line-numbers = true
+	syntax-theme = ansi
+	file-style = yellow bold
+	hunk-header-style = omit
+	minus-style = red
+	plus-style = green
+
+# --- shortcuts ---
+[url "git@github.com:"]
+	insteadOf = gh:
+[alias]
+	lg = log --graph --pretty=format:'%C(yellow)%h%Creset %C(blue)%ad%Creset %s%C(red)%d%Creset %C(dim)%an%Creset' --date=short
+	st = status -sb
+	amend = commit --amend --no-edit
+	undo = reset --soft HEAD~1
+	unstage = restore --staged
+	fixup = commit --fixup
+	wip = !git add -A && git commit --no-verify -m 'wip'
+	branches = branch -a -vv
+	recent = for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)  %(committerdate:relative)'
+
+# Per-machine overrides (work email, etc.), not committed
+[include]
+	path = ~/.config/git/local

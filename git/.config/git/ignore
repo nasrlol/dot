@@ -1,1 +1,6 @@
 **/.claude/settings.local.json
+*.swp
+*~
+.DS_Store
+.direnv/
+.cache/clangd/
