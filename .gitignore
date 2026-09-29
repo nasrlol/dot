@@ -7,6 +7,7 @@
 *~
 *.bak
 *.swp
+__pycache__/
 \#*\#
 .#*
 
@@ -28,3 +29,4 @@ lazygit/.config/lazygit/state.yml
 **/local.fish
 **/local.kdl
 git/.config/git/local
+.host
