@@ -1,0 +1,14 @@
+#!/bin/sh
+# Pick a frecent directory from zoxide and open it in tmux.
+#   tmux-zoxide-window      new window in the current session
+#   tmux-zoxide-window -s   switch to (or create) a session named after it
+set -eu
+dir=$(zoxide query -l | fzf --prompt='dir> ' --preview='ls -A {}') || exit 0
+name=$(basename "$dir" | tr '.:' '__')
+
+if [ "${1:-}" = "-s" ]; then
+	tmux has-session -t "=$name" 2>/dev/null || tmux new-session -d -s "$name" -c "$dir"
+	tmux switch-client -t "=$name"
+else
+	tmux new-window -n "$name" -c "$dir"
+fi

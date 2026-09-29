@@ -1,0 +1,6 @@
+#!/bin/sh
+# Fuzzy-pick a tmux session and switch to it.
+set -eu
+session=$(tmux list-sessions -F '#{session_name}' |
+	fzf --prompt='session> ' --preview='tmux capture-pane -ep -t {}' --preview-window=down,60%) || exit 0
+tmux switch-client -t "$session"
