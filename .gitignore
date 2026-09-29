@@ -1,95 +1,30 @@
-# IDEs and Editors
-/Code
-/Code - OSS
-JetBrains/
-/clangd
-jgit
+# Build output and editor droppings
+*.o
+*.eln
+*.elc
+*.orig
+*.rej
+*~
+*.bak
+*.swp
+\#*\#
+.#*
 
-# Web Browsers
-/chromium
-/mozilla/firefox
-/BraveSoftware/Brave-Browser
-/mozilla
-mozilla
+# Runtime state that apps write next to their config
+fish/.config/fish/fish_variables
+emacs/.config/emacs/custom.el
+emacs/.config/emacs/eln-cache/
+emacs/.config/emacs/elpa/
+emacs/.config/emacs/auto-save-list/
+emacs/.config/emacs/transient/
+emacs/.config/emacs/tramp
+emacs/.config/emacs/projects
+emacs/.config/emacs/semanticdb/
+emacs/.config/emacs/ede-projects.el
+tmux/.config/tmux/plugins/
+lazygit/.config/lazygit/state.yml
 
-/pulse
-pulse
-
-
-# Chat and Communication
-/discord
-
-# Text Editors
-/sublime-text
-
-# Development Tools
-/github-copilot
-/gh
-/go/telemetry/local
-
-# Desktop Environments and Display
-/gtk-3.0
-/dconf
-/systemd/user
-/QCurve/
-/QtProject.conf
-/menus/applications-merged
-
-# Audio and Media
-/pavucontrol.ini
-/obs-studio
-/Ultralytics
-
-# System Apps
-/btop
-/htop
-/vifm
-/hexchat
-/picom
-/ly
-/remmina
-/qutebrowser
-/qalculate
-/calcurse
-/ctags
-
-# Creative Tools
-/GIMP/
-
-# Other Apps
-/obsidian
-/label-studio
-/Antigravity
-/tailscale
-/freerdp/server
-/autostart
-
-# Emacs
-/auto-save-list
-/eln-cache
-/elpa
-/transient
-
-# Misc Trash
-/_trash
-/pulse
-/emacs/auto-save-list
-/emacs/eln-cache/30.2-6a8b22b2
-/emacs/elpa
-/emacs/projectile-bookmarks.eld
-/emacs/transient/history.el
-/ghc/ghci_history
-/mimeapps.list
-
-
-*vis*
-/glib-2.0/settings
-/emacs/semanticdb
-/opencode
-/pavucontrol-qt
-/rc/runlevels/default
-
-# tmux plugins (installed by TPM, not config)
-/tmux/plugins
-/racket
-/nixos/modules
+# Per-machine overrides, never committed
+**/local.fish
+**/local.kdl
+git/.config/git/local
