@@ -9,7 +9,7 @@ workspaces = []
 def emit():
     parts = []
     for w in sorted(workspaces, key=lambda w: w["idx"]):
-        idx = w["idx"]
+        idx = w.get("name") or w["idx"]
         if w.get("is_urgent"):
             parts.append(f"<span background='#C84820' color='#0D1117'> {idx} </span>")
         elif w.get("is_focused"):
