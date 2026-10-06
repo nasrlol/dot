@@ -1,0 +1,114 @@
+/* Generated from style.css.tmpl by theme/gen. Do not edit style.css. */
+@define-color bg {{bg}};
+@define-color bg-alt {{surface}};
+@define-color fg {{fg}};
+@define-color fg-muted {{fg_dim}};
+@define-color border {{border}};
+@define-color accent {{rust}};
+
+* {
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    font-family: "LiterationMono Nerd Font", "Liberation Mono", monospace;
+    font-size: 21px;
+    border: none;
+}
+
+@keyframes wofi-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+window {
+    animation: wofi-in 140ms ease-out;
+    background-color: @bg;
+    color: @fg;
+    border: 2px solid @border;
+    border-radius: 0px;
+}
+
+#outer-box {
+    margin: 6px;
+    background-color: @bg;
+}
+
+#input {
+    background-color: @bg-alt;
+    color: @fg;
+    padding: 10px 14px;
+    margin: 0 0 6px 0;
+    border-radius: 0px;
+    border: 1px solid @accent;
+    outline: none;
+    caret-color: @accent;
+}
+
+#input image {
+    -gtk-icon-transform: scale(0);
+    color: transparent;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* GTK still reserves 16px for the search icon; pull the text back over it. */
+#input image.left {
+    margin-right: -16px;
+}
+
+#input,
+#input:focus {
+    box-shadow: none;
+    outline: none;
+    border-image: none;
+    background-image: none;
+}
+
+#input:focus {
+    border-color: @accent;
+}
+
+#inner-box {
+    margin: 0;
+    background-color: @bg;
+}
+
+#scroll {
+    margin: 0;
+    background-color: @bg;
+}
+
+#entry {
+    padding: 6px 12px;
+    margin: 1px 0;
+    border-radius: 0px;
+    background-color: transparent;
+    color: @fg-muted;
+}
+
+#entry:selected {
+    background-color: @bg-alt;
+    color: @fg;
+    border-left: 3px solid @accent;
+    padding-left: 9px;
+}
+
+#entry:hover {
+    color: @fg;
+}
+
+#text {
+    color: inherit;
+}
+
+#text:selected {
+    color: @fg;
+}
+
+#img {
+    margin-right: 14px;
+    min-width: 40px;
+    min-height: 40px;
+}

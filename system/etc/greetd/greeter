@@ -1,0 +1,25 @@
+#!/bin/sh
+# greetd greeter: load the palette into the Linux console, then run tuigreet.
+# Generated from greeter.tmpl by theme/gen. Do not edit greeter.
+#
+# tuigreet only speaks the 16 ANSI colors, so redefine them (ESC ] P n rrggbb)
+# with the terminal palette. Color names in --theme then map to:
+#   black=bg  yellow=accent  lightyellow=accent_bright  red=rust
+#   gray=fg  white=fg_bright  darkgray=bright_black
+set -eu
+
+if [ "${TERM:-linux}" = linux ]; then
+	printf '\033]P0111111\033]P1c84820\033]P28a8f45\033]P3d48b30'
+	printf '\033]P47a8b99\033]P5a86a5a\033]P67f998a\033]P7c4a882'
+	printf '\033]P85a4a38\033]P9dc4a20\033]PAa3a85a\033]PBf0a030'
+	printf '\033]PC95a6b3\033]PDc08070\033]PE9ab5a5\033]PFd9c6a5'
+	printf '\033[2J\033[H'
+fi
+
+exec tuigreet \
+	--time --time-format '%a %d %b  %H:%M' \
+	--remember --asterisks \
+	--greeting 'gentoo / niri' \
+	--width 60 --window-padding 2 --container-padding 2 \
+	--cmd 'dbus-run-session niri' \
+	--theme 'container=black;border=yellow;title=lightyellow;greet=gray;text=gray;time=darkgray;prompt=yellow;input=white;action=darkgray;button=red'

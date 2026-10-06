@@ -1,58 +1,88 @@
-@import url("colors.css");
+/* Generated from style.css.tmpl by theme/gen. Do not edit style.css. */
+@define-color bg #111111;
+@define-color bg-alt #1f1610;
+@define-color fg #c4a882;
+@define-color fg-muted #8b7355;
+@define-color border #3d2b1a;
+@define-color accent #c84820;
 
 * {
     margin: 0;
     padding: 0;
     border-radius: 0;
     font-family: "LiterationMono Nerd Font", "Liberation Mono", monospace;
-    font-size: 26px;
+    font-size: 21px;
     border: none;
 }
 
+@keyframes wofi-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
 window {
+    animation: wofi-in 140ms ease-out;
     background-color: @bg;
     color: @fg;
-    border: 3px solid @border;
+    border: 2px solid @border;
     border-radius: 0px;
 }
 
 #outer-box {
-    margin: 10px;
+    margin: 6px;
+    background-color: @bg;
 }
 
 #input {
     background-color: @bg-alt;
     color: @fg;
-    padding: 14px 18px;
-    margin: 0 0 10px 0;
+    padding: 10px 14px;
+    margin: 0 0 6px 0;
     border-radius: 0px;
-    border: 1px solid @border;
+    border: 1px solid @accent;
     outline: none;
     caret-color: @accent;
 }
 
 #input image {
     -gtk-icon-transform: scale(0);
+    color: transparent;
     min-width: 0;
+    min-height: 0;
     margin: 0;
     padding: 0;
 }
 
+/* GTK still reserves 16px for the search icon; pull the text back over it. */
+#input image.left {
+    margin-right: -16px;
+}
+
+#input,
 #input:focus {
-    border-color: @fg-muted;
+    box-shadow: none;
+    outline: none;
+    border-image: none;
+    background-image: none;
+}
+
+#input:focus {
+    border-color: @accent;
 }
 
 #inner-box {
     margin: 0;
+    background-color: @bg;
 }
 
 #scroll {
     margin: 0;
+    background-color: @bg;
 }
 
 #entry {
-    padding: 10px 12px;
-    margin: 3px 0;
+    padding: 6px 12px;
+    margin: 1px 0;
     border-radius: 0px;
     background-color: transparent;
     color: @fg-muted;
@@ -61,8 +91,8 @@ window {
 #entry:selected {
     background-color: @bg-alt;
     color: @fg;
-    border-left: 4px solid @accent;
-    padding-left: 8px;
+    border-left: 3px solid @accent;
+    padding-left: 9px;
 }
 
 #entry:hover {

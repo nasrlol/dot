@@ -1,6 +1,3 @@
-# Environment lives in conf.d/00-env.fish, colors in conf.d/colors.fish,
-# tool hooks (zoxide, direnv, fzf) in conf.d/tools.fish.
-
 if status is-interactive
     set -g fish_greeting
 
@@ -24,8 +21,8 @@ if status is-interactive
     abbr -a gl "git lg"
     abbr -a gp "git push"
 
-    # gentoo: start niri from the tty
     alias start "dbus-run-session niri"
+    alias datamgmt "rlwrap sqlplus elmorabita/ora@orcl"
 
     fish_vi_key_bindings
 end
@@ -44,5 +41,4 @@ end
 function fish_mode_prompt
 end
 
-# Per-machine additions, not committed
 test -f $__fish_config_dir/local.fish; and source $__fish_config_dir/local.fish

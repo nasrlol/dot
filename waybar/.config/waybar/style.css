@@ -21,10 +21,20 @@ window#waybar > box {
 }
 
 #custom-workspaces {
-    margin: 6px 8px;
-    padding: 3px 6px;
+    margin: 0 8px 0 0;
+    padding: 0 6px 0 12px;
     background: @bg;
-    border-radius: 8px;
+    border-radius: 12px 0 0 12px;
+}
+
+/* Fill the left padding (clipped by the rounded corner) so the first
+   workspace's highlight reaches the bar edge */
+#custom-workspaces.first-focused {
+    background: linear-gradient(to right, @fg 12px, @bg 12px);
+}
+
+#custom-workspaces.first-urgent {
+    background: linear-gradient(to right, @rust 12px, @bg 12px);
 }
 
 #window {

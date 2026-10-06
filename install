@@ -53,9 +53,11 @@ printf "linking (%s): %s\n" "$host" "$(echo "$pkgs" | tr "\n" " ")"
 stow $dry --dir "$dots" --target "$HOME" --restow $pkgs
 
 if [ "$system" = 1 ]; then
-	find system -type f | while read -r f; do
+	find system -type f -not -name '*.tmpl' | while read -r f; do
 		echo "installing /${f#system/}"
-		[ -n "$dry" ] || sudo install -Dm644 "$f" "/${f#system/}"
+		mode=644
+		[ -x "$f" ] && mode=755
+		[ -n "$dry" ] || sudo install -Dm"$mode" "$f" "/${f#system/}"
 	done
 	[ -n "$dry" ] || sudo udevadm control --reload 2>/dev/null || true
 fi

@@ -29,10 +29,10 @@
     "custom/volume": {
       "exec": "~/.config/waybar/scripts/volume.py",
       "return-type": "json",
-      "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+      "on-click": "~/.config/waybar/scripts/volume.py mute",
       "on-click-right": "pavucontrol-qt",
-      "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
-      "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+      "on-scroll-up": "~/.config/waybar/scripts/volume.py up",
+      "on-scroll-down": "~/.config/waybar/scripts/volume.py down"
     },
     "custom/network": {
       "exec": "~/.config/waybar/scripts/network.py",
@@ -44,16 +44,9 @@
         "warning": 25,
         "critical": 10
       },
-      "format": "{icon} {capacity}%",
-      "format-charging": "󰂄 {capacity}%",
-      "format-plugged": "󰚥 {capacity}%",
-      "format-icons": [
-        "󰁺",
-        "󰁼",
-        "󰁾",
-        "󰂀",
-        "󰁹"
-      ],
+      "format": "bat {capacity}%",
+      "format-charging": "chg {capacity}%",
+      "format-plugged": "ac {capacity}%",
       "tooltip-format": "{timeTo}"
     }
   },
@@ -101,36 +94,31 @@
       "idle_inhibitor"
     ],
     "cpu": {
-      "format": "󰍛 {usage}%",
+      "format": "cpu {usage}%",
       "interval": 5
     },
     "memory": {
-      "format": "󰘚 {percentage}%",
+      "format": "mem {percentage}%",
       "interval": 5
     },
     "temperature": {
       "hwmon-path-abs": "/sys/devices/platform/soc/23e400000.smc/macsmc-hwmon/hwmon",
       "input-filename": "temp4_input",
       "critical-threshold": 80,
-      "format": "󰔏 {temperatureC}°C",
+      "format": "temp {temperatureC}°C",
       "tooltip-format": "WiFi/BT module {temperatureC}°C",
       "interval": 5
     },
     "backlight": {
       "device": "apple-panel-bl",
-      "format": "{icon} {percent}%",
-      "format-icons": [
-        "󰃞",
-        "󰃟",
-        "󰃠"
-      ],
+      "format": "bri {percent}%",
       "scroll-step": 5
     },
     "bluetooth": {
-      "format": "󰂯",
-      "format-disabled": "󰂲",
-      "format-off": "󰂲",
-      "format-connected": "󰂱 {num_connections}",
+      "format": "bt on",
+      "format-disabled": "bt off",
+      "format-off": "bt off",
+      "format-connected": "bt {num_connections}",
       "tooltip-format": "{controller_alias}\t{controller_address}",
       "tooltip-format-connected": "{device_enumerate}",
       "tooltip-format-enumerate-connected": "{device_alias}",
@@ -139,8 +127,8 @@
     "idle_inhibitor": {
       "format": "{icon}",
       "format-icons": {
-        "activated": "󰅶",
-        "deactivated": "󰾪"
+        "activated": "awake",
+        "deactivated": "idle"
       },
       "tooltip-format-activated": "Idle inhibitor on",
       "tooltip-format-deactivated": "Idle inhibitor off"

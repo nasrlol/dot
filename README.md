@@ -24,7 +24,7 @@ cd ~/dotfiles
 | `home/`, `bin/`, `ssh/` | `~/.profile`, `~/.local/bin` scripts, `~/.ssh/config` |
 | `theme/palette` | **the only place colors are defined** |
 | `theme/gen` | renders every `*.tmpl` next to itself from the palette |
-| `system/` | files for `/etc` (battery charge limit, portage keywords) |
+| `system/` | files for `/etc` (battery charge limit, portage keywords, greetd) |
 | `packages/world` | Portage world set snapshot |
 | `suckless/pinned/` | X11 tools as `UPSTREAM` pin + `local.diff` + `config.h` |
 | `hooks/pre-commit` | secret scan, shellcheck, theme-in-sync check |
@@ -37,7 +37,8 @@ Per-machine files that are never committed: `~/.config/fish/local.fish`,
 Edit `theme/palette`, run `theme/gen`, commit both the palette and the
 regenerated files. Templates: foot `colors.ini`, niri `colors.kdl`, waybar
 `colors.css`/`colors.json`/`config`, wofi `colors.css`, tmux `colors.conf`,
-nvim `lua/ui/palette.lua`, emacs `nasr-theme.el`, fish `conf.d/colors.fish`
+nvim `lua/ui/palette.lua`, emacs `nasr-theme.el`, greetd `greeter` (console
+palette for tuigreet), fish `conf.d/colors.fish`
 (including fzf).
 
 ## suckless

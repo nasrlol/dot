@@ -36,10 +36,12 @@ dev-util/vulkan-headers
 dev-util/vulkan-tools
 dev-vcs/lazygit
 gui-apps/foot
+gui-apps/tuigreet
 gui-apps/waybar
 gui-apps/wl-clipboard
 gui-apps/wofi
 gui-apps/xwayland-satellite
+gui-libs/greetd
 gui-wm/niri
 lxde-base/lxappearance
 media-fonts/iosevka
