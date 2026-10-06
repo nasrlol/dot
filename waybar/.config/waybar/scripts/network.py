@@ -34,13 +34,11 @@ def emit():
             if len(parts) >= 3 and parts[0] == "yes":
                 ssid, signal = parts[1], parts[2]
                 break
-        icons = ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"]
-        icon = icons[min(int(signal or 0) // 20, 4)]
-        out = {"text": f"{icon} {signal}%", "class": "wifi", "tooltip": f"{ssid} ({signal}%)"}
+        out = {"text": f"wifi {signal}%", "class": "wifi", "tooltip": f"{ssid} ({signal}%)"}
     elif eth_dev:
-        out = {"text": f"󰈀 {eth_dev}", "class": "ethernet", "tooltip": f"Ethernet: {eth_dev}"}
+        out = {"text": f"eth {eth_dev}", "class": "ethernet", "tooltip": f"Ethernet: {eth_dev}"}
     else:
-        out = {"text": "󰤮 offline", "class": "disconnected", "tooltip": "Disconnected"}
+        out = {"text": "net offline", "class": "disconnected", "tooltip": "Disconnected"}
     print(json.dumps(out), flush=True)
 
 

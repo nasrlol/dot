@@ -39,7 +39,7 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (column-number-mode -1)
-(show-paren-mode -1)
+(show-paren-mode 1)
 
 ;; Cursor
 (setq cursor-type 'hbar)

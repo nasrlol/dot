@@ -1,0 +1,66 @@
+# gdb reads this from $XDG_CONFIG_HOME/gdb/gdbinit.
+
+# The TUI and the debugged program share one terminal, so anything the
+# program prints lands on top of the TUI and scrolls it out of sync with
+# what ncurses thinks is on screen. `io` gives the program its own foot
+# window instead; run it by hand before run/start when you want that.
+# (C-l still redraws the TUI if something else scribbles on it.)
+python
+import os
+import subprocess
+import tempfile
+import time
+
+import gdb
+
+
+class InferiorIO(gdb.Command):
+    """Send the program's stdin/stdout/stderr to a separate foot window."""
+
+    def __init__(self):
+        super().__init__("io", gdb.COMMAND_RUNNING)
+        self.proc = None
+
+    def invoke(self, arg, from_tty):
+        if self.proc and self.proc.poll() is None:
+            return
+        tmp = tempfile.mkdtemp(prefix="gdb-io-")
+        path = os.path.join(tmp, "tty")
+        self.proc = subprocess.Popen(
+            ["foot", "--app-id=gdb-io", "--title=gdb io", "sh", "-c",
+             'tty > "$0.tmp" && mv "$0.tmp" "$0" && exec sleep infinity', path],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        for _ in range(50):
+            if os.path.exists(path):
+                break
+            time.sleep(0.1)
+        else:
+            self.close()
+            raise gdb.GdbError("io: foot did not start")
+        with open(path) as f:
+            tty = f.read().strip()
+        os.remove(path)
+        os.rmdir(tmp)
+        gdb.execute("set inferior-tty " + tty)
+
+    def auto(self):
+        if not os.environ.get("WAYLAND_DISPLAY"):
+            return
+        try:
+            gdb.execute("info win", to_string=True)
+        except gdb.error:
+            return  # TUI not active: plain gdb, emacs gud, seergdb
+        try:
+            self.invoke("", False)
+        except gdb.error as e:
+            # Never block run/start: fall back to the shared terminal.
+            print("%s; program output stays in this terminal" % e)
+
+    def close(self, *_):
+        if self.proc and self.proc.poll() is None:
+            self.proc.terminate()
+
+
+inferior_io = InferiorIO()
+gdb.events.gdb_exiting.connect(inferior_io.close)
+end
