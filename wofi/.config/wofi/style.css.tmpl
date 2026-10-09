@@ -5,6 +5,11 @@
 @define-color fg-muted {{fg_dim}};
 @define-color border {{border}};
 @define-color accent {{rust}};
+/* Per-host sizes (hosts/<host>.css, linked as host.css by ./install). Its
+   selectors are prefixed with "window" so they win over the ones below.
+   wofi loads this file as data, so the path is relative to the working
+   directory: launch it from ~/.config/wofi (see the niri binds). */
+@import url("host.css");
 
 * {
     margin: 0;

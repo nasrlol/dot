@@ -1,4 +1,7 @@
 @import url("colors.css");
+/* Per-host sizes (hosts/<host>.css, linked as host.css by ./install). Its
+   selectors are prefixed with window#waybar so they beat the rules below. */
+@import url("host.css");
 
 * {
     font-family: "LiterationMono Nerd Font", "Liberation Mono", monospace;

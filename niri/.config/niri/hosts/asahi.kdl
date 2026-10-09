@@ -1,0 +1,30 @@
+// Asahi MacBook (Gentoo): built-in panel, HiDPI scaling, Apple backlights.
+
+// Touchpad only; ignore external mice.
+input {
+    mouse {
+        off
+    }
+}
+
+output "eDP-1" {
+    mode "2560x1600@60.000"
+    scale 1.0
+    transform "normal"
+    position x=1280 y=0
+}
+
+environment {
+    QT_SCALE_FACTOR "1.5"
+}
+
+spawn-at-startup "gentoo-pipewire-launcher"
+
+binds {
+    Mod+B hotkey-overlay-title="      firefox"  { spawn "firefox-bin";  }
+
+    XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "-d" "apple-panel-bl" "set" "5%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "-d" "apple-panel-bl" "set" "5%-"; }
+    XF86KbdBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "-d" "kbd_backlight" "set" "10%+"; }
+    XF86KbdBrightnessDown allow-when-locked=true { spawn "brightnessctl" "-d" "kbd_backlight" "set" "10%-"; }
+}

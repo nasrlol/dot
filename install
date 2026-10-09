@@ -4,22 +4,30 @@
 #   ./install              link the packages for this host
 #   ./install --host NAME  use hosts/NAME (remembered in .host); otherwise
 #                          .host, then hosts/$(hostname), then hosts/default
-#   ./install --system     also install system/ files into / (sudo)
-#   ./install --packages   also emerge everything in packages/world (Gentoo)
+#   ./install --system     also install system/<host>/ files into / (sudo)
+#   ./install --services   also apply system/<host>.services (runit, sudo);
+#                          separate because stopping e.g. seatd ends the
+#                          running session
+#   ./install --packages   also install packages/world (Gentoo, emerge)
+#                          or packages/void (Void, xbps-install)
+#   ./install --fonts      also fetch fonts the distros don't package into
+#                          ~/.local/share/fonts (Nerd Fonts, Comic Mono)
 #   ./install -n           dry run
 set -eu
 
 cd "$(dirname "$0")"
 dots=$(pwd)
 
-system=0 packages=0 dry='' host=''
+system=0 services=0 packages=0 fonts=0 dry='' host=''
 while [ $# -gt 0 ]; do
 	arg=$1
 	shift
 	case $arg in
 	--host) host=${1:?--host needs a name}; shift; echo "$host" > .host ;;
 	--system) system=1 ;;
+	--services) services=1 ;;
 	--packages) packages=1 ;;
+	--fonts) fonts=1 ;;
 	-n) dry=-n ;;
 	*) echo "unknown option: $arg" >&2; exit 1 ;;
 	esac
@@ -37,14 +45,32 @@ resolve() {
 pkgs=$(resolve "$host")
 
 if [ "$packages" = 1 ]; then
-	# shellcheck disable=SC2046
-	sudo emerge --noreplace --ask $(grep -v '^#' packages/world)
+	if command -v emerge >/dev/null; then
+		# shellcheck disable=SC2046
+		sudo emerge --noreplace --ask $(grep -v '^#' packages/world)
+	elif command -v xbps-install >/dev/null; then
+		# shellcheck disable=SC2046
+		sudo xbps-install -S $(grep -v '^[[:space:]]*\(#\|$\)' packages/void)
+	else
+		echo "install: no package list for this distro" >&2
+	fi
 fi
 
 command -v stow >/dev/null || { echo "install: GNU stow is required" >&2; exit 1; }
 
 # Generated files must exist before linking.
 ./theme/gen >/dev/null
+
+# Per-host config: link <dir>/hosts/<host>.<ext> to <dir>/host.<ext>, which
+# the app includes optionally (niri host.kdl, waybar host.json).
+find . -path ./.git -prune -o -path ./hosts -prune -o -path '*/hosts/*' \( -type f -o -type l \) -print |
+	while read -r f; do
+		dir=${f%/hosts/*} name=${f##*/}
+		ext=${name##*.}
+		[ "$name" = "$host.$ext" ] || continue
+		echo "host file: $dir/host.$ext -> hosts/$name"
+		[ -n "$dry" ] || ln -sfn "hosts/$name" "$dir/host.$ext"
+	done
 
 mkdir -p "$HOME/.config" "$HOME/.local/bin" "$HOME/.ssh/config.d"
 chmod 700 "$HOME/.ssh"
@@ -53,16 +79,40 @@ printf "linking (%s): %s\n" "$host" "$(echo "$pkgs" | tr "\n" " ")"
 stow $dry --dir "$dots" --target "$HOME" --restow $pkgs
 
 if [ "$system" = 1 ]; then
-	find system -type f -not -name '*.tmpl' | while read -r f; do
-		echo "installing /${f#system/}"
-		mode=644
-		[ -x "$f" ] && mode=755
-		[ -n "$dry" ] || sudo install -Dm"$mode" "$f" "/${f#system/}"
-	done
-	[ -n "$dry" ] || sudo udevadm control --reload 2>/dev/null || true
+	if [ -d "system/$host" ]; then
+		find "system/$host" -type f -not -name '*.tmpl' | while read -r f; do
+			echo "installing /${f#system/"$host"/}"
+			mode=644
+			[ -x "$f" ] && mode=755
+			[ -n "$dry" ] || sudo install -Dm"$mode" "$f" "/${f#system/"$host"/}"
+		done
+		[ -n "$dry" ] || sudo udevadm control --reload 2>/dev/null || true
+	else
+		echo "no system files for $host"
+	fi
+fi
+
+if [ "$services" = 1 ] && [ -f "system/$host.services" ] && [ -d /var/service ]; then
+	if [ -n "$dry" ]; then system/services -n "system/$host.services"
+	else sudo system/services "system/$host.services"; fi
 fi
 
 [ -n "$dry" ] && exit 0
+
+# Only these fonts are referenced by the configs; the full nerd-fonts package
+# is several GB.
+if [ "$fonts" = 1 ]; then
+	fontdir=${XDG_DATA_HOME:-$HOME/.local/share}/fonts
+	nf=https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0
+	for f in LiberationMono:LiterationMonoNerdFont JetBrainsMono:JetBrainsMonoNerdFont; do
+		mkdir -p "$fontdir/${f#*:}"
+		curl -fsSL "$nf/${f%%:*}.tar.xz" | tar xJ -C "$fontdir/${f#*:}" --wildcards "${f#*:}*.ttf"
+	done
+	# Upstream's Bold file claims the regular weight and shadows it, so skip it.
+	mkdir -p "$fontdir/ComicMono"
+	curl -fsSL -o "$fontdir/ComicMono/ComicMono.ttf" https://dtinth.github.io/comic-mono-font/ComicMono.ttf
+	fc-cache -f "$fontdir"
+fi
 
 git config core.hooksPath hooks
 

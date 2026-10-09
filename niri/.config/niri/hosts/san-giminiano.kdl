@@ -1,0 +1,28 @@
+// MSI laptop board (Void): Intel UHD 630 drives the display, the GTX 1050 is
+// only for prime-run. 24" Iiyama on HDMI.
+
+output "HDMI-A-2" {
+    mode "1920x1080@120.000"
+    scale 1.0
+    transform "normal"
+    position x=0 y=0
+}
+
+debug {
+    // Render on the Intel GPU even though nvidia_drm is loaded; by-path so it
+    // survives renderD renumbering.
+    render-drm-device "/dev/dri/by-path/pci-0000:00:02.0-render"
+}
+
+// config.kdl's 35px cursor is sized for the Asahi panel.
+cursor {
+    xcursor-theme "Bibata-Original-Ice"
+    xcursor-size 24
+}
+
+// Clipboard history: Mod+Y picks an earlier entry with wofi.
+spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
+
+binds {
+    Mod+Y hotkey-overlay-title="      clipboard" { spawn-sh "cd ~/.config/wofi && cliphist list | wofi --dmenu --prompt clipboard | cliphist decode | wl-copy"; }
+}

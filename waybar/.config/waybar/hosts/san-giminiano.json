@@ -1,0 +1,11 @@
+{
+  "height": 30,
+  "modules-right": [
+    "idle_inhibitor"
+  ],
+  "temperature": {
+    "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
+    "input-filename": "temp1_input",
+    "tooltip-format": "CPU package {temperatureC}°C"
+  }
+}

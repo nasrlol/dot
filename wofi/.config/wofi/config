@@ -1,34 +1,56 @@
 # ~/.config/wofi/config
 
 # === Geometry ===
-width=900
-height=340
+# Percentages of the output so it fits any monitor; font and padding sizes
+# are per host in hosts/<host>.css.
+width=35%
+height=25%
 columns=1
 
-location=top               # center, top_left, top, top_right, right, bottom_right, bottom, bottom_left, left
-xoffset=830                # (2560 - 900) / 2 -> horizontally centered
-yoffset=250                # px down from top edge
-layer=overlay              # background, bottom, top, overlay
-global_coords=false        # use global compositor space for x/y (avoid with location=)
-normal_window=false        # set true if not using wlroots/layer-shell
+# center, top_left, top, top_right, right, bottom_right, bottom, bottom_left, left.
+# top is already horizontally centered, and unlike center it doesn't jump
+# around as dynamic_lines shrinks it. No inline comments in this file: wofi
+# keeps them as part of the value.
+location=top
+# px down from top edge
+yoffset=200
+# background, bottom, top, overlay
+layer=overlay
+# use global compositor space for x/y (avoid with location=)
+global_coords=false
+# set true if not using wlroots/layer-shell
+normal_window=false
 
-show=drun                  # run, drun, dmenu, or combi e.g. run,drun
-fork=true                  # fork so the launching terminal can close
+# run, drun, dmenu, or combi e.g. run,drun
+show=drun
+# fork so the launching terminal can close
+fork=true
 
 prompt=
-matching=fuzzy          # contains, strict-contains, multi-contains, fuzzy
+# contains, strict-contains, multi-contains, fuzzy
+matching=fuzzy
 insensitive=true
-filter_rate=1             # debounce ms - faster filtering
-exec_search=true          # Enter runs search text instead of first result
-parse_search=false         # strip pango/image escapes from search
-no_actions=false           # disable multi-action entries
+# debounce ms - faster filtering
+filter_rate=1
+# true makes Enter run the typed text instead of the first result
+exec_search=false
+# strip pango/image escapes from search
+parse_search=false
+# disable multi-action entries
+no_actions=false
 
-sort_order=alphabetical    # alphabetical sorting is faster than default
-image_size=0              # icon size in px
-dynamic_lines=true         # grow window to fit results
-line_wrap=word             # off, word, char, word_char
-allow_markup=false         # allow pango markup in entries
-show_all=false             # don't show all entries initially - faster startup
+# alphabetical sorting is faster than default
+sort_order=alphabetical
+# icon size in px
+image_size=0
+# grow window to fit results
+dynamic_lines=true
+# off, word, char, word_char
+line_wrap=word
+# allow pango markup in entries
+allow_markup=false
+# don't show all entries initially - faster startup
+show_all=false
 allow_images=false
 
 hide_search=false
@@ -54,9 +76,12 @@ key_pgdn=Page_Down,Ctrl-d
 # key_custom_2=Ctrl-3     # exit code 12
 
 # === drun mode options ===
-drun-print_command=false        # print desktop file path instead of launching
-drun-display_generic=true       # show generic app name alongside app name
-drun-only_match_name=false      # search only app name, skip category/description
+# print desktop file path instead of launching
+drun-print_command=false
+# show generic app name alongside app name
+drun-display_generic=true
+# search only app name, skip category/description
+drun-only_match_name=false
 drun-ignore_non_default_gpu=false
 
 # === run mode options ===

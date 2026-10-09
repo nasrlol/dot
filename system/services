@@ -1,0 +1,23 @@
+#!/bin/sh
+# Apply a runit service list (Void), as root: system/services [-n] <list>
+# A name enables /etc/sv/<name>, !name disables it. Lines run in order, so
+# list replacements before the services they replace.
+set -eu
+dry=''
+[ "${1:-}" = -n ] && { dry=1; shift; }
+list=${1:?usage: system/services [-n] <list>}
+
+grep -v '^[[:space:]]*\(#\|$\)' "$list" | while read -r sv; do
+	case $sv in
+	!*)
+		sv=${sv#!}
+		[ -e "/var/service/$sv" ] || continue
+		echo "disabling service $sv"
+		[ -n "$dry" ] || rm "/var/service/$sv" ;;
+	*)
+		[ -e "/var/service/$sv" ] && continue
+		[ -d "/etc/sv/$sv" ] || { echo "no service $sv (package missing?)" >&2; continue; }
+		echo "enabling service $sv"
+		[ -n "$dry" ] || ln -s "/etc/sv/$sv" /var/service/ ;;
+	esac
+done

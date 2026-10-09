@@ -1,0 +1,24 @@
+/* 24" 1080p monitor: style.css sizes are tuned for a HiDPI panel at scale 1,
+   so scale everything down to roughly 70%. */
+
+window * {
+    font-size: 15px;
+}
+
+window #outer-box {
+    margin: 4px;
+}
+
+window #input {
+    padding: 7px 10px;
+    margin: 0 0 4px 0;
+}
+
+window #entry {
+    padding: 4px 8px;
+}
+
+window #entry:selected {
+    border-left-width: 2px;
+    padding-left: 6px;
+}

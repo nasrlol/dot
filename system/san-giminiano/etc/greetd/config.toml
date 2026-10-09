@@ -1,0 +1,9 @@
+# greetd on tty7 so tty1-6 keep their agetty text logins as a fallback.
+# The greeter script is generated from greeter.tmpl by theme/gen.
+
+[terminal]
+vt = 7
+
+[default_session]
+command = "/etc/greetd/greeter"
+user = "_greeter"

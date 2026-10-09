@@ -2,7 +2,8 @@
   {
     "layer": "top",
     "position": "top",
-    "height": 40,
+    // height comes from host.json (hosts/<host>.json)
+    "include": ["~/.config/waybar/host.json"],
     "spacing": 10,
     "margin-top": 8,
     "margin-right": 8,
@@ -52,9 +53,10 @@
   },
   {
     "name": "bottom",
+    // height and modules-right come from host.json (hosts/<host>.json)
+    "include": ["~/.config/waybar/host.json"],
     "layer": "top",
     "position": "bottom",
-    "height": 40,
     "margin-top": 6,
     "margin-bottom": 8,
     "modules-center": [
@@ -88,11 +90,6 @@
       "memory",
       "temperature"
     ],
-    "modules-right": [
-      "backlight",
-      "bluetooth",
-      "idle_inhibitor"
-    ],
     "cpu": {
       "format": "cpu {usage}%",
       "interval": 5
@@ -102,15 +99,11 @@
       "interval": 5
     },
     "temperature": {
-      "hwmon-path-abs": "/sys/devices/platform/soc/23e400000.smc/macsmc-hwmon/hwmon",
-      "input-filename": "temp4_input",
       "critical-threshold": 80,
       "format": "temp {temperatureC}°C",
-      "tooltip-format": "WiFi/BT module {temperatureC}°C",
       "interval": 5
     },
     "backlight": {
-      "device": "apple-panel-bl",
       "format": "bri {percent}%",
       "scroll-step": 5
     },

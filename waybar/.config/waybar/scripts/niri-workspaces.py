@@ -10,10 +10,18 @@ with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "color
 
 workspaces = []
 
-# Absolute line height in Pango units (px * 1024). Tuned to the rendered bar
-# height (set by the right-hand modules, not "height") so the focused-workspace
-# background is flush with the bar's top and bottom edges at 1.1x scale.
-LINE_HEIGHT = 46 * 1024
+# Absolute line height in Pango units (px * 1024), matching the rendered bar
+# height so the focused-workspace background is flush with the bar's top and
+# bottom edges. Taken from the per-host "height" (host.json, see ./install).
+def bar_height():
+    try:
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "host.json")) as f:
+            return int(json.load(f)["height"])
+    except (OSError, ValueError, KeyError, TypeError):
+        return 46
+
+
+LINE_HEIGHT = bar_height() * 1024
 
 
 def emit():

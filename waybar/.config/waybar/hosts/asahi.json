@@ -1,0 +1,16 @@
+{
+  "height": 46,
+  "modules-right": [
+    "backlight",
+    "bluetooth",
+    "idle_inhibitor"
+  ],
+  "temperature": {
+    "hwmon-path-abs": "/sys/devices/platform/soc/23e400000.smc/macsmc-hwmon/hwmon",
+    "input-filename": "temp4_input",
+    "tooltip-format": "WiFi/BT module {temperatureC}°C"
+  },
+  "backlight": {
+    "device": "apple-panel-bl"
+  }
+}

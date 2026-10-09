@@ -1,0 +1,25 @@
+#!/bin/sh
+# greetd greeter: load the palette into the Linux console, then run tuigreet.
+# Generated from greeter.tmpl by theme/gen. Do not edit greeter.
+#
+# tuigreet only speaks the 16 ANSI colors, so redefine them (ESC ] P n rrggbb)
+# with the terminal palette. Color names in --theme then map to:
+#   black=bg  yellow=accent  lightyellow=accent_bright  red=rust
+#   gray=fg  white=fg_bright  darkgray=bright_black
+set -eu
+
+if [ "${TERM:-linux}" = linux ]; then
+	printf '\033]P0{{black.hex}}\033]P1{{red.hex}}\033]P2{{green.hex}}\033]P3{{yellow.hex}}'
+	printf '\033]P4{{blue.hex}}\033]P5{{magenta.hex}}\033]P6{{cyan.hex}}\033]P7{{white.hex}}'
+	printf '\033]P8{{bright_black.hex}}\033]P9{{bright_red.hex}}\033]PA{{bright_green.hex}}\033]PB{{bright_yellow.hex}}'
+	printf '\033]PC{{bright_blue.hex}}\033]PD{{bright_magenta.hex}}\033]PE{{bright_cyan.hex}}\033]PF{{bright_white.hex}}'
+	printf '\033[2J\033[H'
+fi
+
+exec tuigreet \
+	--time --time-format '%a %d %b  %H:%M' \
+	--remember --asterisks \
+	--greeting 'void / niri' \
+	--width 60 --window-padding 2 --container-padding 2 \
+	--cmd 'dbus-run-session niri' \
+	--theme 'container=black;border=yellow;title=lightyellow;greet=gray;text=gray;time=darkgray;prompt=yellow;input=white;action=darkgray;button=red'

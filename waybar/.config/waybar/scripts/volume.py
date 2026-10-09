@@ -73,8 +73,12 @@ def act(cmd):
     name = sink["name"]
     if cmd == "mute":
         sh(["pactl", "set-sink-mute", name, "toggle"])
-    elif cmd in ("up", "down"):
-        sh(["pactl", "set-sink-volume", name, "+5%" if cmd == "up" else "-5%"])
+    elif cmd == "up":
+        # cap at 100% like `wpctl set-volume -l 1.0`
+        vols = [int(c["value_percent"].rstrip("%")) for c in sink["volume"].values()]
+        sh(["pactl", "set-sink-volume", name, f"{min(max(vols, default=0) + 5, 100)}%"])
+    elif cmd == "down":
+        sh(["pactl", "set-sink-volume", name, "-5%"])
 
 
 def main():

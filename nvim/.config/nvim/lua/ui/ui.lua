@@ -1,4 +1,5 @@
-o.guifont = "comic mono:h12"
+-- h11 for the 1080p monitor on san-giminiano
+o.guifont = vim.fn.hostname() == "san-giminiano" and "comic mono:h11" or "comic mono:h12"
 
 if vim.g.neovide then
     -- Cursor

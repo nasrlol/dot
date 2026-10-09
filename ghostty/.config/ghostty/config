@@ -50,11 +50,15 @@ keybind = super+shift+down=jump_to_prompt:1
 #       --bind="enter:become:$CMD"
 #   }
 
+# Colors come from theme/palette via colors.tmpl (run theme/gen).
+config-file = colors
 config-file = font/liberation-mono
 config-file = leading/7
 config-file = opacity/100%
 custom-shader = shader/cursor.glsl
 config-file = thicken/on
 config-file = oldstyle/off
+# Per-host font size (hosts/<host>.conf, linked as host.conf by ./install)
+config-file = ?host.conf
 
 # vim: ft=config

@@ -1,7 +1,9 @@
 # dotfiles
 
-Gentoo on an Apple Silicon MacBook (Asahi), niri + waybar + foot + fish,
-nvim and emacs. One warm amber palette across everything.
+niri + waybar + foot + fish, nvim and emacs, on Gentoo (Apple Silicon
+MacBook, Asahi) and Void (san-giminiano: MSI laptop board, Intel UHD 630 +
+GTX 1050, used as a desktop on a 1080p monitor). One warm amber palette across
+everything.
 
 ## Install
 
@@ -9,12 +11,23 @@ nvim and emacs. One warm amber palette across everything.
 git clone git@github.com:nasrlol/dot ~/dotfiles
 cd ~/dotfiles
 ./install --host asahi            # link packages with GNU Stow
-./install --system                # + udev/portage files into /etc (sudo)
-./install --packages              # + emerge everything in packages/world
+./install --system                # + system/<host>/ files into / (sudo)
+./install --services              # + runit services from system/<host>.services (sudo)
+./install --packages              # + packages/world (emerge) or packages/void (xbps)
+./install --fonts                 # + Nerd Fonts / Comic Mono into ~/.local/share/fonts
 ```
 
 `--host` is remembered in `.host`. Package lists live in `hosts/`
-(`hosts/default` is shared, `hosts/asahi` adds the desktop). `-n` does a dry run.
+(`hosts/default` is shared, `hosts/desktop` adds the niri desktop, and
+`hosts/asahi` / `hosts/san-giminiano` pick one). `-n` does a dry run.
+
+Machine-specific app settings live in `<app>/.config/<app>/hosts/<host>.*`;
+`install` links the current host's file to `host.kdl` (niri: outputs,
+scaling, audio launcher, backlight keys), `host.json` (waybar: temperature
+sensor, backlight device) or `host.css` (waybar, wofi: font and padding
+sizes) or `host.ini`/`host.toml`/`host.conf` (foot/alacritty/ghostty: font
+size), which the main config includes if present. Emacs and neovide pick
+their font size by hostname.
 
 ## Layout
 
@@ -24,20 +37,22 @@ cd ~/dotfiles
 | `home/`, `bin/`, `ssh/` | `~/.profile`, `~/.local/bin` scripts, `~/.ssh/config` |
 | `theme/palette` | **the only place colors are defined** |
 | `theme/gen` | renders every `*.tmpl` next to itself from the palette |
-| `system/` | files for `/etc` (battery charge limit, portage keywords, greetd) |
+| `system/<host>/` | files for `/` (asahi: battery charge limit, portage keywords, greetd, zram; san-giminiano: nftables, nvidia KMS, sshd, greetd, GRUB config + minimal theme) |
+| `system/<host>.services` | runit services `--services` enables (`name`) or disables (`!name`), in order |
 | `packages/world` | Portage world set snapshot |
+| `packages/void` | Void packages the configs need |
 | `suckless/pinned/` | X11 tools as `UPSTREAM` pin + `local.diff` + `config.h` |
 | `hooks/pre-commit` | secret scan, shellcheck, theme-in-sync check |
 
 Per-machine files that are never committed: `~/.config/fish/local.fish`,
-`~/.config/git/local`, `~/.ssh/config.d/*.conf`.
+`~/.config/niri/local.kdl`, `~/.config/git/local`, `~/.ssh/config.d/*.conf`.
 
 ## Theme
 
 Edit `theme/palette`, run `theme/gen`, commit both the palette and the
-regenerated files. Templates: foot `colors.ini`, niri `colors.kdl`, waybar
+regenerated files. Templates: foot `colors.ini`, alacritty `colors.toml`, ghostty `colors`, niri `colors.kdl`, waybar
 `colors.css`/`colors.json`/`config`, wofi `colors.css`, tmux `colors.conf`,
-nvim `lua/ui/palette.lua`, emacs `nasr-theme.el`, greetd `greeter` (console
+nvim `lua/ui/palette.lua`, emacs `nasr-theme.el`, greetd `system/asahi/.../greeter` (console
 palette for tuigreet), fish `conf.d/colors.fish`
 (including fzf).
 
@@ -94,6 +109,32 @@ rejects, regenerate `local.diff`.
 
 ## Asahi notes
 
-- Battery stops charging at 80% (`system/etc/udev/rules.d/99-asahi-battery.rules`).
+- Battery stops charging at 80% (`system/asahi/etc/udev/rules.d/99-asahi-battery.rules`).
 - `speakersafetyd` must stay in the default runlevel, since it protects the speakers.
 - Panel backlight is `apple-panel-bl`, keyboard is `kbd_backlight` (you need to be in the `video` group).
+
+## Void notes
+
+- First setup: `./install --packages --system --fonts --services` (from a
+  tty: switching seatd to elogind ends a running niri session), then
+  `sudo usermod -aG socklog nasr` (read logs with `svlogtail`),
+  `chsh -s /usr/bin/fish`, `sudo grub-mkconfig -o /boot/grub/grub.cfg` and
+  `sudo xbps-reconfigure -f linux6.18` (microcode, nvidia modeset). Reboot.
+- The display runs on the Intel GPU (niri `render-drm-device`); run things on
+  the GTX 1050 with `prime-run <cmd>`.
+- Firewall drops all inbound traffic and sshd is off. To allow SSH, add a key to
+  `~/.ssh/authorized_keys`, uncomment the ssh line in `/etc/nftables.conf`, and
+  enable the service again (password logins stay disabled).
+- Swap is zram (`zramen`). Logs come from socklog. Seats and
+  `XDG_RUNTIME_DIR` come from elogind; seatd's service is off.
+- Audio is PulseAudio; volume keys and the waybar module use `pactl`, which
+  also works with PipeWire's `pipewire-pulse` on the Asahi machine.
+- No NetworkManager (wired, dhcpcd only): the waybar network module falls
+  back to `/sys/class/net` and `ip monitor`.
+- Login is greetd + tuigreet on tty7 (`system/san-giminiano/etc/greetd`);
+  tty1-6 still have text logins, where `start` runs `dbus-run-session niri`.
+- Kernel boots with `nokaslr` (`system/san-giminiano/etc/default/grub`; run
+  `grub-mkconfig -o /boot/grub/grub.cfg` after changing it). Root btrfs is
+  mounted with `compress=zstd:1`.
+- `Mod+Y` opens clipboard history (cliphist). `save-state` checkpoints and
+  pushes 4coder and the compiler repo.

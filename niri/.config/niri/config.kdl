@@ -13,10 +13,6 @@ input {
         natural-scroll
     }
 
-    mouse {
-         off
-    }
-
     trackpoint {
         accel-profile "flat"
     }
@@ -26,13 +22,6 @@ blur {
 
     passes 3
     offset 3.0
-}
-
-output "eDP-1" {
-    mode "2560x1600@60.000"
-    scale 1.0
-    transform "normal"
-    position x=1280 y=0
 }
 
 layout {
@@ -79,13 +68,11 @@ layout {
 }
 
 environment {
-    QT_SCALE_FACTOR "1.5"
     XDG_CURRENT_DESKTOP "niri"
 }
 
 // Hand the session env to D-Bus so activated services (portals, dconf) see it.
 spawn-at-startup "dbus-update-activation-environment" "WAYLAND_DISPLAY" "DISPLAY" "XDG_CURRENT_DESKTOP" "QT_SCALE_FACTOR" "XCURSOR_THEME" "XCURSOR_SIZE"
-spawn-at-startup "gentoo-pipewire-launcher"
 spawn-at-startup "waybar"
 // Lock after 5 min idle, turn displays off after 10 (niri wakes them on input).
 spawn-at-startup "swayidle" "-w" "timeout" "300" "swaylock -f" "timeout" "600" "niri msg action power-off-monitors"
@@ -180,17 +167,17 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     Mod+Return hotkey-overlay-title=" foot"      { spawn "foot";      }
-    Mod+P hotkey-overlay-title="      wofi"      { spawn "wofi" "--show" "drun"; }
+    Mod+P hotkey-overlay-title="      wofi"      { spawn-sh "cd ~/.config/wofi && exec wofi --show drun"; }
     Mod+E hotkey-overlay-title="      emacs"     { spawn "emacs";     }
-    Mod+B hotkey-overlay-title="      firefox"  { spawn "firefox-bin";  }
+    Mod+B hotkey-overlay-title="      firefox"  { spawn "firefox";      }
     Mod+N hotkey-overlay-title="      4coder"    { spawn "/opt/4coder/build/4ed";       }
 
     Mod+O repeat=false { toggle-overview; }
     F3 repeat=false { toggle-overview; }
-    F4 hotkey-overlay-title="wofi" { spawn "wofi" "--show" "drun"; }
+    F4 hotkey-overlay-title="wofi" { spawn-sh "cd ~/.config/wofi && exec wofi --show drun"; }
     XF86LaunchA repeat=false { toggle-overview; }
-    XF86LaunchB hotkey-overlay-title=null { spawn "wofi" "--show" "drun"; }
-    XF86Search hotkey-overlay-title=null { spawn "wofi" "--show" "drun"; }
+    XF86LaunchB hotkey-overlay-title=null { spawn-sh "cd ~/.config/wofi && exec wofi --show drun"; }
+    XF86Search hotkey-overlay-title=null { spawn-sh "cd ~/.config/wofi && exec wofi --show drun"; }
 
     Mod+Q repeat=false { close-window; }
 
@@ -294,17 +281,14 @@ binds {
     F12 { screenshot; }
 
     // Apple keyboard media / brightness keys
-    XF86AudioRaiseVolume  allow-when-locked=true { spawn "wpctl" "set-volume" "-l" "1.0" "@DEFAULT_AUDIO_SINK@" "5%+"; }
-    XF86AudioLowerVolume  allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
-    XF86AudioMute         allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
-    XF86AudioMicMute      allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    // pactl works on both PipeWire (pipewire-pulse) and plain PulseAudio
+    XF86AudioRaiseVolume  allow-when-locked=true { spawn-sh "~/.config/waybar/scripts/volume.py up"; }
+    XF86AudioLowerVolume  allow-when-locked=true { spawn-sh "~/.config/waybar/scripts/volume.py down"; }
+    XF86AudioMute         allow-when-locked=true { spawn-sh "~/.config/waybar/scripts/volume.py mute"; }
+    XF86AudioMicMute      allow-when-locked=true { spawn "pactl" "set-source-mute" "@DEFAULT_SOURCE@" "toggle"; }
     XF86AudioPlay         allow-when-locked=true { spawn "playerctl" "play-pause"; }
     XF86AudioNext         allow-when-locked=true { spawn "playerctl" "next"; }
     XF86AudioPrev         allow-when-locked=true { spawn "playerctl" "previous"; }
-    XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "-d" "apple-panel-bl" "set" "5%+"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "-d" "apple-panel-bl" "set" "5%-"; }
-    XF86KbdBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "-d" "kbd_backlight" "set" "10%+"; }
-    XF86KbdBrightnessDown allow-when-locked=true { spawn "brightnessctl" "-d" "kbd_backlight" "set" "10%-"; }
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
@@ -322,3 +306,9 @@ cursor {
 
 // Colors come from theme/palette via colors.kdl.tmpl (run theme/gen).
 include "colors.kdl"
+
+// Per-machine settings (outputs, scaling, audio launcher, hardware keys).
+// host.kdl links to hosts/<host>.kdl and is created by ./install;
+// local.kdl is never committed.
+include optional=true "host.kdl"
+include optional=true "local.kdl"

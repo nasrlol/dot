@@ -1,0 +1,12 @@
+# Wayland desktop (niri) on top of the default set
+include default
+niri
+waybar
+wofi
+xdg-desktop-portal
+foot
+seergdb
+gdb
+ghostty
+alacritty
+neovide

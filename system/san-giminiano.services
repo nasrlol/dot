@@ -1,0 +1,15 @@
+# runit services for ./install --services (applied in order by
+# system/services): a name enables /etc/sv/<name>, !name disables it.
+socklog-unix
+nanoklogd
+zramen
+nftables
+greetd
+!sshd
+# no Wi-Fi card on this machine
+!wpa_supplicant
+# elogind manages seats and XDG_RUNTIME_DIR (greetd's PAM uses it); seatd
+# stays installed for niri's libseat but its service is off. Last, because
+# stopping seatd ends the running session.
+elogind
+!seatd

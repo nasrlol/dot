@@ -1,0 +1,59 @@
+# Void Linux packages for the configs in this repo (./install --packages).
+# base
+stow
+# system services (system/san-giminiano.services)
+socklog-void
+zramen
+nftables
+intel-ucode
+# login manager (system/san-giminiano/etc/greetd)
+greetd
+tuigreet
+git
+delta
+fish-shell
+zsh
+fzf
+zoxide
+direnv
+ripgrep
+fd
+tmux
+neovim
+emacs-pgtk
+lazygit
+yazi
+btop
+shellcheck
+StyLua
+# debugging
+gdb
+seer
+# desktop: niri session
+niri
+xwayland-satellite
+Waybar
+wofi
+foot
+alacritty
+ghostty
+neovide
+swayidle
+swaylock
+wl-clipboard
+cliphist
+xdg-desktop-portal
+xdg-desktop-portal-gnome
+xdg-desktop-portal-gtk
+playerctl
+pavucontrol-qt
+firefox
+zathura
+zathura-pdf-poppler
+# fonts: Liberation Mono (emacs, alacritty, ghostty), Noto for UI/emoji
+# fallback. LiterationMono Nerd Font (foot, waybar, wofi), JetBrainsMono Nerd
+# Font (slock) and Comic Mono (neovide, st, dwm) come from ./install --fonts.
+liberation-fonts-ttf
+noto-fonts-ttf
+noto-fonts-emoji
+nerd-fonts-symbols-ttf

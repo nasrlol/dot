@@ -1,11 +1,2 @@
 # Asahi MacBook: Gentoo + niri
-include default
-niri
-waybar
-wofi
-foot
-seergdb
-gdb
-ghostty
-alacritty
-neovide
+include desktop

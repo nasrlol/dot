@@ -1,0 +1,14 @@
+#!/bin/sh
+# Commit everything in each repo as a dated checkpoint and push it.
+set -u
+
+stamp=$(date '+%Y-%m-%d %H:%M')
+for repo in /opt/4coder "$HOME/dev/compiler"; do
+	(
+		cd "$repo" || exit 1
+		git add -A
+		# Nothing staged: still push in case earlier checkpoints weren't pushed.
+		git diff --cached --quiet || git commit -q -m "checkpoint $stamp" || exit 1
+		git push -q
+	) || echo "save-state: $repo failed" >&2
+done

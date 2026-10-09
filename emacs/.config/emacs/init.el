@@ -56,8 +56,10 @@
 (setq native-comp-async-report-warnings-errors nil
       native-comp-speed 2)
 
-;; Font
-(set-face-attribute 'default nil :font "liberation mono" :height 190)
+;; Font: 190 is for the Asahi panel (2560x1600 at scale 1); the 1080p
+;; monitor on san-giminiano wants ~14px text.
+(set-face-attribute 'default nil :font "liberation mono"
+                    :height (if (string= (system-name) "san-giminiano") 105 190))
 
 ;; Colors: nasr-theme.el is generated from theme/palette (run theme/gen)
 (add-to-list 'custom-theme-load-path user-emacs-directory)

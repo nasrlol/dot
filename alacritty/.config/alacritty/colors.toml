@@ -1,0 +1,36 @@
+# Generated from colors.toml.tmpl by theme/gen. Do not edit colors.toml.
+[colors.primary]
+background = "#111111"
+foreground = "#c4a882"
+
+[colors.cursor]
+text = "#111111"
+cursor = "#f0a030"
+
+[colors.vi_mode_cursor]
+text = "#111111"
+cursor = "#c04018"
+
+[colors.selection]
+text = "#d9c6a5"
+background = "#3a0a00"
+
+[colors.normal]
+black = "#111111"
+red = "#c84820"
+green = "#8a8f45"
+yellow = "#d48b30"
+blue = "#7a8b99"
+magenta = "#a86a5a"
+cyan = "#7f998a"
+white = "#c4a882"
+
+[colors.bright]
+black = "#5a4a38"
+red = "#dc4a20"
+green = "#a3a85a"
+yellow = "#f0a030"
+blue = "#95a6b3"
+magenta = "#c08070"
+cyan = "#9ab5a5"
+white = "#d9c6a5"

@@ -1,15 +1,16 @@
+# Imports load first and this file overrides them, so font.size is only set
+# in hosts/<host>.toml (linked as host.toml by ./install).
+[general]
+import = ["~/.config/alacritty/colors.toml", "~/.config/alacritty/host.toml"]
+
 [window]
 opacity = 1.0
 dynamic_padding = true
-option_as_alt = "OnlyRight"
 blur = false
 
 [window.padding]
 x = 2
 y = 2
-
-[font]
-size = 8.0
 
 [font.normal]
 family = "Liberation Mono"
@@ -39,42 +40,6 @@ vi_mode_style = { shape = "Block", blinking = "Never" }
 
 [colors]
 draw_bold_text_with_bright_colors = true
-
-[colors.primary]
-background = "#0D1117"
-foreground = "#C4A882"
-
-[colors.cursor]
-text = "#0D1117"
-cursor = "#F0A030"
-
-[colors.vi_mode_cursor]
-text = "#0D1117"
-cursor = "#C04018"
-
-[colors.selection]
-text = "#C4A882"
-background = "#1F1610"
-
-[colors.normal]
-black = "#1AA2A8"
-red = "#DC4A20"
-green = "#D4A030"
-yellow = "#D48B30"
-blue = "#B87040"
-magenta = "#C05020"
-cyan = "#B86030"
-white = "#C4A882"
-
-[colors.bright]
-black = "#3D2B1A"
-red = "#DC4A20"
-green = "#D4A030"
-yellow = "#D48B30"
-blue = "#B87040"
-magenta = "#C05020"
-cyan = "#C84820"
-white = "#DCA880"
 
 [scrolling]
 history = 20000

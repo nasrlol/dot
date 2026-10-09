@@ -30,3 +30,9 @@ lazygit/.config/lazygit/state.yml
 **/local.kdl
 git/.config/git/local
 .host
+**/host.kdl
+**/host.json
+**/host.css
+**/host.ini
+**/host.toml
+**/host.conf
