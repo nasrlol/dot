@@ -1,18 +1,19 @@
 # Build 4coder from the latest 4coder-community/4cc develop (core: 4ed.exe +
-# 4ed_app.dll) plus the byp custom layer from ~/4coder (nasrlol/4coder), and
-# install both into %LOCALAPPDATA%\Programs\4coder with the config, themes, fonts.
+# 4ed_app.dll) plus the byp custom layer from ~/src/4coder (nasrlol/4coder), and
+# install both into C:\Programs\4coder with the config, themes, fonts.
 #
 #   powershell -ExecutionPolicy Bypass -File windows\build-4coder.ps1
 param(
-    [string]$Repo = "$HOME\4coder",
+    [string]$Repo = "$HOME\src\4coder",
     [string]$Core = "$HOME\src\4cc",
-    [string]$App  = "$env:LOCALAPPDATA\Programs\4coder"
+    [string]$App  = 'C:\Programs\4coder'
 )
 $ErrorActionPreference = 'Stop'
 $vs = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -property installationPath
 $vcvars = "$vs\VC\Auxiliary\Build\vcvarsall.bat"
 
-# 1. core from upstream develop
+# 1. sources: your layer and upstream develop, both up to date
+if (Test-Path $Repo) { git -C $Repo pull -q --ff-only } else { git clone -q https://github.com/nasrlol/4coder.git $Repo }
 if (Test-Path $Core) { git -C $Core pull -q --ff-only } else { git clone -q https://github.com/4coder-community/4cc.git $Core }
 # build.exe runs the metadata generator from the cwd, so keep cwd exe lookup on
 cmd /c "set NoDefaultCurrentDirectoryInExePath=&& call `"$vcvars`" amd64 >nul && `"$Core\build.bat`" --mode=release"

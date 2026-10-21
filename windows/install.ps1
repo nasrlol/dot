@@ -15,13 +15,15 @@ foreach ($kv in @{ XDG_CONFIG_HOME = $cfg; EDITOR = 'nvim'; VISUAL = 'nvim' }.Ge
 # User PATH: drop empty/missing/duplicate entries, add the tools winget doesn't
 # link. Git's unix tools (less for delta, grep, ...) go last so Windows' own
 # find/sort/ssh keep winning.
+$programs = 'C:\Programs'
 $want = @(
-    (Get-Item "$env:ProgramFiles\Emacs\emacs-*\bin" -ErrorAction SilentlyContinue | Select-Object -Last 1).FullName
-    "$env:LOCALAPPDATA\Programs\4coder"
-    "$env:LOCALAPPDATA\Programs\raddbg"
-    "$env:ProgramFiles\NASM"
+    (Get-Item "$programs\Emacs\bin", "$programs\Emacs\*\bin" -ErrorAction SilentlyContinue | Select-Object -Last 1).FullName
+    "$programs\Alacritty"
+    "$programs\4coder"
+    "$programs\raddbg"
+    "$programs\NASM"
     "$HOME\.local\bin"
-    "$env:ProgramFiles\Git\usr\bin"
+    "$programs\Git\usr\bin"
 )
 New-Item -ItemType Directory -Force "$HOME\.local\bin" | Out-Null
 $envKey = Get-Item 'HKCU:\Environment'
@@ -111,7 +113,7 @@ $fontDir = "$env:LOCALAPPDATA\Microsoft\Windows\Fonts"
 $fontReg = 'HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Fonts'
 New-Item -ItemType Directory -Force $fontDir | Out-Null
 if (-not (Test-Path $fontReg)) { New-Item $fontReg | Out-Null }
-$fourcoder = "$HOME\4coder\build\fonts"
+$fourcoder = "$HOME\src\4coder\build\fonts"
 if (Test-Path $fourcoder) {
     Add-Type -AssemblyName System.Drawing
     foreach ($f in Get-ChildItem $fourcoder -Filter *.ttf) {

@@ -3,7 +3,7 @@
 #
 #   powershell -ExecutionPolicy Bypass -File windows\apps.ps1
 $ErrorActionPreference = 'Stop'
-$programs = "$env:LOCALAPPDATA\Programs"
+$programs = 'C:\Programs'   # third-party apps (see packages.ps1)
 
 function Find-Exe([string[]]$candidates) {
     foreach ($c in $candidates) { $hit = Get-Item $c -ErrorAction SilentlyContinue | Select-Object -First 1; if ($hit) { return $hit.FullName } }
@@ -11,12 +11,12 @@ function Find-Exe([string[]]$candidates) {
 
 $apps = [ordered]@{
     '4coder'       = Find-Exe "$programs\4coder\4ed.exe"
-    'File Pilot'   = Find-Exe "$programs\FilePilot\FPilot.exe", "$programs\File Pilot\*.exe", "$env:LOCALAPPDATA\Microsoft\WinGet\Packages\Voidstar.FilePilot*\*.exe", "$env:ProgramFiles\File Pilot\*.exe", "$env:LOCALAPPDATA\Microsoft\WinGet\Links\FPilot.exe"
+    'File Pilot'   = Find-Exe "$programs\FilePilot\FPilot.exe"
     'RAD Debugger' = Find-Exe "$programs\raddbg\raddbg.exe"
-    'Alacritty'    = Find-Exe "$env:ProgramFiles\Alacritty\alacritty.exe"
-    'Emacs'        = Find-Exe "$env:ProgramFiles\Emacs\emacs-*\bin\runemacs.exe"
-    'Neovide'      = Find-Exe "$env:ProgramFiles\Neovide\neovide.exe", "$programs\Neovide\neovide.exe"
-    'Firefox'      = Find-Exe "$env:ProgramFiles\Mozilla Firefox\firefox.exe"
+    'Alacritty'    = Find-Exe "$programs\Alacritty\alacritty.exe"
+    'Emacs'        = Find-Exe "$programs\Emacs\bin\runemacs.exe", "$programs\Emacs\*\bin\runemacs.exe"
+    'Neovide'      = Find-Exe "$programs\Neovide\neovide.exe"
+    'Firefox'      = Find-Exe "$programs\Firefox\firefox.exe"
 }
 
 # --- shortcuts ---
@@ -98,8 +98,8 @@ $exe = Find-Exe "$env:LOCALAPPDATA\PowerToys\PowerToys.exe", "$programs\PowerToy
 if ($exe) { Start-Process explorer.exe "`"$exe`""; "restarted PowerToys" }
 
 # --- Open-Shell replaces the Windows start menu (Win key + Start button) ---
-$os = "$env:ProgramFiles\Open-Shell\StartMenu.exe"
-if (Test-Path $os) {
+$os = Find-Exe "$programs\Open-Shell\StartMenu.exe", "$env:ProgramFiles\Open-Shell\StartMenu.exe"
+if ($os) {
     $reg = 'HKCU:\Software\OpenShell\StartMenu\Settings'
     if (-not (Test-Path $reg)) { New-Item $reg -Force | Out-Null }
     Set-ItemProperty $reg MenuStyle 'Win7'
