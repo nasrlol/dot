@@ -90,6 +90,7 @@ $pt = "$env:LOCALAPPDATA\Microsoft\PowerToys\settings.json"
 $s = if (Test-Path $pt) { Get-Content $pt -Raw | ConvertFrom-Json }
 if ($s.enabled) {
     $s.enabled | Add-Member -Force NoteProperty 'Keyboard Manager' $true
+    $s | Add-Member -Force NoteProperty show_tray_icon $false   # settings: Start menu > PowerToys
     Write-Json $pt ($s | ConvertTo-Json -Depth 10 -Compress)
 } else { "PowerToys settings not found: enable Keyboard Manager in PowerToys Settings" }
 $exe = Find-Exe "$env:LOCALAPPDATA\PowerToys\PowerToys.exe", "$programs\PowerToys\PowerToys.exe", "$env:ProgramFiles\PowerToys\PowerToys.exe"
@@ -103,14 +104,28 @@ if ($os) {
     $reg = 'HKCU:\Software\OpenShell\StartMenu\Settings'
     if (-not (Test-Path $reg)) { New-Item $reg -Force | Out-Null }
     Set-ItemProperty $reg MenuStyle 'Win7'
-    Set-ItemProperty $reg SkinW7 'Midnight'
+    # Immersive: the flat Windows 10 look, tinted with the system accent (niri rust)
+    Set-ItemProperty $reg SkinW7 'Immersive'
+    Set-ItemProperty $reg SkinVariationW7 ''
+    Set-ItemProperty $reg SkinOptionsW7 -Type MultiString -Value @(
+        'LIGHT=0', 'DARK=1', 'AUTO=0', 'OPAQUE=1', 'SMALL_ICONS=1',
+        'USER_IMAGE=0', 'USER_NAME=0', 'CENTER_NAME=0', 'DISABLE_MASK=0',
+        'BLACK_TEXT=0', 'BLACK_FRAMES=0', 'TRANSPARENT_LESS=0', 'TRANSPARENT_MORE=0')
+    Set-ItemProperty $reg AllProgramsMetro 1          # programs inline, no cascading menus
+    Set-ItemProperty $reg HighlightNewApps 0
+    Set-ItemProperty $reg MainMenuAnimation 'Fade'
     Set-ItemProperty $reg SkipMetro 1                 # no "Start Screen" on login
     Set-ItemProperty $reg WinKey 'OpenShell'          # Win key opens Open-Shell
     Set-ItemProperty $reg MouseClick 'OpenShell'      # so does the Start button
     Set-ItemProperty $reg ShiftWin 'WindowsMenu'      # Shift+Win: the stock menu
-    Set-ItemProperty $reg EnableStartButton 1
+    Set-ItemProperty $reg EnableStartButton 0         # keep the flat Windows 10 button
+    # taskbar like waybar: opaque bg, fg text (Open-Shell colors are 0xBBGGRR)
+    Set-ItemProperty $reg CustomTaskbar 1
+    Set-ItemProperty $reg TaskbarLook 'Opaque'
+    Set-ItemProperty $reg TaskbarColor 0x111111 -Type DWord
+    Set-ItemProperty $reg TaskbarTextColor 0x82A8C4 -Type DWord
     & $os -exit
     Wait-Process StartMenu -Timeout 10 -ErrorAction SilentlyContinue
     Start-Process explorer.exe "`"$os`""
-    "open-shell: Win7 style, Midnight skin"
+    "open-shell: Immersive dark skin, waybar-colored taskbar"
 }
