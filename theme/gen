@@ -1,23 +1,43 @@
 #!/bin/sh
-# Render every *.tmpl in the repo from theme/palette.
-#   {{name}}      -> #rrggbb
-#   {{name.hex}}  -> rrggbb
+# Render every *.tmpl in the repo from theme/palette-{dark,light}.
+#   gen [dark|light]   (default: the mode last chosen by theme/switch, else dark)
+#
+#   {{name}}            -> #rrggbb from the active palette
+#   {{name.hex}}        -> rrggbb  from the active palette
+#   {{dark:name}}, {{light:name.hex}}, ... -> from that palette regardless of mode
+#   {{mode}}            -> dark or light
 set -eu
 
 root=$(cd "$(dirname "$0")/.." && pwd)
-palette=$root/theme/palette
+state=${XDG_STATE_HOME:-$HOME/.local/state}/theme-mode
+mode=${1:-$(cat "$state" 2>/dev/null || echo dark)}
+case $mode in
+dark | light) ;;
+*) echo "gen: mode must be dark or light, not '$mode'" >&2; exit 1 ;;
+esac
+
 script=$(mktemp)
 trap 'rm -f "$script"' EXIT
 
-grep -E '^[a-z_]+=#[0-9a-fA-F]{6}$' "$palette" | while IFS='=' read -r name value; do
-	printf 's/{{%s}}/%s/g\n' "$name" "$value"
-	printf 's/{{%s\\.hex}}/%s/g\n' "$name" "${value#\#}"
-done > "$script"
+# subst PALETTE PREFIX: emit sed commands for every color in PALETTE
+subst() {
+	grep -E '^[a-z_]+=#[0-9a-fA-F]{6}$' "$1" | while IFS='=' read -r name value; do
+		printf 's/{{%s%s}}/%s/g\n' "$2" "$name" "$value"
+		printf 's/{{%s%s\\.hex}}/%s/g\n' "$2" "$name" "${value#\#}"
+	done
+}
+
+{
+	subst "$root/theme/palette-$mode" ''
+	subst "$root/theme/palette-dark" 'dark:'
+	subst "$root/theme/palette-light" 'light:'
+	printf 's/{{mode}}/%s/g\n' "$mode"
+} > "$script"
 
 find "$root" -name '*.tmpl' -not -path '*/.git/*' | sort | while read -r tmpl; do
 	out=${tmpl%.tmpl}
 	sed -f "$script" "$tmpl" > "$out.tmp"
-	if grep -n '{{[a-z_.]*}}' "$out.tmp" >&2; then
+	if grep -n '{{[a-z_.:]*}}' "$out.tmp" >&2; then
 		echo "gen: unknown color in $tmpl" >&2
 		rm -f "$out.tmp"
 		exit 1

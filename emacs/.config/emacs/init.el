@@ -57,9 +57,15 @@
       native-comp-speed 2)
 
 ;; Font
-(set-face-attribute 'default nil :font "liberation mono" :height 190)
+(set-face-attribute 'default nil :font "Comic Mono" :height 190)
+;; The daemon (niri spawns emacs --fg-daemon) has no GUI frame when this runs,
+;; so the line above can't open the font; frames made by emacsclient get it here.
+(add-to-list 'default-frame-alist '(font . "Comic Mono-19"));; Proportional/fixed faces (HTML mail via shr, eww, Info) use the same font,
+;; instead of falling back to the system "Sans Serif" (Liberation Sans).
+(set-face-attribute 'variable-pitch nil :family "Comic Mono")
+(set-face-attribute 'fixed-pitch nil :family "Comic Mono")
 
-;; Colors: nasr-theme.el is generated from theme/palette (run theme/gen)
+;; Colors: nasr-theme.el is generated from theme/palette-{dark,light} (theme/gen, theme/switch)
 (add-to-list 'custom-theme-load-path user-emacs-directory)
 (load-theme 'nasr t)
 
@@ -113,6 +119,10 @@
   (evil-collection-init 'geiser))
 
 
+;;; browse-url: Hacker News pages open in eww, everything else in the browser
+(setq browse-url-handlers
+      '(("\\`https?://news\\.ycombinator\\.com/" . eww-browse-url)))
+
 ;;; dired
 (require 'dired-x)
 (setq dired-omit-files
@@ -127,3 +137,15 @@
 
 (require 'ede)
 (global-ede-mode t)
+
+;; 4coder bindings (M-p, M-o, M-f, SPC q, ...) for evil
+(load (expand-file-name "nasr-keys.el" user-emacs-directory) nil 'nomessage)
+
+;; Python / notebooks (uv, eglot, code-cells)
+(load (expand-file-name "nasr-python.el" user-emacs-directory) nil 'nomessage)
+
+;; Haskell (haskell-mode, eglot + HLS)
+(load (expand-file-name "nasr-haskell.el" user-emacs-directory) nil 'nomessage)
+
+;; Mail (mu4e + mbsync + msmtp)
+(load (expand-file-name "nasr-mail.el" user-emacs-directory) nil 'nomessage)

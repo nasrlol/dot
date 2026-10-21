@@ -1,0 +1,18 @@
+#!/bin/sh
+# Link firefox/chrome into the default Firefox profile and turn on
+# userChrome.css. Not a Stow package: the profile folder name is random.
+set -eu
+
+dots=$(cd "$(dirname "$0")" && pwd)
+root=$HOME/.config/mozilla/firefox
+[ -d "$root" ] || root=$HOME/.mozilla/firefox
+[ -f "$root/installs.ini" ] || { echo "firefox/link: no Firefox profile yet" >&2; exit 0; }
+
+profile=$root/$(sed -n 's/^Default=//p' "$root/installs.ini" | head -n1)
+[ -d "$profile" ] || { echo "firefox/link: $profile is missing" >&2; exit 1; }
+
+ln -sfn "$dots/chrome" "$profile/chrome"
+
+pref='user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);'
+grep -qF "$pref" "$profile/user.js" 2>/dev/null || echo "$pref" >> "$profile/user.js"
+echo "linked $profile/chrome (restart Firefox to apply)"

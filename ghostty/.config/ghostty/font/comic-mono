@@ -1,0 +1,5 @@
+# Comic Mono (~/.local/share/fonts/ComicMono.ttf), same size as foot
+font-family = Comic Mono
+font-size = 15
+
+# vim: ft=config

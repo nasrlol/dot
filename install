@@ -52,6 +52,9 @@ printf "linking (%s): %s\n" "$host" "$(echo "$pkgs" | tr "\n" " ")"
 # shellcheck disable=SC2086
 stow $dry --dir "$dots" --target "$HOME" --restow $pkgs
 
+# Firefox profiles have random names, so chrome/ is linked by a script.
+[ -n "$dry" ] || ./firefox/link
+
 if [ "$system" = 1 ]; then
 	find system -type f -not -name '*.tmpl' | while read -r f; do
 		echo "installing /${f#system/}"

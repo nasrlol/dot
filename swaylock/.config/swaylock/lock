@@ -1,0 +1,32 @@
+#!/bin/sh
+# Lock the screen: draw a background per output (a quote, the GitHub
+# contribution calendar, open windows, todos), then hand it to swaylock.
+# swaylock-effects draws a live clock in the ring; plain swaylock gets the
+# lock time drawn into the image instead.
+set -eu
+
+pgrep -x swaylock >/dev/null && exit 0
+
+here=$(dirname "$(readlink -f "$0")")
+cache=${XDG_CACHE_HOME:-$HOME/.cache}/lockscreen/contributions.json
+out=${XDG_RUNTIME_DIR:-/tmp}/lockscreen
+mkdir -p "$out"
+
+# The calendar comes from the GitHub API. Fetch it once if there is no cache
+# yet; after that, refresh in the background when it is over an hour old so
+# locking never waits on the network.
+if [ ! -s "$cache" ]; then
+	timeout 4 "$here/render" fetch "$cache" 2>/dev/null || true
+elif [ -n "$(find "$cache" -mmin +60)" ]; then
+	(timeout 30 "$here/render" fetch "$cache" >/dev/null 2>&1 &)
+fi
+
+clock=0
+swaylock --help 2>&1 | grep -q -- '--clock' && clock=1
+
+set --
+for img in $("$here/render" draw "$out" "$cache" "$clock"); do
+	set -- "$@" -i "$img"
+done
+[ "$clock" = 1 ] && set -- "$@" --clock --indicator --timestr '%H:%M' --datestr '%a %d %b'
+exec swaylock "$@"

@@ -1,0 +1,27 @@
+# Generated from colors.tmpl by theme/gen. Do not edit colors.
+# Same mapping as foot/.config/foot/colors.ini.tmpl.
+background = #111111
+foreground = #c4a882
+selection-background = #3a0a00
+selection-foreground = #d9c6a5
+cursor-color = #f0a030
+cursor-text = #111111
+
+palette = 0=#111111
+palette = 1=#c84820
+palette = 2=#8a8f45
+palette = 3=#d48b30
+palette = 4=#7a8b99
+palette = 5=#a86a5a
+palette = 6=#7f998a
+palette = 7=#c4a882
+palette = 8=#5a4a38
+palette = 9=#dc4a20
+palette = 10=#a3a85a
+palette = 11=#f0a030
+palette = 12=#95a6b3
+palette = 13=#c08070
+palette = 14=#9ab5a5
+palette = 15=#d9c6a5
+
+# vim: ft=config

@@ -1,25 +1,55 @@
 # Generated from colors.ini.tmpl by theme/gen. Do not edit colors.ini.
+# Both palettes are loaded so theme/switch can flip running terminals with
+# SIGUSR1 (dark) / SIGUSR2 (light); new terminals start in the active mode.
+[main]
+initial-color-theme={{mode}}
+
 [colors-dark]
 alpha=1.0
-background={{bg.hex}}
-foreground={{fg.hex}}
-selection-background={{selection.hex}}
-selection-foreground={{fg_bright.hex}}
-cursor={{bg.hex}} {{cursor.hex}}
-urls={{accent.hex}}
-regular0={{black.hex}}
-regular1={{red.hex}}
-regular2={{green.hex}}
-regular3={{yellow.hex}}
-regular4={{blue.hex}}
-regular5={{magenta.hex}}
-regular6={{cyan.hex}}
-regular7={{white.hex}}
-bright0={{bright_black.hex}}
-bright1={{bright_red.hex}}
-bright2={{bright_green.hex}}
-bright3={{bright_yellow.hex}}
-bright4={{bright_blue.hex}}
-bright5={{bright_magenta.hex}}
-bright6={{bright_cyan.hex}}
-bright7={{bright_white.hex}}
+background={{dark:bg.hex}}
+foreground={{dark:fg.hex}}
+selection-background={{dark:selection.hex}}
+selection-foreground={{dark:fg_bright.hex}}
+cursor={{dark:bg.hex}} {{dark:cursor.hex}}
+urls={{dark:accent.hex}}
+regular0={{dark:black.hex}}
+regular1={{dark:red.hex}}
+regular2={{dark:green.hex}}
+regular3={{dark:yellow.hex}}
+regular4={{dark:blue.hex}}
+regular5={{dark:magenta.hex}}
+regular6={{dark:cyan.hex}}
+regular7={{dark:white.hex}}
+bright0={{dark:bright_black.hex}}
+bright1={{dark:bright_red.hex}}
+bright2={{dark:bright_green.hex}}
+bright3={{dark:bright_yellow.hex}}
+bright4={{dark:bright_blue.hex}}
+bright5={{dark:bright_magenta.hex}}
+bright6={{dark:bright_cyan.hex}}
+bright7={{dark:bright_white.hex}}
+
+[colors-light]
+alpha=1.0
+background={{light:bg.hex}}
+foreground={{light:fg.hex}}
+selection-background={{light:selection.hex}}
+selection-foreground={{light:fg_bright.hex}}
+cursor={{light:bg.hex}} {{light:cursor.hex}}
+urls={{light:accent.hex}}
+regular0={{light:black.hex}}
+regular1={{light:red.hex}}
+regular2={{light:green.hex}}
+regular3={{light:yellow.hex}}
+regular4={{light:blue.hex}}
+regular5={{light:magenta.hex}}
+regular6={{light:cyan.hex}}
+regular7={{light:white.hex}}
+bright0={{light:bright_black.hex}}
+bright1={{light:bright_red.hex}}
+bright2={{light:bright_green.hex}}
+bright3={{light:bright_yellow.hex}}
+bright4={{light:bright_blue.hex}}
+bright5={{light:bright_magenta.hex}}
+bright6={{light:bright_cyan.hex}}
+bright7={{light:bright_white.hex}}

@@ -32,22 +32,29 @@ def active_sink():
     return next((s for s in sinks if s["name"] == default), sinks[0])
 
 
+# Text labels
+ICON_MUTED = "mute"
+ICON_LEVELS = ["vol", "vol", "vol"]  # low, mid, high
+ICON_HEADPHONES = "hp"
+ICON_BT_HEADPHONES = "bt hp"
+
+
 def device_label(sink):
     props = sink["properties"]
     hints = " ".join(
         props.get(k, "") for k in ("device.form_factor", "device.icon_name", "device.bus")
     )
     if "headset" in hints or "headphone" in hints:
-        return "hp"
+        return ICON_BT_HEADPHONES if "bluetooth" in hints else ICON_HEADPHONES
     if "bluetooth" in hints:
-        return "bt"
+        return ICON_BT_HEADPHONES
     return None
 
 
 def emit():
     sink = active_sink()
     if sink is None:
-        print(json.dumps({"text": "vol none", "class": "muted", "tooltip": "No output"}), flush=True)
+        print(json.dumps({"text": ICON_MUTED, "class": "muted", "tooltip": "No output"}), flush=True)
         return
 
     vols = [int(c["value_percent"].rstrip("%")) for c in sink["volume"].values()]
@@ -56,9 +63,9 @@ def emit():
     dev = device_label(sink)
 
     if sink["mute"]:
-        text, cls = "vol muted", "muted"
+        text, cls = ICON_MUTED, "muted"
     else:
-        label = dev or "vol"
+        label = dev or ICON_LEVELS[min(vol * len(ICON_LEVELS) // 100, len(ICON_LEVELS) - 1)]
         text, cls = f"{label} {vol}%", "normal"
     if dev:
         cls += " headphones"

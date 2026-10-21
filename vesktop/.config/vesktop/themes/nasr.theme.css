@@ -1,0 +1,154 @@
+/**
+ * @name nasr
+ * @description Warm amber / rust / sepia on near-black. Generated from nasr.theme.css.tmpl by theme/gen. Do not edit nasr.theme.css.
+ * @author nasr
+ * @version 1.0.0
+ */
+
+:root,
+.theme-dark,
+.theme-darker,
+.theme-midnight,
+.visual-refresh .theme-dark {
+    /* backgrounds: legacy names */
+    --background-primary: #111111;
+    --background-secondary: #1a1208;
+    --background-secondary-alt: #1f1610;
+    --background-tertiary: #000000;
+    --background-floating: #1a1208;
+    --background-nested-floating: #1f1610;
+    --background-accent: #3d2b1a;
+    --background-message-hover: #1a1208;
+    --background-modifier-hover: #1f1610;
+    --background-modifier-active: #241a10;
+    --background-modifier-selected: #1f1610;
+    --background-modifier-accent: #241a10;
+    --channeltextarea-background: #1a1208;
+    --modal-background: #111111;
+    --modal-footer-background: #1a1208;
+    --home-background: #111111;
+    --bg-overlay-chat: #111111;
+    --bg-overlay-app-frame: #000000;
+    --deprecated-card-bg: #1a1208;
+    --input-background: #1a1208;
+
+    /* backgrounds: visual refresh names */
+    --background-base-lowest: #000000;
+    --background-base-lower: #111111;
+    --background-base-low: #1a1208;
+    --background-surface-high: #1a1208;
+    --background-surface-higher: #1f1610;
+    --background-surface-highest: #1f1610;
+    --background-mod-subtle: #241a10;
+    --background-mod-normal: #1f1610;
+    --background-mod-strong: #3d2b1a;
+    --chat-background-default: #111111;
+    --app-frame-background: #000000;
+
+    /* text */
+    --text-normal: #c4a882;
+    --text-default: #c4a882;
+    --text-strong: #d9c6a5;
+    --text-muted: #8b7355;
+    --text-subtle: #8b7355;
+    --text-link: #d48b30;
+    --text-brand: #d48b30;
+    --text-positive: #8a8f45;
+    --text-warning: #d48b30;
+    --text-danger: #dc4a20;
+    --header-primary: #d9c6a5;
+    --header-secondary: #8b7355;
+    --channels-default: #8b7355;
+    --channel-icon: #8b7355;
+
+    /* icons / interactive */
+    --interactive-normal: #8b7355;
+    --interactive-hover: #c4a882;
+    --interactive-active: #d9c6a5;
+    --interactive-muted: #5a4a38;
+    --interactive-icon-default: #8b7355;
+    --interactive-icon-hover: #c4a882;
+    --interactive-icon-active: #d9c6a5;
+    --interactive-text-default: #8b7355;
+    --interactive-text-hover: #c4a882;
+    --interactive-text-active: #d9c6a5;
+    --icon-default: #8b7355;
+    --icon-strong: #c4a882;
+    --icon-muted: #5a4a38;
+
+    /* borders */
+    --border-subtle: #241a10;
+    --border-normal: #3d2b1a;
+    --border-strong: #3d2b1a;
+    --border-faint: #241a10;
+
+    /* brand: replaces Discord blurple everywhere */
+    --brand-experiment: #c84820;
+    --brand-experiment-560: #c84820;
+    --brand-experiment-600: #c04018;
+    --brand-500: #c84820;
+    --brand-560: #c84820;
+    --brand-600: #c04018;
+    --brand-360: #d48b30;
+    --control-brand-foreground: #d48b30;
+    --control-brand-foreground-new: #d48b30;
+    --button-filled-brand-background: #c84820;
+    --button-filled-brand-background-hover: #dc4a20;
+    --button-filled-brand-background-active: #c04018;
+    --button-filled-brand-text: #d9c6a5;
+    --mention-foreground: #f0a030;
+    --mention-background: #3a0a00;
+    --info-help-foreground: #d48b30;
+
+    /* status */
+    --status-positive: #8a8f45;
+    --status-warning: #d48b30;
+    --status-danger: #c84820;
+    --green-360: #8a8f45;
+    --red-400: #dc4a20;
+
+    /* scrollbars */
+    --scrollbar-thin-thumb: #3d2b1a;
+    --scrollbar-thin-track: transparent;
+    --scrollbar-auto-thumb: #3d2b1a;
+    --scrollbar-auto-track: transparent;
+    --scrollbar-auto-scrollbar-color-thumb: #3d2b1a;
+    --scrollbar-auto-scrollbar-color-track: transparent;
+
+    /* code */
+    --font-code: "LiterationMono Nerd Font", "Liberation Mono", monospace;
+}
+
+::selection {
+    background: #3a0a00;
+    color: #d9c6a5;
+}
+
+/* mentions of you */
+[class*="mentioned_"] {
+    background-color: color-mix(in srgb, #c84820 10%, transparent) !important;
+}
+
+[class*="mentioned_"]::before {
+    background: #c84820 !important;
+}
+
+/* code blocks */
+code,
+.hljs {
+    background: #1a1208 !important;
+    color: #c4a882 !important;
+    border-color: #241a10 !important;
+}
+
+.hljs-keyword,
+.hljs-selector-tag { color: #d48b30; }
+.hljs-string,
+.hljs-attr { color: #b86030; }
+.hljs-number,
+.hljs-literal { color: #9b7040; }
+.hljs-type,
+.hljs-title { color: #b87040; }
+.hljs-meta { color: #c05020; }
+.hljs-built_in { color: #d4a030; }
+.hljs-comment { color: #6b5a45; font-style: italic; }

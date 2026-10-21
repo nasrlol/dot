@@ -1,0 +1,28 @@
+# mbsync: nasr@nsrddyn.com <-> ~/Mail/nsrddyn  (run: mbsync nsrddyn)
+# Password comes from the keyring:
+#   secret-tool store --label="Mail nsrddyn.com" service mail host mail.nsrddyn.com user nasr
+
+IMAPAccount nsrddyn
+Host mail.nsrddyn.com
+Port 993
+User nasr
+PassCmd "secret-tool lookup service mail host mail.nsrddyn.com user nasr"
+TLSType IMAPS
+AuthMechs LOGIN
+
+IMAPStore nsrddyn-remote
+Account nsrddyn
+
+MaildirStore nsrddyn-local
+Path ~/Mail/nsrddyn/
+Inbox ~/Mail/nsrddyn/INBOX
+SubFolders Verbatim
+
+Channel nsrddyn
+Far :nsrddyn-remote:
+Near :nsrddyn-local:
+Patterns *
+Create Both
+Expunge Both
+SyncState *
+CopyArrivalDate yes

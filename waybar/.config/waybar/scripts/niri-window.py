@@ -7,6 +7,7 @@ import sys
 windows = {}
 focused_id = None
 
+# Keeps the title in the right half of the bar, clear of the notch
 MAX_LEN = 60
 
 

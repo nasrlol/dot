@@ -1,5 +1,5 @@
 git:
-  overrideGpg: true
+  overrideGpg: false
 
 
 gui:

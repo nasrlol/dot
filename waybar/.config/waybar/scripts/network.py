@@ -10,6 +10,12 @@ import threading
 REFRESH_SECONDS = 30
 
 
+# Text labels; signal strength is in the % next to it
+ICON_WIFI = ["wifi"]
+ICON_ETH = "eth"
+ICON_OFFLINE = "offline"
+
+
 def sh(cmd):
     return subprocess.run(cmd, capture_output=True, text=True).stdout
 
@@ -34,11 +40,12 @@ def emit():
             if len(parts) >= 3 and parts[0] == "yes":
                 ssid, signal = parts[1], parts[2]
                 break
-        out = {"text": f"wifi {signal}%", "class": "wifi", "tooltip": f"{ssid} ({signal}%)"}
+        bars = ICON_WIFI[min(int(signal or 0) * len(ICON_WIFI) // 100, len(ICON_WIFI) - 1)]
+        out = {"text": f"{bars} {signal}%", "class": "wifi", "tooltip": f"{ssid} ({signal}%)"}
     elif eth_dev:
-        out = {"text": f"eth {eth_dev}", "class": "ethernet", "tooltip": f"Ethernet: {eth_dev}"}
+        out = {"text": ICON_ETH, "class": "ethernet", "tooltip": f"Ethernet: {eth_dev}"}
     else:
-        out = {"text": "net offline", "class": "disconnected", "tooltip": "Disconnected"}
+        out = {"text": ICON_OFFLINE, "class": "disconnected", "tooltip": "Disconnected"}
     print(json.dumps(out), flush=True)
 
 

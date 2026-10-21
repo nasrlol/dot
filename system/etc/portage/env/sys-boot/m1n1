@@ -1,0 +1,5 @@
+# Swap m1n1's boot logo for ~/art (see /etc/portage/m1n1-logo/render.py).
+# m1n1 embeds data/bootlogo_{48,128,256}.bin: raw RGBA, square, on black.
+post_src_prepare() {
+	cp /etc/portage/m1n1-logo/bootlogo_{48,128,256}.bin "${S}/data/" || die
+}

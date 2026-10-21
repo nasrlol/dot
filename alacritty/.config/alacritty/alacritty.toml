@@ -1,80 +1,30 @@
+# Matches foot (foot/.config/foot/foot.ini): same font, padding, cursor,
+# no decorations, and colors from theme/palette-{dark,light} via colors.toml.
+
+[general]
+import = ["~/.config/alacritty/colors.toml"]
+
 [window]
 opacity = 1.0
-dynamic_padding = true
-option_as_alt = "OnlyRight"
 blur = false
-
-[window.padding]
-x = 2
-y = 2
+decorations = "None"
+# foot: pad=20x20 center-when-maximized-and-fullscreen
+padding = { x = 20, y = 20 }
+dynamic_padding = true
+title = "alacritty"
+dynamic_title = true
+option_as_alt = "OnlyRight"
 
 [font]
-size = 8.0
-
-[font.normal]
-family = "Liberation Mono"
-style = "Regular"
-
-[font.bold]
-family = "Liberation Mono"
-style = "Regular"
-
-[font.italic]
-family = "Liberation Mono"
-style = "Regular"
-
-[font.bold_italic]
-family = "Liberation Mono"
-style = "Regular"
-
-[font.offset]
-x = 0
-y = 1
+normal = { family = "LiterationMono Nerd Font Mono" }
+size = 15.0
 
 [cursor]
-style = { shape = "Block", blinking = "Never" }
-thickness = 0.2
+style = { shape = "Block", blinking = "On" }
+vi_mode_style = { shape = "Block", blinking = "On" }
+blink_interval = 500
+blink_timeout = 0
 unfocused_hollow = true
-vi_mode_style = { shape = "Block", blinking = "Never" }
-
-[colors]
-draw_bold_text_with_bright_colors = true
-
-[colors.primary]
-background = "#0D1117"
-foreground = "#C4A882"
-
-[colors.cursor]
-text = "#0D1117"
-cursor = "#F0A030"
-
-[colors.vi_mode_cursor]
-text = "#0D1117"
-cursor = "#C04018"
-
-[colors.selection]
-text = "#C4A882"
-background = "#1F1610"
-
-[colors.normal]
-black = "#1AA2A8"
-red = "#DC4A20"
-green = "#D4A030"
-yellow = "#D48B30"
-blue = "#B87040"
-magenta = "#C05020"
-cyan = "#B86030"
-white = "#C4A882"
-
-[colors.bright]
-black = "#3D2B1A"
-red = "#DC4A20"
-green = "#D4A030"
-yellow = "#D48B30"
-blue = "#B87040"
-magenta = "#C05020"
-cyan = "#C84820"
-white = "#DCA880"
 
 [scrolling]
 history = 20000
@@ -82,9 +32,6 @@ multiplier = 3
 
 [mouse]
 hide_when_typing = true
-
-[debug]
-render_timer = false
 
 [[keyboard.bindings]]
 key = "Return"
