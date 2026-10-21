@@ -18,12 +18,13 @@ $apps = [ordered]@{
     'Neovide'      = Find-Exe "$programs\Neovide\neovide.exe"
     'Firefox'      = Find-Exe "$programs\Firefox\firefox.exe"
     'TaskSlinger'  = Find-Exe "$programs\TaskSlinger\taskslinger.exe"
+    'grepWin'      = Find-Exe "$programs\grepWin\grepWin_portable.exe"
 }
 
 # --- shortcuts ---
 $wsh = New-Object -ComObject WScript.Shell
 $startMenu = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs"
-foreach ($name in '4coder', 'File Pilot', 'RAD Debugger', 'TaskSlinger', 'Alacritty', 'Emacs', 'Neovide') {
+foreach ($name in '4coder', 'File Pilot', 'RAD Debugger', 'TaskSlinger', 'grepWin', 'Alacritty', 'Emacs', 'Neovide') {
     $exe = $apps[$name]
     if (-not $exe) { "skip shortcut: $name not found"; continue }
     $lnk = $wsh.CreateShortcut("$startMenu\$name.lnk")

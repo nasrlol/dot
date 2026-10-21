@@ -22,6 +22,7 @@ $want = @(
     "$programs\4coder"
     "$programs\raddbg"
     "$programs\TaskSlinger"
+    "$programs\grepWin"
     "$programs\NASM"
     "$HOME\.local\bin"
     "$programs\Git\usr\bin"

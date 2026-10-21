@@ -27,6 +27,8 @@ $direct = [ordered]@{
     'Emacs'     = 'GNU.Emacs', 'https://ftp.gnu.org/gnu/emacs/windows/emacs-31/emacs-31.1-UCRT64.zip', 'bin\runemacs.exe'
     # self-installs to AppData otherwise; the download is the whole program
     'TaskSlinger' = 'TaskSlinger.TaskSlinger', 'https://taskslinger.net/download/v0.9.4/winget/x64.exe', 'taskslinger.exe'
+    # zip holds one versioned exe; "portable" in the name keeps settings next to it
+    'grepWin'     = 'StefansTools.grepWin', 'https://github.com/stefankueng/grepWin/releases/download/2.1.12/grepWin-x64-2.1.12_portable.zip', 'grepWin_portable.exe'
 }
 $portables = 'junegunn.fzf', 'BurntSushi.ripgrep.MSVC', 'sharkdp.fd', 'ajeetdsouza.zoxide', 'dandavison.delta',
     'JesseDuffield.lazygit', 'direnv.direnv', 'sxyazi.yazi', 'Fastfetch-cli.Fastfetch', 'aristocratos.btop4win',
@@ -88,6 +90,9 @@ foreach ($name in $direct.Keys) {
         $top = Get-ChildItem "$tmp\x"
         $src = if ($top.Count -eq 1 -and $top[0].PSIsContainer) { $top[0].FullName } else { "$tmp\x" }
         Copy-Item "$src\*" $dir -Recurse -Force
+        # a lone versioned exe (grepWin-x64-2.1.12_portable.exe) gets a stable name
+        $exes = Get-ChildItem $dir -Filter *.exe
+        if (-not (Find-In $dir $exe) -and $exes.Count -eq 1) { Move-Item $exes[0].FullName (Join-Path $dir $exe) -Force }
     } else {
         Copy-Item $file (Join-Path $dir $exe) -Force
     }
