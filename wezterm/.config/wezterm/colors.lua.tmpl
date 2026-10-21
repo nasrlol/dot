@@ -1,0 +1,46 @@
+-- Generated from colors.lua.tmpl by theme/gen. Do not edit colors.lua.
+-- Same mapping as foot/.config/foot/colors.ini.tmpl.
+return {
+	foreground = "{{fg}}",
+	background = "{{bg}}",
+
+	cursor_bg = "{{cursor}}",
+	cursor_fg = "{{bg}}",
+	cursor_border = "{{cursor}}",
+
+	selection_fg = "{{fg_bright}}",
+	selection_bg = "{{selection}}",
+
+	scrollbar_thumb = "{{border}}",
+	split = "{{border}}",
+
+	ansi = {
+		"{{black}}",
+		"{{red}}",
+		"{{green}}",
+		"{{yellow}}",
+		"{{blue}}",
+		"{{magenta}}",
+		"{{cyan}}",
+		"{{white}}",
+	},
+	brights = {
+		"{{bright_black}}",
+		"{{bright_red}}",
+		"{{bright_green}}",
+		"{{bright_yellow}}",
+		"{{bright_blue}}",
+		"{{bright_magenta}}",
+		"{{bright_cyan}}",
+		"{{bright_white}}",
+	},
+
+	tab_bar = {
+		background = "{{bg}}",
+		active_tab = { bg_color = "{{surface}}", fg_color = "{{fg}}" },
+		inactive_tab = { bg_color = "{{bg}}", fg_color = "{{fg_dim}}" },
+		inactive_tab_hover = { bg_color = "{{bg_alt}}", fg_color = "{{fg}}" },
+		new_tab = { bg_color = "{{bg}}", fg_color = "{{fg_dim}}" },
+		new_tab_hover = { bg_color = "{{bg_alt}}", fg_color = "{{fg}}" },
+	},
+}

@@ -6,7 +6,24 @@ custom-shader-animation = "always"
 desktop-notifications = true
 mouse-hide-while-typing = "true"
 shell-integration-features = no-cursor
+
+# Keep one resident process (started by niri spawn-at-startup) so new
+# windows skip GTK/OpenGL init.
+gtk-single-instance = true
+quit-after-last-window-closed = false
 unfocused-split-fill = "#000000"
+
+# Match foot (foot/.config/foot/foot.ini): colors from theme/palette, 20px
+# padding centered like center-when-maximized-and-fullscreen, blinking block
+# cursor, no decorations.
+config-file = colors
+window-padding-x = 20
+window-padding-y = 20
+window-padding-balance = true
+window-decoration = false
+gtk-titlebar = false
+cursor-style = block
+cursor-style-blink = true
 
 keybind = super++=unbind
 keybind = super+equal=unbind
@@ -50,13 +67,11 @@ keybind = super+shift+down=jump_to_prompt:1
 #       --bind="enter:become:$CMD"
 #   }
 
-# Colors come from theme/palette via colors.tmpl (run theme/gen).
-config-file = colors
 config-file = font/liberation-mono
 config-file = leading/7
 config-file = opacity/100%
-custom-shader = shader/cursor.glsl
-config-file = thicken/on
+# custom-shader = shader/cursor.glsl  # off: foot has no cursor animation
+config-file = thicken/off
 config-file = oldstyle/off
 # Per-host font size (hosts/<host>.conf, linked as host.conf by ./install)
 config-file = ?host.conf

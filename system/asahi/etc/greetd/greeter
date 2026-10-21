@@ -21,5 +21,5 @@ exec tuigreet \
 	--remember --asterisks \
 	--greeting 'gentoo / niri' \
 	--width 60 --window-padding 2 --container-padding 2 \
-	--cmd 'dbus-run-session niri' \
+	--cmd 'dbus-run-session niri --session' \
 	--theme 'container=black;border=yellow;title=lightyellow;greet=gray;text=gray;time=darkgray;prompt=yellow;input=white;action=darkgray;button=red'

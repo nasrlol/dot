@@ -1,3 +1,8 @@
 # Asahi MacBook: 2560x1600 panel at scale 1 (~227 DPI).
 [font]
 size = 15.0
+normal = { family = "LiterationMono Nerd Font Mono" }
+offset = { x = 0, y = 0 }
+bold = { family = "LiterationMono Nerd Font Mono" }
+italic = { family = "LiterationMono Nerd Font Mono" }
+bold_italic = { family = "LiterationMono Nerd Font Mono" }

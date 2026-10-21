@@ -1,0 +1,19 @@
+# Generated from delta.tmpl by theme/gen. Do not edit delta.
+# Included from config. Kept plain: colored +/- lines, no boxes, no line
+# numbers, no backgrounds.
+[delta]
+	dark = true
+	syntax-theme = ansi
+	keep-plus-minus-markers = true
+	file-style = "#d48b30" bold
+	file-decoration-style = none
+	hunk-header-style = omit
+	minus-style = "#c84820"
+	minus-emph-style = "#dc4a20" bold
+	plus-style = "#8a8f45"
+	plus-emph-style = "#a3a85a" bold
+	zero-style = syntax
+	whitespace-error-style = "#dc4a20" reverse
+	# moved lines (diff.colorMoved): dim instead of git's magenta/cyan
+	map-styles = bold purple => "#6b5a45", bold cyan => "#6b5a45"
+	blame-palette = "#111111 #1a1208"

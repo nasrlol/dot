@@ -1,2 +1,8 @@
 # Asahi MacBook: Gentoo + niri
 include desktop
+swaylock
+eww
+btop
+zathura
+halloy
+gf2

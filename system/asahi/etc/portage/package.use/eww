@@ -1,0 +1,3 @@
+gui-apps/eww wayland -X
+# required by eww (system tray support)
+dev-libs/libdbusmenu gtk3

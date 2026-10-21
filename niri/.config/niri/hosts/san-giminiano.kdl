@@ -20,6 +20,9 @@ cursor {
     xcursor-size 24
 }
 
+// Lock after 5 min idle, turn displays off after 10 (niri wakes them on input).
+spawn-at-startup "swayidle" "-w" "timeout" "300" "swaylock -f" "timeout" "600" "niri msg action power-off-monitors"
+
 // Clipboard history: Mod+Y picks an earlier entry with wofi.
 spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
 

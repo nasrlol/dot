@@ -1,0 +1,5 @@
+# Same font and size as foot (foot/.config/foot/foot.ini)
+font-family = LiterationMono Nerd Font Mono
+font-size = 15
+
+# vim: ft=config

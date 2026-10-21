@@ -1,0 +1,317 @@
+#!/usr/bin/env python3
+"""Lock screen backgrounds for ./lock.
+
+  render fetch CACHE            save the GitHub contribution calendar to CACHE
+  render draw DIR CACHE CLOCK   draw DIR/<output>.png for every niri output and
+                                print "<output>:<png>" per line. CLOCK=1 means
+                                swaylock draws a live clock in the ring; with 0
+                                the lock time is drawn into the image instead.
+
+Colors come from theme/palette-<mode> in the dotfiles repo, so the lock screen
+follows theme/switch without a template.
+"""
+import json
+import os
+import random
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+import cairo
+
+HERE = Path(__file__).resolve().parent
+DOTS = HERE.parents[2]  # swaylock/.config/swaylock -> repo root
+
+QUERY = """
+query {
+  viewer {
+    login
+    contributionsCollection {
+      contributionCalendar {
+        totalContributions
+        weeks { contributionDays { date contributionLevel } }
+      }
+    }
+  }
+}
+"""
+LEVELS = ["NONE", "FIRST_QUARTILE", "SECOND_QUARTILE", "THIRD_QUARTILE", "FOURTH_QUARTILE"]
+
+MONO = "Iosevka"
+SANS = "Inter"
+
+
+def niri(*args):
+    return json.loads(subprocess.run(["niri", "msg", "-j", *args], capture_output=True,
+                                     check=True, text=True).stdout)
+
+
+def fetch(cache):
+    out = subprocess.run(["gh", "api", "graphql", "-f", f"query={QUERY}"],
+                         capture_output=True, check=True, text=True).stdout
+    viewer = json.loads(out)["data"]["viewer"]
+    cal = viewer["contributionsCollection"]["contributionCalendar"]
+    data = {
+        "login": viewer["login"],
+        "total": cal["totalContributions"],
+        "weeks": [[LEVELS.index(d["contributionLevel"]) for d in w["contributionDays"]]
+                  for w in cal["weeks"]],
+    }
+    cache = Path(cache)
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    tmp = cache.with_suffix(".tmp")
+    tmp.write_text(json.dumps(data))
+    os.replace(tmp, cache)  # ./lock may be reading it
+
+
+def palette():
+    state = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state")) / "theme-mode"
+    try:
+        mode = state.read_text().strip()
+    except OSError:
+        mode = "dark"
+    colors = {"bg": "#111111", "fg": "#c4a882", "fg_bright": "#d9c6a5", "fg_dim": "#8b7355",
+              "comment": "#6b5a45", "border_dim": "#241a10", "accent": "#d48b30",
+              "accent_bright": "#f0a030", "rust_bright": "#dc4a20"}
+    try:
+        for line in (DOTS / f"theme/palette-{mode}").read_text().splitlines():
+            name, _, value = line.partition("=")
+            if value.startswith("#") and len(value) == 7:
+                colors[name] = value
+    except OSError:
+        pass
+    return {k: tuple(int(v[i:i + 2], 16) / 255 for i in (1, 3, 5)) for k, v in colors.items()}
+
+
+def mix(a, b, t):
+    return tuple(x + (y - x) * t for x, y in zip(a, b))
+
+
+def quote():
+    lines = [l.strip() for l in (HERE / "quotes.txt").read_text().splitlines()
+             if l.strip() and not l.startswith("#")]
+    text, _, author = random.choice(lines).rpartition(" — ")
+    return text, author
+
+
+def todos():
+    """~/todo.txt, one item per line (shared with waybar and eww)."""
+    try:
+        text = (Path.home() / "todo.txt").read_text()
+    except OSError:
+        return []
+    return [l.strip() for l in text.splitlines() if l.strip()]
+
+
+def battery():
+    """(percent, status) of the first battery in sysfs, or None."""
+    for psy in sorted(Path("/sys/class/power_supply").glob("*")):
+        try:
+            if (psy / "type").read_text().strip() == "Battery":
+                return int((psy / "capacity").read_text()), (psy / "status").read_text().strip()
+        except (OSError, ValueError):
+            continue
+    return None
+
+
+def windows():
+    workspaces = {w["id"]: w for w in niri("workspaces")}
+    rows = []
+    for w in niri("windows"):
+        ws = workspaces.get(w["workspace_id"], {})
+        pos = (w.get("layout") or {}).get("pos_in_scrolling_layout") or [0, 0]
+        rows.append(((ws.get("idx", 99), *pos), ws.get("name") or str(ws.get("idx", "?")),
+                     w.get("app_id") or "?", w.get("title") or "", w["is_focused"]))
+    return [r[1:] for r in sorted(rows)]
+
+
+def outputs():
+    for name, o in sorted(niri("outputs").items()):
+        if o.get("current_mode") is None:
+            continue
+        mode = o["modes"][o["current_mode"]]
+        w, h = mode["width"], mode["height"]
+        if "90" in o["logical"]["transform"] or "270" in o["logical"]["transform"]:
+            w, h = h, w
+        yield name, w, h
+
+
+def font(cr, family, size, bold=False, italic=False):
+    cr.select_font_face(family, cairo.FONT_SLANT_ITALIC if italic else cairo.FONT_SLANT_NORMAL,
+                        cairo.FONT_WEIGHT_BOLD if bold else cairo.FONT_WEIGHT_NORMAL)
+    cr.set_font_size(size)
+
+
+def wrap(cr, text, width):
+    lines, line = [], ""
+    for word in text.split():
+        trial = f"{line} {word}".strip()
+        if line and cr.text_extents(trial).x_advance > width:
+            lines.append(line)
+            line = word
+        else:
+            line = trial
+    return lines + [line]
+
+
+def centered(cr, text, cx, y):
+    cr.move_to(cx - cr.text_extents(text).x_advance / 2, y)
+    cr.show_text(text)
+
+
+def clip(cr, text, width):
+    if cr.text_extents(text).x_advance <= width:
+        return text
+    while text and cr.text_extents(text + "…").x_advance > width:
+        text = text[:-1]
+    return text + "…"
+
+
+def draw(path, w, h, contrib, clock, c, q, wins, todo, bat):
+    s = h / 1664  # layout is tuned on the 2560x1664 panel
+    surf = cairo.ImageSurface(cairo.FORMAT_RGB24, w, h)
+    cr = cairo.Context(surf)
+    cr.set_source_rgb(*c["bg"])
+    cr.paint()
+    cx = w / 2
+
+    # Quote, top third
+    text, author = q
+    font(cr, SANS, 38 * s, italic=True)
+    lines = wrap(cr, f"“{text}”", min(w * 0.6, 1500 * s))
+    y = h * 0.24 - (len(lines) - 1) * 26 * s
+    cr.set_source_rgb(*c["fg_bright"])
+    for line in lines:
+        centered(cr, line, cx, y)
+        y += 54 * s
+    font(cr, SANS, 24 * s)
+    cr.set_source_rgb(*c["fg_dim"])
+    centered(cr, f"— {author}", cx, y + 10 * s)
+
+    # Battery, top right: an outline filled to the charge level, then the text
+    if bat:
+        pct, status = bat
+        charging = status in ("Charging", "Full")
+        low = pct <= 20 and not charging
+        fill = c["rust_bright"] if low else c["accent"] if charging else c["fg"]
+        bw, bh, nub, lw = 44 * s, 22 * s, 4 * s, 2 * s
+        right, top = w * 0.96, 60 * s
+        x0 = right - bw - nub
+        cr.set_line_width(lw)
+        cr.set_source_rgb(*c["fg_dim"])
+        cr.rectangle(x0, top, bw, bh)
+        cr.stroke()
+        cr.rectangle(x0 + bw, top + bh * 0.3, nub, bh * 0.4)
+        cr.fill()
+        inset = lw * 2
+        cr.set_source_rgb(*fill)
+        cr.rectangle(x0 + inset, top + inset, (bw - 2 * inset) * min(pct, 100) / 100, bh - 2 * inset)
+        cr.fill()
+        font(cr, MONO, 22 * s)
+        label = f"{pct}%" + (" charging" if status == "Charging" else "")
+        cr.set_source_rgb(*(c["rust_bright"] if low else c["fg_bright"]))
+        cr.move_to(x0 - 12 * s - cr.text_extents(label).x_advance, top + bh / 2 + 8 * s)
+        cr.show_text(label)
+
+    # Clock, centre (the ring is drawn here by swaylock)
+    if not clock:
+        font(cr, MONO, 110 * s, bold=True)
+        cr.set_source_rgb(*c["fg_bright"])
+        centered(cr, time.strftime("%H:%M"), cx, h * 0.5 + 38 * s)
+        font(cr, MONO, 24 * s)
+        cr.set_source_rgb(*c["fg_dim"])
+        centered(cr, time.strftime("locked %a %d %b"), cx, h * 0.5 + 84 * s)
+
+    # Contribution calendar, below the ring
+    cell, gap = 16 * s, 4 * s
+    if contrib:
+        weeks = contrib["weeks"]
+        gw = len(weeks) * (cell + gap) - gap
+        x0, y0 = cx - gw / 2, h * 0.66
+        ramp = [c["border_dim"], mix(c["bg"], c["accent"], 0.4), mix(c["bg"], c["accent"], 0.65),
+                c["accent"], c["accent_bright"]]
+        for i, week in enumerate(weeks):
+            # Weeks run Sunday to Saturday; only the first one can be short.
+            offset = 7 - len(week) if i == 0 else 0
+            for j, level in enumerate(week):
+                cr.set_source_rgb(*ramp[level])
+                cr.rectangle(x0 + i * (cell + gap), y0 + (j + offset) * (cell + gap), cell, cell)
+                cr.fill()
+        font(cr, MONO, 22 * s)
+        cr.set_source_rgb(*c["fg_dim"])
+        cr.move_to(x0, y0 - 14 * s)
+        cr.show_text(f"{contrib['total']:,} contributions in the last year")
+        label = contrib["login"]
+        cr.move_to(x0 + gw - cr.text_extents(label).x_advance, y0 - 14 * s)
+        cr.show_text(label)
+
+    # Open windows, bottom left
+    if wins:
+        font(cr, MONO, 22 * s)
+        lh, x = 32 * s, w * 0.04
+        shown = wins[:10]
+        y = h - 60 * s - (len(shown) - 1) * lh
+        cr.set_source_rgb(*c["comment"])
+        cr.move_to(x, y - lh * 1.4)
+        cr.show_text(f"{len(wins)} open window{'s' * (len(wins) != 1)}")
+        for ws, app, title, focused in shown:
+            cr.set_source_rgb(*(c["accent"] if focused else c["fg_dim"]))
+            cr.move_to(x, y)
+            cr.show_text(f"{ws:<6} {app:<12.12} ")
+            cr.set_source_rgb(*(c["fg_bright"] if focused else c["fg"]))
+            cr.show_text(clip(cr, title, w * 0.3))
+            y += lh
+
+    # Todos, bottom right, mirroring the window list
+    if todo:
+        font(cr, MONO, 22 * s)
+        lh, right = 32 * s, w * 0.96
+        shown = todo[:10]
+        extra = len(todo) - len(shown)
+        y = h - 60 * s - (len(shown) - 1 + (extra > 0)) * lh
+
+        def right_aligned(text):
+            cr.move_to(right - cr.text_extents(text).x_advance, y)
+            cr.show_text(text)
+
+        cr.set_source_rgb(*c["comment"])
+        y -= lh * 1.4
+        right_aligned(f"{len(todo)} todo{'s' * (len(todo) != 1)}")
+        y += lh * 1.4
+        for i, item in enumerate(shown):
+            cr.set_source_rgb(*(c["accent"] if i == 0 else c["fg"]))
+            right_aligned(clip(cr, item, w * 0.3))
+            y += lh
+        if extra > 0:
+            cr.set_source_rgb(*c["fg_dim"])
+            right_aligned(f"+{extra} more")
+
+    surf.write_to_png(path)
+
+
+def main():
+    cmd, *args = sys.argv[1:] or ["help"]
+    if cmd == "fetch":
+        fetch(*args)
+    elif cmd == "draw":
+        outdir, cache, clock = args
+        try:
+            contrib = json.loads(Path(cache).read_text())
+        except (OSError, ValueError):
+            contrib = None
+        try:
+            wins = windows()
+        except (OSError, subprocess.CalledProcessError):
+            wins = []
+        c, q, todo, bat = palette(), quote(), todos(), battery()
+        for name, w, h in outputs():
+            path = Path(outdir) / f"{name}.png"
+            draw(str(path), w, h, contrib, clock == "1", c, q, wins, todo, bat)
+            print(f"{name}:{path}")
+    else:
+        sys.exit(__doc__)
+
+
+if __name__ == "__main__":
+    main()

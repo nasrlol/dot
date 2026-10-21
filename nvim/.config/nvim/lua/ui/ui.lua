@@ -1,22 +1,18 @@
--- h11 for the 1080p monitor on san-giminiano
-o.guifont = vim.fn.hostname() == "san-giminiano" and "comic mono:h11" or "comic mono:h12"
+-- h11 for the 1080p monitor on san-giminiano, h24 for the Asahi panel
+o.guifont = vim.fn.hostname() == "san-giminiano" and "comic mono:h11" or "comic mono:h24"
 
 if vim.g.neovide then
-    -- Cursor
     opt.guicursor = "n-v-c:block-Cursor,i-ci:vline10-Cursor-blinkon100,r-cr:hor20-Cursor"
 
-    -- Theme
     g.neovide_theme        = "dark"
     g.neovide_scale_factor = 1
     g.neovide_opacity      = 1
 
-    -- Padding
     g.neovide_padding_top    = 0
     g.neovide_padding_bottom = 0
     g.neovide_padding_right  = 0
     g.neovide_padding_left   = 0
 
-    -- No visual bloat
     g.neovide_floating_blur_amount_x = 0.0
     g.neovide_floating_blur_amount_y = 0.0
     g.neovide_floating_z_height      = 0.0
@@ -25,39 +21,33 @@ if vim.g.neovide then
     g.neovide_light_radius           = 0
     g.neovide_window_blurred         = false
 
-    -- 60hz refresh
     g.neovide_refresh_rate      = 60
     g.neovide_refresh_rate_idle = 60
     g.neovide_no_idle           = false
 
-    -- Animations tuned for 60hz (1 frame = ~16ms)
-    g.neovide_cursor_animation_length    = 0.08   -- ~5 frames, snappy
+    g.neovide_cursor_animation_length    = 0.88   -- ~5 frames, snappy
     g.neovide_position_animation_length  = 0.0
-    g.neovide_scroll_animation_length    = 0.1    -- ~6 frames, just enough to track
+    g.neovide_scroll_animation_length    = 0.5    -- ~6 frames, just enough to track
     g.neovide_scroll_animation_far_lines = 1
 
-    -- Cursor trail
-    g.neovide_cursor_trail_size           = 20
+    g.neovide_cursor_trail_size           = 30
     g.neovide_underline_stroke_scale      = 1
     g.neovide_cursor_animate_in_insert_mode  = true
     g.neovide_cursor_animate_command_line    = false
-    g.neovide_cursor_smooth_blink            = false
+    g.neovide_cursor_smooth_blink            = true
     g.neovide_cursor_unfocused_outline_width = 0
     g.neovide_cursor_antialiasing            = false
 
-    -- Cursor VFX (off)
     g.neovide_cursor_vfx_mode             = ""
     g.neovide_cursor_vfx_opacity          = 0
     g.neovide_cursor_vfx_particle_density = 0
     g.neovide_cursor_vfx_particle_lifetime = 0
 
-    -- Progress bar
     g.neovide_progress_bar_enabled         = true
     g.neovide_progress_bar_height          = 5.0
     g.neovide_progress_bar_animation_speed = 200.0
     g.neovide_progress_bar_hide_delay      = 0.2
 
-    -- Input
     g.neovide_input_use_logo       = false
     g.neovide_hide_mouse_when_typing = true
 end

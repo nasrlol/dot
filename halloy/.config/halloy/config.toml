@@ -1,0 +1,36 @@
+theme = { light = "nasr-light", dark = "nasr" }
+
+# Halloy config — docs: https://halloy.chat
+
+[font]
+family = "Comic Mono"
+size = 20
+
+[servers.liberachat]
+nickname = "nasr"
+server = "irc.libera.chat"
+port = 6697
+use_tls = true
+channels = [
+    "#halloy",
+    "#gentoo",
+    "#linux",
+    "#emacs",
+    "##rust",
+    "##c",
+    "#haskell",
+    "#openbsd",
+    "#freebsd",
+]
+
+[servers.oftc]
+nickname = "nasr"
+server = "irc.oftc.net"
+port = 6697
+use_tls = true
+channels = [
+    "#asahi",
+    "#asahi-alt",
+    "#kernelnewbies",
+    "#wayland",
+]

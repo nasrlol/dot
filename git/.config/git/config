@@ -66,12 +66,11 @@
 	diffFilter = delta --color-only
 [delta]
 	navigate = true
-	line-numbers = true
-	syntax-theme = ansi
-	file-style = yellow bold
-	hunk-header-style = omit
-	minus-style = red
-	plus-style = green
+	# open every diff in less, even short ones (q to quit)
+	paging = always
+# colors: generated from delta.tmpl by theme/gen
+[include]
+	path = ~/.config/git/delta
 
 # --- shortcuts ---
 [url "git@github.com:"]
@@ -88,5 +87,27 @@
 	recent = for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)  %(committerdate:relative)'
 
 # Per-machine overrides (work email, etc.), not committed
+# Patches (git send-email / b4) go out through mail.nsrddyn.com via msmtp.
+# The patch author stays user.email; git adds an in-body From: line for it.
+[sendemail]
+	sendmailCmd = /usr/bin/msmtp
+	from = nasr <nasr@nsrddyn.com>
+	envelopeSender = auto
+	confirm = always
+	chainReplyTo = false
+	suppressCc = self
+	annotate = yes
+[b4]
+	send-same-thread = yes
+
 [include]
 	path = ~/.config/git/local
+[safe]
+	directory = loo
+	directory = loo
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential

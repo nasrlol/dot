@@ -36,6 +36,8 @@ dev-util/vulkan-headers
 dev-util/vulkan-tools
 dev-vcs/lazygit
 gui-apps/foot
+gui-apps/swayidle
+gui-apps/swaylock-effects
 gui-apps/tuigreet
 gui-apps/waybar
 gui-apps/wl-clipboard
@@ -92,3 +94,6 @@ x11-libs/libXrandr
 x11-libs/libdrm
 x11-libs/libxkbcommon
 x11-libs/pixman
+net-mail/isync
+net-mail/mu
+mail-mta/msmtp

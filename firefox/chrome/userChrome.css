@@ -1,0 +1,44 @@
+/* Generated from userChrome.css.tmpl by theme/gen. Do not edit userChrome.css.
+   firefox/link puts this chrome/ folder in the profile. Firefox only reads it
+   at startup, so restart Firefox after editing or after theme/switch. */
+
+:root {
+  --lwt-accent-color: #1a1208 !important;          /* tab strip */
+  --lwt-text-color: #c4a882 !important;
+  --toolbar-bgcolor: #111111 !important;
+  --toolbar-color: #c4a882 !important;
+  --toolbarbutton-icon-fill: #8b7355 !important;
+  --tab-selected-bgcolor: #1f1610 !important;
+  --tab-selected-textcolor: #d9c6a5 !important;
+
+  --toolbar-field-background-color: #1f1610 !important;  /* url bar */
+  --toolbar-field-color: #c4a882 !important;
+  --toolbar-field-focus-background-color: #1a1208 !important;
+  --toolbar-field-focus-color: #d9c6a5 !important;
+  --toolbar-field-focus-border-color: #d48b30 !important;
+  --urlbarView-highlight-background: #3a0a00 !important;
+  --urlbarView-highlight-color: #d9c6a5 !important;
+
+  --arrowpanel-background: #1a1208 !important;     /* menus and popups */
+  --arrowpanel-color: #c4a882 !important;
+  --arrowpanel-border-color: #3d2b1a !important;
+  --sidebar-background-color: #111111 !important;
+  --sidebar-text-color: #c4a882 !important;
+
+  --chrome-content-separator-color: #241a10 !important;
+  --focus-outline-color: #d48b30 !important;
+}
+
+#navigator-toolbox {
+  background-color: var(--lwt-accent-color) !important;
+  border-bottom-color: #241a10 !important;
+}
+
+/* Selected tab: surface background with an amber underline */
+.tab-background:is([selected], [multiselected]) {
+  background-color: var(--tab-selected-bgcolor) !important;
+  box-shadow: inset 0 -2px #d48b30 !important;
+}
+.tabbrowser-tab:not([selected]) .tab-label {
+  color: #8b7355 !important;
+}

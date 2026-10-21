@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+"""Print ~/todo.txt as JSON for eww: one item per line, blank lines ignored.
+The waybar todo module and the lock screen read the same file."""
+import json
+from pathlib import Path
+
+# Keeps the widget a fixed-ish height on the desktop
+MAX_SHOWN = 10
+MAX_LEN = 60
+
+try:
+    items = [l.strip() for l in (Path.home() / "todo.txt").read_text().splitlines() if l.strip()]
+except FileNotFoundError:
+    items = []
+items = [i if len(i) <= MAX_LEN else i[: MAX_LEN - 1] + "…" for i in items]
+
+more = len(items) - MAX_SHOWN
+print(json.dumps({
+    "count": len(items),
+    "top": items[0] if items else "",
+    "rest": items[1:MAX_SHOWN],
+    "more": f"+{more} more" if more > 0 else "",
+}))

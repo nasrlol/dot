@@ -4,8 +4,8 @@
 @import url("host.css");
 
 * {
-    font-family: "LiterationMono Nerd Font", "Liberation Mono", monospace;
-    font-size: 20px;
+    font-family: "Inter Variable", "Inter", "Noto Emoji", "Symbols Nerd Font", sans-serif;
+    font-size: 19px;
     font-weight: 500;
     margin: 0;
     padding: 0;
@@ -23,29 +23,181 @@ window#waybar > box {
     border-radius: 12px;
 }
 
-#custom-workspaces {
+/* Top bar blends into the desktop so the workspaces appear to float */
+window#waybar.top > box {
+    background: transparent;
+}
+
+/* Bottom bar: no continuous strip, each section is its own block */
+window#waybar.bottom > box {
+    background: transparent;
+}
+
+/* Equal-width blocks: 4 slots of 152px + 2px margins each = 624px of content.
+   In the center, the theme toggle on the clock's left mirrors the idle slot on
+   its right, so the time sits exactly on the screen's center line. */
+window#waybar.bottom .modules-left,
+window#waybar.bottom .modules-center,
+window#waybar.bottom .modules-right {
+    background: @surface;
+    border: 1px solid alpha(@fg, 0.12);
+    border-radius: 12px;
+    padding: 0 8px;
+    min-width: 624px;
+}
+
+/* Left block only holds the battery now: one 152px slot + 2px margins. */
+window#waybar.bottom .modules-left {
+    min-width: 156px;
+}
+
+window#waybar.bottom .modules-left > widget > *,
+window#waybar.bottom .modules-right > widget > *,
+window#waybar.bottom #custom-theme,
+window#waybar.bottom #idle_inhibitor {
+    min-width: 152px;
+    margin: 6px 2px;
+    padding: 5px 0;
+}
+
+window#waybar.bottom #clock {
+    min-width: 308px;
+    margin: 6px 2px;
+    padding: 5px 0;
+    background: transparent;
+}
+
+/* Same block style as the bottom bar's sections. Stretches from the bar's left margin (16px)
+   to x=1093, just short of the notch (~1110-1450 on this 2560px panel).
+   1075 content + 2x1 border = 1077px. */
+#workspaces {
     margin: 0 8px 0 0;
-    padding: 0 6px 0 12px;
-    background: @bg;
-    border-radius: 12px 0 0 12px;
+    padding: 0;
+    min-width: 1075px;
+    background: @surface;
+    border: 1px solid alpha(@fg, 0.12);
+    border-radius: 12px;
 }
 
-/* Fill the left padding (clipped by the rounded corner) so the first
-   workspace's highlight reaches the bar edge */
-#custom-workspaces.first-focused {
-    background: linear-gradient(to right, @fg 12px, @bg 12px);
+/* Each button is an equal slot (5 x 215px fills the block). The highlight is
+   drawn on the label, which GTK stretches across the whole slot, so it fills
+   the block to its border. */
+#workspaces button {
+    min-width: 215px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
 }
 
-#custom-workspaces.first-urgent {
-    background: linear-gradient(to right, @rust 12px, @bg 12px);
+/* Strip the GTK theme's own button chrome (gradients, borders, glow, focus
+   ring) in every state so only the label highlight below shows. */
+#workspaces button,
+#workspaces button:hover,
+#workspaces button:active,
+#workspaces button:checked,
+#workspaces button:focus,
+#workspaces button.active,
+#workspaces button.focused,
+#workspaces button label {
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    text-shadow: none;
+    outline: none;
+    -gtk-icon-shadow: none;
 }
 
-#window {
+#workspaces button:hover,
+#workspaces button:active,
+#workspaces button:checked,
+#workspaces button.active,
+#workspaces button.focused {
+    background: transparent;
+}
+
+#workspaces button label {
+    margin: 0;
+    padding: 8px 0;
+    border-radius: 0;
+    color: @fg_dim;
+}
+
+/* GTK doesn't clip children to the block's rounded border, so the end slots
+   round their own outer corners to match it (12px block radius - 1px border).
+   The last visible slot is media; niri's spare empty workspace sits after it,
+   collapsed, so :last-child would miss. */
+#workspaces button:first-child label {
+    border-radius: 11px 0 0 11px;
+}
+
+#workspaces button#niri-workspace-media label {
+    border-radius: 0 11px 11px 0;
+}
+
+#workspaces button:hover label {
+    background: alpha(@fg, 0.08);
+    color: @fg;
+}
+
+#workspaces button.focused label {
+    background: alpha(@fg, 0.12);
+    box-shadow: inset 0 0 0 1px alpha(@fg, 0.12);
+    color: @fg;
+    font-weight: bold;
+}
+
+#workspaces button.urgent label {
+    background: alpha(@rust, 0.18);
+    color: @rust;
+}
+
+/* niri keeps a spare empty workspace at the end of each output; collapse
+   empty unnamed ones unless they're being shown. Named workspaces (from
+   niri's config.kdl) always stay visible. */
+#workspaces button.empty:not(.active):not(#niri-workspace-dev):not(#niri-workspace-debugger):not(#niri-workspace-term):not(#niri-workspace-web):not(#niri-workspace-media) {
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+}
+
+#workspaces button.empty:not(.active):not(#niri-workspace-dev):not(#niri-workspace-debugger):not(#niri-workspace-term):not(#niri-workspace-web):not(#niri-workspace-media) label {
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+}
+
+#custom-window {
     margin: 4px 4px;
-    padding: 0 6px;
+    padding: 0 12px;
     color: @fg_dim;
     font-style: italic;
     font-size: 18px;
+}
+
+#custom-todo {
+    margin: 4px 4px;
+    padding: 0 12px;
+    color: @fg;
+    font-size: 18px;
+}
+
+#custom-todo.empty {
+    color: @fg_dim;
+}
+
+#custom-media {
+    margin: 4px 4px;
+    padding: 0 12px;
+    color: @accent;
+    font-size: 18px;
+}
+
+#custom-media.stopped {
+    margin: 0;
+    padding: 0;
 }
 
 #clock {
@@ -54,22 +206,20 @@ window#waybar > box {
     background: @bg;
     color: @fg;
     font-weight: bold;
-    font-size: 21px;
+    font-size: 20px;
     border-radius: 8px;
 }
 
 #custom-volume,
 #custom-network,
-#cpu,
-#memory,
 #battery,
 #backlight,
-#temperature,
 #bluetooth,
+#custom-theme,
 #idle_inhibitor {
     margin: 6px 4px;
     padding: 5px 16px;
-    background: @surface;
+    background: transparent;
     color: @fg;
     border-radius: 8px;
 }
@@ -87,10 +237,6 @@ window#waybar > box {
 }
 
 #battery.critical:not(.charging) {
-    color: @rust;
-}
-
-#temperature.critical {
     color: @rust;
 }
 

@@ -56,12 +56,20 @@
 (setq native-comp-async-report-warnings-errors nil
       native-comp-speed 2)
 
-;; Font: 190 is for the Asahi panel (2560x1600 at scale 1); the 1080p
-;; monitor on san-giminiano wants ~14px text.
-(set-face-attribute 'default nil :font "liberation mono"
-                    :height (if (string= (system-name) "san-giminiano") 105 190))
+;; Font: Comic Mono 190 on the Asahi panel (2560x1600 at scale 1); the 1080p
+;; monitor on san-giminiano wants ~14px Liberation Mono.
+(let* ((sg (string= (system-name) "san-giminiano"))
+       (family (if sg "Liberation Mono" "Comic Mono")))
+  (set-face-attribute 'default nil :font family :height (if sg 105 190))
+  ;; The daemon (niri spawns emacs --fg-daemon) has no GUI frame when this runs,
+  ;; so the line above can't open the font; frames made by emacsclient get it here.
+  (add-to-list 'default-frame-alist `(font . ,(if sg "Liberation Mono-10.5" "Comic Mono-19")))
+  ;; Proportional/fixed faces (HTML mail via shr, eww, Info) use the same font,
+  ;; instead of falling back to the system "Sans Serif" (Liberation Sans).
+  (set-face-attribute 'variable-pitch nil :family family)
+  (set-face-attribute 'fixed-pitch nil :family family))
 
-;; Colors: nasr-theme.el is generated from theme/palette (run theme/gen)
+;; Colors: nasr-theme.el is generated from theme/palette-{dark,light} (theme/gen, theme/switch)
 (add-to-list 'custom-theme-load-path user-emacs-directory)
 (load-theme 'nasr t)
 
@@ -115,6 +123,10 @@
   (evil-collection-init 'geiser))
 
 
+;;; browse-url: Hacker News pages open in eww, everything else in the browser
+(setq browse-url-handlers
+      '(("\\`https?://news\\.ycombinator\\.com/" . eww-browse-url)))
+
 ;;; dired
 (require 'dired-x)
 (setq dired-omit-files
@@ -129,3 +141,15 @@
 
 (require 'ede)
 (global-ede-mode t)
+
+;; 4coder bindings (M-p, M-o, M-f, SPC q, ...) for evil
+(load (expand-file-name "nasr-keys.el" user-emacs-directory) nil 'nomessage)
+
+;; Python / notebooks (uv, eglot, code-cells)
+(load (expand-file-name "nasr-python.el" user-emacs-directory) nil 'nomessage)
+
+;; Haskell (haskell-mode, eglot + HLS)
+(load (expand-file-name "nasr-haskell.el" user-emacs-directory) nil 'nomessage)
+
+;; Mail (mu4e + mbsync + msmtp)
+(load (expand-file-name "nasr-mail.el" user-emacs-directory) nil 'nomessage)

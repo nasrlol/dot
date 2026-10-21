@@ -1,0 +1,62 @@
+#!/bin/sh
+# Switch the whole desktop between dark (palette-dark) and light (palette-light).
+#   switch [dark|light|toggle]   (default: toggle)
+#
+# Renders every *.tmpl via theme/gen, remembers the mode for the next gen, and
+# pokes running programs so they pick up the new colors. Bound to Mod+Shift+T
+# in niri.
+set -eu
+
+root=$(cd "$(dirname "$0")/.." && pwd)
+state=${XDG_STATE_HOME:-$HOME/.local/state}/theme-mode
+current=$(cat "$state" 2>/dev/null || echo dark)
+
+mode=${1:-toggle}
+if [ "$mode" = toggle ]; then
+	if [ "$current" = dark ]; then mode=light; else mode=dark; fi
+fi
+
+"$root/theme/gen" "$mode" > /dev/null
+mkdir -p "$(dirname "$state")"
+echo "$mode" > "$state"
+
+# foot: both palettes are loaded; USR1 = dark, USR2 = light
+if [ "$mode" = dark ]; then pkill -USR1 -x foot || true; else pkill -USR2 -x foot || true; fi
+
+# waybar: USR2 reloads config + style
+pkill -USR2 -x waybar || true
+
+# eww: re-read the regenerated colors.scss
+eww reload >/dev/null 2>&1 || true
+
+# niri watches its config, but includes are only re-read on a full reload
+niri msg action load-config-file > /dev/null 2>&1 || true
+
+tmux source-file "$HOME/.config/tmux/colors.conf" 2> /dev/null || true
+
+# emacs daemon: reload the regenerated theme and the evil cursors it defines.
+# The daemon may have started without XDG_RUNTIME_DIR, so also try /tmp.
+socket=server
+[ -S "${XDG_RUNTIME_DIR:-/nonexistent}/emacs/server" ] || socket=/tmp/emacs$(id -u)/server
+timeout 5 emacsclient -s "$socket" -e "(progn
+  (load-theme 'nasr t)
+  (when (boundp 'evil-normal-state-cursor)
+    (setq evil-normal-state-cursor \`(box ,nasr-theme-cursor-normal)
+          evil-insert-state-cursor \`(box ,nasr-theme-cursor-insert)
+          evil-visual-state-cursor \`(box ,nasr-theme-cursor-visual))))" > /dev/null 2>&1 || true
+
+# GTK / libadwaita / browsers
+gsettings set org.gnome.desktop.interface color-scheme "prefer-$mode" 2> /dev/null || true
+
+# 4coder: takes effect on next start. config.4coder is hard-linked into
+# /opt/4coder/build, so rewrite it in place instead of replacing the file.
+coder=$HOME/config.4coder
+if [ -f "$coder" ]; then
+	if [ "$mode" = dark ]; then theme="theme-nasr"; else theme="theme-nasr-light"; fi
+	tmp=$(mktemp)
+	sed "s/^\(default_theme_name *= *\)\"[^\"]*\"/\1\"$theme\"/" "$coder" > "$tmp"
+	cat "$tmp" > "$coder"
+	rm -f "$tmp"
+fi
+
+command -v notify-send > /dev/null && notify-send -t 1500 "theme" "$mode" || true

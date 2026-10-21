@@ -11,7 +11,26 @@ output "eDP-1" {
     mode "2560x1600@60.000"
     scale 1.0
     transform "normal"
-    position x=1280 y=0
+    position x=3840 y=0
+}
+
+output "Samsung Electric Company U28E570 H4LN904216" {
+    mode "1920x1080@60.000"
+    scale 1
+    transform "normal"
+    position x=0 y=0
+}
+
+output "Iiyama North America PL2470H 0x000001E2" {
+    mode "1920x1080@143.998"
+    scale 0.7
+    position x=0 y=0
+}
+
+output "Philips Consumer Electronics Company PHL 273V7 UHB1751015164" {
+    mode "1920x1080@60.000"
+    scale 0.7
+    position x=0 y=0
 }
 
 environment {
@@ -19,6 +38,16 @@ environment {
 }
 
 spawn-at-startup "gentoo-pipewire-launcher"
+// Desktop widgets on the background layer (eww/.config/eww).
+spawn-at-startup "eww" "open-many" "contributions" "todos"
+// Lock after 5 min idle. Displays never power off on idle.
+// swaylock/lock draws the background (quote, contributions, open windows).
+spawn-at-startup "swayidle" "timeout" "300" "~/.config/swaylock/lock"
+
+// swayidle can't see suspend without elogind, so lock on lid close here.
+switch-events {
+    lid-close { spawn "sh" "-c" "~/.config/swaylock/lock"; }
+}
 
 binds {
     Mod+B hotkey-overlay-title="      firefox"  { spawn "firefox-bin";  }

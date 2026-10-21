@@ -1,54 +1,43 @@
 [
   {
+    "name": "top",
     "layer": "top",
     "position": "top",
     // height comes from host.json (hosts/<host>.json)
     "include": ["~/.config/waybar/host.json"],
     "spacing": 10,
     "margin-top": 8,
-    "margin-right": 8,
+    "margin-right": 16,
     "margin-bottom": 6,
-    "margin-left": 12,
+    "margin-left": 16,
     "modules-left": [
-      "custom/workspaces",
-      "custom/window"
+      "niri/workspaces"
     ],
     "modules-right": [
-      "custom/volume",
-      "custom/network",
-      "battery"
+      "custom/media",
+      "custom/todo",
+      "custom/window"
     ],
-    "custom/workspaces": {
-      "exec": "~/.config/waybar/scripts/niri-workspaces.py",
+    "niri/workspaces": {
+      "all-outputs": true,
+      "format": "{value}"
+    },
+    "custom/media": {
+      "exec": "~/.config/waybar/scripts/media.py",
       "return-type": "json",
-      "escape": false
+      "on-click": "playerctl play-pause",
+      "on-scroll-up": "playerctl next",
+      "on-scroll-down": "playerctl previous"
+    },
+    "custom/todo": {
+      "exec": "~/.config/waybar/scripts/todo.py",
+      "return-type": "json",
+      "interval": 5,
+      "on-click": "emacsclient -c -a '' ~/todo.txt"
     },
     "custom/window": {
       "exec": "~/.config/waybar/scripts/niri-window.py",
       "return-type": "json"
-    },
-    "custom/volume": {
-      "exec": "~/.config/waybar/scripts/volume.py",
-      "return-type": "json",
-      "on-click": "~/.config/waybar/scripts/volume.py mute",
-      "on-click-right": "pavucontrol-qt",
-      "on-scroll-up": "~/.config/waybar/scripts/volume.py up",
-      "on-scroll-down": "~/.config/waybar/scripts/volume.py down"
-    },
-    "custom/network": {
-      "exec": "~/.config/waybar/scripts/network.py",
-      "return-type": "json"
-    },
-    "battery": {
-      "interval": 30,
-      "states": {
-        "warning": 25,
-        "critical": 10
-      },
-      "format": "bat {capacity}%",
-      "format-charging": "chg {capacity}%",
-      "format-plugged": "ac {capacity}%",
-      "tooltip-format": "{timeTo}"
     }
   },
   {
@@ -60,8 +49,20 @@
     "margin-top": 6,
     "margin-bottom": 8,
     "modules-center": [
-      "clock"
+      "custom/theme",
+      "clock",
+      "idle_inhibitor"
     ],
+    "custom/theme": {
+      "exec": "~/.config/waybar/scripts/theme.sh",
+      "return-type": "json",
+      "format": "{icon}",
+      "format-icons": {
+        "dark": "dark",
+        "light": "light"
+      },
+      "on-click": "~/dotfiles/theme/switch"
+    },
     "clock": {
       "timezone": "Europe/Brussels",
       "format": "{:%H:%M}",
@@ -86,23 +87,9 @@
       "interval": 60
     },
     "modules-left": [
-      "cpu",
-      "memory",
-      "temperature"
+      "battery"
     ],
-    "cpu": {
-      "format": "cpu {usage}%",
-      "interval": 5
-    },
-    "memory": {
-      "format": "mem {percentage}%",
-      "interval": 5
-    },
-    "temperature": {
-      "critical-threshold": 80,
-      "format": "temp {temperatureC}°C",
-      "interval": 5
-    },
+
     "backlight": {
       "format": "bri {percent}%",
       "scroll-step": 5
@@ -126,8 +113,31 @@
       "tooltip-format-activated": "Idle inhibitor on",
       "tooltip-format-deactivated": "Idle inhibitor off"
     },
-    "spacing": 10,
-    "margin-left": 12,
-    "margin-right": 8
+    "spacing": 0,
+    "margin-left": 16,
+    "margin-right": 16,
+    "custom/volume": {
+      "exec": "~/.config/waybar/scripts/volume.py",
+      "return-type": "json",
+      "on-click": "~/.config/waybar/scripts/volume.py mute",
+      "on-click-right": "pavucontrol-qt",
+      "on-scroll-up": "~/.config/waybar/scripts/volume.py up",
+      "on-scroll-down": "~/.config/waybar/scripts/volume.py down"
+    },
+    "custom/network": {
+      "exec": "~/.config/waybar/scripts/network.py",
+      "return-type": "json"
+    },
+    "battery": {
+      "interval": 30,
+      "states": {
+        "warning": 25,
+        "critical": 10
+      },
+      "format": "bat {capacity}%",
+      "format-charging": "chg {capacity}%",
+      "format-plugged": "ac {capacity}%",
+      "tooltip-format": "{timeTo}"
+    }
   }
 ]

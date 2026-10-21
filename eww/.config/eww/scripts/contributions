@@ -1,0 +1,23 @@
+#!/bin/sh
+# Print the GitHub contribution calendar as JSON for eww. The data is shared
+# with the lock screen: swaylock/render fetches it into the same cache.
+set -eu
+
+cache=${XDG_CACHE_HOME:-$HOME/.cache}/lockscreen/contributions.json
+if [ ! -s "$cache" ] || [ -n "$(find "$cache" -mmin +55)" ]; then
+	timeout 30 "$HOME/.config/swaylock/render" fetch "$cache" >/dev/null 2>&1 || true
+fi
+
+# Weeks run Sunday to Saturday and only the first one can be short, so pad it
+# at the top to keep the rows lined up. Levels become CSS classes l0..l4.
+exec python3 - "$cache" <<'EOF'
+import json, sys
+try:
+    d = json.load(open(sys.argv[1]))
+except (OSError, ValueError):
+    d = {"login": "", "total": 0, "weeks": []}
+weeks = [[f"l{level}" for level in week] for week in d["weeks"]]
+if weeks:
+    weeks[0] = ["pad"] * (7 - len(weeks[0])) + weeks[0]
+print(json.dumps({"login": d["login"], "total": f"{d['total']:,}", "weeks": weeks}))
+EOF

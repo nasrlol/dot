@@ -5,17 +5,33 @@ input {
         repeat-rate 50
 
         xkb {
+            options "ctrl:nocaps"
         }
     }
 
     touchpad {
         dwt
         natural-scroll
+        tap
+        click-method "clickfinger"
     }
 
     trackpoint {
         accel-profile "flat"
     }
+
+    // Mod+N on the current workspace jumps back to the previous one.
+    workspace-auto-back-and-forth
+}
+
+gestures {
+    hot-corners {
+        off
+    }
+}
+
+// Alt+Tab window switcher (default binds).
+recent-windows {
 }
 
 blur {
@@ -23,6 +39,7 @@ blur {
     passes 3
     offset 3.0
 }
+
 
 layout {
     gaps 16
@@ -69,13 +86,20 @@ layout {
 
 environment {
     XDG_CURRENT_DESKTOP "niri"
+    // same agent socket fish uses, so GUI apps (emacs/magit) can push over ssh
+    SSH_AUTH_SOCK "/run/user/1000/ssh-agent.socket"
 }
 
 // Hand the session env to D-Bus so activated services (portals, dconf) see it.
 spawn-at-startup "dbus-update-activation-environment" "WAYLAND_DISPLAY" "DISPLAY" "XDG_CURRENT_DESKTOP" "QT_SCALE_FACTOR" "XCURSOR_THEME" "XCURSOR_SIZE"
-spawn-at-startup "waybar"
-// Lock after 5 min idle, turn displays off after 10 (niri wakes them on input).
-spawn-at-startup "swayidle" "-w" "timeout" "300" "swaylock -f" "timeout" "600" "niri msg action power-off-monitors"
+// waybar/fonts.conf keeps the bar's emoji monochrome (Noto Emoji).
+spawn-at-startup "sh" "-c" "FONTCONFIG_FILE=~/.config/waybar/fonts.conf exec waybar"
+// Emacs server in the session env (Wayland, ssh-agent); Mod+E attaches to it.
+spawn-at-startup "emacs" "--fg-daemon"
+// Resident Ghostty (gtk-single-instance) so Mod+Return opens windows instantly.
+spawn-at-startup "ghostty" "--initial-window=false"
+spawn-at-startup "sh" "-c" "~/.config/niri/gen-window-rules"
+// Idle locking is per host (hosts/<host>.kdl).
 
 hotkey-overlay {
     skip-at-startup
@@ -83,22 +107,31 @@ hotkey-overlay {
 
 prefer-no-csd
 animations {
+    // For no animations at all (instant switching), uncomment:
+    // off
     slowdown 1.0
 
+    // Gentle ease-out instead of stiff springs: slower start-to-finish, and
+    // most of the motion happens early so the screen settles calmly.
+    // Instant workspace switching; other animations stay on.
     workspace-switch {
-        spring damping-ratio=1.0 stiffness=900 epsilon=0.0001
+        off
     }
     horizontal-view-movement {
-        spring damping-ratio=1.0 stiffness=700 epsilon=0.0001
+        duration-ms 320
+        curve "ease-out-cubic"
     }
     window-movement {
-        spring damping-ratio=1.0 stiffness=700 epsilon=0.0001
+        duration-ms 280
+        curve "ease-out-cubic"
     }
     window-resize {
-        spring damping-ratio=1.0 stiffness=700 epsilon=0.0001
+        duration-ms 280
+        curve "ease-out-cubic"
     }
     overview-open-close {
-        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+        duration-ms 320
+        curve "ease-out-cubic"
     }
     window-open {
         duration-ms 220
@@ -116,39 +149,24 @@ window-rule {
 }
 
 // Named workspaces, in order: Mod+1 dev, Mod+2 web, Mod+3 term, Mod+4 media
+
 workspace "dev" {
-    open-on-output "eDP-1"
+    open-on-output "Iiyama North America PL2470H 0x000001E2"
 }
-workspace "web"
-workspace "term"
-workspace "media"
+
 workspace "debugger"
+workspace "term"
+workspace "web"
+workspace "media"
 
-window-rule {
-    match app-id=r#"^4coder$"#
-    match app-id=r#"(?i)emacs"#
-    open-on-workspace "dev"
-}
+// Which workspace each app opens on, by its .desktop category. Edit
+// workspaces.ini, not window-rules.kdl (gen-window-rules writes it).
+include "window-rules.kdl"
 
-window-rule {
-    match title="Mozilla Firefox"
-    open-on-workspace "web"
-}
-
-window-rule {
-    match app-id=r#"^(foot|footclient)$"#
-    open-on-workspace "term"
-}
-
-// gdb's program-output window (gdb/.config/gdb/gdbinit): keep focus on gdb
+// gdbs program-output window (gdb/.config/gdb/gdbinit): keep focus on gdb
 window-rule {
     match app-id=r#"^gdb-io$"#
     open-focused false
-}
-
-window-rule {
-    match app-id=r#"^(vlc|org\.videolan\.vlc)$"#
-    open-on-workspace "media"
 }
 
 window-rule {
@@ -166,11 +184,14 @@ window-rule {
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
-    Mod+Return hotkey-overlay-title=" foot"      { spawn "foot";      }
+    Mod+Return hotkey-overlay-title=" ghostty"   { spawn "ghostty";   }
     Mod+P hotkey-overlay-title="      wofi"      { spawn-sh "cd ~/.config/wofi && exec wofi --show drun"; }
-    Mod+E hotkey-overlay-title="      emacs"     { spawn "emacs";     }
+    Mod+E hotkey-overlay-title="      emacs"     { spawn "emacsclient" "-c" "-a" ""; }
     Mod+B hotkey-overlay-title="      firefox"  { spawn "firefox";      }
     Mod+N hotkey-overlay-title="      4coder"    { spawn "/opt/4coder/build/4ed";       }
+    Mod+G hotkey-overlay-title="      halloy"    { spawn "/home/nasr/.local/share/cargo/bin/halloy"; }
+    Mod+D hotkey-overlay-title="      gf2"       { spawn "/home/nasr/.local/bin/gf2"; }
+    Mod+Shift+T hotkey-overlay-title="Toggle light/dark theme" { spawn "/home/nasr/dotfiles/theme/switch"; }
 
     Mod+O repeat=false { toggle-overview; }
     F3 repeat=false { toggle-overview; }
@@ -203,6 +224,9 @@ binds {
     Mod+End  { focus-column-last; }
     Mod+Ctrl+Home { move-column-to-first; }
     Mod+Ctrl+End  { move-column-to-last; }
+
+    Mod+Backslash       { focus-monitor-next; }
+    Mod+Shift+Backslash { move-column-to-monitor-next; }
 
     Mod+Shift+Left  { focus-monitor-left; }
     Mod+Shift+Down  { focus-monitor-down; }
@@ -278,7 +302,7 @@ binds {
     Mod+V       { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+W { toggle-column-tabbed-display; }
-    F12 { screenshot; }
+    Mod+Shift+S { screenshot; }
 
     // Apple keyboard media / brightness keys
     // pactl works on both PipeWire (pipewire-pulse) and plain PulseAudio
@@ -293,18 +317,18 @@ binds {
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
     Mod+Shift+P { power-off-monitors; }
-    Mod+Alt+L hotkey-overlay-title="Lock the screen" { spawn "swaylock"; }
+    Mod+Alt+L hotkey-overlay-title="Lock the screen" { spawn "sh" "-c" "~/.config/swaylock/lock"; }
 }
 
 cursor {
 
     xcursor-theme "Bibata-Original-Ice"
     xcursor-size 35
-    // hide-when-typing
+    hide-when-typing
     // hide-after-inactive-ms 1000
 }
 
-// Colors come from theme/palette via colors.kdl.tmpl (run theme/gen).
+// Colors come from theme/palette-{dark,light} via colors.kdl.tmpl (run theme/gen).
 include "colors.kdl"
 
 // Per-machine settings (outputs, scaling, audio launcher, hardware keys).

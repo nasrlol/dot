@@ -1,4 +1,9 @@
 # Generated from colors.toml.tmpl by theme/gen. Do not edit colors.toml.
+# Same mapping as foot/.config/foot/colors.ini.tmpl.
+
+[colors]
+draw_bold_text_with_bright_colors = false
+
 [colors.primary]
 background = "#111111"
 foreground = "#c4a882"
@@ -14,6 +19,14 @@ cursor = "#c04018"
 [colors.selection]
 text = "#d9c6a5"
 background = "#3a0a00"
+
+[colors.hints.start]
+foreground = "#111111"
+background = "#d48b30"
+
+[colors.hints.end]
+foreground = "#111111"
+background = "#8b7355"
 
 [colors.normal]
 black = "#111111"

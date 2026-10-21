@@ -35,8 +35,9 @@ their font size by hostname.
 |---|---|
 | `<app>/.config/<app>/` | one Stow package per app, symlinked into `~/.config` |
 | `home/`, `bin/`, `ssh/` | `~/.profile`, `~/.local/bin` scripts, `~/.ssh/config` |
-| `theme/palette` | **the only place colors are defined** |
-| `theme/gen` | renders every `*.tmpl` next to itself from the palette |
+| `theme/palette-{dark,light}` | **the only place colors are defined** |
+| `theme/gen` | renders every `*.tmpl` next to itself from the active palette |
+| `theme/switch` | toggles dark/light, re-renders and reloads running apps (Mod+Shift+T, waybar button) |
 | `system/<host>/` | files for `/` (asahi: battery charge limit, portage keywords, greetd, zram; san-giminiano: nftables, nvidia KMS, sshd, greetd, GRUB config + minimal theme) |
 | `system/<host>.services` | runit services `--services` enables (`name`) or disables (`!name`), in order |
 | `packages/world` | Portage world set snapshot |
@@ -49,9 +50,16 @@ Per-machine files that are never committed: `~/.config/fish/local.fish`,
 
 ## Theme
 
-Edit `theme/palette`, run `theme/gen`, commit both the palette and the
-regenerated files. Templates: foot `colors.ini`, alacritty `colors.toml`, ghostty `colors`, niri `colors.kdl`, waybar
-`colors.css`/`colors.json`/`config`, wofi `colors.css`, tmux `colors.conf`,
+Dark is `theme/palette-dark` (warm amber/rust), light is `theme/palette-light`
+(Rosé Pine Dawn); both have the same keys. `theme/switch [dark|light]` (or
+Mod+Shift+T, or the sun/moon button on the bottom waybar) re-renders everything and reloads foot, waybar, niri, tmux, the
+emacs daemon and the GTK color-scheme; 4coder flips `default_theme_name`
+between `theme-nasr` and `theme-nasr-light` and picks it up on next start.
+The active mode lives in `~/.local/state/theme-mode`; `theme/gen` uses it.
+
+Edit a palette, run `theme/gen`, commit both the palette and the
+regenerated files (in dark mode, so the repo keeps dark outputs). Templates: foot `colors.ini`, alacritty `colors.toml`, ghostty `colors`, niri `colors.kdl`, waybar
+`colors.css`/`colors.json`/`config`, wofi `colors.css`, tmux `colors.conf`, gf2 `gf2_config.ini`,
 nvim `lua/ui/palette.lua`, emacs `nasr-theme.el`, greetd `system/asahi/.../greeter` (console
 palette for tuigreet), fish `conf.d/colors.fish`
 (including fzf).
