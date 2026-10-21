@@ -25,6 +25,8 @@ $direct = [ordered]@{
     'Alacritty' = 'Alacritty.Alacritty', 'https://github.com/alacritty/alacritty/releases/download/v0.17.0/Alacritty-v0.17.0-portable.exe', 'alacritty.exe'
     'NASM'      = 'NASM.NASM', 'https://www.nasm.us/pub/nasm/releasebuilds/3.02/win64/nasm-3.02-win64.zip', 'nasm.exe'
     'Emacs'     = 'GNU.Emacs', 'https://ftp.gnu.org/gnu/emacs/windows/emacs-31/emacs-31.1-UCRT64.zip', 'bin\runemacs.exe'
+    # self-installs to AppData otherwise; the download is the whole program
+    'TaskSlinger' = 'TaskSlinger.TaskSlinger', 'https://taskslinger.net/download/v0.9.4/winget/x64.exe', 'taskslinger.exe'
 }
 $portables = 'junegunn.fzf', 'BurntSushi.ripgrep.MSVC', 'sharkdp.fd', 'ajeetdsouza.zoxide', 'dandavison.delta',
     'JesseDuffield.lazygit', 'direnv.direnv', 'sxyazi.yazi', 'Fastfetch-cli.Fastfetch', 'aristocratos.btop4win',
