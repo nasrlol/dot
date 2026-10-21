@@ -2,6 +2,10 @@
 # (no admin needed) and write the few Windows-only shims. Re-runnable.
 #
 #   powershell -ExecutionPolicy Bypass -File windows\install.ps1
+#
+# Run it (and apps.ps1) from a normal terminal. Inside a packaged (MSIX) app's
+# terminal, new files under AppData\Roaming land in that app's private copy and
+# nothing else sees them: the .emacs.d link, alacritty.toml, Start Menu shortcuts.
 $ErrorActionPreference = 'Stop'
 $dots = Split-Path $PSScriptRoot
 $cfg  = "$HOME\.config"
