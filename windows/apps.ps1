@@ -36,7 +36,7 @@ foreach ($name in '4coder', 'File Pilot', 'RAD Debugger', 'Alacritty', 'Emacs', 
 }
 
 # --- PowerToys Keyboard Manager (README "niri (Mod = Super)" table) ---
-# Key codes are Windows virtual keys: 91 LWin, 16 Shift, 18 Alt, 13 Enter, 115 F4, 38 Up.
+# Key codes are Windows virtual keys: 91 LWin, 16 Shift, 18 Alt, 13 Enter, 32 Space, 115 F4, 38 Up.
 function Run($keys, $exe) {
     [ordered]@{
         originalKeys = $keys; exactMatch = $false; operationType = 1
@@ -63,6 +63,7 @@ foreach ($b in $binds) {
 }
 $global += Remap '91;81' '18;115'   # Mod+Q  close window (Alt+F4)
 $global += Remap '91;70' '91;38'    # Mod+F  maximize (Win+Up)
+$global += Remap '91;80' '91;18;32' # Mod+P  launcher (Command Palette, Win+Alt+Space)
 
 $kbm = "$env:LOCALAPPDATA\Microsoft\PowerToys\Keyboard Manager"
 New-Item -ItemType Directory -Force $kbm | Out-Null
