@@ -1,4 +1,4 @@
-# Desktop + Start Menu shortcuts for the daily apps, and niri-style global
+# Start Menu shortcuts for the daily apps (the Desktop stays empty), and niri-style global
 # hotkeys through PowerToys Keyboard Manager. Re-runnable.
 #
 #   powershell -ExecutionPolicy Bypass -File windows\apps.ps1
@@ -21,17 +21,14 @@ $apps = [ordered]@{
 
 # --- shortcuts ---
 $wsh = New-Object -ComObject WScript.Shell
-$desktop = [Environment]::GetFolderPath('Desktop')
 $startMenu = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs"
 foreach ($name in '4coder', 'File Pilot', 'RAD Debugger', 'Alacritty', 'Emacs', 'Neovide') {
     $exe = $apps[$name]
     if (-not $exe) { "skip shortcut: $name not found"; continue }
-    foreach ($dir in $desktop, $startMenu) {
-        $lnk = $wsh.CreateShortcut("$dir\$name.lnk")
-        $lnk.TargetPath = $exe
-        $lnk.WorkingDirectory = if ($name -eq 'Alacritty') { $HOME } else { Split-Path $exe }
-        $lnk.Save()
-    }
+    $lnk = $wsh.CreateShortcut("$startMenu\$name.lnk")
+    $lnk.TargetPath = $exe
+    $lnk.WorkingDirectory = if ($name -eq 'Alacritty') { $HOME } else { Split-Path $exe }
+    $lnk.Save()
     "shortcut: $name -> $exe"
 }
 
