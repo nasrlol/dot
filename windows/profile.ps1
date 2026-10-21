@@ -58,6 +58,15 @@ function memory {
     }
 }
 
+# MSVC (cl, link) for this shell, like the "x64 Native Tools" prompt
+function vcvars {
+    $installer = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer"
+    if (($env:PATH -split ';') -notcontains $installer) { $env:PATH += ";$installer" }  # VsDevCmd calls vswhere
+    $vs = vswhere -latest -products * -property installationPath
+    Import-Module "$vs\Common7\Tools\Microsoft.VisualStudio.DevShell.dll"
+    Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64' | Out-Null
+}
+
 # --- prompt: "user path $ " ---
 function prompt { "$env:USERNAME $($PWD.Path.Replace($HOME, '~')) $ " }
 

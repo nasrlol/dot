@@ -40,7 +40,7 @@ foreach ($name in '4coder', 'File Pilot', 'RAD Debugger', 'Alacritty', 'Emacs', 
 function Run($keys, $exe) {
     [ordered]@{
         originalKeys = $keys; exactMatch = $false; operationType = 1
-        runProgramFilePath = $exe; runProgramArgs = ''; runProgramStartInDir = (Split-Path $exe)
+        runProgramFilePath = $exe; runProgramArgs = ''; runProgramStartInDir = $HOME
         runProgramElevationLevel = 0; runProgramAlreadyRunningAction = 0; runProgramStartWindowType = 0
         newRemapKeys = ''; unicodeText = '*Unsupported*'
     }
@@ -93,4 +93,24 @@ if ($s.enabled) {
     Write-Json $pt ($s | ConvertTo-Json -Depth 10 -Compress)
 } else { "PowerToys settings not found: enable Keyboard Manager in PowerToys Settings" }
 $exe = Find-Exe "$env:LOCALAPPDATA\PowerToys\PowerToys.exe", "$programs\PowerToys\PowerToys.exe", "$env:ProgramFiles\PowerToys\PowerToys.exe"
-if ($exe) { Start-Process $exe; "restarted PowerToys" }
+# Launch through Explorer: hotkey-started apps inherit PowerToys' environment,
+# and Explorer's is the one that tracks PATH changes.
+if ($exe) { Start-Process explorer.exe "`"$exe`""; "restarted PowerToys" }
+
+# --- Open-Shell replaces the Windows start menu (Win key + Start button) ---
+$os = "$env:ProgramFiles\Open-Shell\StartMenu.exe"
+if (Test-Path $os) {
+    $reg = 'HKCU:\Software\OpenShell\StartMenu\Settings'
+    if (-not (Test-Path $reg)) { New-Item $reg -Force | Out-Null }
+    Set-ItemProperty $reg MenuStyle 'Win7'
+    Set-ItemProperty $reg SkinW7 'Midnight'
+    Set-ItemProperty $reg SkipMetro 1                 # no "Start Screen" on login
+    Set-ItemProperty $reg WinKey 'OpenShell'          # Win key opens Open-Shell
+    Set-ItemProperty $reg MouseClick 'OpenShell'      # so does the Start button
+    Set-ItemProperty $reg ShiftWin 'WindowsMenu'      # Shift+Win: the stock menu
+    Set-ItemProperty $reg EnableStartButton 1
+    & $os -exit
+    Wait-Process StartMenu -Timeout 10 -ErrorAction SilentlyContinue
+    Start-Process explorer.exe "`"$os`""
+    "open-shell: Win7 style, Midnight skin"
+}
