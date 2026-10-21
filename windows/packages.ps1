@@ -1,7 +1,7 @@
 # Windows counterpart of packages/world: every third-party program lives in
 # C:\Programs\<Name>; winget's portable CLI tools in C:\Programs\WinGet.
 # Programs found anywhere else are reinstalled into place. Ends with a full
-# upgrade. Microsoft software (PowerShell, PowerToys, Build Tools) stays put.
+# upgrade. Apps that manage their own location ($selfManaged) stay put.
 #
 #   powershell -ExecutionPolicy Bypass -File windows\packages.ps1
 $Root = 'C:\Programs'
@@ -25,15 +25,16 @@ $direct = [ordered]@{
     'Alacritty' = 'Alacritty.Alacritty', 'https://github.com/alacritty/alacritty/releases/download/v0.17.0/Alacritty-v0.17.0-portable.exe', 'alacritty.exe'
     'NASM'      = 'NASM.NASM', 'https://www.nasm.us/pub/nasm/releasebuilds/3.02/win64/nasm-3.02-win64.zip', 'nasm.exe'
     'Emacs'     = 'GNU.Emacs', 'https://ftp.gnu.org/gnu/emacs/windows/emacs-31/emacs-31.1-UCRT64.zip', 'bin\runemacs.exe'
-    # self-installs to AppData otherwise; the download is the whole program
-    'TaskSlinger' = 'TaskSlinger.TaskSlinger', 'https://taskslinger.net/download/v0.9.4/winget/x64.exe', 'taskslinger.exe'
     # zip holds one versioned exe; "portable" in the name keeps settings next to it
     'grepWin'     = 'StefansTools.grepWin', 'https://github.com/stefankueng/grepWin/releases/download/2.1.12/grepWin-x64-2.1.12_portable.zip', 'grepWin_portable.exe'
 }
 $portables = 'junegunn.fzf', 'BurntSushi.ripgrep.MSVC', 'sharkdp.fd', 'ajeetdsouza.zoxide', 'dandavison.delta',
     'JesseDuffield.lazygit', 'direnv.direnv', 'sxyazi.yazi', 'Fastfetch-cli.Fastfetch', 'aristocratos.btop4win',
     'koalaman.shellcheck', 'JohnnyMorganz.StyLua', 'AlDanial.Cloc'
-$microsoft = 'Microsoft.PowerShell', 'Microsoft.PowerToys', 'Microsoft.VisualStudio.2022.BuildTools', 'Rustlang.Rustup'
+# Installed wherever they choose: Microsoft's own, rustup (~/.cargo), and
+# TaskSlinger, which reinstalls itself to AppData\Local\Programs when run from elsewhere
+$selfManaged = 'Microsoft.PowerShell', 'Microsoft.PowerToys', 'Microsoft.VisualStudio.2022.BuildTools', 'Rustlang.Rustup',
+    'TaskSlinger.TaskSlinger'
 
 function Installed($id) { winget list --id $id --exact --disable-interactivity | Out-String | Select-String -Quiet -SimpleMatch $id }
 function Find-In($dir, $exe) {
@@ -116,7 +117,7 @@ if ((Test-Path "$Root\FilePilot\FPilot.exe") -and (Installed 'Voidstar.FilePilot
     else { 'removed  winget copy of File Pilot (kept C:\Programs\FilePilot)' }
 }
 
-foreach ($id in $microsoft) {
+foreach ($id in $selfManaged) {
     if (Installed $id) { continue }
     $extra = if ($id -like '*BuildTools') { '--override', '--wait --passive --norestart --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended' } else { @() }
     winget install --id $id @common @extra | Out-Null

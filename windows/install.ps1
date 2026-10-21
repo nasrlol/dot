@@ -21,7 +21,7 @@ $want = @(
     "$programs\Alacritty"
     "$programs\4coder"
     "$programs\raddbg"
-    "$programs\TaskSlinger"
+    "$env:LOCALAPPDATA\Programs\TaskSlinger"   # self-managed, see packages.ps1
     "$programs\grepWin"
     "$programs\NASM"
     "$HOME\.local\bin"

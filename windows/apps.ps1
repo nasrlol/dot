@@ -17,7 +17,7 @@ $apps = [ordered]@{
     'Emacs'        = Find-Exe "$programs\Emacs\bin\runemacs.exe", "$programs\Emacs\*\bin\runemacs.exe"
     'Neovide'      = Find-Exe "$programs\Neovide\neovide.exe"
     'Firefox'      = Find-Exe "$programs\Firefox\firefox.exe"
-    'TaskSlinger'  = Find-Exe "$programs\TaskSlinger\taskslinger.exe"
+    'TaskSlinger'  = Find-Exe "$env:LOCALAPPDATA\Programs\TaskSlinger\taskslinger.exe"   # self-managed
     'grepWin'      = Find-Exe "$programs\grepWin\grepWin_portable.exe"
 }
 
