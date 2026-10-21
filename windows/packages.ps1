@@ -101,6 +101,21 @@ foreach ($name in $direct.Keys) {
     "{0,-8} {1} -> {2}" -f $(if ($hit) { 'moved' } else { 'FAILED' }), $name, $(if ($hit) { $hit.FullName } else { $dir })
 }
 
+# Windows 10's inbox ConPTY garbles terminal query replies (nvim: E1568, stray
+# "+q4D73"); Alacritty uses Microsoft's newer one when it sits next to it
+if (-not (Test-Path "$Root\Alacritty\conpty.dll")) {
+    $nuget = 'https://api.nuget.org/v3-flatcontainer/microsoft.windows.console.conpty'
+    $v = (Invoke-RestMethod "$nuget/index.json").versions | Where-Object { $_ -notmatch '-' } | Select-Object -Last 1
+    $tmp = Join-Path $env:TEMP 'conpty'
+    Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
+    New-Item -ItemType Directory $tmp | Out-Null
+    $ProgressPreference = 'SilentlyContinue'
+    Invoke-WebRequest "$nuget/$v/microsoft.windows.console.conpty.$v.nupkg" -OutFile "$tmp\conpty.zip" -UseBasicParsing
+    Expand-Archive "$tmp\conpty.zip" "$tmp\x"
+    Copy-Item "$tmp\x\runtimes\win-x64\native\conpty.dll", "$tmp\x\build\native\runtimes\x64\OpenConsole.exe" "$Root\Alacritty" -Force
+    "added    ConPTY $v for Alacritty"
+}
+
 # --- portable CLI tools ---
 foreach ($id in $portables) {
     $pkg = Get-Item "$Root\WinGet\$id*" -ErrorAction SilentlyContinue
