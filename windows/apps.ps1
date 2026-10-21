@@ -74,8 +74,9 @@ $config = [ordered]@{
 }
 function Write-Json($path, $text) { [IO.File]::WriteAllText($path, $text, (New-Object Text.UTF8Encoding $false)) }
 
-# PowerToys keeps its settings open, so stop it while writing
-Get-Process PowerToys* -ErrorAction SilentlyContinue | Stop-Process -Force
+# PowerToys (and Command Palette, which rewrites its settings on exit) keep
+# their settings open, so stop them while writing
+Get-Process PowerToys*, Microsoft.CmdPal.UI -ErrorAction SilentlyContinue | Stop-Process -Force
 Start-Sleep 2
 
 Write-Json "$kbm\default.json" ($config | ConvertTo-Json -Depth 6)
@@ -92,6 +93,38 @@ if ($s.enabled) {
     $s | Add-Member -Force NoteProperty show_tray_icon $false   # settings: Start menu > PowerToys
     Write-Json $pt ($s | ConvertTo-Json -Depth 10 -Compress)
 } else { "PowerToys settings not found: enable Keyboard Manager in PowerToys Settings" }
+
+# --- Command Palette: dark, and a top dock like waybar (home + winget left;
+# cpu/mem, network, clock right). Per-monitor MonitorConfigs is left to it.
+function Band($provider, $command, $titles = $null) {
+    [ordered]@{ ProviderId = $provider; CommandId = $command; ShowTitles = $titles; ShowSubtitles = $null }
+}
+$cmdpal = @{
+    Hotkey            = [ordered]@{ win = $true; ctrl = $false; alt = $true; shift = $false; code = 32; key = '' }   # Win+Alt+Space (Win+P above)
+    Theme             = 'Dark'
+    BackdropStyle     = 'Acrylic'
+    DisableAnimations = $true
+    SummonOn          = 'ToMouse'
+    EnableDock        = $true
+    DockSettings      = [ordered]@{
+        Side = 'Top'; DockSize = 'Default'; AlwaysOnTop = $true; AutoHide = $false
+        Backdrop = 'Transparent'; Theme = 'Default'; ColorizationMode = 'None'; ShowLabels = $true
+        StartBands  = @((Band 'com.microsoft.cmdpal.builtin.core' 'com.microsoft.cmdpal.home'), (Band 'WinGet' 'com.microsoft.cmdpal.winget' $false))
+        CenterBands = @()
+        EndBands    = @((Band 'PerformanceMonitor' 'com.microsoft.cmdpal.performanceWidget'),
+                        (Band 'PerformanceMonitor' 'com.microsoft.cmdpal.performanceWidget.networkSpeed'),
+                        (Band 'com.microsoft.cmdpal.builtin.datetime' 'com.microsoft.cmdpal.timedate.dockBand'))
+    }
+}
+$cp = "$env:LOCALAPPDATA\Packages\Microsoft.CommandPalette_8wekyb3d8bbwe\LocalState"
+if (Test-Path (Split-Path $cp)) {
+    New-Item -ItemType Directory -Force $cp | Out-Null
+    $c = if (Test-Path "$cp\settings.json") { Get-Content "$cp\settings.json" -Raw | ConvertFrom-Json } else { New-Object PSObject }
+    foreach ($k in $cmdpal.Keys) { $c | Add-Member -Force NoteProperty $k $cmdpal[$k] }
+    Write-Json "$cp\settings.json" ($c | ConvertTo-Json -Depth 20)
+    'command palette: dark, top dock'
+}
+
 $exe = Find-Exe "$env:LOCALAPPDATA\PowerToys\PowerToys.exe", "$programs\PowerToys\PowerToys.exe", "$env:ProgramFiles\PowerToys\PowerToys.exe"
 # Launch through Explorer: hotkey-started apps inherit PowerToys' environment,
 # and Explorer's is the one that tracks PATH changes.

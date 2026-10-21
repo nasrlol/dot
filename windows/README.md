@@ -19,7 +19,7 @@ irm https://raw.githubusercontent.com/nasrlol/dot/windows/windows/bootstrap.ps1 
 |---|---|---|
 | `packages.ps1` | installs/moves every program into `C:\Programs`, then `winget upgrade --all` | UAC prompts per app |
 | `install.ps1` | links configs (like `stow`), env vars, PATH, fonts, ssh/git shims, PowerShell profile | no |
-| `apps.ps1` | Start Menu shortcuts, PowerToys hotkeys, Open-Shell look | no |
+| `apps.ps1` | Start Menu shortcuts, PowerToys hotkeys, Command Palette dock, Open-Shell look | no |
 | `desktop.ps1` | niri theme, Bibata cursor, empty taskbar | no |
 | `build-4coder.ps1` | builds 4coder (upstream core + the byp layer) into `C:\Programs\4coder` | no |
 
@@ -84,6 +84,9 @@ suckless, greetd, `system/`, Gentoo package list.
   flat Windows 10 button. Shift+Win opens the stock menu.
 - **Desktop:** empty; shortcuts live in the Start Menu only.
 - **PowerToys:** Keyboard Manager on, tray icon hidden, Command Palette on Win+Alt+Space.
+- **Command Palette dock** (like waybar): top, transparent, always on top; home and
+  WinGet on the left, CPU/memory, network speed and clock on the right. Dark
+  palette with acrylic backdrop, no animations, opens at the mouse.
 
 ## Hotkeys (niri `Mod` = Win)
 
