@@ -6,6 +6,7 @@
 *.rej
 *~
 *.bak
+*.bak-*
 *.swp
 __pycache__/
 \#*\#
@@ -21,6 +22,7 @@ emacs/.config/emacs/transient/
 emacs/.config/emacs/tramp
 emacs/.config/emacs/projects
 emacs/.config/emacs/semanticdb/
+emacs/.config/emacs/multisession/
 emacs/.config/emacs/ede-projects.el
 tmux/.config/tmux/plugins/
 lazygit/.config/lazygit/state.yml
@@ -30,3 +32,6 @@ lazygit/.config/lazygit/state.yml
 **/local.kdl
 git/.config/git/local
 .host
+
+# Halloy SASL password files
+halloy/.config/halloy/*.pass
