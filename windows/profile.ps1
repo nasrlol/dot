@@ -80,7 +80,8 @@ if (Get-Module -ListAvailable PSReadLine) {
     }
     # Inline suggestions need PSReadLine 2.1+ (pwsh 7; 5.1 ships 2.0)
     if ((Get-Module PSReadLine).Version -ge [version]'2.1') {
-        Set-PSReadLineOption -PredictionSource History -Colors @{ InlinePrediction = '#5a4a38' }
+        # fails when output is redirected (scripts, CI); fine to skip there
+        try { Set-PSReadLineOption -PredictionSource History -Colors @{ InlinePrediction = '#5a4a38' } -ErrorAction Stop } catch {}
         Set-PSReadLineKeyHandler -Chord Ctrl+f -ViMode Insert -Function AcceptSuggestion
     }
     Set-PSReadLineKeyHandler -Chord Ctrl+e -ViMode Insert -Function ViEditVisually
