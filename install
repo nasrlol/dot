@@ -84,9 +84,10 @@ stow $dry --dir "$dots" --target "$HOME" --restow $pkgs
 # 4coder reads its config from next to the binary, not from $HOME.
 fcoder=/opt/4coder/build
 if [ -z "$dry" ] && [ -d "$fcoder" ]; then
-	ln -sf "$dots/4coder/config.4coder" "$fcoder/config.4coder"
-	[ -L "$fcoder/themes" ] || { [ -d "$fcoder/themes" ] && rm -r "$fcoder/themes"; } || true
-	ln -sfn "$dots/4coder/themes" "$fcoder/themes"
+	# Hard links, so the files stay plain files in the 4coder repo too.
+	ln -f "$dots/4coder/config.4coder" "$fcoder/config.4coder"
+	mkdir -p "$fcoder/themes"
+	ln -f "$dots"/4coder/themes/* "$fcoder/themes/"
 fi
 
 if [ "$system" = 1 ]; then
