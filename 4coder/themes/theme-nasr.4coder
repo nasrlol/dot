@@ -1,0 +1,78 @@
+defcolor_back                       =  0xFF111111;
+defcolor_back_cycle                 = {0x08C4A882, 0x0CC4A882};
+
+defcolor_margin                     =  0xFF1A1208;
+defcolor_margin_hover               =  0xFF3D2B1A;
+defcolor_margin_active              =  defcolor_margin_hover;
+defcolor_list_item                  = {defcolor_margin, defcolor_back};
+defcolor_list_item_hover            = {defcolor_margin_hover, defcolor_margin};
+defcolor_list_item_active           = {defcolor_margin_active, defcolor_margin_active};
+
+defcolor_cursor                     = { 0xFFC4A882, 0xFFB86030 };
+
+defcolor_at_cursor                  = 0xFF111111;
+
+nasr_vim_cursor_normal              = 0xFFfaAA2A;
+nasr_vim_cursor_insert              = 0xFFf0a882;
+
+nasr_vim_cursor_visual              = 0xFFC48050;
+
+nasr_mark_color                     = 0xFF8A0000;
+nasr_cursor_inactive                = 0x33999999;
+
+defcolor_highlight_cursor_line      = 0xFF1A1610;
+
+defcolor_mark                       = 0xFF8B7355;
+defcolor_highlight                  = 0x883A0A00;
+defcolor_at_highlight               = 0xFFD9C6A5;
+
+
+defcolor_text_default               =  0xFFC4A882;
+defcolor_text_cycle                 = {0xFFC4A882, 0xFFC4A882, 0xFFC4A882, 0xFFC4A882};
+
+defcolor_comment                    =  0xFFC4A882;
+defcolor_comment_pop                = {0xFFC4A882, 0xFFC4A882};
+
+defcolor_str_constant               =  0xFFB86030;
+defcolor_char_constant              =  defcolor_str_constant;
+
+defcolor_include                    =  defcolor_str_constant;
+defcolor_int_constant               =  0xFFC4A882;
+
+defcolor_float_constant             =  defcolor_int_constant;
+defcolor_bool_constant              =  defcolor_int_constant;
+defcolor_preproc                    =  0xFFC4A882;
+defcolor_special_character          =  0xFFC4A882;
+defcolor_ghost_character            =  0xFF3D2B1A;
+
+defcolor_paste                      =  0xFF7A5A40;
+defcolor_undo                       =  0xFF8C4A2A;
+
+defcolor_highlight_junk             =  0xFF3A0A00;
+defcolor_highlight_white            =  0xFF2A1D10;
+
+defcolor_line_numbers_back          =  0xFF111111;
+defcolor_line_numbers_text          =  0xFF6B5A45;
+
+defcolor_type                       = 0xFFC4A882;
+defcolor_keyword                    = 0xFFC4A882;
+defcolor_struct                     = defcolor_type;
+defcolor_primitive                  = defcolor_type;
+defcolor_enum                       = defcolor_int_constant;
+defcolor_global                     = defcolor_text_default;
+defcolor_control                    = defcolor_keyword;
+defcolor_function                   = 0xFFC4A882;
+defcolor_macro                      = defcolor_keyword;
+defcolor_non_text                   = 0xFF6B5A45;
+
+defcolor_vim_filebar_pop            =  0xFFc4a882;
+defcolor_bar                        =  0xFFc4a882;
+defcolor_base                       =  0xFF111111;
+defcolor_pop1                       =  0xFFC48050;
+defcolor_pop2                       =  0xFF8C4A2A;
+
+
+
+defcolor_vim_chord_text             =  defcolor_text_default;
+defcolor_vim_chord_unresolved       =  defcolor_mark;
+defcolor_vim_chord_error            =  0xFFC48050;
