@@ -49,6 +49,30 @@
         mu4e-headers-date-format "%Y-%m-%d"
         mu4e-compose-format-flowed t)
 
+  ;; one bookmark per mailing list, found from the List-Id headers mu has indexed;
+  ;; runs before the mu server starts, so new lists show up on the next mu4e launch
+  (defun nasr/mu4e-list-bookmarks ()
+    (let* ((ids (seq-uniq
+                 (seq-remove (lambda (id) (string-match-p "example\\.org\\'" id))
+                             (ignore-errors
+                               (process-lines "mu" "find" "list:/.+/" "--fields" "v")))))
+           (ids (sort ids (lambda (a b)
+                            (string< (nasr/mu4e-list-name a) (nasr/mu4e-list-name b)))))
+           (used (mapcar (lambda (bm) (plist-get bm :key)) mu4e-bookmarks))
+           (keys (seq-remove (lambda (k) (memq k used))
+                             (string-to-list "abcdefghjkmnopqrsvwxyz0123456789"))))
+      (seq-mapn (lambda (id key)
+                  (list :name (concat "  " (nasr/mu4e-list-name id))
+                        :query (format "list:%s AND NOT flag:trashed" id)
+                        :key key))
+                ids keys)))
+
+  (defun nasr/mu4e-list-name (id)
+    "rust-for-linux.vger.kernel.org -> rust-for-linux, ~mpu/qbe.lists.sr.ht -> qbe."
+    (car (split-string (file-name-nondirectory id) "\\.")))
+
+  (setq mu4e-bookmarks (append mu4e-bookmarks (nasr/mu4e-list-bookmarks)))
+
   ;; sending through msmtp
   (setq send-mail-function 'message-send-mail-with-sendmail
         message-send-mail-function 'message-send-mail-with-sendmail
