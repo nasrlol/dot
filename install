@@ -55,6 +55,10 @@ stow $dry --dir "$dots" --target "$HOME" --restow $pkgs
 # Firefox profiles have random names, so chrome/ is linked by a script.
 [ -n "$dry" ] || ./firefox/link
 
+# 4coder reads its config from next to the binary, not from $HOME.
+fcoder=/opt/4coder/build
+[ -n "$dry" ] || [ ! -d "$fcoder" ] || ln -sf "$dots/4coder/config.4coder" "$fcoder/config.4coder"
+
 if [ "$system" = 1 ]; then
 	find system -type f -not -name '*.tmpl' | while read -r f; do
 		echo "installing /${f#system/}"
