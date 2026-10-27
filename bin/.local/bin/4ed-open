@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# Pick a project dir with fuzzel and open its whole workspace:
+#   dev       4coder (2/3) | ghostty attached to the project's tmux session (1/3)
+#   debugger  raddbg with the project's project.raddbg
+# Pieces that are already open are reused: a running 4coder for the project is
+# focused, a tmux session that already has a terminal attached gets no second
+# one, and raddbg goes through the project's debug.sh when it has one (so it
+# shares the per-project IPC port with the F-key commands).
+# Lists every dir under ~/dev that has a project.4coder, plus the top-level ~/dev dirs.
+# You can also type any path (e.g. ~/foo) and hit enter.
+
+set -euo pipefail
+
+FCODER=/opt/4coder/build/4ed
+RADDBG=/opt/raddbg/raddbg
+
+list() {
+    {
+        find "$HOME/dev" -maxdepth 3 -name project.4coder -not -path '*/custom/*' -printf '%h\n' 2>/dev/null
+        find "$HOME/dev" -mindepth 1 -maxdepth 1 -type d -not -name '.*' 2>/dev/null
+    } | sed "s|^$HOME|~|" | sort -u
+}
+
+choice=$(list | fuzzel --dmenu --prompt '4ed ' ) || exit 0
+[ -n "$choice" ] || exit 0
+
+dir="${choice/#\~/$HOME}"
+if [ ! -d "$dir" ]; then
+    notify-send 4coder "not a directory: $dir"
+    exit 1
+fi
+cd "$dir"
+
+# same session naming as tmux-session-switcher
+session=$(basename "$dir" | tr '.:' '__')
+# 4coder titles its window "4coder project: <project_name>"
+project_name=$(sed -n 's/^project_name *= *"\(.*\)";.*/\1/p' project.4coder 2>/dev/null || true)
+
+window_ids() { niri msg --json windows | jq -c '[.[].id]'; }
+
+# Wait for a window whose app_id matches $1 that wasn't in the id list $2.
+new_window() {
+    local id
+    for _ in $(seq 50); do
+        id=$(niri msg --json windows | jq -r --arg re "$1" --argjson old "$2" '
+            [.[] | select((.app_id // "") | test($re; "i")) | select(.id as $i | $old | index($i) | not)]
+            | max_by(.id) | .id // empty')
+        [ -n "$id" ] && { echo "$id"; return; }
+        sleep 0.1
+    done
+    return 1
+}
+
+before=$(window_ids)
+
+# 4coder: focus the project's window if it's already open
+coder=""
+if [ -n "$project_name" ]; then
+    coder=$(niri msg --json windows | jq -r --arg t "4coder project: $project_name" \
+        'first(.[] | select(.title == $t) | .id) // empty')
+fi
+if [ -z "$coder" ]; then
+    setsid -f "$FCODER" >/dev/null 2>&1 </dev/null
+    coder=$(new_window '^(4coder|4ed)$' "$before") || coder=""
+fi
+
+# terminal: only if no client is attached to the project's session yet
+term=""
+if [ -z "$(tmux list-clients -t "=$session" 2>/dev/null)" ]; then
+    ghostty +new-window --working-directory="$dir" -e tmux new-session -A -s "$session" -c "$dir"
+    term=$(new_window 'ghostty' "$before") || term=""
+fi
+
+# debugger: C/C++ projects only (the ones 4coder or raddbg already know about)
+if [ -x debug.sh ]; then
+    ./debug.sh open >/dev/null 2>&1 || true
+elif [ -f project.raddbg ] || [ -f project.4coder ]; then
+    pgrep -u "$USER" -f -- "--project:$dir/project.raddbg" >/dev/null ||
+        setsid -f "$RADDBG" --project:"$dir/project.raddbg" >/dev/null 2>&1 </dev/null
+fi
+
+# layout: terminal tiled next to 4coder on dev, editor gets the wide column
+if [ -n "$term" ]; then
+    niri msg action move-window-to-tiling --id "$term"
+    niri msg action move-window-to-workspace --window-id "$term" dev
+    niri msg action set-window-width --id "$term" 33.333%
+fi
+if [ -n "$coder" ]; then
+    niri msg action set-window-width --id "$coder" 66.667%
+    niri msg action focus-window --id "$coder"
+fi

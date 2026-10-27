@@ -1,0 +1,8 @@
+#!/bin/sh
+# Restart waybar cleanly inside niri's session environment with custom fonts.conf.
+# Preserves MPRIS/playerctl media discovery and monochrome emoji palette.
+set -eu
+
+pkill -x waybar || true
+sleep 0.2
+niri msg action spawn -- sh -c 'FONTCONFIG_FILE=~/.config/waybar/fonts.conf exec waybar'

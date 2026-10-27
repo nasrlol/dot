@@ -1,0 +1,17 @@
+# Actions for the fuzzel command palette (palette, Mod+Space in niri).
+# One per line: <label><TAB><shell command>. Blank lines and # comments are skipped.
+# Commands run detached via bash -c; wrap terminal programs in `term`, which
+# opens a ghostty window and keeps it open until you press enter.
+
+open project	4ed-open
+jump to window	niri-window-jump
+checkpoint dirty repos	term checkpoint-select
+dotfiles in lazygit	ghostty +new-window -e lazygit -p ~/dotfiles
+last build log	ghostty +new-window -e less -R +G ~/.local/state/build/log
+mail	emacsclient -c -a '' -e '(mu4e)'
+todo	emacsclient -c -a '' ~/todo.txt
+toggle theme	~/dotfiles/theme/switch
+restart waybar	waybar-restart
+dismiss notifications	makoctl dismiss --all
+btrfs maintenance	term btrfs-maint
+lock screen	~/.config/swaylock/lock

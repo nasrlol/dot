@@ -1,9 +1,9 @@
 # Generated from colors.conf.tmpl by theme/gen. Do not edit colors.conf.
 set -g status-style                 bg={{fg}},fg={{fg_dim}}
-set -g status-left                  '#[fg={{bg}},bold]#S '
+set -g status-left                  '#{?client_prefix,#[bg={{rust}}#,fg={{bg}}#,bold] PREFIX #[default] ,}#[fg={{bg}},bold]#S '
 set -g status-right                 '#[fg={{bg}}]%d.%m. %H:%M'
 set -g window-status-format         "#[fg={{bg}}]#I:#W"
-set -g window-status-current-format "#[fg={{bg}},bold](#I:#W)"
+set -g window-status-current-format "#[fg={{bg}},bold](#I:#W#{?window_zoomed_flag, Z,})"
 set -g pane-border-style            fg={{border_dim}}
 set -g pane-active-border-style     fg={{border}}
 set -g mode-style                   bg={{border}},fg={{fg}}

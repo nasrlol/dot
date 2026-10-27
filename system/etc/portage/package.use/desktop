@@ -1,0 +1,14 @@
+# Asahi audio / firmware / kernel toolchain requirements
+media-video/pipewire lv2 extra
+dev-lang/rust rust-src
+net-libs/gnutls pkcs11
+sys-fs/squashfs-tools zstd
+
+# Desktop & document apps (gimp, zathura, vscode, printing)
+app-text/poppler cairo
+media-libs/babl lcms
+media-libs/gegl lcms cairo
+x11-libs/gdk-pixbuf jpeg
+media-libs/vulkan-loader X
+app-crypt/gcr:0 gtk
+app-text/ghostscript-gpl cups

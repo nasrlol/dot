@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Command palette: one fuzzel list for every action, document and tutorial.
+#   actions    ~/.config/palette/actions (label<TAB>command, edit to add more)
+#   read       PDFs under ~/Documents and ~/school, opened in zathura
+#   notes      .md/.txt under ~/Documents and ~/school, opened in emacs
+# Bound to Mod+Space in niri.
+set -euo pipefail
+
+actions=${XDG_CONFIG_HOME:-$HOME/.config}/palette/actions
+
+# term CMD...: run CMD in a new ghostty window that stays open until enter
+term() { printf 'ghostty +new-window -e sh -c %q' "$* ; printf \"\\n[done, enter to close]\"; read _"; }
+
+entries() {
+    grep -vE '^\s*(#|$)' "$actions" | while IFS=$'\t' read -r label cmd; do
+        [[ $cmd == "term "* ]] && cmd=$(term "${cmd#term }")
+        printf '%s\t%s\n' "$label" "$cmd"
+    done
+    find "$HOME/Documents" "$HOME/school" -type f -name '*.pdf' 2>/dev/null | sort |
+        while read -r f; do printf 'read  %s\tzathura %q\n' "${f#"$HOME"/}" "$f"; done
+    find "$HOME/Documents" "$HOME/school" -type f \( -name '*.md' -o -name '*.txt' \) 2>/dev/null | sort |
+        while read -r f; do printf 'notes %s\temacsclient -c -a %q %q\n' "${f#"$HOME"/}" '' "$f"; done
+}
+
+cmd=$(entries | fuzzel --dmenu --with-nth=1 --accept-nth=2 --placeholder="action, document or note") || exit 0
+[ -n "$cmd" ] || exit 0
+setsid -f bash -c "$cmd" >/dev/null 2>&1 </dev/null

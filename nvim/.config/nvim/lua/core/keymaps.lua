@@ -16,10 +16,11 @@ map("n", "<C-Down>",  "<cmd>resize -2<cr>",          { desc = "Decrease height" 
 map("n", "<C-Left>",  "<cmd>vertical resize +2<cr>", { desc = "Decrease width" })
 map("n", "<C-Right>", "<cmd>vertical resize -2<cr>", { desc = "Increase width" })
 
-map("n", "<C-h>", "<C-w>h", { desc = "Window left" })
-map("n", "<C-j>", "<C-w>j", { desc = "Window down" })
-map("n", "<C-k>", "<C-w>k", { desc = "Window up" })
-map("n", "<C-l>", "<C-w>l", { desc = "Window right" })
+-- vim-tmux-navigator: same keys cross into tmux panes at the edge
+map("n", "<C-h>", "<cmd>TmuxNavigateLeft<cr>",  { desc = "Window left" })
+map("n", "<C-j>", "<cmd>TmuxNavigateDown<cr>",  { desc = "Window down" })
+map("n", "<C-k>", "<cmd>TmuxNavigateUp<cr>",    { desc = "Window up" })
+map("n", "<C-l>", "<cmd>TmuxNavigateRight<cr>", { desc = "Window right" })
 
 map("n", "<leader>v", "<cmd>vsplit<cr>",  { desc = "Vertical split" })
 map("n", "<leader>h", "<cmd>split<cr>",   { desc = "Horizontal split" })

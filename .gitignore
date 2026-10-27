@@ -32,6 +32,12 @@ lazygit/.config/lazygit/state.yml
 **/local.kdl
 git/.config/git/local
 .host
+ghostty/.config/ghostty/host.conf
 
 # Halloy SASL password files
 halloy/.config/halloy/*.pass
+emacs/.config/emacs/ido.last
+emacs/.config/emacs/smex-items
+emacs/.config/emacs/speed-type/
+emacs/.config/emacs/tree-sitter/
+emacs/.config/emacs/url/

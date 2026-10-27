@@ -35,9 +35,11 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias build="./build.sh"
 alias bl="./build.sh > log.txt 2>&1"
+alias sqlplus="rlwrap sqlplus elmorabita@orcl"
+
 
 # gentoo start
-alias start="dbus-run-session niri"
+alias start="dbus-run-session niri --session"
 
 memory() {
     while true
@@ -49,6 +51,7 @@ memory() {
 
 
 
-PROMPT='%n %~ $ '
+PROMPT="%n %~ $ "
 
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/share/cargo/bin:$PATH"

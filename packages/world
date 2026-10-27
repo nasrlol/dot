@@ -41,7 +41,7 @@ gui-apps/swaylock-effects
 gui-apps/tuigreet
 gui-apps/waybar
 gui-apps/wl-clipboard
-gui-apps/wofi
+gui-apps/fuzzel
 gui-apps/xwayland-satellite
 gui-libs/greetd
 gui-wm/niri

@@ -3,7 +3,6 @@ fzf.setup({
     multiprocess = true,
     fzf_opts = {
         ["--layout"] = "reverse",
-        ["--sync"] = "",
         ["--no-scrollbar"] = "",
         ["--info"] = "hidden",
         ["--keep-right"] = "",

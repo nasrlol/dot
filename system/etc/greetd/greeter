@@ -13,13 +13,17 @@ if [ "${TERM:-linux}" = linux ]; then
 	printf '\033]P47a8b99\033]P5a86a5a\033]P67f998a\033]P7c4a882'
 	printf '\033]P85a4a38\033]P9dc4a20\033]PAa3a85a\033]PBf0a030'
 	printf '\033]PC95a6b3\033]PDc08070\033]PE9ab5a5\033]PFd9c6a5'
-	printf '\033[2J\033[H'
+	printf '\033[3J\033[2J\033[H'
 fi
 
 exec tuigreet \
 	--time --time-format '%a %d %b  %H:%M' \
-	--remember --asterisks \
-	--greeting 'gentoo / niri' \
-	--width 60 --window-padding 2 --container-padding 2 \
-	--cmd 'dbus-run-session niri --session' \
+	--remember --remember-session \
+	--asterisks --asterisks-char '•' \
+	--greeting 'gentoo / niri' --greet-align center \
+	--width 60 --window-padding 2 --container-padding 2 --prompt-padding 1 \
+	--sessions /usr/share/wayland-sessions \
+	--cmd 'niri --session' \
+	--power-shutdown 'sudo /usr/sbin/poweroff' \
+	--power-reboot 'sudo /usr/sbin/reboot' \
 	--theme 'container=black;border=yellow;title=lightyellow;greet=gray;text=gray;time=darkgray;prompt=yellow;input=white;action=darkgray;button=red'

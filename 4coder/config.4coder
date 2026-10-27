@@ -20,7 +20,7 @@ enable_output_wrapping                    = true;
 enable_undo_fade_out                      = true;
 
 cursor_roundness                          = 0;  // 0-50
-mark_thickness                            = 3;
+mark_thickness                            = 5;
 lister_roundness                          = 0;   // 0-50
 
 f4_disable_cursor_trails                  = false;
@@ -48,7 +48,8 @@ default_font_hinting                      = true;
 default_theme_name                        = "theme-nasr";
 default_font_name                         = "liberation-mono.ttf";
 
-default_font_size                         = 24 ;
+default_font_size                         = 24
+;
 
 //- dont care
 

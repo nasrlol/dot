@@ -2,7 +2,7 @@
 include default
 niri
 waybar
-wofi
+fuzzel
 foot
 seergdb
 gf2
@@ -16,3 +16,6 @@ btop
 zathura
 halloy
 4coder
+raddbg
+gtk
+mako
