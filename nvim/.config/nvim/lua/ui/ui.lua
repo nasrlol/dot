@@ -1,8 +1,11 @@
 -- h11 for the 1080p monitor on san-giminiano, h24 for the Asahi panel
 o.guifont = vim.fn.hostname() == "san-giminiano" and "comic mono:h11" or "comic mono:h24"
 
+-- Never switch cursor shape per mode; in a terminal "" leaves the terminal's own cursor alone
+opt.guicursor = ""
+
 if vim.g.neovide then
-    opt.guicursor = "n-v-c:block-Cursor,i-ci:vline10-Cursor-blinkon100,r-cr:hor20-Cursor"
+    opt.guicursor = "a:block-Cursor"
 
     g.neovide_theme        = "dark"
     g.neovide_scale_factor = 1
