@@ -36,6 +36,8 @@ output "Philips Consumer Electronics Company PHL 273V7 UHB1751015164" {
 
 environment {
     QT_SCALE_FACTOR "1.5"
+    // same D-Bus socket fish/OpenRC use, so GUI apps and shells share one bus
+    DBUS_SESSION_BUS_ADDRESS "unix:path=/run/user/1000/bus"
 }
 
 spawn-at-startup "gentoo-pipewire-launcher"

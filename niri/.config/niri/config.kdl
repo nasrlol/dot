@@ -17,7 +17,13 @@ input {
     }
 
     trackpoint {
+        accel-profile "adaptive"
+    }
+
+    mouse {
         accel-profile "flat"
+        // flat: pointer moves at (1 + accel-speed)x the raw motion, so -0.75 = 0.25x
+        accel-speed -0.5
     }
 
     // Mod+N on the current workspace jumps back to the previous one.
@@ -90,12 +96,14 @@ layout {
 
 environment {
     XDG_CURRENT_DESKTOP "niri"
-    // same agent and D-Bus sockets fish/OpenRC use, so GUI apps and shells share one bus
+    // same agent socket fish uses, so GUI apps (emacs/magit) can push over ssh
+    // (the D-Bus address is per host: OpenRC's fixed bus only exists on asahi)
     SSH_AUTH_SOCK "/run/user/1000/ssh-agent.socket"
-    DBUS_SESSION_BUS_ADDRESS "unix:path=/run/user/1000/bus"
 }
 
 spawn-at-startup "dbus-update-activation-environment" "WAYLAND_DISPLAY" "DISPLAY" "XDG_CURRENT_DESKTOP" "QT_SCALE_FACTOR" "QT_QPA_PLATFORM" "XCURSOR_THEME" "XCURSOR_SIZE" "DBUS_SESSION_BUS_ADDRESS" "XDG_RUNTIME_DIR"
+// PipeWire for screencasting only (audio stays on PulseAudio); it launches wireplumber.
+spawn-at-startup "pipewire"
 // waybar/fonts.conf keeps the bar's emoji monochrome (Noto Emoji).
 spawn-at-startup "sh" "-c" "FONTCONFIG_FILE=~/.config/waybar/fonts.conf exec waybar"
 // Emacs server in the session env (Wayland, ssh-agent); Mod+E attaches to it.
