@@ -11,26 +11,27 @@ output "eDP-1" {
     mode "2560x1600@60.000"
     scale 1.0
     transform "normal"
-    position x=3840 y=0
+    position x=0 y=0
 }
 
 output "Samsung Electric Company U28E570 H4LN904216" {
-    mode "1920x1080@60.000"
+    mode "2560x1440@59.951"
     scale 1
+    focus-at-startup
     transform "normal"
-    position x=0 y=0
+    position x=2560 y=0
 }
 
 output "Iiyama North America PL2470H 0x000001E2" {
     mode "1920x1080@143.998"
     scale 0.7
-    position x=0 y=0
+    position x=2560 y=0
 }
 
 output "Philips Consumer Electronics Company PHL 273V7 UHB1751015164" {
     mode "1920x1080@60.000"
     scale 0.7
-    position x=0 y=0
+    position x=2560 y=0
 }
 
 environment {
