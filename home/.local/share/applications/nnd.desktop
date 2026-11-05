@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=nnd
+Comment=TUI debugger (/opt/nnd), in its own Ghostty window
+Exec=sh -c "exec ghostty --class=dev.nnd -e nnd"
+Terminal=false
+Categories=Development;Debugger;
+StartupWMClass=dev.nnd
