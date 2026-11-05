@@ -11,11 +11,16 @@ QUERY = "flag:unread AND NOT flag:trashed AND NOT list:/.+/"
 TOOLTIP_MAX = 10
 
 # mu exits non-zero when nothing matches, so only stdout matters
-out = subprocess.run(
-    ["mu", "find", "--sortfield=date", "--reverse", "--fields=f\ts", QUERY],
-    capture_output=True,
-    text=True,
-).stdout
+try:
+    out = subprocess.run(
+        ["mu", "find", "--sortfield=date", "--reverse", "--fields=f\ts", QUERY],
+        capture_output=True,
+        text=True,
+    ).stdout
+except FileNotFoundError:
+    # No mu on this host: empty text hides the module
+    print(json.dumps({"text": "", "class": "idle"}))
+    raise SystemExit
 items = [line for line in out.splitlines() if line.strip()]
 
 if items:

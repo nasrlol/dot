@@ -16,15 +16,29 @@ window#waybar #clock {
     font-size: 15px;
 }
 
-window#waybar #custom-volume,
-window#waybar #custom-network,
-window#waybar #cpu,
-window#waybar #memory,
-window#waybar #battery,
-window#waybar #backlight,
-window#waybar #temperature,
-window#waybar #bluetooth,
-window#waybar #idle_inhibitor {
-    margin: 3px 3px;
-    padding: 2px 10px;
+/* Bottom bar: every module gets the same box so the hover highlights line
+   up. Selectors are (2 ids, 1 class) so they beat style.css's
+   ".modules-left > widget > *" rule; style.css's later group-gap rule
+   (#disk/#custom-network/#battery margin-left) has equal specificity and
+   still wins on margin-left. Height 30 - 1px border-top = 29 = 3 + 23 + 3,
+   so margins are symmetric. min-width is 152px scaled to ~70%; 15 modules
+   at 152px would be ~2380px, wider than this 1920px screen. */
+window#waybar.bottom #cpu,
+window#waybar.bottom #memory,
+window#waybar.bottom #custom-temperature,
+window#waybar.bottom #disk,
+window#waybar.bottom #custom-theme,
+window#waybar.bottom #custom-contributions,
+window#waybar.bottom #custom-build,
+window#waybar.bottom #custom-todo,
+window#waybar.bottom #custom-mail,
+window#waybar.bottom #idle_inhibitor,
+window#waybar.bottom #custom-volume,
+window#waybar.bottom #custom-network,
+window#waybar.bottom #custom-netspeed,
+window#waybar.bottom #bluetooth,
+window#waybar.bottom #custom-power {
+    min-width: 106px;
+    margin: 3px 2px;
+    padding: 2px 0;
 }

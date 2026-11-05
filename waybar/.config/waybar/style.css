@@ -210,7 +210,6 @@ window#waybar.bottom #battery {
     padding: 0 12px;
     background: transparent;
     color: @fg;
-    font-weight: bold;
     font-size: 18px;
     border-radius: 0;
 }
