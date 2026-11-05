@@ -34,8 +34,8 @@ window-decoration = false
 gtk-titlebar = false
 cursor-style = block
 cursor-style-blink = false
-# Drawn by shader/cursor.glsl as a small rounded block instead.
-cursor-opacity = 0
+# Ghostty draws the full block; shader/cursor.glsl crops it to a rounded
+# half-height band, so the cursor must stay opaque here.
 
 # Close windows, tabs and splits without asking, even with a process running.
 confirm-close-surface = false
