@@ -140,7 +140,7 @@ rejects, regenerate `local.diff`.
 - No NetworkManager (wired, dhcpcd only): the waybar network module falls
   back to `/sys/class/net` and `ip monitor`.
 - Login is greetd + tuigreet on tty7 (`system/san-giminiano/etc/greetd`);
-  tty1-6 still have text logins, where `start` runs `dbus-run-session niri`.
+  tty1-6 still have text logins, where `start` runs `dbus-run-session niri --session`.
 - Kernel boots with `nokaslr` (`system/san-giminiano/etc/default/grub`; run
   `grub-mkconfig -o /boot/grub/grub.cfg` after changing it). Root btrfs is
   mounted with `compress=zstd:1`.
