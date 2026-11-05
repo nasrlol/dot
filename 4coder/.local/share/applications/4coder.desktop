@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=4coder
+Comment=4coder text editor (/opt/4coder)
+Exec=/opt/4coder/build/4ed %F
+Path=/opt/4coder/build
+Terminal=false
+Categories=Development;IDE;TextEditor;
+StartupWMClass=4coder

@@ -1,2 +1,5 @@
 \.stow-local-ignore
 ^/themes$
+^/config\.4coder$
+^/host\.4coder$
+^/hosts$

@@ -1,14 +1,14 @@
-defcolor_back                       =  0xFF111111;
-defcolor_back_cycle                 = {0x08C4A882, 0x0CC4A882};
+defcolor_back                       =  0xff111111;
+defcolor_back_cycle                 = {0x08c4a882, 0x0cc4a882};
 
-defcolor_margin                     =  0xFF1A1208;
-defcolor_margin_hover               =  0xFF3D2B1A;
+defcolor_margin                     =  0xff1a1208;
+defcolor_margin_hover               =  0xff3d2b1a;
 defcolor_margin_active              =  defcolor_margin_hover;
 defcolor_list_item                  = {defcolor_margin, defcolor_back};
 defcolor_list_item_hover            = {defcolor_margin_hover, defcolor_margin};
 defcolor_list_item_active           = {defcolor_margin_active, defcolor_margin_active};
 
-defcolor_cursor                     = { 0xFFC4A8ff, 0xFFB86030 };
+defcolor_cursor                     = { 0xff00A8ff, 0xFFB86030 };
 
 defcolor_at_cursor                  = 0xFF111111;
 
@@ -56,7 +56,7 @@ defcolor_line_numbers_text          =  0xFF6B5A45;
 
 defcolor_type                       = 0xFFEDB211;
 defcolor_keyword                    = 0xFFF0C674;
-defcolor_struct                     = defcolor_type;
+defcolor_struct                     = defcolor_keyword;
 defcolor_primitive                  = defcolor_keyword;
 defcolor_enum                       = 0xFF6EB535;
 defcolor_global                     = defcolor_text_default;

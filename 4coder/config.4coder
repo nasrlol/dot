@@ -19,12 +19,12 @@ show_line_number_margins                  = true;
 enable_output_wrapping                    = true;
 enable_undo_fade_out                      = true;
 
-cursor_roundness                          = 0;  // 0-50
+cursor_roundness                          = 50;  // 0-50
 mark_thickness                            = 5;
-lister_roundness                          = 0;   // 0-50
+lister_roundness                          = 20;   // 0-50
 
-f4_disable_cursor_trails                  = false;
-use_stock_cursor                          = false;
+f4_disable_cursor_trails                  = true;
+use_stock_cursor                          = true;
 byp_disable_pos_context                   = false;
 
 enable_code_wrapping                      = true;
@@ -32,6 +32,7 @@ enable_code_wrapping                      = true;
 automatically_indent_text_on_save         = true;
 automatically_save_changes_on_build       = true;
 automatically_load_project                = true;
+session_file                              = ".session.4coder";
 
 //- indentation
 enable_virtual_whitespace                 = true;
@@ -48,8 +49,7 @@ default_font_hinting                      = true;
 default_theme_name                        = "theme-nasr";
 default_font_name                         = "liberation-mono.ttf";
 
-default_font_size                         = 24
-;
+default_font_size                         = 14;
 
 //- dont care
 
