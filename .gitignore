@@ -41,3 +41,7 @@ git/.config/git/local
 
 # Halloy SASL password files
 halloy/.config/halloy/*.pass
+**/host.scss
+**/host.4coder
+emacs/.config/emacs/ido.last
+emacs/.config/emacs/smex-items
