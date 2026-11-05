@@ -50,4 +50,8 @@ if vim.g.neovide then
 
     g.neovide_input_use_logo       = false
     g.neovide_hide_mouse_when_typing = true
+else
+    -- Terminal: one block shape in every mode; Ghostty's cursor shader
+    -- draws it as a small rounded block.
+    opt.guicursor = "a:block"
 end

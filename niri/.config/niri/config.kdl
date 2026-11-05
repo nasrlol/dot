@@ -53,26 +53,27 @@ output "eDP-1" {
     mode "2560x1600@60.000"
     scale 1.0
     transform "normal"
-    position x=3840 y=0
+    position x=0 y=0
 }
 
 output "Samsung Electric Company U28E570 H4LN904216" {
-    mode "1920x1080@60.000"
+    mode "2560x1440@59.951"
     scale 1
+    focus-at-startup
     transform "normal"
-    position x=0 y=0
+    position x=2560 y=0
 }
 
 output "Iiyama North America PL2470H 0x000001E2" {
     mode "1920x1080@143.998"
     scale 0.7
-    position x=0 y=0
+    position x=2560 y=0
 }
 
 output "Philips Consumer Electronics Company PHL 273V7 UHB1751015164" {
     mode "1920x1080@60.000"
     scale 0.7
-    position x=0 y=0
+    position x=2560 y=0
 }
 
 layout {
@@ -135,6 +136,8 @@ spawn-at-startup "emacs" "--fg-daemon"
 // Resident Ghostty (gtk-single-instance) so Mod+Return opens windows instantly.
 spawn-at-startup "ghostty" "--initial-window=false"
 spawn-at-startup "sh" "-c" "~/.config/niri/gen-window-rules"
+// Lan Mouse daemon (no GUI); peers and fingerprints live in ~/.config/lan-mouse/config.toml.
+spawn-at-startup "sh" "-c" "exec ~/.local/bin/lan-mouse daemon"
 // Lock after 5 min idle, power off displays after 6 min, lock before sleep.
 // swaylock/lock draws the background (quote, contributions, open windows).
 spawn-at-startup "swayidle" "timeout" "300" "~/.config/swaylock/lock" "timeout" "360" "niri msg action power-off-monitors" "resume" "niri msg action power-on-monitors" "before-sleep" "~/.config/swaylock/lock"
@@ -189,6 +192,7 @@ workspace "dev" {
 
 workspace "web"
 workspace "media"
+workspace "edit"
 
 // Which workspace each app opens on, by its .desktop category. Edit
 // workspaces.ini, not window-rules.kdl (gen-window-rules writes it).
@@ -198,6 +202,12 @@ include "window-rules.kdl"
 // background when you're on another workspace. Focusing it switches to dev.
 window-rule {
     match app-id=r#"(?i)^(4coder|4ed)$"#
+    open-focused true
+}
+
+// Emacs opens on "edit"; follow it there instead of opening in the background.
+window-rule {
+    match app-id=r#"(?i)^(emacs|emacsclient)$"#
     open-focused true
 }
 

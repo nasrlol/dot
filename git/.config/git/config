@@ -85,6 +85,7 @@
 	wip = !git add -A && git commit --no-verify -m 'wip'
 	branches = branch -a -vv
 	recent = for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)  %(committerdate:relative)'
+	cs = "!f() { git commit \"$@\" && git svn-push; }; f"
 
 # Per-machine overrides (work email, etc.), not committed
 # Patches (git send-email / b4) go out through mail.nsrddyn.com via msmtp.
@@ -108,3 +109,6 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
+[safe]
+	directory = mender.git
+	directory = mender.git

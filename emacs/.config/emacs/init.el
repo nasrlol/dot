@@ -23,6 +23,9 @@
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 
+;; compile / project-compile: save all modified buffers without asking
+(setq compilation-ask-about-save nil)
+
 ;; State files live under ~/.local/share/emacs (see early-init.el)
 (setq auto-save-list-file-prefix (expand-file-name "auto-save-list/.saves-" nasr/data-dir)
       transient-history-file     (expand-file-name "transient/history.el" nasr/data-dir)
@@ -49,6 +52,9 @@
 (setq-default word-wrap nil)
 (setq truncate-lines t)
 
+;;
+(setq markdown-command "pandoc")
+
 ;; Auto-revert buffers when files change on disk
 (global-auto-revert-mode 1)
 
@@ -57,7 +63,7 @@
       native-comp-speed 2)
 
 ;; Font
-(set-face-attribute 'default nil :font "Comic Mono" :height 190)
+(set-face-attribute 'default nil :font "Comic Mono" :height 165)
 ;; The daemon (niri spawns emacs --fg-daemon) has no GUI frame when this runs,
 ;; so the line above can't open the font; frames made by emacsclient get it here.
 (add-to-list 'default-frame-alist '(font . "Comic Mono-19"));; Proportional/fixed faces (HTML mail via shr, eww, Info) use the same font,
@@ -155,5 +161,11 @@
 ;; Haskell (haskell-mode, eglot + HLS)
 (load (expand-file-name "nasr-haskell.el" user-emacs-directory) nil 'nomessage)
 
+;; Rust (rust-mode + rustc via compile, no LSP, no cargo)
+(load (expand-file-name "nasr-rust.el" user-emacs-directory) nil 'nomessage)
+
 ;; Mail (mu4e + mbsync + msmtp)
 (load (expand-file-name "nasr-mail.el" user-emacs-directory) nil 'nomessage)
+
+;; Portfolio blog posts (header template for ~/dev/portfolio/posts)
+(load (expand-file-name "nasr-blog.el" user-emacs-directory) nil 'nomessage)

@@ -1,0 +1,48 @@
+#!/bin/sh
+# Print the git branch of directory $1 plus the GitHub Actions status of its
+# latest run, for the tmux status line:
+#   tmux-git-status PATH OK_STYLE RUN_STYLE FAIL_STYLE   (tmux #[...] styles)
+# Prints nothing outside a git repo. The CI lookup hits the network, so it is
+# cached per repo+branch for $TTL seconds and refreshed in the background;
+# tmux calls this every status-interval and it must stay fast.
+TTL=60
+
+dir=$1 ok=$2 run=$3 fail=$4
+branch=$(git -C "$dir" branch --show-current 2>/dev/null) || exit 0
+[ -n "$branch" ] || branch=$(git -C "$dir" rev-parse --short HEAD 2>/dev/null) || exit 0
+
+ci=''
+remote=$(git -C "$dir" remote get-url origin 2>/dev/null)
+case $remote in *github.com*)
+	top=$(git -C "$dir" rev-parse --show-toplevel)
+	cache=${XDG_CACHE_HOME:-$HOME/.cache}/tmux-ci
+	key=$cache/$(printf '%s\n%s' "$top" "$branch" | cksum | cut -d' ' -f1)
+	mkdir -p "$cache"
+
+	age=$(($(date +%s) - $(stat -c %Y "$key" 2>/dev/null || echo 0)))
+	if [ "$age" -ge "$TTL" ] && mkdir "$key.lock" 2>/dev/null; then
+		# Detached refresh; the lock keeps overlapping status redraws from
+		# starting more than one gh call per repo+branch.
+		(
+			cd "$top" &&
+				gh run list --branch "$branch" -L1 \
+					--json status,conclusion \
+					--jq '.[0] | if . == null then "" elif .status != "completed" then "run" else .conclusion end' \
+					> "$key.tmp" 2>/dev/null &&
+				mv "$key.tmp" "$key"
+			# Touch even on failure (offline, no auth) so we back off for TTL.
+			touch "$key"
+			rmdir "$key.lock"
+		) > /dev/null 2>&1 &
+	fi
+
+	case $(cat "$key" 2>/dev/null) in
+	success) ci=" #[$ok]✓#[default]" ;;
+	run) ci=" #[$run]●#[default]" ;;
+	failure | timed_out | startup_failure) ci=" #[$fail]✗#[default]" ;;
+	cancelled) ci=" #[$fail]⊘#[default]" ;;
+	esac
+;;
+esac
+
+printf "  %s%s" "$branch" "$ci"
