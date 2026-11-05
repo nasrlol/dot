@@ -60,7 +60,7 @@
 ;; monitor on san-giminiano wants ~14px Liberation Mono.
 (let* ((sg (string= (system-name) "san-giminiano"))
        (family (if sg "Liberation Mono" "Comic Mono")))
-  (set-face-attribute 'default nil :font family :height (if sg 105 190))
+  (set-face-attribute 'default nil :font family :height (if sg 105 165))
   ;; The daemon (niri spawns emacs --fg-daemon) has no GUI frame when this runs,
   ;; so the line above can't open the font; frames made by emacsclient get it here.
   (add-to-list 'default-frame-alist `(font . ,(if sg "Liberation Mono-10.5" "Comic Mono-19")))

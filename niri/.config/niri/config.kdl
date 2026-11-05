@@ -104,6 +104,8 @@ spawn-at-startup "emacs" "--fg-daemon"
 spawn-at-startup "ghostty" "--initial-window=false"
 spawn-at-startup "sh" "-c" "~/.config/niri/gen-window-rules"
 // Idle locking is per host (hosts/<host>.kdl).
+// Lan Mouse daemon (no GUI); peers and fingerprints live in ~/.config/lan-mouse/config.toml.
+spawn-at-startup "sh" "-c" "exec ~/.local/bin/lan-mouse daemon"
 
 hotkey-overlay {
     skip-at-startup
