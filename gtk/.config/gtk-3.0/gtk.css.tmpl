@@ -1,0 +1,17 @@
+/* Emacs (pgtk) menu bar: same colors as 4coder's file bar (defcolor_bar on
+   defcolor_base), with a bigger font. #Emacs is the name Emacs gives its
+   toplevel GTK window, so other GTK apps are left alone. */
+#Emacs menubar {
+    background: {{fg}};
+    color: {{bg}};
+    font-size: 14pt;
+}
+
+#Emacs menubar > menuitem {
+    color: {{bg}};
+}
+
+#Emacs menubar > menuitem:hover {
+    background: {{bg}};
+    color: {{fg}};
+}

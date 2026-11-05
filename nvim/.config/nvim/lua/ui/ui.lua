@@ -25,16 +25,17 @@ if vim.g.neovide then
     g.neovide_refresh_rate_idle = 60
     g.neovide_no_idle           = false
 
-    g.neovide_cursor_animation_length    = 0.88   -- ~5 frames, snappy
-    g.neovide_position_animation_length  = 0.0
-    g.neovide_scroll_animation_length    = 0.5    -- ~6 frames, just enough to track
-    g.neovide_scroll_animation_far_lines = 1
+    g.neovide_cursor_animation_length       = 0.16   -- ~10 frames at 60 Hz, matching Ghostty DURATION
+    g.neovide_cursor_short_animation_length = 0.10   -- ~6 frames at 60 Hz, matching Ghostty SHORT_DURATION
+    g.neovide_position_animation_length     = 0.15   -- smooth floating window placement
+    g.neovide_scroll_animation_length       = 0.18   -- ~11 frames, matching Niri 180ms duration
+    g.neovide_scroll_animation_far_lines    = 1
 
-    g.neovide_cursor_trail_size           = 30
-    g.neovide_underline_stroke_scale      = 1
-    g.neovide_cursor_animate_in_insert_mode  = true
-    g.neovide_cursor_animate_command_line    = false
-    g.neovide_cursor_smooth_blink            = true
+    g.neovide_cursor_trail_size             = 0.65   -- matching Ghostty TRAIL = 0.65
+    g.neovide_underline_stroke_scale        = 1
+    g.neovide_cursor_animate_in_insert_mode = true
+    g.neovide_cursor_animate_command_line   = false
+    g.neovide_cursor_smooth_blink           = false
     g.neovide_cursor_unfocused_outline_width = 0
     g.neovide_cursor_antialiasing            = false
 

@@ -17,14 +17,12 @@ if status is-interactive
 
     alias vim nvim
     alias ll "ls -hal --color=auto"
-    alias attach "tmux attach-session -t"
-    alias new "tmux new-session -s"
-    alias list "tmux list-sessions"
-    alias build ./build.sh
-    alias bl "./build.sh > log.txt 2>&1"
     alias dots "cd ~/dotfiles"
+    alias check-emerge "tail /var/log/emerge.log"
     abbr -a ... "cd ../.."
     abbr -a .... "cd ../../.."
+    abbr -a d cdh
+    abbr -a rw waybar-restart
 
     abbr -a g git
     abbr -a gs "git status -sb"
@@ -35,12 +33,12 @@ if status is-interactive
     abbr -a gl "git lg"
     abbr -a gp "git push"
 
-    alias start "dbus-run-session niri --session"
+    alias start "niri --session"
     alias datamgmt "rlwrap sqlplus elmorabita/ora@orcl"
 
     fish_vi_key_bindings
     set -g fish_cursor_default block
-    set -g fish_cursor_insert block
+    set -g fish_cursor_insert line
     set -g fish_cursor_replace_one underscore
     set -g fish_cursor_visual block
 end

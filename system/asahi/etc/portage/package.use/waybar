@@ -1,0 +1,5 @@
+gui-apps/waybar niri tray
+dev-cpp/gtkmm wayland X
+x11-libs/gtk+ wayland X
+x11-libs/cairo X
+dev-cpp/cairomm X

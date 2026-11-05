@@ -102,9 +102,6 @@
 
 [include]
 	path = ~/.config/git/local
-[safe]
-	directory = loo
-	directory = loo
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential

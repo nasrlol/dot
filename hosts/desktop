@@ -2,7 +2,7 @@
 include default
 niri
 waybar
-wofi
+fuzzel
 xdg-desktop-portal
 foot
 seergdb

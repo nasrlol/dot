@@ -1,0 +1,15 @@
+#!/bin/sh
+# Btrfs & SSD maintenance: trim free space and scrub data checksums
+set -eu
+
+echo "==> Trimming SSD free blocks..."
+sudo fstrim -v /
+
+echo "==> Starting Btrfs integrity scrub..."
+if sudo btrfs scrub status / 2>&1 | grep -q "running"; then
+	echo "Scrub already running:"
+	sudo btrfs scrub status /
+else
+	sudo btrfs scrub start /
+	echo "Scrub started in background. Check status anytime with: sudo btrfs scrub status /"
+fi

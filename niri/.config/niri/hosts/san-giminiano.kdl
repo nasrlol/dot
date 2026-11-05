@@ -23,9 +23,9 @@ cursor {
 // Lock after 5 min idle, turn displays off after 10 (niri wakes them on input).
 spawn-at-startup "swayidle" "-w" "timeout" "300" "swaylock -f" "timeout" "600" "niri msg action power-off-monitors"
 
-// Clipboard history: Mod+Y picks an earlier entry with wofi.
+// Clipboard history: Mod+Y picks an earlier entry with fuzzel.
 spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
 
 binds {
-    Mod+Y hotkey-overlay-title="      clipboard" { spawn-sh "cd ~/.config/wofi && cliphist list | wofi --dmenu --prompt clipboard | cliphist decode | wl-copy"; }
+    Mod+Y hotkey-overlay-title="      clipboard" { spawn-sh "cliphist list | fuzzel --dmenu --prompt 'clipboard ' | cliphist decode | wl-copy"; }
 }

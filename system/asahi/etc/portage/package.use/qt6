@@ -1,0 +1,2 @@
+dev-qt/qt5compat icu
+>=x11-libs/libxkbcommon-1.13.2 X

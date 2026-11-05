@@ -40,17 +40,18 @@ environment {
 spawn-at-startup "gentoo-pipewire-launcher"
 // Desktop widgets on the background layer (eww/.config/eww).
 spawn-at-startup "eww" "open-many" "contributions" "todos"
-// Lock after 5 min idle. Displays never power off on idle.
+// Lock after 5 min idle, power off displays after 6 min, lock before sleep.
 // swaylock/lock draws the background (quote, contributions, open windows).
-spawn-at-startup "swayidle" "timeout" "300" "~/.config/swaylock/lock"
+spawn-at-startup "swayidle" "timeout" "300" "~/.config/swaylock/lock" "timeout" "360" "niri msg action power-off-monitors" "resume" "niri msg action power-on-monitors" "before-sleep" "~/.config/swaylock/lock"
 
-// swayidle can't see suspend without elogind, so lock on lid close here.
+// elogind isn't running, so lock screen and suspend to RAM via sudo on lid close.
 switch-events {
-    lid-close { spawn "sh" "-c" "~/.config/swaylock/lock"; }
+    lid-close { spawn "sh" "-c" "~/.config/swaylock/lock & sleep 1; sudo -n sh -c 'echo mem > /sys/power/state'"; }
 }
 
 binds {
     Mod+B hotkey-overlay-title="      firefox"  { spawn "firefox-bin";  }
+    Mod+D hotkey-overlay-title="raddbg"    { spawn "/opt/raddbg/raddbg"; }
 
     XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "-d" "apple-panel-bl" "set" "5%+"; }
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "-d" "apple-panel-bl" "set" "5%-"; }

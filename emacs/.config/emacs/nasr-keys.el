@@ -51,6 +51,7 @@
     (kbd "M-M") #'first-error
 
     (kbd "M-b") #'project-compile
+    (kbd "M-m") #'compile
     (kbd "M-z") #'async-shell-command
 
     (kbd "C-<tab>") #'mode-line-other-buffer

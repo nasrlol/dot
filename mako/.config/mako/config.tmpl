@@ -1,0 +1,35 @@
+# Generated from config.tmpl by theme/gen. Do not edit config.
+# mako starts on demand over D-Bus; theme/switch runs `makoctl reload`.
+
+font=LiterationMono Nerd Font 13
+background-color={{bg}}
+text-color={{fg}}
+border-color={{border}}
+progress-color=over {{selection}}
+border-size=2
+border-radius=0
+padding=12,16
+margin=12
+width=520
+anchor=top-right
+layer=overlay
+default-timeout=5000
+max-visible=4
+
+[urgency=low]
+text-color={{fg_dim}}
+
+[urgency=critical]
+border-color={{rust_bright}}
+default-timeout=0
+
+# build-notify: one notification per project, replaced on every build
+[app-name=build]
+group-by=summary
+
+[app-name=build urgency=low]
+border-color={{green}}
+
+[app-name=build urgency=critical]
+border-color={{rust_bright}}
+default-timeout=15000

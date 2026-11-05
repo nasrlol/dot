@@ -100,6 +100,14 @@
 (global-hl-line-mode 1)
 
 
+;; ido completion everywhere, smex for M-x (tsoding style)
+(use-package smex)
+(use-package ido-completing-read+)
+(ido-mode 1)
+(ido-everywhere 1)
+(ido-ubiquitous-mode 1)
+(global-set-key (kbd "M-x") #'smex)
+
 ; multiple cursors
 (use-package multiple-cursors
   :ensure t)

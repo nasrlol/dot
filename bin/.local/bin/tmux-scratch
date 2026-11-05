@@ -1,0 +1,14 @@
+#!/bin/sh
+# Toggle a floating scratch shell: a hidden "_scratch" session shown in a popup.
+#   tmux-scratch CLIENT SESSION DIR   (tmux passes #{client_name} etc.)
+# Run from inside the popup it closes it; anywhere else it opens it, starting
+# the session in DIR the first time. The shell survives between toggles.
+set -eu
+client=$1 session=$2 dir=$3
+
+if [ "$session" = _scratch ]; then
+	tmux detach-client -t "$client"
+else
+	tmux display-popup -c "$client" -E -w 80% -h 75% -d "$dir" \
+		"env -u TMUX tmux new-session -A -s _scratch \; set status off \; set detach-on-destroy on"
+fi

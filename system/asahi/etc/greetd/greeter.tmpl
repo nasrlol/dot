@@ -13,13 +13,17 @@ if [ "${TERM:-linux}" = linux ]; then
 	printf '\033]P4{{blue.hex}}\033]P5{{magenta.hex}}\033]P6{{cyan.hex}}\033]P7{{white.hex}}'
 	printf '\033]P8{{bright_black.hex}}\033]P9{{bright_red.hex}}\033]PA{{bright_green.hex}}\033]PB{{bright_yellow.hex}}'
 	printf '\033]PC{{bright_blue.hex}}\033]PD{{bright_magenta.hex}}\033]PE{{bright_cyan.hex}}\033]PF{{bright_white.hex}}'
-	printf '\033[2J\033[H'
+	printf '\033[3J\033[2J\033[H'
 fi
 
 exec tuigreet \
 	--time --time-format '%a %d %b  %H:%M' \
-	--remember --asterisks \
-	--greeting 'gentoo / niri' \
-	--width 60 --window-padding 2 --container-padding 2 \
-	--cmd 'dbus-run-session niri --session' \
+	--remember --remember-session \
+	--asterisks --asterisks-char '•' \
+	--greeting 'gentoo / niri' --greet-align center \
+	--width 60 --window-padding 2 --container-padding 2 --prompt-padding 1 \
+	--sessions /usr/share/wayland-sessions \
+	--cmd 'niri --session' \
+	--power-shutdown 'sudo /usr/sbin/poweroff' \
+	--power-reboot 'sudo /usr/sbin/reboot' \
 	--theme 'container=black;border=yellow;title=lightyellow;greet=gray;text=gray;time=darkgray;prompt=yellow;input=white;action=darkgray;button=red'

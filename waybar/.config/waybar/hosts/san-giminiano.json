@@ -3,7 +3,9 @@
   "modules-right": [
     "custom/volume",
     "custom/network",
-    "bluetooth"
+    "custom/netspeed",
+    "bluetooth",
+    "custom/power"
   ],
   "temperature": {
     "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",

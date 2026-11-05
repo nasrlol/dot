@@ -1,0 +1,51 @@
+# Generated from fuzzel.ini.tmpl by theme/gen. Do not edit fuzzel.ini.
+
+[main]
+font=LiterationMono Nerd Font:pixelsize=21,Liberation Mono:pixelsize=21,monospace:pixelsize=21
+prompt=""
+terminal=ghostty -e {cmd}
+layer=overlay
+exit-on-keyboard-focus-loss=no
+
+# ~900px wide, centered horizontally, 250px down (as wofi was)
+anchor=top
+y-margin=250
+width=68
+lines=8
+horizontal-pad=14
+vertical-pad=10
+inner-pad=6
+
+icons-enabled=no
+match-counter=no
+show-actions=yes
+fields=filename,name,generic
+
+[colors]
+background={{bg.hex}}ff
+text={{fg_dim.hex}}ff
+prompt={{rust.hex}}ff
+placeholder={{comment.hex}}ff
+input={{fg.hex}}ff
+match={{rust.hex}}ff
+selection={{surface.hex}}ff
+selection-text={{fg.hex}}ff
+selection-match={{rust_bright.hex}}ff
+counter={{fg_dim.hex}}ff
+message={{fg_dim.hex}}ff
+border={{border.hex}}ff
+
+[border]
+width=2
+radius=0
+selection-radius=0
+
+[key-bindings]
+cancel=Escape Control+bracketleft Control+c Control+g
+prev=Up Control+k Control+p
+next=Down Control+j Control+n
+prev-page=Page_Up KP_Page_Up Control+u
+next-page=Page_Down KP_Page_Down Control+d
+delete-line-forward=none
+delete-line-backward=none
+delete-next=Delete KP_Delete

@@ -23,6 +23,12 @@ echo "$mode" > "$state"
 # foot: both palettes are loaded; USR1 = dark, USR2 = light
 if [ "$mode" = dark ]; then pkill -USR1 -x foot || true; else pkill -USR2 -x foot || true; fi
 
+# ghostty: USR2 reloads configuration (colors)
+pkill -USR2 -x ghostty || true
+
+# mako: re-read the regenerated config
+makoctl reload 2>/dev/null || true
+
 # waybar: USR2 reloads config + style
 pkill -USR2 -x waybar || true
 

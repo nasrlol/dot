@@ -4,7 +4,10 @@
     "custom/volume",
     "backlight",
     "custom/network",
-    "bluetooth"
+    "custom/netspeed",
+    "bluetooth",
+    "battery",
+    "custom/power"
   ],
   "temperature": {
     "hwmon-path-abs": "/sys/devices/platform/soc/23e400000.smc/macsmc-hwmon/hwmon",

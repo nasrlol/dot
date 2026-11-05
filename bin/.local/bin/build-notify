@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Run a build, then report how it went: a mako notification and a status line
+# for waybar's "build" module.
+#   build-notify ./build.sh [args...]
+# Output passes through unchanged (4coder's *compilation* buffer and its error
+# jumps keep working) and the exit status is the build's.
+set -uo pipefail
+
+state=${XDG_STATE_HOME:-$HOME/.local/state}/build
+mkdir -p "$state"
+project=$(basename "$PWD")
+
+start=$(date +%s%N)
+"$@" 2>&1 | tee "$state/log"
+status=${PIPESTATUS[0]}
+secs=$(( ($(date +%s%N) - start) / 10000000 ))
+secs="$((secs / 100)).$(printf '%02d' $((secs % 100)))"
+
+# first gcc/clang-style diagnostic, e.g. "source/code/lexer.c:42:7: error: ..."
+err=$(grep -m1 -E ':[0-9]+(:[0-9]+)?: (fatal )?error:' "$state/log" || true)
+
+# waybar reads this; RTMIN+9 tells the module to refresh right away
+printf '%s\t%s\t%s\t%s\n' "$status" "$project" "$secs" "$err" > "$state/last"
+pkill -RTMIN+9 -x waybar 2>/dev/null || true
+
+# shellcheck disable=SC2329  # used once the TODO below is filled in
+# notify URGENCY BODY  (one notification per project; a new build replaces it)
+notify() {
+	notify-send -a build -u "$1" -h "string:x-canonical-private-synchronous:build-$project" \
+		"build: $project" "$2" 2>/dev/null || true
+}
+
+# shellcheck disable=SC2329
+# Is 4coder the focused window? Then the *compilation* buffer is already on screen.
+editor_focused() {
+	niri msg --json focused-window 2>/dev/null | grep -qiE '"app_id": *"(4coder|4ed)"'
+}
+
+# TODO(human): decide which builds deserve a notification and how loud.
+# Available: $status (0 = ok), $secs (e.g. "3.42"), $err (first error line or ""),
+# notify low|normal|critical "body", and editor_focused.
+
+exit "$status"

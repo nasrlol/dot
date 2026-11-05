@@ -20,76 +20,82 @@ window#waybar {
 
 window#waybar > box {
     background: @bg;
-    border-radius: 12px;
+    border-radius: 0;
 }
 
-/* Top bar blends into the desktop so the workspaces appear to float */
+/* Top bar is one solid strip across the full width, notch included */
 window#waybar.top > box {
-    background: transparent;
-}
-
-/* Bottom bar: no continuous strip, each section is its own block */
-window#waybar.bottom > box {
-    background: transparent;
-}
-
-/* Equal-width blocks: 4 slots of 152px + 2px margins each = 624px of content.
-   In the center, the theme toggle on the clock's left mirrors the idle slot on
-   its right, so the time sits exactly on the screen's center line. */
-window#waybar.bottom .modules-left,
-window#waybar.bottom .modules-center,
-window#waybar.bottom .modules-right {
     background: @surface;
-    border: 1px solid alpha(@fg, 0.12);
-    border-radius: 12px;
-    padding: 0 8px;
-    min-width: 624px;
+    border-bottom: 1px solid alpha(@fg, 0.12);
 }
 
-/* Left block only holds the battery now: one 152px slot + 2px margins. */
-window#waybar.bottom .modules-left {
-    min-width: 156px;
+/* Bottom bar is one solid strip across the full width, like the top bar */
+window#waybar.bottom > box {
+    background: @surface;
+    border-top: 1px solid alpha(@fg, 0.12);
 }
 
 window#waybar.bottom .modules-left > widget > *,
 window#waybar.bottom .modules-right > widget > *,
 window#waybar.bottom #custom-theme,
+window#waybar.bottom #custom-contributions,
+window#waybar.bottom #custom-build,
+window#waybar.bottom #custom-todo,
+window#waybar.bottom #custom-mail,
 window#waybar.bottom #idle_inhibitor {
     min-width: 152px;
-    margin: 6px 2px;
+    margin: 4px 2px 3px;
     padding: 5px 0;
+    transition: background-color 150ms ease, color 150ms ease;
 }
 
-window#waybar.bottom #clock {
-    min-width: 308px;
-    margin: 6px 2px;
-    padding: 5px 0;
-    background: transparent;
+window#waybar.bottom .modules-left > widget > *:hover,
+window#waybar.bottom .modules-right > widget > *:hover,
+window#waybar.bottom #custom-theme:hover,
+window#waybar.bottom #custom-contributions:hover,
+window#waybar.bottom #custom-build:hover,
+window#waybar.bottom #custom-todo:hover,
+window#waybar.bottom #custom-mail:hover,
+window#waybar.bottom #idle_inhibitor:hover {
+    background: alpha(@fg, 0.08);
 }
 
-/* Same block style as the bottom bar's sections. Stretches from the bar's left margin (16px)
-   to x=1093, just short of the notch (~1110-1450 on this 2560px panel).
-   1075 content + 2x1 border = 1077px. */
+/* Extra gap before each group on the bottom bar:
+   left   cpu mem temp | disk
+   center theme contributions todo mail idle
+   right  vol bri | net speed bt | bat pwr */
+window#waybar.bottom #disk,
+window#waybar.bottom #custom-network,
+window#waybar.bottom #battery {
+    margin-left: 18px;
+}
+
+/* Workspaces span from the screen's left edge up to the notch
+   (~1110-1450 on this 2560px panel): 5 x 221px = 1105px. */
 #workspaces {
-    margin: 0 8px 0 0;
+    margin: 0;
     padding: 0;
-    min-width: 1075px;
-    background: @surface;
-    border: 1px solid alpha(@fg, 0.12);
-    border-radius: 12px;
+    min-width: 1134px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
 }
 
-/* Each button is an equal slot (5 x 215px fills the block). The highlight is
-   drawn on the label, which GTK stretches across the whole slot, so it fills
-   the block to its border. */
+/* Each button is an equal slot (5 x 221px fills the block). The highlight is
+   drawn on the label, which GTK stretches across the whole slot. */
 #workspaces button {
-    min-width: 215px;
+    min-width: 221px;
     margin: 0;
     padding: 0;
     border: none;
     border-radius: 0;
     box-shadow: none;
     background: transparent;
+}
+
+/* media is wider (250px); #workspaces min-width above includes it */
+#workspaces button#niri-workspace-media {
+    min-width: 250px;
 }
 
 /* Strip the GTK theme's own button chrome (gradients, borders, glow, focus
@@ -123,18 +129,7 @@ window#waybar.bottom #clock {
     padding: 8px 0;
     border-radius: 0;
     color: @fg_dim;
-}
-
-/* GTK doesn't clip children to the block's rounded border, so the end slots
-   round their own outer corners to match it (12px block radius - 1px border).
-   The last visible slot is media; niri's spare empty workspace sits after it,
-   collapsed, so :last-child would miss. */
-#workspaces button:first-child label {
-    border-radius: 11px 0 0 11px;
-}
-
-#workspaces button#niri-workspace-media label {
-    border-radius: 0 11px 11px 0;
+    transition: background-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
 }
 
 #workspaces button:hover label {
@@ -177,11 +172,12 @@ window#waybar.bottom #clock {
     font-size: 18px;
 }
 
-#custom-todo {
-    margin: 4px 4px;
-    padding: 0 12px;
-    color: @fg;
-    font-size: 18px;
+#custom-build.ok {
+    color: @green;
+}
+
+#custom-build.failed {
+    color: @rust;
 }
 
 #custom-todo.empty {
@@ -195,33 +191,98 @@ window#waybar.bottom #clock {
     font-size: 18px;
 }
 
+#custom-emerge {
+    margin: 4px 4px;
+    padding: 0 12px;
+    color: @accent;
+    font-size: 18px;
+}
+
 #custom-media.stopped {
     margin: 0;
     padding: 0;
 }
 
+/* Clock is the last module on the right, pinned to the screen's right
+   edge, so media/window title changing size never moves it. */
 #clock {
-    margin: 6px 8px;
-    padding: 5px 20px;
-    background: @bg;
+    margin: 4px 4px;
+    padding: 0 12px;
+    background: transparent;
     color: @fg;
     font-weight: bold;
-    font-size: 20px;
-    border-radius: 8px;
+    font-size: 18px;
+    border-radius: 0;
 }
 
 #custom-volume,
 #custom-network,
 #battery,
+#disk,
+#cpu,
+#memory,
+#custom-temperature,
+#custom-contributions,
+#custom-build,
+#custom-todo,
+#custom-mail,
+#custom-netspeed,
 #backlight,
 #bluetooth,
+#custom-power,
 #custom-theme,
 #idle_inhibitor {
     margin: 6px 4px;
     padding: 5px 16px;
     background: transparent;
     color: @fg;
-    border-radius: 8px;
+    border-radius: 0;
+}
+
+/* Fade state colour changes (muted, warning, disconnected, ...) */
+#custom-window,
+#custom-todo,
+#custom-mail,
+#custom-netspeed,
+#custom-media,
+#custom-emerge,
+#custom-volume,
+#custom-network,
+#battery,
+#disk,
+#cpu,
+#memory,
+#custom-temperature,
+#custom-contributions,
+#backlight,
+#bluetooth,
+#custom-power,
+#custom-theme,
+#idle_inhibitor,
+#clock {
+    transition: color 150ms ease, background-color 150ms ease;
+}
+
+/* Hover highlight on the clickable/scrollable modules, matching the
+   workspace buttons */
+#clock:hover,
+#custom-media:hover,
+#custom-todo:hover,
+#custom-mail:hover,
+#custom-contributions:hover,
+#custom-volume:hover,
+#backlight:hover,
+#bluetooth:hover,
+#custom-power:hover,
+#custom-theme:hover,
+#idle_inhibitor:hover {
+    background: alpha(@fg, 0.08);
+    color: @fg;
+}
+
+/* Digits all the same width, so the speeds don't jiggle as they change */
+#custom-netspeed {
+    font-feature-settings: "tnum";
 }
 
 #custom-volume.muted {
@@ -240,8 +301,48 @@ window#waybar.bottom #clock {
     color: @rust;
 }
 
+#cpu.warning,
+#memory.warning {
+    color: @accent;
+}
+
+#cpu.critical,
+#memory.critical {
+    color: @rust;
+}
+
+#custom-temperature.warning {
+    color: @accent;
+}
+
+#custom-temperature.critical {
+    color: @rust;
+}
+
+#custom-mail.empty,
+#custom-netspeed.idle,
+#custom-netspeed.offline,
+#custom-contributions.none-today,
+#custom-contributions.error,
 #bluetooth.off,
 #bluetooth.disabled,
 #idle_inhibitor.deactivated {
     color: @fg_dim;
+}
+
+/* Tooltips (clock calendar, module details) use the theme instead of the
+   GTK theme's default popup colours. The calendar's text colours come from
+   config.tmpl. */
+tooltip,
+tooltip.background {
+    background: @surface;
+    border: 1px solid alpha(@fg, 0.12);
+    border-radius: 0;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+tooltip label {
+    color: @fg;
+    padding: 6px 4px;
 }
