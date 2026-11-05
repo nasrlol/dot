@@ -2,41 +2,26 @@
 
 window-rule {
     match app-id=r#"(?i)^(4coder|4ed)$"#  // 4coder
-    match app-id=r#"(?i)^(4coder-project|4ed-open)$"#  // 4coder project
-    match app-id=r#"(?i)^(assistant|assistant6)$"#  // Qt Assistant
-    match app-id=r#"(?i)^(clion)$"#  // Clion
-    match app-id=r#"^jetbrains-clion$"#  // Clion
-    match app-id=r#"(?i)^(code|vscode)$"#  // Visual Studio Code
-    match app-id=r#"(?i)^(drracket)$"#  // DrRacket
-    match title=r#"^gf2$"#  // gf2
-    match app-id=r#"(?i)^(gvim)$"#  // GVim
     match app-id=r#"(?i)^(neovide)$"#  // Neovide
-    match app-id=r#"(?i)^(org\.gnome\.meld|meld)$"#  // Meld
-    match app-id=r#"(?i)^(qdbusviewer|qdbusviewer6)$"#  // Qt D-Bus Viewer
+    match app-id=r#"(?i)^(nnd|dev\.nnd)$"#  // nnd
     match app-id=r#"(?i)^(rad-debugger|raddbg)$"#  // RAD Debugger
-    match app-id=r#"(?i)^(raddbg)$"#  // The RAD Debugger
     match app-id=r#"(?i)^(seergdb)$"#  // SeerGdb
-    match app-id=r#"(?i)^(tracy-profiler)$"#  // Tracy Profiler
-    match app-id=r#"^tracy$"#  // Tracy Profiler
     open-on-workspace "dev"
 }
 
 window-rule {
-    match app-id=r#"(?i)^(emacs)$"#  // GNU Emacs
-    match app-id=r#"(?i)^(emacsclient|emacs)$"#  // emacsclient
+    match app-id=r#"(?i)^(emacs)$"#  // Emacs
+    match app-id=r#"(?i)^(emacsclient|emacs)$"#  // Emacs (Client)
     open-on-workspace "edit"
 }
 
 window-rule {
-    match app-id=r#"(?i)^(com\.obsproject\.studio|obs)$"#  // OBS Studio
-    match app-id=r#"(?i)^(org\.squidowl\.halloy|halloy)$"#  // Halloy
-    match app-id=r#"(?i)^(vesktop|vesktop-bin)$"#  // Vesktop (bin)
     match app-id=r#"(?i)^(vlc)$"#  // VLC media player
     match app-id=r#"^org\.videolan\.vlc$"#  // VLC media player
     open-on-workspace "media"
 }
 
 window-rule {
-    match title=r#"Mozilla Firefox$"#  // Mozilla Firefox (bin)
+    match app-id=r#"(?i)^(firefox)$"#  // Firefox
     open-on-workspace "web"
 }
