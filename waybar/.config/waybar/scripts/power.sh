@@ -5,8 +5,15 @@ set -eu
 
 lock=$HOME/.config/swaylock/lock
 
-choice=$(printf 'lock\nsuspend\nlogout\nreboot\npoweroff\n' |
-	fuzzel --dmenu --prompt "power " --lines 5) || exit 0
+idle=$(dirname "$0")/idle.sh
+
+# power.sh [lock|suspend|logout|reboot|poweroff|idle] skips the menu (palette uses it)
+choice=${1:-}
+if [ -z "$choice" ]; then
+	if [ "$("$idle" status)" = awake ]; then awake="stay awake: on"; else awake="stay awake: off"; fi
+	choice=$(printf 'lock\nsuspend\nlogout\nreboot\npoweroff\n%s\n' "$awake" |
+		fuzzel --dmenu --prompt "power " --lines 6) || exit 0
+fi
 
 case $choice in
 lock) exec "$lock" ;;
@@ -20,4 +27,5 @@ suspend)
 logout) exec niri msg action quit --skip-confirmation ;;
 reboot) exec sudo -n reboot ;;
 poweroff) exec sudo -n poweroff ;;
+idle | "stay awake"*) exec "$idle" toggle ;;
 esac

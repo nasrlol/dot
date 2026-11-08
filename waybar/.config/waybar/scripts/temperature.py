@@ -30,11 +30,11 @@ for hwmon in Path("/sys/class/hwmon").iterdir():
         sensors.append((celsius, name))
 
 if not sensors:
-    print(json.dumps({"text": "tmp ?", "tooltip": "no temperature sensors found", "class": "error"}))
+    print(json.dumps({"text": "?°", "tooltip": "no temperature sensors found", "class": "error"}))
     raise SystemExit
 
 sensors.sort(reverse=True)
 hottest = sensors[0][0]
 cls = "critical" if hottest >= CRITICAL else "warning" if hottest >= WARNING else "normal"
 tooltip = "\n".join(f"{c:.0f}°  {name}" for c, name in sensors)
-print(json.dumps({"text": f"tmp {hottest:.0f}°", "tooltip": tooltip, "class": cls}))
+print(json.dumps({"text": f"{hottest:.0f}°", "tooltip": tooltip, "class": cls}))

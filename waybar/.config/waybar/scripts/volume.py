@@ -67,8 +67,8 @@ def emit():
     else:
         label = dev or ICON_LEVELS[min(vol * len(ICON_LEVELS) // 100, len(ICON_LEVELS) - 1)]
         text, cls = f"{label} {vol}%", "normal"
-    if dev:
-        cls += " headphones"
+    # waybar wants several classes as a list; "a b" would be one class
+    cls = [cls, "headphones"] if dev else cls
 
     print(json.dumps({"text": text, "class": cls, "tooltip": f"{name}: {vol}%"}), flush=True)
 

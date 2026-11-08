@@ -6,14 +6,14 @@
 #   love #b4637a  gold #ea9d34  rose #d7827e  pine #286983  foam #56949f  iris #907aa9
 #   highlight low #f4ede8  med #dfdad9  high #cecacd
 
-# surfaces
-bg=#faf4ed
-bg_alt=#f2e9e1
-surface=#f4ede8
-overlay=#dfdad9
-border=#cecacd
-border_dim=#dfdad9
-selection=#dfdad9
+# surfaces (warm beige; Dawn base #faf4ed was too close to white)
+bg=#e6d5b8
+bg_alt=#dccaa9
+surface=#e1cfb0
+overlay=#d0bc98
+border=#bfa881
+border_dim=#d0bc98
+selection=#d0bc98
 
 # text
 fg=#0f0e17

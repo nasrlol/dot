@@ -15,84 +15,133 @@ window#waybar {
     border: none;
 }
 
+/* Both bars are one solid strip across the full width, notch included */
 window#waybar > box {
-    background: @bg;
+    background: @surface;
     border-radius: 0;
 }
 
-/* Top bar is one solid strip across the full width, notch included */
-window#waybar.top > box {
-    background: @surface;
+window#waybar.top > box,
+window#waybar.top-external > box {
     border-bottom: 1px solid alpha(@fg, 0.12);
 }
 
-/* Bottom bar is one solid strip across the full width, like the top bar */
 window#waybar.bottom > box {
-    background: @surface;
     border-top: 1px solid alpha(@fg, 0.12);
 }
 
-window#waybar.bottom .modules-left > widget > *,
-window#waybar.bottom .modules-right > widget > *,
-window#waybar.bottom #custom-theme,
-window#waybar.bottom #custom-contributions,
-window#waybar.bottom #custom-build,
-window#waybar.bottom #custom-todo,
-window#waybar.bottom #custom-mail,
-window#waybar.bottom #idle_inhibitor {
-    min-width: 152px;
-    margin: 4px 2px 3px;
-    padding: 5px 0;
-    transition: background-color 150ms ease, color 150ms ease;
+/* ── Top bar layout ─────────────────────────────────────────────────────
+
+   Every module on the top bar has a fixed slot, so nothing moves when a
+   title, todo or track changes length. In GTK, min-width is the width of the
+   content, so a slot is min-width + left and right padding. The text is cut
+   with "…" at the slot edge ("max-length": 1 in modules.jsonc stops the
+   label asking for more).
+
+   Laptop (eDP-1, 2560px wide, notch over x ≈ 1110-1450):
+
+     | workspaces  build  todo ->| notch |      media      window     clock |
+     0                        1110    1450                              2560
+
+   The notch spacer is the only centre module, so GTK centres it on x = 1280
+   and it covers the notch exactly. That leaves 1110px for each side.
+     left   build 292 is fixed. todo has "expand": it takes whatever room is
+            left, right-aligned against the notch, and is at least 292. That
+            leaves 1110 - 584 = 526px for workspaces (48px each, about 10)
+            before they start pushing the notch spacer off centre.
+     right  media 400 + window 500 + clock 90 = 990 (120 spare)
+   Change any slot here and redo these sums so each side stays within 1110px.
+
+   media is the one module that comes and goes. It sits at the inner end of
+   the right group, so appearing moves nothing. */
+
+window#waybar.top #custom-notch {
+    min-width: 340px;
 }
 
-window#waybar.bottom .modules-left > widget > *:hover,
-window#waybar.bottom .modules-right > widget > *:hover,
-window#waybar.bottom #custom-theme:hover,
-window#waybar.bottom #custom-contributions:hover,
-window#waybar.bottom #custom-build:hover,
-window#waybar.bottom #custom-todo:hover,
-window#waybar.bottom #custom-mail:hover,
-window#waybar.bottom #idle_inhibitor:hover {
-    background: alpha(@fg, 0.08);
+/* No notch on other monitors, just a gap between todo and the right side */
+window#waybar.top-external #custom-notch {
+    min-width: 40px;
 }
 
-/* Extra gap before each group on the bottom bar:
-   left   cpu mem temp | disk
-   center theme contributions todo mail idle
-   right  vol bri | net speed bt | bat pwr */
-window#waybar.bottom #disk,
-window#waybar.bottom #custom-network,
-window#waybar.bottom #battery {
-    margin-left: 18px;
+#custom-build {
+    min-width: 260px;
+    padding: 0 16px;
+    font-size: 18px;
 }
 
-/* Workspaces span from the screen's left edge up to the notch
-   (~1110-1450 on this 2560px panel): 5 x 221px = 1105px. */
+#custom-todo {
+    min-width: 260px;
+    padding: 0 16px;
+    font-size: 18px;
+}
+
+#custom-media {
+    min-width: 376px;
+    padding: 0 12px;
+    color: @accent;
+    font-size: 18px;
+}
+
+#window {
+    min-width: 476px;
+    padding: 0 12px;
+    color: @fg_dim;
+    font-style: italic;
+    font-size: 18px;
+}
+
+#clock {
+    min-width: 58px;
+    padding: 0 16px;
+    color: @fg;
+    font-weight: bold;
+    font-size: 18px;
+    font-feature-settings: "tnum";
+}
+
+/* External monitors may be only 1920px wide: 940px per side.
+   right = media 250 + window 300 + clock 90 = 640 */
+window#waybar.top-external #custom-media {
+    min-width: 226px;
+}
+
+window#waybar.top-external #window {
+    min-width: 276px;
+}
+
+#custom-build.ok {
+    color: @green;
+}
+
+#custom-build.failed {
+    color: @rust;
+}
+
+#custom-todo.empty,
+#custom-todo.missing,
+#custom-build.none {
+    color: @fg_dim;
+}
+
+/* ── Workspaces ─────────────────────────────────────────────────────────── */
+
 #workspaces {
     margin: 0;
     padding: 0;
-    min-width: 1134px;
     background: transparent;
     border: none;
     border-radius: 0;
 }
 
-/* Each button is an equal slot (5 x 221px fills the block). The highlight is
-   drawn on the label, which GTK stretches across the whole slot. */
+/* Each button is an equal slot. The highlight is drawn on the label, which
+   GTK stretches across the whole slot. */
 #workspaces button {
-    min-width: 221px;
+    min-width: 48px;
     margin: 0;
     padding: 0;
-    border: none;
     border-radius: 0;
-    box-shadow: none;
     background: transparent;
-}
-
-/* media is wider (250px); #workspaces min-width above includes it */
-#workspaces button#niri-workspace-media {
-    min-width: 250px;
 }
 
 /* Strip the GTK theme's own button chrome (gradients, borders, glow, focus
@@ -122,10 +171,9 @@ window#waybar.bottom #battery {
 }
 
 #workspaces button label {
-    margin: 0;
     padding: 8px 0;
-    border-radius: 0;
     color: @fg_dim;
+    font-feature-settings: "tnum";
     transition: background-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
 }
 
@@ -149,187 +197,112 @@ window#waybar.bottom #battery {
 /* niri keeps a spare empty workspace at the end of each output; collapse
    empty unnamed ones unless they're being shown. Named workspaces (from
    niri's config.kdl) always stay visible. */
-#workspaces button.empty:not(.active):not(#niri-workspace-dev):not(#niri-workspace-debugger):not(#niri-workspace-term):not(#niri-workspace-web):not(#niri-workspace-media) {
-    margin: 0;
-    padding: 0;
+#workspaces button.empty:not(.active):not(#niri-workspace-dev):not(#niri-workspace-web):not(#niri-workspace-media):not(#niri-workspace-edit) {
     min-width: 0;
 }
 
-#workspaces button.empty:not(.active):not(#niri-workspace-dev):not(#niri-workspace-debugger):not(#niri-workspace-term):not(#niri-workspace-web):not(#niri-workspace-media) label {
-    margin: 0;
+#workspaces button.empty:not(.active):not(#niri-workspace-dev):not(#niri-workspace-web):not(#niri-workspace-media):not(#niri-workspace-edit) label {
     padding: 0;
     font-size: 0;
 }
 
-#custom-window {
-    margin: 4px 4px;
-    padding: 0 12px;
-    color: @fg_dim;
-    font-style: italic;
-    font-size: 18px;
+/* ── Bottom bar ─────────────────────────────────────────────────────────
+
+   Equal 152px slots, grouped with an extra gap before each group:
+     left   cpu mem temp | disk | gh
+     centre emerge (only while it runs)
+     right  vol | net tailscale bluetooth | power bat */
+
+window#waybar.bottom .modules-left > widget > *,
+window#waybar.bottom .modules-right > widget > * {
+    min-width: 152px;
+    margin: 4px 2px 3px;
+    padding: 5px 0;
 }
 
-#custom-build.ok {
-    color: @green;
-}
-
-#custom-build.failed {
-    color: @rust;
-}
-
-#custom-todo.empty {
-    color: @fg_dim;
-}
-
-#custom-media {
-    margin: 4px 4px;
-    padding: 0 12px;
-    color: @accent;
-    font-size: 18px;
+window#waybar.bottom #disk,
+window#waybar.bottom #custom-contributions,
+window#waybar.bottom #custom-network,
+window#waybar.bottom #custom-power {
+    margin-left: 18px;
 }
 
 #custom-emerge {
-    margin: 4px 4px;
-    padding: 0 12px;
-    color: @accent;
-    font-size: 18px;
-}
-
-#custom-media.stopped {
-    margin: 0;
-    padding: 0;
-}
-
-/* Clock is the last module on the right, pinned to the screen's right
-   edge, so media/window title changing size never moves it. */
-#clock {
-    margin: 4px 4px;
-    padding: 0 12px;
-    background: transparent;
-    color: @fg;
-    font-weight: bold;
-    font-size: 18px;
-    border-radius: 0;
-}
-
-#custom-volume,
-#custom-network,
-#battery,
-#disk,
-#cpu,
-#memory,
-#custom-temperature,
-#custom-contributions,
-#custom-build,
-#custom-todo,
-#custom-mail,
-#custom-netspeed,
-#backlight,
-#bluetooth,
-#custom-power,
-#custom-theme,
-#idle_inhibitor {
-    margin: 6px 4px;
+    margin: 4px 0 3px;
     padding: 5px 16px;
-    background: transparent;
-    color: @fg;
-    border-radius: 0;
+    color: @accent;
 }
 
-/* Fade state colour changes (muted, warning, disconnected, ...) */
-#custom-window,
-#custom-todo,
-#custom-mail,
-#custom-netspeed,
-#custom-media,
-#custom-emerge,
-#custom-volume,
-#custom-network,
-#battery,
-#disk,
-#cpu,
-#memory,
-#custom-temperature,
-#custom-contributions,
-#backlight,
-#bluetooth,
-#custom-power,
-#custom-theme,
-#idle_inhibitor,
-#clock {
+/* Digits all the same width, so the numbers don't jiggle as they change */
+window#waybar.bottom label {
+    font-feature-settings: "tnum";
+}
+
+/* ── States ─────────────────────────────────────────────────────────────── */
+
+#custom-volume.muted,
+#custom-contributions.none-today,
+#custom-contributions.error {
+    color: @fg_dim;
+}
+
+#cpu.warning,
+#memory.warning,
+#custom-temperature.warning,
+#custom-battery.warning {
+    color: @accent;
+}
+
+#cpu.critical,
+#memory.critical,
+#custom-temperature.critical,
+#custom-battery.critical,
+#custom-network.disconnected,
+#custom-tailscale.disconnected {
+    color: @rust;
+}
+
+/* Connectivity at a glance: green when connected, red when not; the
+   details are in the tooltip */
+#custom-network.connected,
+#custom-tailscale.connected,
+#bluetooth.connected {
+    color: @green;
+}
+
+#bluetooth.on,
+#bluetooth.off,
+#bluetooth.disabled,
+#bluetooth.no-controller {
+    color: @rust;
+}
+
+/* ── Hover and transitions ──────────────────────────────────────────────── */
+
+/* Fade state colour changes (muted, warning, failed, ...) */
+window#waybar label {
     transition: color 150ms ease, background-color 150ms ease;
 }
 
 /* Hover highlight on the clickable/scrollable modules, matching the
    workspace buttons */
 #clock:hover,
-#custom-media:hover,
 #custom-todo:hover,
-#custom-mail:hover,
+#custom-build:hover,
+#custom-media:hover,
 #custom-contributions:hover,
 #custom-volume:hover,
-#backlight:hover,
 #bluetooth:hover,
 #custom-power:hover,
-#custom-theme:hover,
-#idle_inhibitor:hover {
+#custom-tailscale:hover,
+#custom-battery:hover {
     background: alpha(@fg, 0.08);
     color: @fg;
 }
 
-/* Digits all the same width, so the speeds don't jiggle as they change */
-#custom-netspeed {
-    font-feature-settings: "tnum";
-}
-
-#custom-volume.muted {
-    color: @fg_dim;
-}
-
-#custom-network.disconnected {
-    color: @rust;
-}
-
-#battery.warning:not(.charging) {
-    color: @accent;
-}
-
-#battery.critical:not(.charging) {
-    color: @rust;
-}
-
-#cpu.warning,
-#memory.warning {
-    color: @accent;
-}
-
-#cpu.critical,
-#memory.critical {
-    color: @rust;
-}
-
-#custom-temperature.warning {
-    color: @accent;
-}
-
-#custom-temperature.critical {
-    color: @rust;
-}
-
-#custom-mail.empty,
-#custom-netspeed.idle,
-#custom-netspeed.offline,
-#custom-contributions.none-today,
-#custom-contributions.error,
-#bluetooth.off,
-#bluetooth.disabled,
-#idle_inhibitor.deactivated {
-    color: @fg_dim;
-}
-
 /* Tooltips (clock calendar, module details) use the theme instead of the
    GTK theme's default popup colours. The calendar's text colours come from
-   config.tmpl. */
+   modules.jsonc.tmpl. */
 tooltip,
 tooltip.background {
     background: @surface;

@@ -3,11 +3,11 @@
 been at it, and how long it took last time. Prints empty text when nothing
 is emerging, which hides the module.
 
-Reads /var/log/emerge.log, so the user has to be in the portage group."""
+Reads /var/log/emerge.log, so the user has to be in the portage group.
+waybar only runs this while emerge is running ("exec-if" in modules.jsonc)."""
 import json
 import os
 import re
-import subprocess
 import time
 from pathlib import Path
 
@@ -34,10 +34,6 @@ def name(atom):
     """sys-devel/llvm-19.1.7 -> sys-devel/llvm"""
     return VERSION.sub("", atom)
 
-
-if subprocess.run(["pgrep", "-x", "emerge"], capture_output=True).returncode != 0:
-    hidden()
-    raise SystemExit
 
 try:
     lines = LOG.read_text(errors="replace").splitlines()

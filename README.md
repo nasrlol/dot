@@ -44,7 +44,7 @@ The active mode lives in `~/.local/state/theme-mode`; `theme/gen` uses it.
 
 Edit a palette, run `theme/gen`, commit both the palette and the
 regenerated files (in dark mode, so the repo keeps dark outputs). Templates: foot `colors.ini`, niri `colors.kdl`, waybar
-`colors.css`/`colors.json`/`config`, fuzzel `fuzzel.ini`, tmux `colors.conf`, gf2 `gf2_config.ini`,
+`colors.css`/`modules.jsonc`, fuzzel `fuzzel.ini`, tmux `colors.conf`, gf2 `gf2_config.ini`,
 nvim `lua/ui/palette.lua`, emacs `nasr-theme.el`, greetd `greeter` (console
 palette for tuigreet), fish `conf.d/colors.fish`
 (including fzf).

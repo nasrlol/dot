@@ -1,0 +1,197 @@
+// Module definitions shared by every bar in config. Edit modules.jsonc.tmpl;
+// theme/gen renders it to modules.jsonc.
+//
+// "max-length": 1 on the fixed-slot modules is deliberate: it turns on GTK
+// ellipsizing and stops the label asking for more width than its slot. The
+// slot width itself is min-width in style.css, and the text is cut with "…"
+// at the slot's pixel edge, not after a character count.
+{
+  // ── top bar ──────────────────────────────────────────────────────────
+
+  "niri/workspaces": {
+    "all-outputs": true,
+    "format": "{index}"
+  },
+
+  // Empty centre slot exactly as wide as the notch (style.css)
+  "custom/notch": {
+    "format": " ",
+    "tooltip": false
+  },
+
+  "custom/todo": {
+    "exec": "~/.config/waybar/scripts/todo.py",
+    "return-type": "json",
+    "interval": 10,
+    "signal": 10,
+    "max-length": 1,
+    // Takes all the room left between build and the notch, text against the notch
+    "expand": true,
+    "align": 1,
+    "on-click": "~/.config/waybar/scripts/todo.py open",
+    "on-click-right": "~/.config/waybar/scripts/todo.py menu"
+  },
+
+  "custom/build": {
+    "exec": "~/.config/waybar/scripts/build.py",
+    "return-type": "json",
+    "interval": 60,
+    "signal": 9,
+    "max-length": 1,
+    "align": 0,
+    "on-click": "ghostty +new-window -e less -R +G ~/.local/state/build/log"
+  },
+
+  "custom/media": {
+    "exec": "~/.config/waybar/scripts/media.py",
+    "return-type": "json",
+    "max-length": 1,
+    "align": 0,
+    "on-click": "playerctl play-pause",
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous"
+  },
+
+  // Built in: follows niri's event stream inside waybar, no extra process.
+  // Unlike custom modules it cuts the title to max-length characters itself,
+  // so this is a real character cap; 45 characters fit inside its slot.
+  "niri/window": {
+    "format": "{title}",
+    "separate-outputs": true,
+    "max-length": 45,
+    "align": 0
+  },
+
+  "clock": {
+    "timezone": "Europe/Brussels",
+    "format": "{:%H:%M}",
+    "format-alt": "{:%A, %B %d, %Y}",
+    "max-length": 1,
+    "align": 1,
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='{{fg}}'><b>{}</b></span>",
+        "days": "<span color='{{fg_bright}}'>{}</span>",
+        "weeks": "<span color='{{fg_dim}}'><b>W{}</b></span>",
+        "weekdays": "<span color='{{accent}}'><b>{}</b></span>",
+        "today": "<span color='{{rust}}'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode"
+    },
+    "interval": 60
+  },
+
+  // ── bottom bar ───────────────────────────────────────────────────────
+
+  "cpu": {
+    "interval": 5,
+    "format": "cpu {usage}%",
+    "states": {
+      "warning": 70,
+      "critical": 90
+    },
+    "tooltip": false
+  },
+
+  "memory": {
+    "interval": 10,
+    "format": "mem {used:0.1f}G",
+    "states": {
+      "warning": 75,
+      "critical": 90
+    },
+    "tooltip-format": "{used:0.1f}G of {total:0.1f}G used ({percentage}%)\nswap {swapUsed:0.1f}G of {swapTotal:0.1f}G"
+  },
+
+  "custom/temperature": {
+    "exec": "~/.config/waybar/scripts/temperature.py",
+    "return-type": "json",
+    "interval": 10
+  },
+
+  "disk": {
+    "path": "/",
+    "interval": 60,
+    "format": "{free}",
+    "tooltip-format": "{used} used of {total} ({percentage_used}%)"
+  },
+
+  "custom/contributions": {
+    "exec": "~/.config/waybar/scripts/contributions.py",
+    "return-type": "json",
+    "interval": 900,
+    "on-click": "xdg-open https://github.com/nasrlol"
+  },
+
+  // exec-if keeps python (and the 1.4MB log parse) from running every 10s
+  // when nothing is being built; a failed exec-if hides the module
+  "custom/emerge": {
+    "exec": "~/.config/waybar/scripts/emerge.py",
+    "exec-if": "pgrep -x emerge",
+    "return-type": "json",
+    "interval": 10,
+    "max-length": 80
+  },
+
+  "custom/volume": {
+    "exec": "~/.config/waybar/scripts/volume.py",
+    "return-type": "json",
+    "on-click": "~/.config/waybar/scripts/volume.py mute",
+    "on-click-right": "pavucontrol-qt",
+    "on-scroll-up": "~/.config/waybar/scripts/volume.py up",
+    "on-scroll-down": "~/.config/waybar/scripts/volume.py down"
+  },
+
+  // Speed in the bar (green when connected), connection details in the tooltip
+  "custom/network": {
+    "exec": "~/.config/waybar/scripts/network.py",
+    "return-type": "json"
+  },
+
+  // Green when connected, red when not; tailnet and online peers in the tooltip
+  "custom/tailscale": {
+    "exec": "~/.config/waybar/scripts/tailscale.py",
+    "return-type": "json",
+    "interval": 15,
+    "signal": 12,
+    "on-click": "~/.config/waybar/scripts/tailscale.py toggle"
+  },
+
+  // Just "bluetooth", green with a device connected and red otherwise (style.css);
+  // the controller and connected devices (with battery) are in the tooltip
+  "bluetooth": {
+    "format": "bluetooth",
+    "format-disabled": "bluetooth",
+    "format-off": "bluetooth",
+    "format-connected": "bluetooth",
+    "tooltip-format": "{controller_alias}  {status}\nno devices connected",
+    "tooltip-format-off": "bluetooth off",
+    "tooltip-format-disabled": "bluetooth disabled",
+    "tooltip-format-connected": "{controller_alias}  {num_connections} connected\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}  {device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}  {device_address}  battery {device_battery_percentage}%",
+    "on-click": "bluetoothctl show | grep -q 'Powered: yes' && bluetoothctl power off || bluetoothctl power on"
+  },
+
+  // Not the built-in battery module: see the docstring in battery.py
+  "custom/battery": {
+    "exec": "~/.config/waybar/scripts/battery.py",
+    "return-type": "json",
+    "interval": 10,
+    "signal": 11,
+    "on-click": "~/.config/waybar/scripts/battery.py limit"
+  },
+
+  "custom/power": {
+    "format": "power",
+    "tooltip-format": "lock, suspend, logout, reboot, poweroff, stay awake",
+    "on-click": "~/.config/waybar/scripts/power.sh"
+  }
+}

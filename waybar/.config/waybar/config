@@ -1,220 +1,52 @@
+// Bars only: which modules go where, per output. Every module is defined once
+// in modules.jsonc (generated from modules.jsonc.tmpl by theme/gen, because
+// the clock's calendar uses palette colours) and pulled in with "include".
+//
+// The top bars are laid out from fixed pixel slots (see style.css), so no
+// module's text length can move another module, and on the laptop the notch
+// spacer is the centre widget, so it sits exactly over the notch. spacing is 0 on every bar: all
+// gaps live in style.css, where the slot arithmetic is.
 [
   {
+    // Laptop panel: 2560px wide with the notch in the middle
     "name": "top",
+    "output": "eDP-1",
+    "include": "~/.config/waybar/modules.jsonc",
     "layer": "top",
     "position": "top",
     "height": 55,
-    "spacing": 10,
-    "margin-top": 0,
-    "margin-right": 0,
-    "margin-bottom": 0,
-    "margin-left": 0,
-    "modules-left": [
-      "niri/workspaces"
-    ],
-    "modules-right": [
-      "custom/emerge",
-      "custom/media",
-      "custom/window",
-      "clock"
-    ],
-    "niri/workspaces": {
-      "all-outputs": true,
-      "format": "{value}"
-    },
-    "clock": {
-      "timezone": "Europe/Brussels",
-      "format": "{:%H:%M}",
-      "format-alt": "{:%A, %B %d, %Y}",
-      "tooltip-format": "<tt><small>{calendar}</small></tt>",
-      "calendar": {
-        "mode": "month",
-        "mode-mon-col": 3,
-        "weeks-pos": "right",
-        "on-scroll": 1,
-        "format": {
-          "months": "<span color='#c4a882'><b>{}</b></span>",
-          "days": "<span color='#d9c6a5'>{}</span>",
-          "weeks": "<span color='#8b7355'><b>W{}</b></span>",
-          "weekdays": "<span color='#d48b30'><b>{}</b></span>",
-          "today": "<span color='#c84820'><b><u>{}</u></b></span>"
-        }
-      },
-      "actions": {
-        "on-click-right": "mode"
-      },
-      "interval": 60
-    },
-    "custom/emerge": {
-      "exec": "~/.config/waybar/scripts/emerge.py",
-      "return-type": "json",
-      "interval": 10
-    },
-    "custom/media": {
-      "exec": "~/.config/waybar/scripts/media.py",
-      "return-type": "json",
-      "on-click": "playerctl play-pause",
-      "on-scroll-up": "playerctl next",
-      "on-scroll-down": "playerctl previous"
-    },
-    "custom/window": {
-      "exec": "~/.config/waybar/scripts/niri-window.py",
-      "return-type": "json"
-    }
+    "spacing": 0,
+    // Let the left group fill up to the centre, so todo ("expand") can grow to it
+    "expand-left": true,
+    "modules-left": ["niri/workspaces", "custom/build", "custom/todo"],
+    "modules-center": ["custom/notch"],
+    "modules-right": ["custom/media", "niri/window", "clock"]
+  },
+  {
+    // Every other monitor: same modules; the "notch" is just a small gap there
+    "name": "top-external",
+    "output": ["!eDP-1", "*"],
+    "include": "~/.config/waybar/modules.jsonc",
+    "layer": "top",
+    "position": "top",
+    "height": 55,
+    "spacing": 0,
+    // Let the left group fill up to the centre, so todo ("expand") can grow to it
+    "expand-left": true,
+    "modules-left": ["niri/workspaces", "custom/build", "custom/todo"],
+    "modules-center": ["custom/notch"],
+    "modules-right": ["custom/media", "niri/window", "clock"]
   },
   {
     "name": "bottom",
+    "include": "~/.config/waybar/modules.jsonc",
     "layer": "top",
     "position": "bottom",
-    "height": 35,
-    "margin-top": 0,
-    "margin-bottom": 0,
-    "modules-center": [
-      "custom/theme",
-      "custom/contributions",
-      "custom/build",
-      "custom/todo",
-      "custom/mail",
-      "idle_inhibitor"
-    ],
-    "custom/theme": {
-      "exec": "~/.config/waybar/scripts/theme.sh",
-      "return-type": "json",
-      "format": "{icon}",
-      "format-icons": {
-        "dark": "dark",
-        "light": "light"
-      },
-      "on-click": "~/dotfiles/theme/switch"
-    },
-    "modules-left": [
-      "cpu",
-      "memory",
-      "custom/temperature",
-      "disk"
-    ],
-    "cpu": {
-      "interval": 5,
-      "format": "cpu {usage}%",
-      "states": {
-        "warning": 70,
-        "critical": 90
-      },
-      "tooltip": false
-    },
-    "memory": {
-      "interval": 10,
-      "format": "mem {used:0.1f}G",
-      "states": {
-        "warning": 75,
-        "critical": 90
-      },
-      "tooltip-format": "{used:0.1f}G of {total:0.1f}G used ({percentage}%)\nswap {swapUsed:0.1f}G of {swapTotal:0.1f}G"
-    },
-    "disk": {
-      "path": "/",
-      "interval": 60,
-      "format": "disk {free}",
-      "tooltip-format": "{used} used of {total} ({percentage_used}%)"
-    },
-    "custom/temperature": {
-      "exec": "~/.config/waybar/scripts/temperature.py",
-      "return-type": "json",
-      "interval": 10
-    },
-    "custom/build": {
-      "exec": "~/.config/waybar/scripts/build.py",
-      "return-type": "json",
-      "interval": "once",
-      "signal": 9,
-      "on-click": "ghostty +new-window -e less -R +G ~/.local/state/build/log"
-    },
-    "custom/todo": {
-      "exec": "~/.config/waybar/scripts/todo.py",
-      "return-type": "json",
-      "interval": 30,
-      "on-click": "emacsclient -c -a '' ~/todo.txt"
-    },
-    "custom/mail": {
-      "exec": "~/.config/waybar/scripts/mail.py",
-      "return-type": "json",
-      "interval": 60,
-      "on-click": "emacsclient -c -a '' -e '(mu4e)'"
-    },
-    "custom/netspeed": {
-      "exec": "~/.config/waybar/scripts/netspeed.py",
-      "return-type": "json"
-    },
-    "custom/contributions": {
-      "exec": "~/.config/waybar/scripts/contributions.py",
-      "return-type": "json",
-      "interval": 900,
-      "on-click": "xdg-open https://github.com/nasrlol"
-    },
-    "modules-right": [
-      "custom/volume",
-      "backlight",
-      "custom/network",
-      "custom/netspeed",
-      "bluetooth",
-      "battery",
-      "custom/power"
-    ],
-    "custom/power": {
-      "format": "pwr",
-      "tooltip-format": "lock, suspend, logout, reboot, poweroff",
-      "on-click": "~/.config/waybar/scripts/power.sh"
-    },
-    "backlight": {
-      "device": "apple-panel-bl",
-      "format": "bri {percent}%",
-      "scroll-step": 5
-    },
-    "bluetooth": {
-      "format": "bt on",
-      "format-disabled": "bt off",
-      "format-off": "bt off",
-      "format-connected": "bt {num_connections}",
-      "tooltip-format": "{controller_alias}\t{controller_address}",
-      "tooltip-format-connected": "{device_enumerate}",
-      "tooltip-format-enumerate-connected": "{device_alias}",
-      "tooltip-format-enumerate-connected-battery": "{device_alias}: {device_battery_percentage}%",
-      "on-click": "bluetoothctl show | grep -q 'Powered: yes' && bluetoothctl power off || bluetoothctl power on"
-    },
-    "idle_inhibitor": {
-      "format": "{icon}",
-      "format-icons": {
-        "activated": "awake",
-        "deactivated": "idle"
-      },
-      "tooltip-format-activated": "Idle inhibitor on",
-      "tooltip-format-deactivated": "Idle inhibitor off"
-    },
+    "height": 42,
     "spacing": 0,
-    "margin-left": 0,
-    "margin-right": 0,
-    "custom/volume": {
-      "exec": "~/.config/waybar/scripts/volume.py",
-      "return-type": "json",
-      "on-click": "~/.config/waybar/scripts/volume.py mute",
-      "on-click-right": "pavucontrol-qt",
-      "on-scroll-up": "~/.config/waybar/scripts/volume.py up",
-      "on-scroll-down": "~/.config/waybar/scripts/volume.py down"
-    },
-    "custom/network": {
-      "exec": "~/.config/waybar/scripts/network.py",
-      "return-type": "json"
-    },
-    "battery": {
-      "interval": 30,
-      "states": {
-        "warning": 25,
-        "critical": 10
-      },
-      "format": "bat {capacity}%",
-      "format-charging": "chg {capacity}%",
-      "format-plugged": "ac {capacity}%",
-      "tooltip-format": "{timeTo}"
-    }
+    "modules-left": ["cpu", "memory", "custom/temperature", "disk", "custom/contributions"],
+    // Only visible while emerge runs; alone in the centre, so its width moves nothing
+    "modules-center": ["custom/emerge"],
+    "modules-right": ["custom/volume", "custom/network", "custom/tailscale", "bluetooth", "custom/power", "custom/battery"]
   }
 ]

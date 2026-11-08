@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 """Long-running waybar module: shows the MPRIS player that's currently playing.
 
-Hidden (empty text) when nothing is playing. Independent of niri, so it shows
+Hidden (empty text) when nothing is playing. While playing it fills a
+fixed slot (style.css) and waybar cuts long titles with "…" at its edge, so
+the title's length never moves the modules beside it. Independent of niri, so it shows
 regardless of which workspace the player's window lives on.
 """
 import html
 import json
 import subprocess
 import sys
-
-# Leaves room for the window title next to it, clear of the notch
-MAX_LEN = 40
 
 ICON_PLAY = "▶\ufe0e"
 FMT = "{{status}}\t{{playerName}}\t{{artist}}\t{{title}}"
@@ -37,14 +36,11 @@ def emit():
         return
     player, artist, title = p
     label = f"{artist} – {title}" if artist and title else (title or artist or player)
-    full = label
-    if len(label) > MAX_LEN:
-        label = label[: MAX_LEN - 1] + "…"
     print(
         json.dumps(
             {
                 "text": f"{ICON_PLAY}  {html.escape(label)}",
-                "tooltip": html.escape(f"{player}: {full}"),
+                "tooltip": html.escape(f"{player}: {label}"),
                 "class": "playing",
             }
         ),
