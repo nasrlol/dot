@@ -2,16 +2,52 @@
 # One per line: <label><TAB><shell command>. Blank lines and # comments are skipped.
 # Commands run detached via bash -c; wrap terminal programs in `term`, which
 # opens a ghostty window and keeps it open until you press enter.
+# The palette script also adds entries generated on the fly: a "todo project"
+# per todo file, "bt connect/disconnect" per paired device, "wifi connect" per
+# visible network, plus documents and notes.
 
+# todo (waybar's todo module, scripts/todo.py)
+todo open	~/.config/waybar/scripts/todo.py open
+todo switch project	~/.config/waybar/scripts/todo.py pick
+todo update with claude	~/.config/waybar/scripts/todo.py update
+
+# build
+build last log	ghostty +new-window -e less -R +G ~/.local/state/build/log
+
+# power
+power lock	~/.config/waybar/scripts/power.sh lock
+power suspend	~/.config/waybar/scripts/power.sh suspend
+power logout	~/.config/waybar/scripts/power.sh logout
+power reboot	~/.config/waybar/scripts/power.sh reboot
+power poweroff	~/.config/waybar/scripts/power.sh poweroff
+power stay awake toggle	~/.config/waybar/scripts/idle.sh toggle
+power battery limit 80/100 toggle	~/.config/waybar/scripts/battery.py limit
+
+# theme
+theme toggle	~/dotfiles/theme/switch toggle
+theme dark	~/dotfiles/theme/switch dark
+theme light	~/dotfiles/theme/switch light
+
+# bluetooth
+tailscale up/down toggle	~/.config/waybar/scripts/tailscale.py toggle
+bt on	bluetoothctl power on
+bt off	bluetoothctl power off
+
+# wifi
+wifi on	nmcli radio wifi on
+wifi off	nmcli radio wifi off
+wifi rescan	nmcli dev wifi rescan
+
+# sound
+sound mute toggle	~/.config/waybar/scripts/volume.py mute
+sound mixer	pavucontrol-qt
+
+# apps
 open project	4ed-open
 jump to window	niri-window-jump
 checkpoint dirty repos	term checkpoint-select
 dotfiles in lazygit	ghostty +new-window -e lazygit -p ~/dotfiles
-last build log	ghostty +new-window -e less -R +G ~/.local/state/build/log
 mail	emacsclient -c -a '' -e '(mu4e)'
-todo	emacsclient -c -a '' ~/todo.txt
-toggle theme	~/dotfiles/theme/switch
 restart waybar	waybar-restart
 dismiss notifications	makoctl dismiss --all
 btrfs maintenance	term btrfs-maint
-lock screen	~/.config/swaylock/lock

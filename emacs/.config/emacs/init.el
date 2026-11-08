@@ -169,3 +169,6 @@
 
 ;; Portfolio blog posts (header template for ~/dev/portfolio/posts)
 (load (expand-file-name "nasr-blog.el" user-emacs-directory) nil 'nomessage)
+
+;; Report finished compiles to waybar's build module (like build-notify)
+(load (expand-file-name "nasr-build.el" user-emacs-directory) nil 'nomessage)
