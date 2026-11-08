@@ -1,0 +1,2 @@
+# JPEG/WebP wallpapers (without it swaybg only loads PNG); niri spawns swaybg
+gui-apps/swaybg gdk-pixbuf

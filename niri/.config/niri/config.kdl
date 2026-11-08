@@ -49,8 +49,11 @@ blur {
 }
 
 
+// niri owns scaling: each output gets its own scale and apps follow it
+// (Firefox devPixelsPerPx -1 via firefox/link, no QT_SCALE_FACTOR).
+// Externals stay at 1; below 1 niri downsamples (blurry text).
 output "eDP-1" {
-    mode "2560x1600@60.000"
+    mode "2560x1664@60.000"
     scale 1.0
     transform "normal"
     position x=0 y=0
@@ -61,19 +64,19 @@ output "Samsung Electric Company U28E570 H4LN904216" {
     scale 1
     focus-at-startup
     transform "normal"
-    position x=2560 y=0
+    position x=1707 y=0
 }
 
 output "Iiyama North America PL2470H 0x000001E2" {
     mode "1920x1080@143.998"
-    scale 0.7
-    position x=2560 y=0
+    scale 1
+    position x=1707 y=0
 }
 
 output "Philips Consumer Electronics Company PHL 273V7 UHB1751015164" {
     mode "1920x1080@60.000"
-    scale 0.7
-    position x=2560 y=0
+    scale 0.8
+    position x=1707 y=0
 }
 
 layout {
@@ -120,17 +123,23 @@ layout {
 }
 
 environment {
-    QT_SCALE_FACTOR "1.5"
     XDG_CURRENT_DESKTOP "niri"
     // same agent and D-Bus sockets fish/OpenRC use, so GUI apps and shells share one bus
     SSH_AUTH_SOCK "/run/user/1000/ssh-agent.socket"
     DBUS_SESSION_BUS_ADDRESS "unix:path=/run/user/1000/bus"
 }
 
-spawn-at-startup "dbus-update-activation-environment" "WAYLAND_DISPLAY" "DISPLAY" "XDG_CURRENT_DESKTOP" "QT_SCALE_FACTOR" "QT_QPA_PLATFORM" "XCURSOR_THEME" "XCURSOR_SIZE" "DBUS_SESSION_BUS_ADDRESS" "XDG_RUNTIME_DIR"
+spawn-at-startup "dbus-update-activation-environment" "WAYLAND_DISPLAY" "DISPLAY" "XDG_CURRENT_DESKTOP" "QT_QPA_PLATFORM" "XCURSOR_THEME" "XCURSOR_SIZE" "DBUS_SESSION_BUS_ADDRESS" "XDG_RUNTIME_DIR"
 spawn-at-startup "gentoo-pipewire-launcher"
 // waybar/fonts.conf keeps the bar's emoji monochrome (Noto Emoji).
 spawn-at-startup "sh" "-c" "FONTCONFIG_FILE=~/.config/waybar/fonts.conf exec waybar"
+// Wallpaper, scaled to cover every output (crops instead of letterboxing)
+spawn-at-startup "sh" "-c" "exec swaybg --mode fill --image ~/xp.jpg"
+// Also draw it behind the overview and workspace gaps, not just the desktop
+layer-rule {
+    match namespace="^wallpaper$"
+    place-within-backdrop true
+}
 // Emacs server in the session env (Wayland, ssh-agent); Mod+E attaches to it.
 spawn-at-startup "emacs" "--fg-daemon"
 // Resident Ghostty (gtk-single-instance) so Mod+Return opens windows instantly.
@@ -140,7 +149,8 @@ spawn-at-startup "sh" "-c" "~/.config/niri/gen-window-rules"
 spawn-at-startup "sh" "-c" "exec ~/.local/bin/lan-mouse daemon"
 // Lock after 5 min idle, power off displays after 6 min, lock before sleep.
 // swaylock/lock draws the background (quote, contributions, open windows).
-spawn-at-startup "swayidle" "timeout" "300" "~/.config/swaylock/lock" "timeout" "360" "niri msg action power-off-monitors" "resume" "niri msg action power-on-monitors" "before-sleep" "~/.config/swaylock/lock"
+// (the swayidle command lives in idle.sh so the power menu can toggle it)
+spawn-at-startup "~/.config/waybar/scripts/idle.sh" "start"
 
 // elogind isn't running, so lock screen and suspend to RAM via sudo on lid close.
 switch-events {
@@ -152,35 +162,41 @@ hotkey-overlay {
 }
 
 prefer-no-csd
+// The panel is 60Hz, so smoothness comes from spreading motion over more
+// frames: softer springs (lower stiffness = longer glide) and damping 1.0
+// (critically damped: no overshoot or end-of-motion wobble). Window
+// open/close use a long-tail deceleration curve instead of a short cubic.
+// Movement that follows the user's input (workspace switch, scrolling the
+// view) stays a bit stiffer than the rest so it doesn't feel laggy.
 animations {
     slowdown 1.0
 
     workspace-switch {
-        spring damping-ratio=0.95 stiffness=400 epsilon=0.0001
+        spring damping-ratio=1.0 stiffness=300 epsilon=0.0001
     }
     horizontal-view-movement {
-        spring damping-ratio=0.95 stiffness=420 epsilon=0.0001
+        spring damping-ratio=1.0 stiffness=300 epsilon=0.0001
     }
     window-movement {
-        spring damping-ratio=0.95 stiffness=420 epsilon=0.0001
+        spring damping-ratio=1.0 stiffness=260 epsilon=0.0001
     }
     window-resize {
-        spring damping-ratio=0.95 stiffness=420 epsilon=0.0001
+        spring damping-ratio=1.0 stiffness=260 epsilon=0.0001
     }
     overview-open-close {
-        spring damping-ratio=0.95 stiffness=400 epsilon=0.0001
+        spring damping-ratio=1.0 stiffness=260 epsilon=0.0001
     }
     window-open {
-        duration-ms 180
-        curve "ease-out-cubic"
+        duration-ms 260
+        curve "cubic-bezier" 0.05 0.7 0.1 1.0
     }
     window-close {
-        duration-ms 150
-        curve "ease-out-cubic"
+        duration-ms 200
+        curve "cubic-bezier" 0.3 0.0 0.8 0.15
     }
 }
 window-rule {
-    match app-id=r#"firefox$"#  title="^Picture-in-Picture$"
+    match app-id=r#"^firefox(-bin)?$"# title="^Picture-in-Picture$"
     match app-id=r#"chromium$"# title="^Picture-in-Picture$"
     open-floating true
 }
@@ -190,7 +206,10 @@ workspace "dev" {
     open-on-output "Iiyama North America PL2470H 0x000001E2"
 }
 
-workspace "web"
+// Web lands on the external when it is plugged in, the laptop otherwise.
+workspace "web" {
+    open-on-output "Philips Consumer Electronics Company PHL 273V7 UHB1751015164"
+}
 workspace "media"
 workspace "edit"
 
@@ -284,6 +303,7 @@ binds {
 
     Mod+Backslash       { focus-monitor-next; }
     Mod+Shift+Backslash { move-column-to-monitor-next; }
+    Mod+Ctrl+Backslash  { move-workspace-to-monitor-next; }
 
     Mod+Shift+Left  { focus-monitor-left; }
     Mod+Shift+Down  { focus-monitor-down; }

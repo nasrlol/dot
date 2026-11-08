@@ -11,7 +11,6 @@ setopt PROMPT_SUBST
 
 export EDITOR="nvim"
 export VISUAL="nvim"
-export QT_SCALE_FACTOR=1.5
 
 bindkey -v
 bindkey '^R' history-incremental-search-backward

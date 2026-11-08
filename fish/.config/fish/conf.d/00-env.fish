@@ -4,7 +4,6 @@ set -gx EDITOR nvim
 set -gx VISUAL nvim
 set -gx PAGER less
 set -gx MANPAGER "nvim +Man!"
-set -gx QT_SCALE_FACTOR 1.5
 set -gx QT_QPA_PLATFORM "wayland;xcb"
 set -gx LANG en_US.UTF-8
 

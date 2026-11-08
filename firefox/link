@@ -13,6 +13,17 @@ profile=$root/$(sed -n 's/^Default=//p' "$root/installs.ini" | head -n1)
 
 ln -sfn "$dots/chrome" "$profile/chrome"
 
-pref='user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);'
-grep -qF "$pref" "$profile/user.js" 2>/dev/null || echo "$pref" >> "$profile/user.js"
+# userChrome.css on; follow the output scale niri reports (-1 = system), with
+# text 1.2x on top (a multiplier, so it still adapts per monitor).
+# Drop any older fixed devPixelsPerPx so the -1.0 line below is the only one.
+sed -i '/layout.css.devPixelsPerPx/{/"-1.0"/!d}' "$profile/user.js" 2>/dev/null || true
+sed -i '/ui.textScaleFactor/{/ 120)/!d}' "$profile/user.js" 2>/dev/null || true
+for pref in \
+    'user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);' \
+    'user_pref("layout.css.devPixelsPerPx", "-1.0");' \
+    'user_pref("widget.wayland.fractional-scale.enabled", true);' \
+    'user_pref("ui.textScaleFactor", 120);'
+do
+    grep -qF "$pref" "$profile/user.js" 2>/dev/null || echo "$pref" >> "$profile/user.js"
+done
 echo "linked $profile/chrome (restart Firefox to apply)"

@@ -4,7 +4,6 @@ export EDITOR=nvim VISUAL=nvim
 export XDG_CONFIG_HOME="$HOME/.config" XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state" XDG_CACHE_HOME="$HOME/.cache"
 export LESSHISTFILE="$XDG_STATE_HOME/less/history"
-export QT_SCALE_FACTOR=1.5
 export QT_QPA_PLATFORM="wayland;xcb"
 case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) PATH="$HOME/.local/bin:$PATH" ;; esac
 case ":$PATH:" in *":$XDG_DATA_HOME/cargo/bin:"*) ;; *) PATH="$XDG_DATA_HOME/cargo/bin:$PATH" ;; esac
