@@ -32,6 +32,14 @@ restic backup --one-file-system --exclude-caches \
 	--exclude=__pycache__ --exclude=.zig-cache --exclude=zig-cache \
 	--exclude="$HOME/dev/*/build" \
 	--exclude="$HOME/dev/flood-simulator/working_data" \
+	--exclude="$HOME/dev/flood-simulator/code/cache" \
+	--exclude="$HOME/dev/autumn/source/thirdparty" \
+	--exclude="$HOME/Videos/Quran" \
+	--exclude="$HOME/Archive/linux" --exclude="$HOME/Archive/git" \
+	--exclude="$HOME/Archive/gitbutler" --exclude="$HOME/Archive/rizin" \
+	--exclude="$HOME/Archive/4coder_qol" --exclude="$HOME/Archive/discord-example-app" \
+	--exclude="$HOME/Archive/jai-shooter" --exclude="$HOME/Archive/nob.h" \
+	--exclude="$HOME/Archive/jaidoku" \
 	--exclude=.DS_Store --exclude=__MACOSX \
 	dev Documents Pictures Videos school Archive Mail intigriti dotfiles \
 	.config/mozilla/firefox/*/bookmarkbackups
