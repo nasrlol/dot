@@ -1,0 +1,40 @@
+#!/bin/sh
+# Back up the important parts of ~ to amiens (SMB share over Tailscale) with
+# restic: encrypted, deduplicated, with snapshot history.
+#   backup            take a snapshot, then prune old ones
+#   backup init       create the repository (once)
+#   backup <args>     any other restic command, e.g. `backup snapshots`,
+#                     `backup mount ~/mnt`, `backup restore latest --target /tmp/r`
+# The password lives in ~/.config/restic/password, which is never backed up:
+# keep a copy in Bitwarden or the backups cannot be decrypted.
+set -eu
+
+RESTIC_REPOSITORY="/mnt/amiens/share/backups/$(hostname)"
+RESTIC_PASSWORD_FILE="$HOME/.config/restic/password"
+export RESTIC_REPOSITORY RESTIC_PASSWORD_FILE
+
+command -v restic >/dev/null || { echo "backup: restic not installed (emerge app-backup/restic)" >&2; exit 1; }
+[ -r "$RESTIC_PASSWORD_FILE" ] || { echo "backup: missing $RESTIC_PASSWORD_FILE" >&2; exit 1; }
+# Touching the path triggers the autofs mount; fails fast when amiens is offline
+ls /mnt/amiens/share >/dev/null 2>&1 || { echo "backup: amiens is not reachable" >&2; exit 1; }
+
+if [ $# -gt 0 ]; then
+	if [ "$1" = init ]; then
+		mkdir -p "$RESTIC_REPOSITORY"
+	fi
+	exec restic "$@"
+fi
+
+cd "$HOME"
+restic backup --one-file-system --exclude-caches \
+	--exclude='.git/objects/pack/tmp_*' \
+	--exclude=node_modules --exclude=target --exclude=.venv --exclude=venv \
+	--exclude=__pycache__ --exclude=.zig-cache --exclude=zig-cache \
+	--exclude="$HOME/dev/*/build" \
+	--exclude="$HOME/dev/flood-simulator/working_data" \
+	--exclude=.DS_Store --exclude=__MACOSX \
+	dev Documents Pictures Videos school Archive Mail intigriti dotfiles \
+	.config/mozilla/firefox/*/bookmarkbackups
+
+# 7 daily, 4 weekly, 6 monthly snapshots
+restic forget --prune --keep-daily 7 --keep-weekly 4 --keep-monthly 6
