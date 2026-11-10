@@ -152,9 +152,9 @@ spawn-at-startup "sh" "-c" "exec ~/.local/bin/lan-mouse daemon"
 // (the swayidle command lives in idle.sh so the power menu can toggle it)
 spawn-at-startup "~/.config/waybar/scripts/idle.sh" "start"
 
-// elogind isn't running, so lock screen and suspend to RAM via sudo on lid close.
+// Lock on lid close; suspend via sudo unless ~/.local/bin/stay-awake has a live pid registered.
 switch-events {
-    lid-close { spawn "sh" "-c" "~/.config/swaylock/lock & sleep 1; sudo -n sh -c 'echo mem > /sys/power/state'"; }
+    lid-close { spawn "sh" "-c" "~/.config/niri/lid-close"; }
 }
 
 hotkey-overlay {
