@@ -14,7 +14,6 @@ window-rule {
     match app-id=r#"(?i)^(org\.gnome\.meld|meld)$"#  // Meld
     match app-id=r#"(?i)^(qdbusviewer|qdbusviewer6)$"#  // Qt D-Bus Viewer
     match app-id=r#"(?i)^(rad-debugger|raddbg)$"#  // RAD Debugger
-    match app-id=r#"(?i)^(raddbg)$"#  // The RAD Debugger
     match app-id=r#"(?i)^(seergdb)$"#  // SeerGdb
     match app-id=r#"(?i)^(tracy-profiler)$"#  // Tracy Profiler
     match app-id=r#"^tracy$"#  // Tracy Profiler

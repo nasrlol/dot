@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Pick a project dir with fuzzel and open only raddbg in it (no 4coder, no
+# terminal; 4ed-open does the whole workspace).
+#   project.raddbg in the dir  raddbg --project:<dir>/project.raddbg, skipped
+#                              when one is already running for that project
+#   no project.raddbg          plain raddbg with the dir as working directory
+# Lists every dir under ~/dev that has a project.raddbg or project.4coder, plus
+# the top-level ~/dev dirs. You can also type any path (e.g. ~/foo).
+# Bound to Mod+D in niri, "open project in raddbg" in the palette.
+
+set -euo pipefail
+
+RADDBG=/opt/raddbg/raddbg
+
+list() {
+    {
+        find "$HOME/dev" -maxdepth 3 \( -name project.raddbg -o -name project.4coder \) \
+            -not -path '*/custom/*' -printf '%h\n' 2>/dev/null
+        find "$HOME/dev" -mindepth 1 -maxdepth 1 -type d -not -name '.*' 2>/dev/null
+    } | sed "s|^$HOME|~|" | sort -u
+}
+
+choice=$(list | fuzzel --dmenu --prompt 'raddbg ') || exit 0
+[ -n "$choice" ] || exit 0
+
+dir="${choice/#\~/$HOME}"
+if [ ! -d "$dir" ]; then
+    notify-send raddbg "not a directory: $dir"
+    exit 1
+fi
+cd "$dir"
+
+if [ -f project.raddbg ]; then
+    pgrep -u "$USER" -f -- "--project:$dir/project.raddbg" >/dev/null && exit 0
+    setsid -f "$RADDBG" --project:"$dir/project.raddbg" >/dev/null 2>&1 </dev/null
+else
+    setsid -f "$RADDBG" >/dev/null 2>&1 </dev/null
+fi

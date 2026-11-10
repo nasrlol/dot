@@ -268,7 +268,8 @@ binds {
     Mod+N hotkey-overlay-title="4coder"    { spawn "/opt/4coder/build/4ed";       }
     Mod+Shift+N hotkey-overlay-title="4coder + raddbg project" { spawn "/home/nasr/.local/bin/4ed-open"; }
     Mod+G hotkey-overlay-title="halloy"    { spawn "/home/nasr/.local/share/cargo/bin/halloy"; }
-    Mod+D hotkey-overlay-title="raddbg"    { spawn "/opt/raddbg/raddbg"; }
+    Mod+D hotkey-overlay-title="raddbg in project" { spawn "/home/nasr/.local/bin/raddbg-open"; }
+    Mod+Shift+D hotkey-overlay-title="raddbg"    { spawn "/opt/raddbg/raddbg"; }
     Mod+Shift+T hotkey-overlay-title="Toggle light/dark theme" { spawn "/home/nasr/dotfiles/theme/switch"; }
 
     Mod+O repeat=false { toggle-overview; }
