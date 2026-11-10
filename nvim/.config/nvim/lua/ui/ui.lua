@@ -24,8 +24,8 @@ if vim.g.neovide then
     g.neovide_refresh_rate_idle = 60
     g.neovide_no_idle           = false
 
-    g.neovide_cursor_animation_length       = 0.16   -- ~10 frames at 60 Hz, matching Ghostty DURATION
-    g.neovide_cursor_short_animation_length = 0.10   -- ~6 frames at 60 Hz, matching Ghostty SHORT_DURATION
+    g.neovide_cursor_animation_length       = 0.08   -- ~5 frames at 60 Hz
+    g.neovide_cursor_short_animation_length = 0.05   -- ~3 frames at 60 Hz
     g.neovide_position_animation_length     = 0.15   -- smooth floating window placement
     g.neovide_scroll_animation_length       = 0.18   -- ~11 frames, matching Niri 180ms duration
     g.neovide_scroll_animation_far_lines    = 1
