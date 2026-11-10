@@ -44,9 +44,24 @@ wifi rescan	nmcli dev wifi rescan
 sound mute toggle	~/.config/waybar/scripts/volume.py mute
 sound mixer	pavucontrol-qt
 
-# apps
+# apps (also everything niri spawns from a key)
+terminal	ghostty +new-window
+claude	ghostty +new-window --working-directory=/home/nasr/dev -e /home/nasr/.local/bin/claude
+emacs	emacsclient -c -a ''
+firefox	firefox-bin
+4coder	/opt/4coder/build/4ed
 open project	4ed-open
+raddbg	/opt/raddbg/raddbg
+open project in raddbg	raddbg-open
+halloy	/home/nasr/.local/share/cargo/bin/halloy
+app launcher	fuzzel
 jump to window	niri-window-jump
+touchpad toggle	niri-toggle-touchpad
+screenshot	niri msg action screenshot
+overview toggle	niri msg action toggle-overview
+monitors off	niri msg action power-off-monitors
+keybindings overlay	niri msg action show-hotkey-overlay
+backup home	term backup
 checkpoint dirty repos	term checkpoint-select
 dotfiles in lazygit	ghostty +new-window -e lazygit -p ~/dotfiles
 mail	emacsclient -c -a '' -e '(mu4e)'
