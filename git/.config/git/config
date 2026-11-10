@@ -103,12 +103,7 @@
 
 [include]
 	path = ~/.config/git/local
-[credential "https://github.com"]
-	helper = 
-	helper = !/usr/bin/gh auth git-credential
-[credential "https://gist.github.com"]
-	helper = 
-	helper = !/usr/bin/gh auth git-credential
+# windows: no gh here; GitHub credentials come from Git for Windows' credential manager
 [safe]
 	directory = mender.git
 	directory = mender.git

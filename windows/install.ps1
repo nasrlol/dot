@@ -67,8 +67,11 @@ Link "$env:APPDATA\lazygit"  "$dots\lazygit\.config\lazygit"
 Link "$env:APPDATA\neovide"  "$dots\neovide\.config\neovide"
 # Emacs on Windows treats %APPDATA% as ~ and prefers ~/.emacs.d
 Link "$env:APPDATA\.emacs.d" "$dots\emacs\.config\emacs"
+# the repo alacritty.toml imports ~/.config/alacritty/colors.toml (theme/gen)
+Link "$cfg\alacritty"        "$dots\alacritty\.config\alacritty"
 
-# Alacritty: reuse the repo config, add the Windows shell and a readable size
+# Alacritty: reuse the repo config, add the Windows shell, Liberation Mono
+# (the Nerd Font variant isn't installed here) and a readable size
 $ala = "$env:APPDATA\alacritty"
 New-Item -ItemType Directory -Force $ala | Out-Null
 $pwsh = "$env:ProgramFiles\PowerShell\7\pwsh.exe"
@@ -83,6 +86,7 @@ program = "$shell"
 args = ["-NoLogo"]
 
 [font]
+normal = { family = "Liberation Mono" }
 size = 11.0
 "@ | Set-Content -Encoding ascii "$ala\alacritty.toml"
 

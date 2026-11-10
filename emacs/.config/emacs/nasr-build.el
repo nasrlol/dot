@@ -48,5 +48,7 @@
                           (replace-regexp-in-string "[\t\n]" " " err))))
         (call-process "pkill" nil 0 nil "-RTMIN+9" "-x" "waybar")))))
 
-(add-hook 'compilation-start-hook #'nasr/build--start)
-(add-hook 'compilation-finish-functions #'nasr/build--finish)
+;; No waybar (or pkill) on Windows
+(unless (eq system-type 'windows-nt)
+  (add-hook 'compilation-start-hook #'nasr/build--start)
+  (add-hook 'compilation-finish-functions #'nasr/build--finish))
