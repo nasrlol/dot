@@ -272,6 +272,8 @@ binds {
     Mod+Shift+D hotkey-overlay-title="raddbg"    { spawn "/opt/raddbg/raddbg"; }
     Mod+Shift+T hotkey-overlay-title="Toggle light/dark theme" { spawn "/home/nasr/dotfiles/theme/switch"; }
 
+    Mod+T hotkey-overlay-title="pop top todo" { spawn "/home/nasr/.config/waybar/scripts/todo.py" "pop"; }
+    Mod+Ctrl+T hotkey-overlay-title="undo todo pop" { spawn "/home/nasr/.config/waybar/scripts/todo.py" "unpop"; }
     Mod+O repeat=false { toggle-overview; }
     XF86LaunchA repeat=false { toggle-overview; }
     XF86LaunchB hotkey-overlay-title=null { spawn "fuzzel"; }

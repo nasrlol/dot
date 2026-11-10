@@ -8,6 +8,8 @@
 
 # todo (waybar's todo module, scripts/todo.py)
 todo open	~/.config/waybar/scripts/todo.py open
+todo pop top item	~/.config/waybar/scripts/todo.py pop
+todo undo last pop	~/.config/waybar/scripts/todo.py unpop
 todo switch project	~/.config/waybar/scripts/todo.py pick
 todo update with claude	~/.config/waybar/scripts/todo.py update
 
