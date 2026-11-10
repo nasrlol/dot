@@ -80,7 +80,7 @@ output "Philips Consumer Electronics Company PHL 273V7 UHB1751015164" {
 }
 
 layout {
-    gaps 0
+    gaps 20
 
     center-focused-column "never"
     preset-column-widths {
@@ -202,6 +202,9 @@ window-rule {
 }
 
 
+// Declared first so it is workspace 1: Emacs opens here (see workspaces.ini).
+workspace "edit"
+
 workspace "dev" {
     open-on-output "Iiyama North America PL2470H 0x000001E2"
 }
@@ -211,7 +214,6 @@ workspace "web" {
     open-on-output "Philips Consumer Electronics Company PHL 273V7 UHB1751015164"
 }
 workspace "media"
-workspace "edit"
 
 // Which workspace each app opens on, by its .desktop category. Edit
 // workspaces.ini, not window-rules.kdl (gen-window-rules writes it).
@@ -270,10 +272,10 @@ binds {
     Mod+G hotkey-overlay-title="halloy"    { spawn "/home/nasr/.local/share/cargo/bin/halloy"; }
     Mod+D hotkey-overlay-title="raddbg in project" { spawn "/home/nasr/.local/bin/raddbg-open"; }
     Mod+Shift+D hotkey-overlay-title="raddbg"    { spawn "/opt/raddbg/raddbg"; }
-    Mod+Shift+T hotkey-overlay-title="Toggle light/dark theme" { spawn "/home/nasr/dotfiles/theme/switch"; }
-
     Mod+T hotkey-overlay-title="pop top todo" { spawn "/home/nasr/.config/waybar/scripts/todo.py" "pop"; }
     Mod+Ctrl+T hotkey-overlay-title="undo todo pop" { spawn "/home/nasr/.config/waybar/scripts/todo.py" "unpop"; }
+    Mod+Shift+T hotkey-overlay-title="Toggle light/dark theme" { spawn "/home/nasr/dotfiles/theme/switch"; }
+
     Mod+O repeat=false { toggle-overview; }
     XF86LaunchA repeat=false { toggle-overview; }
     XF86LaunchB hotkey-overlay-title=null { spawn "fuzzel"; }
