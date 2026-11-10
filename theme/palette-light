@@ -1,0 +1,57 @@
+# Rosé Pine Dawn — https://rosepinetheme.com/palette
+#
+# Light palette. Same keys as theme/palette-dark; see that file for usage.
+#   base #faf4ed  surface #fffaf3  overlay #f2e9e1
+#   muted #9893a5  subtle #797593  text #575279
+#   love #b4637a  gold #ea9d34  rose #d7827e  pine #286983  foam #56949f  iris #907aa9
+#   highlight low #f4ede8  med #dfdad9  high #cecacd
+
+# surfaces (warm beige; Dawn base #faf4ed was too close to white)
+bg=#e6d5b8
+bg_alt=#dccaa9
+surface=#e1cfb0
+overlay=#d0bc98
+border=#bfa881
+border_dim=#d0bc98
+selection=#d0bc98
+
+# text
+fg=#0f0e17
+fg_bright=#000000
+fg_dim=#4a4658
+comment=#5c576e
+line_nr=#797593
+
+# accents
+accent=#c74b47
+accent_bright=#b84500
+rust=#a81a2e
+rust_bright=#8a1224
+cursor=#a81a2e
+cursor_alt=#1d5c2e
+
+# syntax (same roles as the official rose-pine nvim theme)
+keyword=#1a566e
+string=#8f5600
+constant=#a8423f
+type=#1e6b77
+preproc=#694f8a
+builtin=#9c2438
+
+# terminal ANSI (official Dawn terminal ports)
+black=#282738
+red=#a81a2e
+green=#1d5c2e
+yellow=#8f5600
+blue=#1a566e
+magenta=#694f8a
+cyan=#1e6b77
+white=#0f0e17
+bright_black=#4a4658
+bright_red=#a81a2e
+bright_green=#1d5c2e
+bright_yellow=#8f5600
+bright_blue=#1a566e
+bright_magenta=#694f8a
+bright_cyan=#1e6b77
+bright_white=#000000

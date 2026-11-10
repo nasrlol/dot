@@ -1,6 +1,23 @@
 #!/bin/sh
-# Fuzzy-pick a tmux session and switch to it.
+# Fuzzy-pick a tmux session or a zoxide directory and go there.
+# Sessions (●) are listed first; picking a directory switches to the session
+# named after it, creating that session in the directory if needed.
 set -eu
-session=$(tmux list-sessions -F '#{session_name}' |
-	fzf --prompt='session> ' --preview='tmux capture-pane -ep -t {}' --preview-window=down,60%) || exit 0
-tmux switch-client -t "$session"
+tab=$(printf '\t')
+
+pick=$({
+	tmux list-sessions -F "s${tab}● #{session_name}${tab}#{session_name}" | grep -v "${tab}_scratch\$" || true
+	zoxide query -l | awk -v home="$HOME" -v OFS="$tab" '{ d = $0; if (index(d, home) == 1) d = "~" substr(d, length(home) + 1); print "d", "  " d, $0 }'
+} | fzf --prompt='go> ' --delimiter="$tab" --with-nth=2 \
+	--preview='[ {1} = s ] && tmux capture-pane -ep -t {3} || ls -A {3}' \
+	--preview-window=down,60%) || exit 0
+
+kind=$(printf '%s' "$pick" | cut -f1)
+target=$(printf '%s' "$pick" | cut -f3)
+
+if [ "$kind" = d ]; then
+	dir=$target
+	target=$(basename "$dir" | tr '.:' '__')
+	tmux has-session -t "=$target" 2>/dev/null || tmux new-session -d -s "$target" -c "$dir"
+fi
+tmux switch-client -t "=$target"

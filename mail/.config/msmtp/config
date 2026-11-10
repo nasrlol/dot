@@ -1,0 +1,21 @@
+# msmtp: sends as nasr@nsrddyn.com through mail.nsrddyn.com:587 (STARTTLS)
+# Same keyring entry as mbsync (see ~/.config/isyncrc).
+
+defaults
+auth           on
+tls            on
+tls_starttls   on
+logfile        ~/.cache/msmtp.log
+
+account        nsrddyn
+host           mail.nsrddyn.com
+port           587
+from           nasr@nsrddyn.com
+user           nasr
+passwordeval   "secret-tool lookup service mail host mail.nsrddyn.com user nasr"
+
+# Same login, other From address (msmtp picks the account by From)
+account        abdellah : nsrddyn
+from           abdellah.el.morabit@nsrddyn.com
+
+account default : nsrddyn

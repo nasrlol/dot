@@ -1,0 +1,30 @@
+# Generated from config.tmpl by theme/gen. Do not edit config.
+# Run ./lock rather than swaylock directly: it draws the background image and
+# adds the clock options when swaylock-effects is installed. Everything here
+# also works with plain swaylock.
+color=111111
+scaling=fill
+daemonize
+show-failed-attempts
+ignore-empty-password
+indicator-caps-lock
+indicator-radius=120
+indicator-thickness=6
+font=Iosevka
+
+inside-color=00000000
+inside-clear-color=00000000
+inside-ver-color=00000000
+inside-wrong-color=00000000
+line-color=00000000
+separator-color=00000000
+ring-color=3d2b1a
+ring-clear-color=f0a030
+ring-ver-color=d48b30
+ring-wrong-color=dc4a20
+key-hl-color=d48b30
+bs-hl-color=c84820
+text-color=d9c6a5
+text-clear-color=d9c6a5
+text-ver-color=d9c6a5
+text-wrong-color=dc4a20

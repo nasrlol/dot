@@ -1,5 +1,38 @@
+# Editors & Backups
 *.swp
+*.swo
+*.un~
+.netrwhist
 *~
+\#*\#
+.\#*
+auto-save-list/
+.ido.last
+tramp
+
+# OS & Environment
 .DS_Store
+Thumbs.db
 .direnv/
+
+# AI Metadata & Agent Configs
+.claude/
+CLAUDE.md
+.gemini/
+GEMINI.md
+.agents/
+AGENTS.md
+.cursor/
+.cursorrules
+.opencode/
+opencode.json
+
+# Build & Tooling Artifacts
 .cache/clangd/
+compile_commands.json
+tags
+TAGS
+core
+core.*
+*.orig
+*.rej

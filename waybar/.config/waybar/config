@@ -1,140 +1,52 @@
+// Bars only: which modules go where, per output. Every module is defined once
+// in modules.jsonc (generated from modules.jsonc.tmpl by theme/gen, because
+// the clock's calendar uses palette colours) and pulled in with "include".
+//
+// The top bars are laid out from fixed pixel slots (see style.css), so no
+// module's text length can move another module, and on the laptop the notch
+// spacer is the centre widget, so it sits exactly over the notch. spacing is 0 on every bar: all
+// gaps live in style.css, where the slot arithmetic is.
 [
   {
+    // Laptop panel: 2560px wide with the notch in the middle
+    "name": "top",
+    "output": "eDP-1",
+    "include": "~/.config/waybar/modules.jsonc",
     "layer": "top",
     "position": "top",
-    "height": 40,
-    "spacing": 10,
-    "margin-top": 8,
-    "margin-right": 8,
-    "margin-bottom": 6,
-    "margin-left": 12,
-    "modules-left": [
-      "custom/workspaces",
-      "custom/window"
-    ],
-    "modules-right": [
-      "custom/volume",
-      "custom/network",
-      "battery"
-    ],
-    "custom/workspaces": {
-      "exec": "~/.config/waybar/scripts/niri-workspaces.py",
-      "return-type": "json",
-      "escape": false
-    },
-    "custom/window": {
-      "exec": "~/.config/waybar/scripts/niri-window.py",
-      "return-type": "json"
-    },
-    "custom/volume": {
-      "exec": "~/.config/waybar/scripts/volume.py",
-      "return-type": "json",
-      "on-click": "~/.config/waybar/scripts/volume.py mute",
-      "on-click-right": "pavucontrol-qt",
-      "on-scroll-up": "~/.config/waybar/scripts/volume.py up",
-      "on-scroll-down": "~/.config/waybar/scripts/volume.py down"
-    },
-    "custom/network": {
-      "exec": "~/.config/waybar/scripts/network.py",
-      "return-type": "json"
-    },
-    "battery": {
-      "interval": 30,
-      "states": {
-        "warning": 25,
-        "critical": 10
-      },
-      "format": "bat {capacity}%",
-      "format-charging": "chg {capacity}%",
-      "format-plugged": "ac {capacity}%",
-      "tooltip-format": "{timeTo}"
-    }
+    "height": 55,
+    "spacing": 0,
+    // Let the left group fill up to the centre, so todo ("expand") can grow to it
+    "expand-left": true,
+    "modules-left": ["niri/workspaces", "custom/build", "custom/todo"],
+    "modules-center": ["custom/notch"],
+    "modules-right": ["custom/media", "niri/window", "clock"]
+  },
+  {
+    // Every other monitor: same modules; the "notch" is just a small gap there
+    "name": "top-external",
+    "output": ["!eDP-1", "*"],
+    "include": "~/.config/waybar/modules.jsonc",
+    "layer": "top",
+    "position": "top",
+    "height": 55,
+    "spacing": 0,
+    // Let the left group fill up to the centre, so todo ("expand") can grow to it
+    "expand-left": true,
+    "modules-left": ["niri/workspaces", "custom/build", "custom/todo"],
+    "modules-center": ["custom/notch"],
+    "modules-right": ["custom/media", "niri/window", "clock"]
   },
   {
     "name": "bottom",
+    "include": "~/.config/waybar/modules.jsonc",
     "layer": "top",
     "position": "bottom",
-    "height": 40,
-    "margin-top": 6,
-    "margin-bottom": 8,
-    "modules-center": [
-      "clock"
-    ],
-    "clock": {
-      "timezone": "Europe/Brussels",
-      "format": "{:%H:%M}",
-      "format-alt": "{:%A, %B %d, %Y}",
-      "tooltip-format": "<tt><small>{calendar}</small></tt>",
-      "calendar": {
-        "mode": "month",
-        "mode-mon-col": 3,
-        "weeks-pos": "right",
-        "on-scroll": 1,
-        "format": {
-          "months": "<span color='#c4a882'><b>{}</b></span>",
-          "days": "<span color='#d9c6a5'>{}</span>",
-          "weeks": "<span color='#8b7355'><b>W{}</b></span>",
-          "weekdays": "<span color='#d48b30'><b>{}</b></span>",
-          "today": "<span color='#c84820'><b><u>{}</u></b></span>"
-        }
-      },
-      "actions": {
-        "on-click-right": "mode"
-      },
-      "interval": 60
-    },
-    "modules-left": [
-      "cpu",
-      "memory",
-      "temperature"
-    ],
-    "modules-right": [
-      "backlight",
-      "bluetooth",
-      "idle_inhibitor"
-    ],
-    "cpu": {
-      "format": "cpu {usage}%",
-      "interval": 5
-    },
-    "memory": {
-      "format": "mem {percentage}%",
-      "interval": 5
-    },
-    "temperature": {
-      "hwmon-path-abs": "/sys/devices/platform/soc/23e400000.smc/macsmc-hwmon/hwmon",
-      "input-filename": "temp4_input",
-      "critical-threshold": 80,
-      "format": "temp {temperatureC}°C",
-      "tooltip-format": "WiFi/BT module {temperatureC}°C",
-      "interval": 5
-    },
-    "backlight": {
-      "device": "apple-panel-bl",
-      "format": "bri {percent}%",
-      "scroll-step": 5
-    },
-    "bluetooth": {
-      "format": "bt on",
-      "format-disabled": "bt off",
-      "format-off": "bt off",
-      "format-connected": "bt {num_connections}",
-      "tooltip-format": "{controller_alias}\t{controller_address}",
-      "tooltip-format-connected": "{device_enumerate}",
-      "tooltip-format-enumerate-connected": "{device_alias}",
-      "on-click": "bluetoothctl show | grep -q 'Powered: yes' && bluetoothctl power off || bluetoothctl power on"
-    },
-    "idle_inhibitor": {
-      "format": "{icon}",
-      "format-icons": {
-        "activated": "awake",
-        "deactivated": "idle"
-      },
-      "tooltip-format-activated": "Idle inhibitor on",
-      "tooltip-format-deactivated": "Idle inhibitor off"
-    },
-    "spacing": 10,
-    "margin-left": 12,
-    "margin-right": 8
+    "height": 42,
+    "spacing": 0,
+    "modules-left": ["cpu", "memory", "custom/temperature", "disk", "custom/contributions"],
+    // Only visible while emerge runs; alone in the centre, so its width moves nothing
+    "modules-center": ["custom/emerge"],
+    "modules-right": ["custom/volume", "custom/network", "custom/tailscale", "bluetooth", "custom/power", "custom/battery"]
   }
 ]

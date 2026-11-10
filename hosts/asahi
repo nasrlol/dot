@@ -2,10 +2,20 @@
 include default
 niri
 waybar
-wofi
+fuzzel
 foot
 seergdb
+gf2
 gdb
 ghostty
 alacritty
 neovide
+swaylock
+eww
+btop
+zathura
+halloy
+4coder
+raddbg
+gtk
+mako

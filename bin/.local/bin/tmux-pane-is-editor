@@ -1,0 +1,7 @@
+#!/bin/sh
+# Succeed if an editor (nvim, vim, emacs -nw) is in the foreground of the pane
+# whose tty is $1. tmux uses it to decide whether an editor key like M-v goes
+# to the editor or runs the tmux equivalent.
+# shellcheck disable=SC2009  # need process state, which pgrep cannot match
+ps -o state= -o comm= -t "$1" |
+	grep -iqE '^[^TXZ ]+ +(\S+/)?g?(view|n?vim?x?|emacs(client)?)(diff)?(-wrapped)?$'

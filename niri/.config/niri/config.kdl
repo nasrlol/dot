@@ -5,12 +5,15 @@ input {
         repeat-rate 50
 
         xkb {
+            options "ctrl:nocaps"
         }
     }
 
     touchpad {
         dwt
         natural-scroll
+        tap
+        click-method "clickfinger"
     }
 
     mouse {
@@ -20,23 +23,64 @@ input {
     trackpoint {
         accel-profile "flat"
     }
+
+    // Mod+N on the current workspace jumps back to the previous one.
+    workspace-auto-back-and-forth
+}
+
+gestures {
+    hot-corners {
+        off
+    }
+}
+
+// Alt+Tab window switcher (default binds). Previews are bigger than the
+// defaults (max-height 480, max-scale 0.5).
+recent-windows {
+    previews {
+        max-height 1200
+        max-scale 1.0
+    }
 }
 
 blur {
-
     passes 3
-    offset 3.0
+    offset 2.0
 }
 
+
+// niri owns scaling: each output gets its own scale and apps follow it
+// (Firefox devPixelsPerPx -1 via firefox/link, no QT_SCALE_FACTOR).
+// Externals stay at 1; below 1 niri downsamples (blurry text).
 output "eDP-1" {
-    mode "2560x1600@60.000"
+    mode "2560x1664@60.000"
     scale 1.0
     transform "normal"
-    position x=1280 y=0
+    position x=0 y=0
+}
+
+output "Samsung Electric Company U28E570 H4LN904216" {
+    mode "2560x1440@59.951"
+    scale 1
+    focus-at-startup
+    transform "normal"
+    position x=1707 y=0
+}
+
+output "Iiyama North America PL2470H 0x000001E2" {
+    mode "1920x1080@143.998"
+    scale 1
+    position x=1707 y=0
+}
+
+output "Philips Consumer Electronics Company PHL 273V7 UHB1751015164" {
+    mode "1920x1080@60.000"
+    scale 0.8
+    position x=1707 y=0
 }
 
 layout {
-    gaps 16
+    gaps 20
 
     center-focused-column "never"
     preset-column-widths {
@@ -79,94 +123,131 @@ layout {
 }
 
 environment {
-    QT_SCALE_FACTOR "1.5"
     XDG_CURRENT_DESKTOP "niri"
+    // same agent and D-Bus sockets fish/OpenRC use, so GUI apps and shells share one bus
+    SSH_AUTH_SOCK "/run/user/1000/ssh-agent.socket"
+    DBUS_SESSION_BUS_ADDRESS "unix:path=/run/user/1000/bus"
 }
 
-// Hand the session env to D-Bus so activated services (portals, dconf) see it.
-spawn-at-startup "dbus-update-activation-environment" "WAYLAND_DISPLAY" "DISPLAY" "XDG_CURRENT_DESKTOP" "QT_SCALE_FACTOR" "XCURSOR_THEME" "XCURSOR_SIZE"
+spawn-at-startup "dbus-update-activation-environment" "WAYLAND_DISPLAY" "DISPLAY" "XDG_CURRENT_DESKTOP" "QT_QPA_PLATFORM" "XCURSOR_THEME" "XCURSOR_SIZE" "DBUS_SESSION_BUS_ADDRESS" "XDG_RUNTIME_DIR"
 spawn-at-startup "gentoo-pipewire-launcher"
-spawn-at-startup "waybar"
-// Lock after 5 min idle, turn displays off after 10 (niri wakes them on input).
-spawn-at-startup "swayidle" "-w" "timeout" "300" "swaylock -f" "timeout" "600" "niri msg action power-off-monitors"
+// waybar/fonts.conf keeps the bar's emoji monochrome (Noto Emoji).
+spawn-at-startup "sh" "-c" "FONTCONFIG_FILE=~/.config/waybar/fonts.conf exec waybar"
+// Wallpaper, scaled to cover every output (crops instead of letterboxing)
+spawn-at-startup "sh" "-c" "exec swaybg --mode fill --image ~/xp.jpg"
+// Also draw it behind the overview and workspace gaps, not just the desktop
+layer-rule {
+    match namespace="^wallpaper$"
+    place-within-backdrop true
+}
+// Emacs server in the session env (Wayland, ssh-agent); Mod+E attaches to it.
+spawn-at-startup "emacs" "--fg-daemon"
+// Resident Ghostty (gtk-single-instance) so Mod+Return opens windows instantly.
+spawn-at-startup "ghostty" "--initial-window=false"
+spawn-at-startup "sh" "-c" "~/.config/niri/gen-window-rules"
+// Lan Mouse daemon (no GUI); peers and fingerprints live in ~/.config/lan-mouse/config.toml.
+spawn-at-startup "sh" "-c" "exec ~/.local/bin/lan-mouse daemon"
+// Lock after 5 min idle, power off displays after 6 min, lock before sleep.
+// swaylock/lock draws the background (quote, contributions, open windows).
+// (the swayidle command lives in idle.sh so the power menu can toggle it)
+spawn-at-startup "~/.config/waybar/scripts/idle.sh" "start"
+
+// Lock on lid close; suspend via sudo unless ~/.local/bin/stay-awake has a live pid registered.
+switch-events {
+    lid-close { spawn "sh" "-c" "~/.config/niri/lid-close"; }
+}
 
 hotkey-overlay {
     skip-at-startup
 }
 
 prefer-no-csd
+// The panel is 60Hz, so smoothness comes from spreading motion over more
+// frames: softer springs (lower stiffness = longer glide) and damping 1.0
+// (critically damped: no overshoot or end-of-motion wobble). Window
+// open/close use a long-tail deceleration curve instead of a short cubic.
+// Movement that follows the user's input (workspace switch, scrolling the
+// view) stays a bit stiffer than the rest so it doesn't feel laggy.
 animations {
     slowdown 1.0
 
     workspace-switch {
-        spring damping-ratio=1.0 stiffness=900 epsilon=0.0001
+        spring damping-ratio=1.0 stiffness=300 epsilon=0.0001
     }
     horizontal-view-movement {
-        spring damping-ratio=1.0 stiffness=700 epsilon=0.0001
+        spring damping-ratio=1.0 stiffness=300 epsilon=0.0001
     }
     window-movement {
-        spring damping-ratio=1.0 stiffness=700 epsilon=0.0001
+        spring damping-ratio=1.0 stiffness=260 epsilon=0.0001
     }
     window-resize {
-        spring damping-ratio=1.0 stiffness=700 epsilon=0.0001
+        spring damping-ratio=1.0 stiffness=260 epsilon=0.0001
     }
     overview-open-close {
-        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+        spring damping-ratio=1.0 stiffness=260 epsilon=0.0001
     }
     window-open {
-        duration-ms 220
+        duration-ms 260
         curve "cubic-bezier" 0.05 0.7 0.1 1.0
     }
     window-close {
-        duration-ms 160
-        curve "ease-out-quad"
+        duration-ms 200
+        curve "cubic-bezier" 0.3 0.0 0.8 0.15
     }
 }
 window-rule {
-    match app-id=r#"firefox$"#  title="^Picture-in-Picture$"
+    match app-id=r#"^firefox(-bin)?$"# title="^Picture-in-Picture$"
     match app-id=r#"chromium$"# title="^Picture-in-Picture$"
     open-floating true
 }
 
-// Named workspaces, in order: Mod+1 dev, Mod+2 web, Mod+3 term, Mod+4 media
+
+// Declared first so it is workspace 1: Emacs opens here (see workspaces.ini).
+workspace "edit"
+
 workspace "dev" {
-    open-on-output "eDP-1"
+    open-on-output "Iiyama North America PL2470H 0x000001E2"
 }
-workspace "web"
-workspace "term"
+
+// Web lands on the external when it is plugged in, the laptop otherwise.
+workspace "web" {
+    open-on-output "Philips Consumer Electronics Company PHL 273V7 UHB1751015164"
+}
 workspace "media"
-workspace "debugger"
 
+// Which workspace each app opens on, by its .desktop category. Edit
+// workspaces.ini, not window-rules.kdl (gen-window-rules writes it).
+include "window-rules.kdl"
+
+// 4coder opens on "dev" (rule above); without this niri opens it there in the
+// background when you're on another workspace. Focusing it switches to dev.
 window-rule {
-    match app-id=r#"^4coder$"#
-    match app-id=r#"(?i)emacs"#
-    open-on-workspace "dev"
+    match app-id=r#"(?i)^(4coder|4ed)$"#
+    open-focused true
 }
 
+// Emacs opens on "edit"; follow it there instead of opening in the background.
 window-rule {
-    match title="Mozilla Firefox"
-    open-on-workspace "web"
+    match app-id=r#"(?i)^(emacs|emacsclient)$"#
+    open-focused true
 }
 
+// Terminals open floating on the current workspace; fullscreen one with
+// Mod+Shift+F when you want it big.
 window-rule {
-    match app-id=r#"^(foot|footclient)$"#
-    open-on-workspace "term"
+    match app-id=r#"(?i)^(com\.mitchellh\.ghostty|ghostty|alacritty|foot|footclient|kitty)$"#
+    open-floating true
+    default-column-width { proportion 0.5; }
+    default-window-height { proportion 0.6; }
 }
 
-// gdb's program-output window (gdb/.config/gdb/gdbinit): keep focus on gdb
+// gdbs program-output window (gdb/.config/gdb/gdbinit): keep focus on gdb
 window-rule {
     match app-id=r#"^gdb-io$"#
     open-focused false
 }
 
 window-rule {
-    match app-id=r#"^(vlc|org\.videolan\.vlc)$"#
-    open-on-workspace "media"
-}
-
-window-rule {
-    geometry-corner-radius 10
-    clip-to-geometry true
     tiled-state true
 
     background-effect {
@@ -179,18 +260,26 @@ window-rule {
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
-    Mod+Return hotkey-overlay-title=" foot"      { spawn "foot";      }
-    Mod+P hotkey-overlay-title="      wofi"      { spawn "wofi" "--show" "drun"; }
-    Mod+E hotkey-overlay-title="      emacs"     { spawn "emacs";     }
-    Mod+B hotkey-overlay-title="      firefox"  { spawn "firefox-bin";  }
-    Mod+N hotkey-overlay-title="      4coder"    { spawn "/opt/4coder/build/4ed";       }
+    Mod+Return hotkey-overlay-title="ghostty"   { spawn "ghostty" "+new-window"; }
+    Mod+Shift+Return hotkey-overlay-title="claude" { spawn "ghostty" "+new-window" "--working-directory=/home/nasr/dev" "-e" "/home/nasr/.local/bin/claude"; }
+    Mod+P hotkey-overlay-title="fuzzel"    { spawn "fuzzel"; }
+    Mod+Semicolon hotkey-overlay-title="window jump" { spawn "/home/nasr/.local/bin/niri-window-jump"; }
+    Mod+Space hotkey-overlay-title="palette" { spawn "/home/nasr/.local/bin/palette"; }
+    Mod+E hotkey-overlay-title="emacs"     { spawn "emacsclient" "-c" "-a" ""; }
+    Mod+B hotkey-overlay-title="firefox"  { spawn "firefox-bin";  }
+    Mod+N hotkey-overlay-title="4coder"    { spawn "/opt/4coder/build/4ed";       }
+    Mod+Shift+N hotkey-overlay-title="4coder + raddbg project" { spawn "/home/nasr/.local/bin/4ed-open"; }
+    Mod+G hotkey-overlay-title="halloy"    { spawn "/home/nasr/.local/share/cargo/bin/halloy"; }
+    Mod+D hotkey-overlay-title="raddbg in project" { spawn "/home/nasr/.local/bin/raddbg-open"; }
+    Mod+Shift+D hotkey-overlay-title="raddbg"    { spawn "/opt/raddbg/raddbg"; }
+    Mod+T hotkey-overlay-title="pop top todo" { spawn "/home/nasr/.config/waybar/scripts/todo.py" "pop"; }
+    Mod+Ctrl+T hotkey-overlay-title="undo todo pop" { spawn "/home/nasr/.config/waybar/scripts/todo.py" "unpop"; }
+    Mod+Shift+T hotkey-overlay-title="Toggle light/dark theme" { spawn "/home/nasr/dotfiles/theme/switch"; }
 
     Mod+O repeat=false { toggle-overview; }
-    F3 repeat=false { toggle-overview; }
-    F4 hotkey-overlay-title="wofi" { spawn "wofi" "--show" "drun"; }
     XF86LaunchA repeat=false { toggle-overview; }
-    XF86LaunchB hotkey-overlay-title=null { spawn "wofi" "--show" "drun"; }
-    XF86Search hotkey-overlay-title=null { spawn "wofi" "--show" "drun"; }
+    XF86LaunchB hotkey-overlay-title=null { spawn "fuzzel"; }
+    XF86Search hotkey-overlay-title=null { spawn "fuzzel"; }
 
     Mod+Q repeat=false { close-window; }
 
@@ -216,6 +305,10 @@ binds {
     Mod+End  { focus-column-last; }
     Mod+Ctrl+Home { move-column-to-first; }
     Mod+Ctrl+End  { move-column-to-last; }
+
+    Mod+Backslash       { focus-monitor-next; }
+    Mod+Shift+Backslash { move-column-to-monitor-next; }
+    Mod+Ctrl+Backslash  { move-workspace-to-monitor-next; }
 
     Mod+Shift+Left  { focus-monitor-left; }
     Mod+Shift+Down  { focus-monitor-down; }
@@ -268,6 +361,16 @@ binds {
     Mod+Ctrl+8 { move-column-to-workspace 8; }
     Mod+Ctrl+9 { move-column-to-workspace 9; }
 
+    Mod+Shift+1 { move-window-to-workspace 1; }
+    Mod+Shift+2 { move-window-to-workspace 2; }
+    Mod+Shift+3 { move-window-to-workspace 3; }
+    Mod+Shift+4 { move-window-to-workspace 4; }
+    Mod+Shift+5 { move-window-to-workspace 5; }
+    Mod+Shift+6 { move-window-to-workspace 6; }
+    Mod+Shift+7 { move-window-to-workspace 7; }
+    Mod+Shift+8 { move-window-to-workspace 8; }
+    Mod+Shift+9 { move-window-to-workspace 9; }
+
     Mod+BracketLeft  { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
 
@@ -291,7 +394,7 @@ binds {
     Mod+V       { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+W { toggle-column-tabbed-display; }
-    F12 { screenshot; }
+    Mod+Shift+S { screenshot; }
 
     // Apple keyboard media / brightness keys
     XF86AudioRaiseVolume  allow-when-locked=true { spawn "wpctl" "set-volume" "-l" "1.0" "@DEFAULT_AUDIO_SINK@" "5%+"; }
@@ -309,16 +412,17 @@ binds {
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
     Mod+Shift+P { power-off-monitors; }
-    Mod+Alt+L hotkey-overlay-title="Lock the screen" { spawn "swaylock"; }
+    Mod+Alt+L hotkey-overlay-title="Lock the screen" { spawn "sh" "-c" "~/.config/swaylock/lock"; }
+    Mod+Shift+M hotkey-overlay-title="Toggle touchpad" { spawn "/home/nasr/.local/bin/niri-toggle-touchpad"; }
 }
 
 cursor {
 
     xcursor-theme "Bibata-Original-Ice"
     xcursor-size 35
-    // hide-when-typing
+    hide-when-typing
     // hide-after-inactive-ms 1000
 }
 
-// Colors come from theme/palette via colors.kdl.tmpl (run theme/gen).
+// Colors come from theme/palette-{dark,light} via colors.kdl.tmpl (run theme/gen).
 include "colors.kdl"

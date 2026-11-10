@@ -4,7 +4,7 @@ set -gx EDITOR nvim
 set -gx VISUAL nvim
 set -gx PAGER less
 set -gx MANPAGER "nvim +Man!"
-set -gx QT_SCALE_FACTOR 1.5
+set -gx QT_QPA_PLATFORM "wayland;xcb"
 set -gx LANG en_US.UTF-8
 
 # XDG base dirs, and pushing stragglers out of $HOME
@@ -28,6 +28,11 @@ set -gx XCURSOR_PATH $XDG_DATA_HOME/icons:/usr/share/icons
 
 fish_add_path -g $HOME/.local/bin $CARGO_HOME/bin $GOPATH/bin
 
+# Share the OpenRC user D-Bus session across all login, SSH, and background shells.
+if not set -q DBUS_SESSION_BUS_ADDRESS; and set -q XDG_RUNTIME_DIR; and test -S "$XDG_RUNTIME_DIR/bus"
+    set -gx DBUS_SESSION_BUS_ADDRESS "unix:path=$XDG_RUNTIME_DIR/bus"
+end
+
 # One ssh-agent per login, at a fixed socket so every shell and GUI app finds it.
 # Keys are added on first use (AddKeysToAgent in ~/.ssh/config).
 if status is-login; and not set -q SSH_AUTH_SOCK
@@ -35,4 +40,10 @@ if status is-login; and not set -q SSH_AUTH_SOCK
     if not test -S $SSH_AUTH_SOCK
         ssh-agent -a $SSH_AUTH_SOCK >/dev/null
     end
+end
+
+# Enable full core dumps and memory filtering for debug sessions
+ulimit -c unlimited
+if test -w /proc/self/coredump_filter
+    echo 0x3f > /proc/self/coredump_filter 2>/dev/null
 end

@@ -1,0 +1,50 @@
+@import "colors";
+
+* {
+  all: unset;
+}
+
+.contrib {
+  padding: 16px;
+  font-family: Iosevka;
+  font-size: 18px;
+  color: $fg_dim;
+}
+
+.header {
+  margin-bottom: 10px;
+}
+
+// Same ramp as the lock screen (swaylock/render).
+.cell {
+  min-width: 16px;
+  min-height: 16px;
+  border-radius: 3px;
+}
+.l0 { background-color: $border_dim; }
+.l1 { background-color: mix($accent, $bg, 40%); }
+.l2 { background-color: mix($accent, $bg, 65%); }
+.l3 { background-color: $accent; }
+.l4 { background-color: $accent_bright; }
+
+.todos {
+  padding: 16px;
+  font-family: Iosevka;
+  font-size: 18px;
+  color: $fg;
+
+  .header {
+    margin-bottom: 10px;
+    color: $fg_dim;
+  }
+  .item {
+    margin-bottom: 4px;
+  }
+  .top {
+    color: $accent;
+  }
+  .more {
+    margin-top: 6px;
+    color: $fg_dim;
+  }
+}

@@ -1,5 +1,19 @@
 # gdb reads this from $XDG_CONFIG_HOME/gdb/gdbinit.
 
+set history save on
+set history size 10000
+set history remove-duplicates 50
+set history filename ~/.local/state/gdb/history
+
+set print pretty on
+set print array on
+set print array-indexes on
+set print elements 0
+
+set pagination off
+set confirm off
+set auto-load safe-path /
+
 # The TUI and the debugged program share one terminal, so anything the
 # program prints lands on top of the TUI and scrolls it out of sync with
 # what ncurses thinks is on screen. `io` gives the program its own foot

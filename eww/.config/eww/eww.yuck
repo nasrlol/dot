@@ -1,0 +1,55 @@
+; Desktop widgets. They sit on the background layer, so they show on empty
+; workspaces and in the gaps between windows.
+
+(defpoll contrib :interval "1h"
+                 :initial '{"login": "", "total": "0", "weeks": []}'
+  "~/.config/eww/scripts/contributions")
+
+; GitHub contribution calendar, one column per week like the profile page.
+(defwidget contributions []
+  (box :class "contrib" :orientation "v" :space-evenly false
+    (box :class "header" :space-evenly false
+      (label :class "total" :halign "start" :hexpand true
+             :text "${contrib.total} contributions in the last year")
+      (label :class "login" :halign "end" :text {contrib.login}))
+    (box :class "grid" :space-evenly false :spacing 4
+      (for week in {contrib.weeks}
+        (box :orientation "v" :space-evenly false :spacing 4
+          (for level in week
+            (box :class "cell ${level}")))))))
+
+(defwindow contributions
+  :monitor 0
+  :stacking "bg"
+  :exclusive false
+  :focusable false
+  :geometry (geometry :anchor "top right" :x "24px" :y "24px")
+  (contributions))
+
+(defpoll todos :interval "5s"
+               :initial '{"count": 0, "top": "", "rest": [], "more": ""}'
+  "~/.config/eww/scripts/todos")
+
+; ~/todo.txt, one item per line. Click to edit it in emacs.
+(defwidget todos []
+  (eventbox :cursor "pointer"
+            :onclick "emacsclient -c -a '' ~/todo.txt &"
+    (box :class "todos" :orientation "v" :space-evenly false
+      (label :class "header" :halign "start"
+             :text {todos.count == 0 ? "no todos"
+                    : "${todos.count} todo${todos.count == 1 ? '' : 's'}"})
+      (label :class "item top" :halign "start" :xalign 0
+             :visible {todos.count > 0} :text "· ${todos.top}")
+      (for item in {todos.rest}
+        (label :class "item" :halign "start" :xalign 0
+               :text "· ${item}"))
+      (label :class "more" :halign "start" :visible {todos.more != ""}
+             :text {todos.more}))))
+
+(defwindow todos
+  :monitor 0
+  :stacking "bg"
+  :exclusive false
+  :focusable false
+  :geometry (geometry :anchor "top left" :x "24px" :y "24px")
+  (todos))

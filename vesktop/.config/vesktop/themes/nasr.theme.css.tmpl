@@ -1,0 +1,154 @@
+/**
+ * @name nasr
+ * @description Warm amber / rust / sepia on near-black. Generated from nasr.theme.css.tmpl by theme/gen. Do not edit nasr.theme.css.
+ * @author nasr
+ * @version 1.0.0
+ */
+
+:root,
+.theme-dark,
+.theme-darker,
+.theme-midnight,
+.visual-refresh .theme-dark {
+    /* backgrounds: legacy names */
+    --background-primary: {{bg}};
+    --background-secondary: {{bg_alt}};
+    --background-secondary-alt: {{surface}};
+    --background-tertiary: {{overlay}};
+    --background-floating: {{bg_alt}};
+    --background-nested-floating: {{surface}};
+    --background-accent: {{border}};
+    --background-message-hover: {{bg_alt}};
+    --background-modifier-hover: {{surface}};
+    --background-modifier-active: {{border_dim}};
+    --background-modifier-selected: {{surface}};
+    --background-modifier-accent: {{border_dim}};
+    --channeltextarea-background: {{bg_alt}};
+    --modal-background: {{bg}};
+    --modal-footer-background: {{bg_alt}};
+    --home-background: {{bg}};
+    --bg-overlay-chat: {{bg}};
+    --bg-overlay-app-frame: {{overlay}};
+    --deprecated-card-bg: {{bg_alt}};
+    --input-background: {{bg_alt}};
+
+    /* backgrounds: visual refresh names */
+    --background-base-lowest: {{overlay}};
+    --background-base-lower: {{bg}};
+    --background-base-low: {{bg_alt}};
+    --background-surface-high: {{bg_alt}};
+    --background-surface-higher: {{surface}};
+    --background-surface-highest: {{surface}};
+    --background-mod-subtle: {{border_dim}};
+    --background-mod-normal: {{surface}};
+    --background-mod-strong: {{border}};
+    --chat-background-default: {{bg}};
+    --app-frame-background: {{overlay}};
+
+    /* text */
+    --text-normal: {{fg}};
+    --text-default: {{fg}};
+    --text-strong: {{fg_bright}};
+    --text-muted: {{fg_dim}};
+    --text-subtle: {{fg_dim}};
+    --text-link: {{accent}};
+    --text-brand: {{accent}};
+    --text-positive: {{green}};
+    --text-warning: {{yellow}};
+    --text-danger: {{rust_bright}};
+    --header-primary: {{fg_bright}};
+    --header-secondary: {{fg_dim}};
+    --channels-default: {{fg_dim}};
+    --channel-icon: {{fg_dim}};
+
+    /* icons / interactive */
+    --interactive-normal: {{fg_dim}};
+    --interactive-hover: {{fg}};
+    --interactive-active: {{fg_bright}};
+    --interactive-muted: {{line_nr}};
+    --interactive-icon-default: {{fg_dim}};
+    --interactive-icon-hover: {{fg}};
+    --interactive-icon-active: {{fg_bright}};
+    --interactive-text-default: {{fg_dim}};
+    --interactive-text-hover: {{fg}};
+    --interactive-text-active: {{fg_bright}};
+    --icon-default: {{fg_dim}};
+    --icon-strong: {{fg}};
+    --icon-muted: {{line_nr}};
+
+    /* borders */
+    --border-subtle: {{border_dim}};
+    --border-normal: {{border}};
+    --border-strong: {{border}};
+    --border-faint: {{border_dim}};
+
+    /* brand: replaces Discord blurple everywhere */
+    --brand-experiment: {{rust}};
+    --brand-experiment-560: {{rust}};
+    --brand-experiment-600: {{cursor_alt}};
+    --brand-500: {{rust}};
+    --brand-560: {{rust}};
+    --brand-600: {{cursor_alt}};
+    --brand-360: {{accent}};
+    --control-brand-foreground: {{accent}};
+    --control-brand-foreground-new: {{accent}};
+    --button-filled-brand-background: {{rust}};
+    --button-filled-brand-background-hover: {{rust_bright}};
+    --button-filled-brand-background-active: {{cursor_alt}};
+    --button-filled-brand-text: {{fg_bright}};
+    --mention-foreground: {{accent_bright}};
+    --mention-background: {{selection}};
+    --info-help-foreground: {{accent}};
+
+    /* status */
+    --status-positive: {{green}};
+    --status-warning: {{yellow}};
+    --status-danger: {{rust}};
+    --green-360: {{green}};
+    --red-400: {{rust_bright}};
+
+    /* scrollbars */
+    --scrollbar-thin-thumb: {{border}};
+    --scrollbar-thin-track: transparent;
+    --scrollbar-auto-thumb: {{border}};
+    --scrollbar-auto-track: transparent;
+    --scrollbar-auto-scrollbar-color-thumb: {{border}};
+    --scrollbar-auto-scrollbar-color-track: transparent;
+
+    /* code */
+    --font-code: "LiterationMono Nerd Font", "Liberation Mono", monospace;
+}
+
+::selection {
+    background: {{selection}};
+    color: {{fg_bright}};
+}
+
+/* mentions of you */
+[class*="mentioned_"] {
+    background-color: color-mix(in srgb, {{rust}} 10%, transparent) !important;
+}
+
+[class*="mentioned_"]::before {
+    background: {{rust}} !important;
+}
+
+/* code blocks */
+code,
+.hljs {
+    background: {{bg_alt}} !important;
+    color: {{fg}} !important;
+    border-color: {{border_dim}} !important;
+}
+
+.hljs-keyword,
+.hljs-selector-tag { color: {{keyword}}; }
+.hljs-string,
+.hljs-attr { color: {{string}}; }
+.hljs-number,
+.hljs-literal { color: {{constant}}; }
+.hljs-type,
+.hljs-title { color: {{type}}; }
+.hljs-meta { color: {{preproc}}; }
+.hljs-built_in { color: {{builtin}}; }
+.hljs-comment { color: {{comment}}; font-style: italic; }

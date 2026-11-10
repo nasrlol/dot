@@ -1,0 +1,7 @@
+# Colors live in ./colors, generated from colors.tmpl by theme/gen.
+include colors
+
+set font "monospace normal 12"
+set selection-clipboard clipboard
+# Ctrl+R recolors pages into the palette; keep image hues when it does.
+set recolor-keephue true

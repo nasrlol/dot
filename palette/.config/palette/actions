@@ -1,0 +1,70 @@
+# Actions for the fuzzel command palette (palette, Mod+Space in niri).
+# One per line: <label><TAB><shell command>. Blank lines and # comments are skipped.
+# Commands run detached via bash -c; wrap terminal programs in `term`, which
+# opens a ghostty window and keeps it open until you press enter.
+# The palette script also adds entries generated on the fly: a "todo project"
+# per todo file, "bt connect/disconnect" per paired device, "wifi connect" per
+# visible network, plus documents and notes.
+
+# todo (waybar's todo module, scripts/todo.py)
+todo open	~/.config/waybar/scripts/todo.py open
+todo pop top item	~/.config/waybar/scripts/todo.py pop
+todo undo last pop	~/.config/waybar/scripts/todo.py unpop
+todo switch project	~/.config/waybar/scripts/todo.py pick
+todo update with claude	~/.config/waybar/scripts/todo.py update
+
+# build
+build last log	ghostty +new-window -e less -R +G ~/.local/state/build/log
+
+# power
+power lock	~/.config/waybar/scripts/power.sh lock
+power suspend	~/.config/waybar/scripts/power.sh suspend
+power logout	~/.config/waybar/scripts/power.sh logout
+power reboot	~/.config/waybar/scripts/power.sh reboot
+power poweroff	~/.config/waybar/scripts/power.sh poweroff
+power stay awake toggle	~/.config/waybar/scripts/idle.sh toggle
+power battery limit 80/100 toggle	~/.config/waybar/scripts/battery.py limit
+
+# theme
+theme toggle	~/dotfiles/theme/switch toggle
+theme dark	~/dotfiles/theme/switch dark
+theme light	~/dotfiles/theme/switch light
+
+# bluetooth
+tailscale up/down toggle	~/.config/waybar/scripts/tailscale.py toggle
+bt on	bluetoothctl power on
+bt off	bluetoothctl power off
+
+# wifi
+wifi on	nmcli radio wifi on
+wifi off	nmcli radio wifi off
+wifi rescan	nmcli dev wifi rescan
+
+# sound
+sound mute toggle	~/.config/waybar/scripts/volume.py mute
+sound mixer	pavucontrol-qt
+
+# apps (also everything niri spawns from a key)
+terminal	ghostty +new-window
+claude	ghostty +new-window --working-directory=/home/nasr/dev -e /home/nasr/.local/bin/claude
+emacs	emacsclient -c -a ''
+firefox	firefox-bin
+4coder	/opt/4coder/build/4ed
+open project	4ed-open
+raddbg	/opt/raddbg/raddbg
+open project in raddbg	raddbg-open
+halloy	/home/nasr/.local/share/cargo/bin/halloy
+app launcher	fuzzel
+jump to window	niri-window-jump
+touchpad toggle	niri-toggle-touchpad
+screenshot	niri msg action screenshot
+overview toggle	niri msg action toggle-overview
+monitors off	niri msg action power-off-monitors
+keybindings overlay	niri msg action show-hotkey-overlay
+backup home	term backup
+checkpoint dirty repos	term checkpoint-select
+dotfiles in lazygit	ghostty +new-window -e lazygit -p ~/dotfiles
+mail	emacsclient -c -a '' -e '(mu4e)'
+restart waybar	waybar-restart
+dismiss notifications	makoctl dismiss --all
+btrfs maintenance	term btrfs-maint

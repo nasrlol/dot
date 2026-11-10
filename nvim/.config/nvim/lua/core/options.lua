@@ -13,11 +13,11 @@ g.loaded_rubyprovider = 0
 
 -- DISPLAY & COLORS
 opt.termguicolors   = true
-opt.signcolumn      = "no"
+opt.signcolumn      = "yes"
 opt.number          = false
 opt.numberwidth     = 1
-opt.relativenumber  = false
-opt.cursorline      = false
+opt.relativenumber  = true
+opt.cursorline      = true
 opt.showmode        = true
 opt.list            = true
 
@@ -92,7 +92,7 @@ opt.scrolljump = -100
 opt.backspace = "indent,eol,start"
 opt.mouse = "n"
 opt.clipboard = "unnamedplus"
-opt.virtualedit = "all"
+opt.virtualedit = "none"
 
 -- files & persistence
 opt.undofile = true

@@ -33,7 +33,7 @@ if [ -n "$lua" ] && [ -f stylua.toml ] && command -v stylua >/dev/null; then
 fi
 
 # 4. Generated files match the palette
-if echo "$staged" | grep -qE '(\.tmpl|theme/palette)$'; then
+if echo "$staged" | grep -qE '(\.tmpl|theme/palette-(dark|light))$'; then
 	./theme/gen >/dev/null
 	outputs=$(git ls-files -co --exclude-standard '*.tmpl' | sed 's/\.tmpl$//')
 	# shellcheck disable=SC2086

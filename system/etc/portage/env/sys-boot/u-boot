@@ -1,0 +1,5 @@
+# Swap U-Boot's top-right logo for ~/art (see /etc/portage/m1n1-logo/render.py).
+# Must be an 8-bit palette BMP: apple_m1_defconfig has no 24/32bpp BMP support.
+post_src_prepare() {
+	cp /etc/portage/m1n1-logo/u_boot_logo.bmp "${S}/drivers/video/u_boot_logo.bmp" || die
+}

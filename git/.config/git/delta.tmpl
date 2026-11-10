@@ -1,0 +1,19 @@
+# Generated from delta.tmpl by theme/gen. Do not edit delta.
+# Included from config. Kept plain: colored +/- lines, no boxes, no line
+# numbers, no backgrounds.
+[delta]
+	{{mode}} = true
+	syntax-theme = ansi
+	keep-plus-minus-markers = true
+	file-style = "{{accent}}" bold
+	file-decoration-style = none
+	hunk-header-style = omit
+	minus-style = "{{rust}}"
+	minus-emph-style = "{{rust_bright}}" bold
+	plus-style = "{{green}}"
+	plus-emph-style = "{{bright_green}}" bold
+	zero-style = syntax
+	whitespace-error-style = "{{rust_bright}}" reverse
+	# moved lines (diff.colorMoved): dim instead of git's magenta/cyan
+	map-styles = bold purple => "{{comment}}", bold cyan => "{{comment}}"
+	blame-palette = "{{bg}} {{bg_alt}}"

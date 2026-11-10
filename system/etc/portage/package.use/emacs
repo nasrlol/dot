@@ -1,0 +1,3 @@
+app-editors/emacs gui gtk -X libxml2 harfbuzz png jpeg gif svg webp tree-sitter dynamic-loading sqlite source jit
+
+app-emacs/emacs-common gui

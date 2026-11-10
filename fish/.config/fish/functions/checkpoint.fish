@@ -1,12 +1,10 @@
-function checkpoint --description "Review, stage and commit with a real message: checkpoint <message>"
-    if test (count $argv) -eq 0
-        echo "usage: checkpoint <commit message>" >&2
-        return 1
-    end
-    git add -p; or return
+function checkpoint --description "Stage everything and commit: checkpoint [message]"
+    set -l msg checkpoint
+    test (count $argv) -gt 0; and set msg "$argv"
+    git add -A; or return
     git diff --cached --quiet; and begin
-        echo "checkpoint: nothing staged" >&2
+        echo "checkpoint: nothing to commit" >&2
         return 1
     end
-    git commit -m "$argv"
+    git commit -q -m "$msg"
 end

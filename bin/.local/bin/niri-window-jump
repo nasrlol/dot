@@ -1,0 +1,14 @@
+#!/bin/sh
+# Jump to any niri window via fuzzel. Most recently focused first, with the
+# previous window preselected so Enter flips back like alt-tab.
+set -eu
+
+id=$(niri msg --json windows | jq -r --argjson ws "$(niri msg --json workspaces)" '
+  ($ws | map({key: (.id | tostring), value: (.name // (.idx | tostring))}) | from_entries) as $names
+  | sort_by(-.focus_timestamp.secs, -.focus_timestamp.nanos)[]
+  | "\(.id)\t\($names[.workspace_id | tostring] // "-")\t\(.app_id // "?" | split(".") | last | ascii_downcase)\t\(.title // "")"
+  | gsub("\n"; " ")' |
+  awk -F '\t' '{ printf "%s\t%-9s %-10s %s\n", $1, $2, $3, $4 }' |
+  fuzzel --dmenu --with-nth=2 --accept-nth=1 --select-index=1 --placeholder="window") || exit 0
+
+[ -n "$id" ] && niri msg action focus-window --id "$id"

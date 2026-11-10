@@ -1,9 +1,9 @@
 # nasr — warm amber / rust / sepia on near-black.
 #
-# Single source of truth for every color in this repo. Edit here, then run
-#   theme/gen
-# which renders every *.tmpl file next to itself. In templates, {{name}}
-# expands to "#rrggbb" and {{name.hex}} to "rrggbb" (for foot, tmux, etc).
+# Dark palette. theme/palette-light has the same keys for light mode.
+# Edit here, then run theme/gen (or theme/switch dark|light), which renders
+# every *.tmpl file next to itself. In templates, {{name}} expands to
+# "#rrggbb" and {{name.hex}} to "rrggbb" (for foot, tmux, etc).
 
 # surfaces
 bg=#111111

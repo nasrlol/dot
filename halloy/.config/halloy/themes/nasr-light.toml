@@ -1,0 +1,65 @@
+# Generated from nasr-light.toml.tmpl by theme/gen. Do not edit nasr-light.toml.
+# Halloy picks nasr / nasr-light from the GTK color-scheme that theme/switch sets.
+
+[general]
+background = "#e6d5b8"
+border = "#bfa881"
+horizontal_rule = "#d0bc98"
+horizontal_rule_text = "#4a4658"
+scrollbar = "#bfa881"
+unread_indicator = "#c74b47"
+highlight_indicator = "#b84500"
+
+[text]
+primary = "#0f0e17"
+secondary = "#4a4658"
+tertiary = "#694f8a"
+success = "#1d5c2e"
+error = "#8a1224"
+warning = "#8f5600"
+info = "#1e6b77"
+debug = "#1a566e"
+trace = "#5c576e"
+
+[buttons.primary]
+background = "#dccaa9"
+background_hover = "#e1cfb0"
+background_selected = "#d0bc98"
+background_selected_hover = "#bfa881"
+border_active = "#c74b47"
+
+[buttons.secondary]
+background = "#e1cfb0"
+background_hover = "#d0bc98"
+background_selected = "#bfa881"
+background_selected_hover = "#d0bc98"
+border_active = "#c74b47"
+
+[buffer]
+action = "#1d5c2e"
+background = "#e6d5b8"
+background_text_input = "#dccaa9"
+background_title_bar = "#dccaa9"
+border = "#d0bc98"
+border_selected = "#bfa881"
+code = "#8f5600"
+focus_border = "#c74b47"
+focus_background = "#e1cfb0"
+highlight = "#d0bc98"
+nickname = "#c74b47"
+nickname_offline = "#5c576e"
+self_message = "#000000"
+selection = "#d0bc98"
+timestamp = "#5c576e"
+topic = "#4a4658"
+url = "#c74b47"
+backlog_rule = "#a81a2e"
+backlog_rule_text = "#a81a2e"
+date_rule = "#bfa881"
+date_rule_text = "#4a4658"
+
+[buffer.server_messages]
+default = "#4a4658"
+join = "#1d5c2e"
+part = "#a81a2e"
+quit = "#a81a2e"

@@ -1,6 +1,6 @@
 // Generated from colors.kdl.tmpl by theme/gen. Do not edit colors.kdl.
 layout {
-    background-color "#1a1208"
+    background-color "#000000"
 
     focus-ring {
         active-color "#c84820"
